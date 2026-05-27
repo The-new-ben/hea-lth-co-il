@@ -12,6 +12,7 @@ Owner: Codex acting as operator
 - Verified clean URLs, visible content, emergency copy, and no blocked internal wording.
 - Replaced the public homepage with a service-router homepage focused on private-health coordination.
 - Cleaned the visible footer menu so it now exposes the six commercial service paths instead of a long legacy encyclopedia menu.
+- Generated and uploaded a premium private-health concierge hero image, then replaced the old small homepage graphic.
 
 ## Published URLs Verified
 
@@ -28,7 +29,7 @@ Owner: Codex acting as operator
 
 | Page | URL | Verification |
 | --- | --- | --- |
-| Homepage service router | `https://hea-lth.co.il/` | HTTP 200, visible hero, six service links, emergency copy, no-medical-advice disclaimer, no blocked internal wording |
+| Homepage service router | `https://hea-lth.co.il/` | HTTP 200, visible hero, six service links, generated hero image, emergency copy, no-medical-advice disclaimer, no blocked internal wording |
 
 ## Footer/Menu Verified
 
@@ -42,6 +43,15 @@ The footer menu assigned to `menu-2` was reduced from a legacy long list to the 
 6. `https://hea-lth.co.il/premium-health-services/`
 
 Chrome verification confirmed that old footer links such as EHR, stroke, and hyperbaric chamber links are no longer displayed in the footer menu. The old articles were not deleted; only the public footer navigation was cleaned.
+
+## Generated Visual Asset
+
+- Local source: `assets/health-premium-concierge-hero-2026-05-27.png`
+- WordPress media ID: `642`
+- Live media URL: `https://hea-lth.co.il/wp-content/uploads/2026/05/health-premium-concierge-hero-2026-05-27.png`
+- Alt text: `תיאום שירותי בריאות פרטיים בקליניקה מודרנית`
+- Safety review: no text, no logo, no surgery, no needles, no before/after, no visible private records, no treatment-result claim.
+- Chrome verification: image rendered live, old `hea-lth-on-line-300x171.png` image no longer rendered, homepage has one H1.
 
 ## Research Applied
 
@@ -62,13 +72,13 @@ Chrome verification confirmed that old footer links such as EHR, stroke, and hyp
 
 - This is a real visibility upgrade, but not yet a full medical-service marketplace.
 - The pages are safe first-pass pages; they need reviewer/medical governance before deeper treatment content.
-- The homepage now has a stronger service-router structure and cleaner navigation, but it still needs a premium visual system, stronger logo, better owned/generated imagery, reviewer/trust blocks, and a real doctor/clinic index.
+- The homepage now has a stronger service-router structure, cleaner navigation, and a better hero visual, but it still needs a full premium visual system, stronger logo, more owned/generated imagery, reviewer/trust blocks, and a real doctor/clinic index.
 - Lovable was used after the user clarified the prompt. A Dubai-Team research plan was approved and saved in Lovable, and a new hea-lth.co.il deep SEO/content/design/monetization prompt was sent. Lovable was still working at the time of this documentation update.
 
 ## Next Gap-Closing Tasks
 
 1. Capture Lovable's hea-lth.co.il research output and convert it into an internal execution brief.
 2. Build a doctor/clinic directory model with specialty, region, availability, credential source, treatment categories, city pages, price fields, and privacy-safe inquiry flow.
-3. Add premium visual assets for the homepage and high-value treatment clusters.
+3. Add more premium visual assets for high-value treatment clusters.
 4. Add reviewer/source/update fields for any educational article.
 5. Add FAQ schema only after medical/legal wording review.

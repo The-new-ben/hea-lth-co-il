@@ -41,6 +41,9 @@ Updated: 2026-05-27 14:20 UTC.
 - Homepage title: `שירותי בריאות פרטיים בתיאום אישי`
 - Homepage was rewritten as a public service-router page linking to the six published service pages.
 - Live checks confirmed HTTP 200, visible service hero, six service links, emergency copy, no-medical-advice disclaimer, and no blocked internal language.
+- Homepage featured media was set to WordPress media ID `642`.
+- Homepage now renders generated hero image `https://hea-lth.co.il/wp-content/uploads/2026/05/health-premium-concierge-hero-2026-05-27.png` with alt text `תיאום שירותי בריאות פרטיים בקליניקה מודרנית`.
+- Live checks confirmed the old `hea-lth-on-line-300x171.png` homepage image is no longer rendered and the page has one H1.
 - Footer menu `בסיס למטה` / menu ID `16` was cleaned to keep only the six service-page menu items. Legacy article pages were not deleted.
 
 Footer menu items now visible:
