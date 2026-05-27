@@ -355,6 +355,7 @@ function health_revenue_render_lead_board(): void {
     <div class="wrap">
         <h1><?php esc_html_e('Revenue Board', 'health-revenue'); ?></h1>
         <p><?php esc_html_e('Last 50 private leads by status, source, and landing page for weekly revenue triage.', 'health-revenue'); ?></p>
+        <p><a class="button button-primary" href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=health_export_lead_board'), 'health_export_lead_board')); ?>"><?php esc_html_e('Export board CSV', 'health-revenue'); ?></a></p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 16px 0;">
             <div class="card" style="max-width: none;">
                 <h2><?php esc_html_e('Status', 'health-revenue'); ?></h2>
@@ -403,6 +404,52 @@ function health_revenue_render_lead_board(): void {
     </div>
     <?php
 }
+
+function health_revenue_export_lead_board(): void {
+    if (!current_user_can('edit_posts')) {
+        wp_die(esc_html__('You are not allowed to export this board.', 'health-revenue'));
+    }
+
+    check_admin_referer('health_export_lead_board');
+
+    $statuses = health_revenue_lead_statuses();
+    $leads = get_posts([
+        'post_type' => 'health_lead',
+        'post_status' => 'private',
+        'numberposts' => 50,
+        'orderby' => 'date',
+        'order' => 'DESC',
+    ]);
+
+    nocache_headers();
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="health-lead-board-' . gmdate('Y-m-d') . '.csv"');
+
+    $output = fopen('php://output', 'w');
+    if ($output === false) {
+        wp_die(esc_html__('Could not open CSV output stream.', 'health-revenue'));
+    }
+
+    fputcsv($output, ['lead_id', 'date', 'status', 'utm_source', 'utm_medium', 'utm_campaign', 'landing_url', 'edit_url']);
+
+    foreach ($leads as $lead) {
+        $status_key = (string) get_post_meta($lead->ID, 'lead_status', true);
+        fputcsv($output, [
+            $lead->ID,
+            get_the_date('Y-m-d H:i:s', $lead),
+            $statuses[$status_key ?: 'new'] ?? $status_key,
+            get_post_meta($lead->ID, 'utm_source', true),
+            get_post_meta($lead->ID, 'utm_medium', true),
+            get_post_meta($lead->ID, 'utm_campaign', true),
+            get_post_meta($lead->ID, 'landing_url', true),
+            get_edit_post_link($lead->ID, 'raw'),
+        ]);
+    }
+
+    fclose($output);
+    exit;
+}
+add_action('admin_post_health_export_lead_board', 'health_revenue_export_lead_board');
 
 function health_revenue_medical_disclosure(): string {
     return '<aside class="medical-disclosure">' . esc_html__('גילוי רפואי חשוב: האתר אינו מספק אבחון, טיפול, המלצה רפואית או שירות חירום. המידע מיועד לתיאום שירותים בלבד ואינו מחליף התייעצות עם רופא מורשה. במקרה חירום, כאב חזה, קוצר נשימה, סימני שבץ, דימום חמור או סכנת חיים יש לפנות מיד למד״א 101 או לחדר מיון.', 'health-revenue') . '</aside>';
