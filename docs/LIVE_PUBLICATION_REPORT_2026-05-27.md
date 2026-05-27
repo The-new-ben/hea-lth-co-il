@@ -29,8 +29,11 @@ Owner: Codex acting as operator
 - Generated and uploaded a dedicated doctor/clinic index image, then set it as the page featured media and rendered hero visual.
 - Created the local Codex skill `portfolio-wordpress-seo-publisher` to preserve the new minimum standard and reuse it across all portfolio WordPress sites.
 - Added central knowledge documents under `C:/Users/pro/Documents/websites/docs/`: `PORTFOLIO_KNOWLEDGE_GRAPH_2026-05-27.md` and `PORTFOLIO_16_PAGE_STANDARD_AUDIT_2026-05-27.md`.
-- Ran the new quality gate across 16 Health pages. Only `laser-hair-removal-private` and `doctor-clinic-index` currently pass the 2,000-word minimum standard; 14 pages are structurally clean but still need depth and page-specific visuals.
+- Ran the new quality gate across 16 Health pages. `laser-hair-removal-private`, `doctor-clinic-index`, `botox-price`, and `hyaluronic-acid-price` now pass the 2,000-word minimum standard; 12 pages are structurally clean but still need depth and page-specific visuals.
 - Upgraded `botox-price` to the new minimum standard: 2,100+ words, generated image, one H1, public-facing price/safety guide, internal links, and live verification.
+- Upgraded `hyaluronic-acid-price` to the new minimum standard: 2,500+ words, generated image, one H1, public-facing filler price/safety guide, area table, internal links, and live verification.
+- Preserved the UPress deployment rule in the portfolio skill and central knowledge graph: GitHub push is not enough for connected theme/files; after pushing, use UPress File Manager > Git management > Pull, then verify the public page.
+- Added premium footer/E-E-A-T and doctor/clinic index fields to the reusable knowledge graph.
 
 ## Published URLs Verified
 
@@ -60,7 +63,7 @@ Owner: Codex acting as operator
 | Doctor and clinic index hub | `https://hea-lth.co.il/doctor-clinic-index/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
 | Botox price 2026 | `https://hea-lth.co.il/botox-price/` | HTTP 200, emergency copy, no-medical-advice disclaimer, Chrome verified visible price-intent content |
 | Nose surgery cost 2026 | `https://hea-lth.co.il/nose-surgery-cost/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
-| Hyaluronic acid price 2026 | `https://hea-lth.co.il/hyaluronic-acid-price/` | HTTP 200, one H1, no breadcrumb text, no internal SEO wording |
+| Hyaluronic acid price 2026 | `https://hea-lth.co.il/hyaluronic-acid-price/` | HTTP 200, 2,512 words, one H1, generated image, no breadcrumb text, no public internal wording |
 | Breast augmentation cost 2026 | `https://hea-lth.co.il/breast-augmentation-cost/` | HTTP 200, one H1, no breadcrumb text, no internal SEO wording |
 | Liposuction cost 2026 | `https://hea-lth.co.il/liposuction-cost/` | HTTP 200, one H1, no breadcrumb text, no internal SEO wording |
 
@@ -115,6 +118,19 @@ On 2026-05-27, the live `botox-price` page was expanded and checked:
 - Live quality gate: pass, one H1, empty visible breadcrumb text, no blocked internal wording, 2,140 live words, 3 images.
 - Chrome visible structure: one H1 (`בוטוקס מחיר 2026`), visible generated image, 7 cards, 5 table rows, 5 related internal links.
 - Lovable status for this block: attempted to open the Lovable project, but Chrome showed only `Skip to main content` and reload timed out. Do not count Lovable credits as used in this block.
+
+## Hyaluronic Acid Price Live Verification
+
+On 2026-05-27, the live `hyaluronic-acid-price` page was expanded and checked:
+
+- Live URL: `https://hea-lth.co.il/hyaluronic-acid-price/`
+- WordPress media ID: `714`
+- Local image: `assets/hyaluronic-acid-price-premium-consultation-2026-05-27.png`
+- Live media URL: `https://hea-lth.co.il/wp-content/uploads/2026/05/hyaluronic-acid-price-premium-consultation-2026-05-27.png`
+- Live quality gate: pass, one H1, empty visible breadcrumb text, no blocked internal wording, 2,512 live words, 3 images.
+- Chrome visible structure: one H1 (`חומצה היאלורונית מחיר 2026`), visible generated image, 7 cards, 5 table rows, 5 related internal links.
+- Chrome honesty note: the logged-in admin toolbar shows Yoast/admin text such as `SEO`, but the public page content and non-admin HTTP scan do not expose internal SEO wording.
+- Research applied: Google Search Central helpful/YMYL guidance, FDA dermal-filler safety guidance, current Israeli public price-pattern review, and the local `portfolio-wordpress-seo-publisher` plus `seo-page` standards.
 
 ## Homepage Verified
 
