@@ -19,6 +19,12 @@ Owner: Codex acting as operator
 - Published a doctor/clinic index hub and two price-intent pages for Botox and rhinoplasty.
 - Added a homepage section linking to the index and price-intent pages.
 - Added the index and price-intent pages to the visible footer menu.
+- Corrected the public-page narrative failure the user flagged: removed internal SEO/search-intent/page-writing wording from the Health money pages and rewrote the laser page as a consumer-facing informational guide.
+- Expanded `laser-hair-removal-private` to 2,300+ Hebrew words and added a generated realistic clinic consultation image.
+- Deactivated Breadcrumb NavXT on Health because it was outputting duplicate breadcrumb title text at the top of pages.
+- Removed duplicated content H1 blocks from the Health money pages; live checks now show one H1 per checked page.
+- Added a premium page polish layer to the Health homepage and live service/money pages: smaller text-brand header, hidden oversized legacy logo, tighter first viewport, cleaner article containers.
+- Installed local third-party SEO skills for future work: `seo`, `seo-content`, `seo-page`, and `seo-visual`. Codex may need restart to auto-discover them, but their relevant instructions were loaded manually for this cleanup.
 
 ## Published URLs Verified
 
@@ -48,6 +54,33 @@ Owner: Codex acting as operator
 | Doctor and clinic index hub | `https://hea-lth.co.il/doctor-clinic-index/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
 | Botox price 2026 | `https://hea-lth.co.il/botox-price/` | HTTP 200, emergency copy, no-medical-advice disclaimer, Chrome verified visible price-intent content |
 | Nose surgery cost 2026 | `https://hea-lth.co.il/nose-surgery-cost/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
+| Hyaluronic acid price 2026 | `https://hea-lth.co.il/hyaluronic-acid-price/` | HTTP 200, one H1, no breadcrumb text, no internal SEO wording |
+| Breast augmentation cost 2026 | `https://hea-lth.co.il/breast-augmentation-cost/` | HTTP 200, one H1, no breadcrumb text, no internal SEO wording |
+| Liposuction cost 2026 | `https://hea-lth.co.il/liposuction-cost/` | HTTP 200, one H1, no breadcrumb text, no internal SEO wording |
+
+## Public Narrative Cleanup Verified
+
+Live checks on 2026-05-27 confirmed these pages have one rendered H1, empty visible breadcrumb text after deactivating Breadcrumb NavXT, and no remaining public mentions of `חיפוש מסחרי`, `כוונת חיפוש`, `תוכן נכון`, `עמוד טוב`, `מילות מפתח`, `SEO`, `אסטרטגיית תוכן`, `המשתמש`, `מחקר מחירים ציבורי`, or `דף שיווקי`:
+
+1. `https://hea-lth.co.il/plastic-surgery-consultation/`
+2. `https://hea-lth.co.il/aesthetic-medicine-treatments/`
+3. `https://hea-lth.co.il/hair-transplant-consultation/`
+4. `https://hea-lth.co.il/laser-hair-removal-private/`
+5. `https://hea-lth.co.il/skin-treatments-private/`
+6. `https://hea-lth.co.il/doctor-clinic-index/`
+7. `https://hea-lth.co.il/botox-price/`
+8. `https://hea-lth.co.il/nose-surgery-cost/`
+9. `https://hea-lth.co.il/hyaluronic-acid-price/`
+10. `https://hea-lth.co.il/breast-augmentation-cost/`
+11. `https://hea-lth.co.il/liposuction-cost/`
+
+## Generated Laser Hair Removal Asset
+
+- Local source: `assets/laser-hair-removal-premium-consultation-2026-05-27.png`
+- WordPress media ID: `676`
+- Live media URL: `https://hea-lth.co.il/wp-content/uploads/2026/05/laser-hair-removal-premium-consultation-2026-05-27.png`
+- Alt text: `ייעוץ במרפאה אסתטית לפני הסרת שיער בלייזר`
+- Safety review: realistic clinic consultation, fully clothed adults, no procedure in progress, no text/logo artifacts.
 
 ## Homepage Verified
 
@@ -89,6 +122,7 @@ Chrome verification confirmed that old footer links such as EHR, stroke, and hyp
 
 - Google Search Central people-first/reliable content principles and high-stakes YMYL caution.
 - Google Search Central guidance on crawlable internal links and descriptive anchor text.
+- Google/Search quality direction applied through the installed `seo-content` and `seo-page` skills: one H1, natural keyword use, no stuffing, content depth based on topic coverage, and E-E-A-T/trust checks.
 - Existing `docs/MEDICAL_GUARDRAILS.md` operating boundary.
 - Competitor/category DNA: MediNow, Onit, Hidoc, Tel Aviv Doctor, Dr Platinum, and BikuRofe patterns.
 - Fresh commercial research direction added for private medicine, medical aesthetics, hair transplant, skin, wellness, and doctor index/CMS opportunities.
