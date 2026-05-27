@@ -13,6 +13,9 @@ Owner: Codex acting as operator
 - Replaced the public homepage with a service-router homepage focused on private-health coordination.
 - Cleaned the visible footer menu so it now exposes the six commercial service paths instead of a long legacy encyclopedia menu.
 - Generated and uploaded a premium private-health concierge hero image, then replaced the old small homepage graphic.
+- Published five additional high-commercial-intent health/aesthetics pillar pages based on Lovable and web research.
+- Added a new homepage section linking to the five aesthetics/private-health money pillars.
+- Added the five new money-pillar pages to the visible footer menu.
 
 ## Published URLs Verified
 
@@ -24,6 +27,16 @@ Owner: Codex acting as operator
 | Insurance refund route | `https://hea-lth.co.il/health-insurance-refund/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
 | Doctor home visit | `https://hea-lth.co.il/doctor-home-visit/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
 | Premium health services pillar | `https://hea-lth.co.il/premium-health-services/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
+
+## Published Money Pillar URLs Verified
+
+| Page | URL | Verification |
+| --- | --- | --- |
+| Plastic surgery consultation | `https://hea-lth.co.il/plastic-surgery-consultation/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
+| Aesthetic medicine treatments | `https://hea-lth.co.il/aesthetic-medicine-treatments/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
+| Hair transplant consultation | `https://hea-lth.co.il/hair-transplant-consultation/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
+| Laser hair removal | `https://hea-lth.co.il/laser-hair-removal-private/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
+| Private skin treatments | `https://hea-lth.co.il/skin-treatments-private/` | HTTP 200, emergency copy, no-medical-advice disclaimer |
 
 ## Homepage Verified
 
@@ -41,6 +54,11 @@ The footer menu assigned to `menu-2` was reduced from a legacy long list to the 
 4. `https://hea-lth.co.il/health-insurance-refund/`
 5. `https://hea-lth.co.il/doctor-home-visit/`
 6. `https://hea-lth.co.il/premium-health-services/`
+7. `https://hea-lth.co.il/plastic-surgery-consultation/`
+8. `https://hea-lth.co.il/aesthetic-medicine-treatments/`
+9. `https://hea-lth.co.il/hair-transplant-consultation/`
+10. `https://hea-lth.co.il/laser-hair-removal-private/`
+11. `https://hea-lth.co.il/skin-treatments-private/`
 
 Chrome verification confirmed that old footer links such as EHR, stroke, and hyperbaric chamber links are no longer displayed in the footer menu. The old articles were not deleted; only the public footer navigation was cleaned.
 
@@ -60,6 +78,7 @@ Chrome verification confirmed that old footer links such as EHR, stroke, and hyp
 - Existing `docs/MEDICAL_GUARDRAILS.md` operating boundary.
 - Competitor/category DNA: MediNow, Onit, Hidoc, Tel Aviv Doctor, Dr Platinum, and BikuRofe patterns.
 - Fresh commercial research direction added for private medicine, medical aesthetics, hair transplant, skin, wellness, and doctor index/CMS opportunities.
+- Lovable completed a hea-lth.co.il research run using 27 tools. Captured result: current domain is mostly informational with very low commercial footprint; Estheticare is a key aesthetics competitor pattern; "היועצת" is a key marketplace/treatment-price pattern; priority pillars are plastic surgery, aesthetic medicine, hair transplant, laser, private medicine/imaging.
 
 ## Public Safety Rules Applied
 
@@ -73,7 +92,7 @@ Chrome verification confirmed that old footer links such as EHR, stroke, and hyp
 - This is a real visibility upgrade, but not yet a full medical-service marketplace.
 - The pages are safe first-pass pages; they need reviewer/medical governance before deeper treatment content.
 - The homepage now has a stronger service-router structure, cleaner navigation, and a better hero visual, but it still needs a full premium visual system, stronger logo, more owned/generated imagery, reviewer/trust blocks, and a real doctor/clinic index.
-- Lovable was used after the user clarified the prompt. A Dubai-Team research plan was approved and saved in Lovable, and a new hea-lth.co.il deep SEO/content/design/monetization prompt was sent. Lovable was still working at the time of this documentation update.
+- Lovable was used after the user clarified the prompt. A Dubai-Team research plan was approved and saved in Lovable, and hea-lth.co.il research completed with 27 tools. Full Lovable file was visible as `hea-lth-seo-brief.md`; direct browser download did not complete in this session, so the actionable findings were captured in local docs.
 
 ## Next Gap-Closing Tasks
 
