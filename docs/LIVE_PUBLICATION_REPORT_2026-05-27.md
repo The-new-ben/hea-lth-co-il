@@ -30,6 +30,7 @@ Owner: Codex acting as operator
 - Created the local Codex skill `portfolio-wordpress-seo-publisher` to preserve the new minimum standard and reuse it across all portfolio WordPress sites.
 - Added central knowledge documents under `C:/Users/pro/Documents/websites/docs/`: `PORTFOLIO_KNOWLEDGE_GRAPH_2026-05-27.md` and `PORTFOLIO_16_PAGE_STANDARD_AUDIT_2026-05-27.md`.
 - Ran the new quality gate across 16 Health pages. Only `laser-hair-removal-private` and `doctor-clinic-index` currently pass the 2,000-word minimum standard; 14 pages are structurally clean but still need depth and page-specific visuals.
+- Upgraded `botox-price` to the new minimum standard: 2,100+ words, generated image, one H1, public-facing price/safety guide, internal links, and live verification.
 
 ## Published URLs Verified
 
@@ -103,6 +104,17 @@ On 2026-05-27, the live `doctor-clinic-index` page was checked with HTTP and Chr
 - HTTP/rendered checks: one H1, empty visible breadcrumb text, generated image visible, no blocked internal wording.
 - Live text length: 2,263 words by HTML text scan.
 - Chrome visible structure: one H1 (`אינדקס רופאים וקליניקות`), hero title, visible generated image, 7 comparison cards, 10 related deep-page links.
+
+## Botox Price Live Verification
+
+On 2026-05-27, the live `botox-price` page was expanded and checked:
+
+- Live URL: `https://hea-lth.co.il/botox-price/`
+- WordPress media ID: `711`
+- Local image: `assets/botox-price-premium-consultation-2026-05-27.png`
+- Live quality gate: pass, one H1, empty visible breadcrumb text, no blocked internal wording, 2,140 live words, 3 images.
+- Chrome visible structure: one H1 (`בוטוקס מחיר 2026`), visible generated image, 7 cards, 5 table rows, 5 related internal links.
+- Lovable status for this block: attempted to open the Lovable project, but Chrome showed only `Skip to main content` and reload timed out. Do not count Lovable credits as used in this block.
 
 ## Homepage Verified
 
