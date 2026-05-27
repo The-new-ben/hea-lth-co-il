@@ -210,6 +210,8 @@ function health_revenue_lead_columns(array $columns): array {
             $new_columns['service_category'] = __('Service', 'health-revenue');
             $new_columns['lead_urgency'] = __('Urgency', 'health-revenue');
             $new_columns['lead_status'] = __('Status', 'health-revenue');
+            $new_columns['utm_source'] = __('UTM source', 'health-revenue');
+            $new_columns['landing_url'] = __('Landing URL', 'health-revenue');
         }
     }
     return $new_columns;
@@ -217,7 +219,7 @@ function health_revenue_lead_columns(array $columns): array {
 add_filter('manage_health_lead_posts_columns', 'health_revenue_lead_columns');
 
 function health_revenue_lead_column_content(string $column, int $post_id): void {
-    if (in_array($column, ['lead_phone', 'service_category', 'lead_urgency'], true)) {
+    if (in_array($column, ['lead_phone', 'service_category', 'lead_urgency', 'utm_source', 'landing_url'], true)) {
         echo esc_html((string) get_post_meta($post_id, $column, true));
         return;
     }
