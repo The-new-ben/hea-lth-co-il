@@ -95,6 +95,32 @@ function health_revenue_clean_url(string $key): string {
     return isset($_POST[$key]) ? esc_url_raw(wp_unslash($_POST[$key])) : '';
 }
 
+function health_revenue_initial_status(string $service_category, string $urgency, string $preferred_route): string {
+    $context = $service_category . ' ' . $urgency . ' ' . $preferred_route;
+
+    if (strpos($context, 'חוות דעת') !== false || strpos($context, 'שנייה') !== false) {
+        return 'needs_clinical_review';
+    }
+
+    if (strpos($context, 'החזר') !== false || strpos($context, 'ביטוח') !== false) {
+        return 'refund_route';
+    }
+
+    if (strpos($context, 'פרימיום') !== false || strpos($context, 'השוואת אפשרויות') !== false) {
+        return 'provider_match';
+    }
+
+    if (strpos($context, 'רופא פרטי') !== false || strpos($context, 'תור מהיר') !== false || strpos($context, 'מומחה') !== false) {
+        return 'appointment_requested';
+    }
+
+    if (strpos($context, 'MRI') !== false || strpos($context, 'CT') !== false || strpos($context, 'ביקור') !== false || strpos($context, 'היום') !== false || strpos($context, 'מחר') !== false) {
+        return 'triage_needed';
+    }
+
+    return 'new';
+}
+
 function health_revenue_handle_lead(): void {
     if (!isset($_POST['health_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['health_nonce'])), 'health_lead')) {
         wp_safe_redirect(add_query_arg('lead', 'bad_nonce', home_url('/')));
@@ -126,6 +152,8 @@ function health_revenue_handle_lead(): void {
         exit;
     }
 
+    $initial_status = health_revenue_initial_status($service_category, $urgency, $preferred_route);
+
     $title = sprintf('%s - %s - %s', $name, $service_category, current_time('Y-m-d H:i'));
     $lead_id = wp_insert_post([
         'post_type' => 'health_lead',
@@ -147,7 +175,7 @@ function health_revenue_handle_lead(): void {
             'insurance_provider' => $insurance_provider,
             'preferred_route' => $preferred_route,
             'age_group' => $age_group,
-            'lead_status' => 'new',
+            'lead_status' => $initial_status,
             'lead_consent' => $consent,
             'privacy_ack' => $privacy_ack,
             'landing_url' => health_revenue_clean_url('landing_url') ?: home_url('/'),

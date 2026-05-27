@@ -49,3 +49,16 @@ Updated: 2026-05-27
   - Email notification does not expose medical details.
   - UTM fields persist from URL query parameters.
   - Emergency and medical disclosure text is visible.
+
+## 2026-05-27 Initial Status Routing
+
+New leads no longer all start as `new`.
+
+- Second-opinion leads start as `needs_clinical_review`.
+- Refund or payer-route leads start as `refund_route`.
+- Premium or broad provider-matching leads start as `provider_match`.
+- Private-doctor appointment leads start as `appointment_requested`.
+- MRI/CT, home-visit, and urgent non-emergency leads start as `triage_needed`.
+- Everything else remains `new` for manual review.
+
+These statuses are operator queues only. They do not provide diagnosis, medical triage, or medical advice.
