@@ -1,6 +1,6 @@
 # Hea-lth WordPress API Status
 
-Updated: 2026-05-26
+Updated: 2026-05-27
 
 ## Access
 
@@ -31,6 +31,16 @@ Both REST route styles work:
 | 615 | `premium-health-services` | draft | Premium health services pillar |
 
 These are intentionally drafts. This is YMYL content: do not publish before medical/legal/privacy review, source references, emergency disclaimers, and a clear boundary that the site coordinates services and does not provide diagnosis or treatment.
+
+## Draft content upgraded
+
+Updated: 2026-05-27 05:14 UTC
+
+The six draft private-health service pages were upgraded through the WordPress REST API with Hebrew conversion copy, emergency notices, privacy-safe first-contact rules, CRM-ready CTAs, source/reviewer/update requirements, provider-license checks, and no-medical-advice guardrails. All six remain `draft`.
+
+Operational note: the shared local API helper was fixed before the final post so JSON request bodies are read as UTF-8. Final REST verification returned proper Hebrew titles from WordPress.
+
+See `docs/WP_DRAFT_UPDATE_LOG.md` for the full operational log.
 
 ## Research anchors
 
