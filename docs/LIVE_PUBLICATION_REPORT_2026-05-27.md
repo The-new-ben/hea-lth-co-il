@@ -25,6 +25,8 @@ Owner: Codex acting as operator
 - Removed duplicated content H1 blocks from the Health money pages; live checks now show one H1 per checked page.
 - Added a premium page polish layer to the Health homepage and live service/money pages: smaller text-brand header, hidden oversized legacy logo, tighter first viewport, cleaner article containers.
 - Installed local third-party SEO skills for future work: `seo`, `seo-content`, `seo-page`, and `seo-visual`. Codex may need restart to auto-discover them, but their relevant instructions were loaded manually for this cleanup.
+- Expanded `doctor-clinic-index` from a thin routing page into a 2,200+ word public-facing hub for choosing a private doctor, clinic, aesthetic clinic, private test, second opinion, or price/refund route.
+- Generated and uploaded a dedicated doctor/clinic index image, then set it as the page featured media and rendered hero visual.
 
 ## Published URLs Verified
 
@@ -81,6 +83,23 @@ Live checks on 2026-05-27 confirmed these pages have one rendered H1, empty visi
 - Live media URL: `https://hea-lth.co.il/wp-content/uploads/2026/05/laser-hair-removal-premium-consultation-2026-05-27.png`
 - Alt text: `ייעוץ במרפאה אסתטית לפני הסרת שיער בלייזר`
 - Safety review: realistic clinic consultation, fully clothed adults, no procedure in progress, no text/logo artifacts.
+
+## Generated Doctor/Clinic Index Asset
+
+- Local source: `assets/doctor-clinic-index-premium-consultation-2026-05-27.png`
+- WordPress media ID: `708`
+- Live media URL: `https://hea-lth.co.il/wp-content/uploads/2026/05/doctor-clinic-index-premium-consultation-2026-05-27.png`
+- Alt text: `השוואת רופאים וקליניקות פרטיות בפגישת ייעוץ`
+- Safety review: realistic private clinic consultation, fully clothed adults, no procedure, no visible private medical data, no text/logo artifacts.
+
+## Doctor/Clinic Index Live Verification
+
+On 2026-05-27, the live `doctor-clinic-index` page was checked with HTTP and Chrome:
+
+- Live URL: `https://hea-lth.co.il/doctor-clinic-index/`
+- HTTP/rendered checks: one H1, empty visible breadcrumb text, generated image visible, no blocked internal wording.
+- Live text length: 2,263 words by HTML text scan.
+- Chrome visible structure: one H1 (`אינדקס רופאים וקליניקות`), hero title, visible generated image, 7 comparison cards, 10 related deep-page links.
 
 ## Homepage Verified
 
