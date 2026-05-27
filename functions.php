@@ -224,6 +224,7 @@ function health_revenue_render_lead_meta_box(WP_Post $post): void {
         __('Preferred route', 'health-revenue') => get_post_meta($post->ID, 'preferred_route', true),
         __('Age group', 'health-revenue') => get_post_meta($post->ID, 'age_group', true),
         __('Landing URL', 'health-revenue') => get_post_meta($post->ID, 'landing_url', true),
+        __('Referrer URL', 'health-revenue') => get_post_meta($post->ID, 'referrer_url', true),
         __('UTM source', 'health-revenue') => get_post_meta($post->ID, 'utm_source', true),
         __('UTM campaign', 'health-revenue') => get_post_meta($post->ID, 'utm_campaign', true),
     ];
