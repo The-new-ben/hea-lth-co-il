@@ -27,6 +27,9 @@ Owner: Codex acting as operator
 - Installed local third-party SEO skills for future work: `seo`, `seo-content`, `seo-page`, and `seo-visual`. Codex may need restart to auto-discover them, but their relevant instructions were loaded manually for this cleanup.
 - Expanded `doctor-clinic-index` from a thin routing page into a 2,200+ word public-facing hub for choosing a private doctor, clinic, aesthetic clinic, private test, second opinion, or price/refund route.
 - Generated and uploaded a dedicated doctor/clinic index image, then set it as the page featured media and rendered hero visual.
+- Created the local Codex skill `portfolio-wordpress-seo-publisher` to preserve the new minimum standard and reuse it across all portfolio WordPress sites.
+- Added central knowledge documents under `C:/Users/pro/Documents/websites/docs/`: `PORTFOLIO_KNOWLEDGE_GRAPH_2026-05-27.md` and `PORTFOLIO_16_PAGE_STANDARD_AUDIT_2026-05-27.md`.
+- Ran the new quality gate across 16 Health pages. Only `laser-hair-removal-private` and `doctor-clinic-index` currently pass the 2,000-word minimum standard; 14 pages are structurally clean but still need depth and page-specific visuals.
 
 ## Published URLs Verified
 
