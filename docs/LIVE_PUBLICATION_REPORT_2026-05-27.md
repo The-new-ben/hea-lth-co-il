@@ -210,6 +210,32 @@ Chrome verification confirmed that old footer links such as EHR, stroke, and hyp
 - Lovable was used after the user clarified the prompt. A Dubai-Team research plan was approved and saved in Lovable, and hea-lth.co.il research completed with 27 tools. Full Lovable file was visible as `hea-lth-seo-brief.md`; direct browser download did not complete in this session, so the actionable findings were captured in local docs.
 - A follow-up Lovable prompt for the next 10 price pages was attempted after the new publications, but the Chrome automation call timed out before I could verify that it was sent. Do not count that as confirmed Lovable credit usage until rechecked.
 
+## Premium Chrome, Font, and Homepage Polish
+
+On 2026-05-27, a live design-system pass was applied across the Health homepage and 17 service/money pages:
+
+- Reduced the Heebo font request to needed weights only: `400;500;700;800`.
+- Added a lightweight CSS medical brand mark so the header/footer no longer depend on the old oversized image logo.
+- Fixed Hebrew CSS generated text by using explicit escaped spaces (`\0020`), because normal whitespace after Unicode hex escapes can be swallowed by the CSS parser.
+- Improved homepage CTAs from default WordPress styling into teal/white premium pill buttons.
+- Improved homepage service cards with soft shadows, rounded borders, and small icon circles inspired by Israeli healthcare homepage patterns such as Clalit.
+- Improved mobile footer symmetry: brand mark/text block, two-column link grid, and no single long legacy link column.
+- Removed remaining public internal wording from the homepage (`search intent` / user-planning phrasing).
+
+Verification:
+
+- Homepage: `https://hea-lth.co.il/` passed the live quality gate with one H1, no breadcrumb text, no blocked internal terms, 702 words, and 3 images.
+- Laser page: `https://hea-lth.co.il/laser-hair-removal-private/` still passed after the chrome pass: one H1, 2,548 words, no blocked internal terms.
+- Breast augmentation page mobile Chrome check: one H1, no horizontal overflow, old logo hidden, trust band visible, footer grid rendered as two equal columns on 405px mobile.
+- Homepage mobile/desktop Chrome checks: no horizontal overflow, old logo hidden, header/footer fonts unified, and footer links balanced.
+- Screenshot artifacts saved under `docs/health-home-cdp-mobile-2026-05-27-*.png`, `docs/health-home-cdp-desktop-2026-05-27-*.png`, and `docs/health-cdp-mobile-2026-05-27-*.png`.
+
+Skills/knowledge preserved:
+
+- Updated `premium-wordpress-site-chrome` with typography, logo mark, lightweight homepage CSS, and provider-directory revenue references.
+- Updated `portfolio-wordpress-seo-publisher` with public SEO copywriting rules that prevent internal-language leakage.
+- Updated the central portfolio knowledge graph with font, logo, footer, homepage-card, and CSS-escape lessons.
+
 ## Next Gap-Closing Tasks
 
 1. Recheck Lovable and either confirm/send the next 10-page expansion prompt.
@@ -218,3 +244,4 @@ Chrome verification confirmed that old footer links such as EHR, stroke, and hyp
 4. Add more premium visual assets for high-value treatment clusters.
 5. Add reviewer/source/update fields for any educational article.
 6. Add FAQ schema only after medical/legal wording review.
+7. Apply the new premium chrome/font/homepage skill to the other portfolio sites after site-specific competitor research.
