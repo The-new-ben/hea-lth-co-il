@@ -46,6 +46,18 @@ Updated: 2026-05-27 14:35 UTC.
 
 All five pages were verified by HTTP checks for status 200, emergency copy, no-medical-advice disclaimer, and no blocked internal language. Chrome verified the plastic-surgery page and homepage links.
 
+## Published index and price-intent pages
+
+Updated: 2026-05-27 14:50 UTC.
+
+| ID | Slug | Status | Intent |
+| --- | --- | --- | --- |
+| 660 | `doctor-clinic-index` | publish | Doctor/clinic index hub and provider comparison criteria |
+| 662 | `botox-price` | publish | Botox price 2026, areas, ranges, clinic-selection questions |
+| 664 | `nose-surgery-cost` | publish | Nose surgery cost 2026, procedure types, cost factors, consultation questions |
+
+All three pages were verified by HTTP checks for status 200, emergency copy, no-medical-advice disclaimer, and no blocked internal language. Chrome verified the homepage section and the Botox price page.
+
 ## Homepage and footer
 
 Updated: 2026-05-27 14:20 UTC.
@@ -75,6 +87,9 @@ Footer menu items now visible:
 | 657 | `ייעוץ להשתלת שיער` | `https://hea-lth.co.il/hair-transplant-consultation/` |
 | 658 | `הסרת שיער בלייזר` | `https://hea-lth.co.il/laser-hair-removal-private/` |
 | 659 | `טיפולי עור פרטיים` | `https://hea-lth.co.il/skin-treatments-private/` |
+| 667 | `אינדקס רופאים וקליניקות` | `https://hea-lth.co.il/doctor-clinic-index/` |
+| 668 | `בוטוקס מחיר 2026` | `https://hea-lth.co.il/botox-price/` |
+| 669 | `ניתוח אף מחיר 2026` | `https://hea-lth.co.il/nose-surgery-cost/` |
 
 Operational note: deleting menu items through `?rest_route=/...&force=true` returned no deletion result on this site. The clean-up succeeded through the direct `/wp-json/wp/v2/menu-items/{id}?force=true` endpoint.
 
@@ -86,6 +101,7 @@ Updated: 2026-05-27 14:20 UTC.
 - Sent a new hea-lth.co.il prompt to Lovable for high-money private health, medical aesthetics, plastic surgery, hair transplant, skin, wellness, doctor/clinic index, premium homepage/logo/design, and first 20 page priorities.
 - Lovable showed `25.3 credits expire in 9 hours` after the prompt was sent and was still working on the research result.
 - Lovable later completed the hea-lth.co.il run with `Used 27 tools`. Visible summary named Estheticare as the strongest aesthetics competitor pattern and "היועצת" as a marketplace/treatment-price pattern. It recommended five pillars: plastic surgery, aesthetic medicine, hair transplant, laser, private medicine/imaging.
+- A follow-up Lovable prompt for the next 10 price pages was attempted after the index/price publications, but the browser automation call timed out before send status could be verified. Treat this as unconfirmed until rechecked.
 
 ## Draft content upgraded
 

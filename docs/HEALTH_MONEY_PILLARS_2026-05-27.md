@@ -22,6 +22,9 @@ Source mix: fresh web research, live SERP/category review, and Lovable research.
 | השתלת שיער | `https://hea-lth.co.il/hair-transplant-consultation/` | Clinic choice, price, Israel vs Turkey/abroad |
 | לייזר | `https://hea-lth.co.il/laser-hair-removal-private/` | Laser hair removal price, suitability, clinic selection |
 | טיפולי עור | `https://hea-lth.co.il/skin-treatments-private/` | Dermatologist, acne, pigmentation, rejuvenation, skin clinic |
+| אינדקס רופאים וקליניקות | `https://hea-lth.co.il/doctor-clinic-index/` | Provider/entity comparison hub and future doctor/clinic directory |
+| בוטוקס מחיר | `https://hea-lth.co.il/botox-price/` | Botox price ranges, areas, clinic-selection intent |
+| ניתוח אף מחיר | `https://hea-lth.co.il/nose-surgery-cost/` | Rhinoplasty price ranges, procedure types, surgeon consultation intent |
 
 ## Next 20-Page Architecture
 
@@ -32,7 +35,7 @@ Source mix: fresh web research, live SERP/category review, and Lovable research.
 5. `liposuction-body-contouring`: שאיבת שומן, עיצוב גוף, body-contouring consultation.
 6. `facelift-neck-lift`: מתיחת פנים, מתיחת צוואר, consultation and risks.
 7. `aesthetic-medicine-treatments`: central aesthetic-medicine page, already live.
-8. `botox-price`: בוטוקס מחיר, areas, questions, physician safety.
+8. `botox-price`: בוטוקס מחיר, areas, questions, physician safety, already live.
 9. `hyaluronic-acid-fillers`: חומצה היאלורונית, מילוי קמטים, שפתיים, קו לסת.
 10. `facial-contouring`: פיסול פנים, jawline, lips, cheeks.
 11. `skin-treatments-private`: skin treatments pillar, already live.
@@ -41,10 +44,26 @@ Source mix: fresh web research, live SERP/category review, and Lovable research.
 14. `laser-hair-removal-private`: laser hair removal pillar, already live.
 15. `laser-hair-removal-price`: price page by body area and package structure.
 16. `hair-transplant-consultation`: hair transplant consultation pillar, already live.
-17. `hair-transplant-israel`: השתלת שיער בישראל, clinic comparison.
-18. `hair-transplant-turkey-vs-israel`: Turkey vs Israel comparison, follow-up and risk questions.
-19. `private-doctor-appointment`: private doctor appointment page, already live.
-20. `mri-ct-appointment`: private MRI/CT appointment page, already live.
+17. `doctor-clinic-index`: אינדקס רופאים וקליניקות, provider comparison hub, already live.
+18. `hair-transplant-israel`: השתלת שיער בישראל, clinic comparison.
+19. `hair-transplant-turkey-vs-israel`: Turkey vs Israel comparison, follow-up and risk questions.
+20. `nose-surgery-cost`: ניתוח אף מחיר, cost factors and consultation questions, already live.
+
+## Price Research Notes
+
+Botox public ranges observed in fresh research:
+
+- About `700` NIS for one area in one published clinic price example.
+- About `1,500` NIS for three areas in one published clinic price example.
+- About `2,500` to `3,500` NIS for broader face treatment in competitor/price-guide examples.
+
+Rhinoplasty public ranges observed in fresh research:
+
+- About `6,000` to `21,000` NIS in one marketplace-style competitor example.
+- About `12,000` to `25,000` NIS for aesthetic rhinoplasty and `6,000` to `15,000` NIS for medical rhinoplasty in one surgeon/clinic example.
+- About `12,000` to `40,000` NIS for combined or more complex cases in one surgeon/clinic example.
+
+These are public reference ranges only. Public pages must state that final price is set after professional examination and clinic quote.
 
 ## CMS and Doctor Index Fields
 
