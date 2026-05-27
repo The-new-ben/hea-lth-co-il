@@ -32,6 +32,38 @@ Both REST route styles work:
 
 Updated: 2026-05-27 13:56 UTC. These pages were published after rewriting them as coordination/service pages, adding emergency copy, and adding no-medical-advice boundaries. They are visible first-pass pages, not reviewed treatment guides.
 
+## Homepage and footer
+
+Updated: 2026-05-27 14:20 UTC.
+
+- Homepage page ID: `2`
+- Homepage URL: `https://hea-lth.co.il/`
+- Homepage title: `שירותי בריאות פרטיים בתיאום אישי`
+- Homepage was rewritten as a public service-router page linking to the six published service pages.
+- Live checks confirmed HTTP 200, visible service hero, six service links, emergency copy, no-medical-advice disclaimer, and no blocked internal language.
+- Footer menu `בסיס למטה` / menu ID `16` was cleaned to keep only the six service-page menu items. Legacy article pages were not deleted.
+
+Footer menu items now visible:
+
+| Menu item ID | Label | URL |
+| --- | --- | --- |
+| 630 | `תיאום תור לרופא פרטי` | `https://hea-lth.co.il/private-doctor-appointment/` |
+| 628 | `חוות דעת רפואית שנייה` | `https://hea-lth.co.il/medical-second-opinion/` |
+| 638 | `תיאום MRI ו-CT פרטי` | `https://hea-lth.co.il/mri-ct-appointment/` |
+| 636 | `החזרי ביטוח בריאות` | `https://hea-lth.co.il/health-insurance-refund/` |
+| 634 | `ביקור רופא פרטי בבית` | `https://hea-lth.co.il/doctor-home-visit/` |
+| 632 | `שירותי בריאות פרימיום` | `https://hea-lth.co.il/premium-health-services/` |
+
+Operational note: deleting menu items through `?rest_route=/...&force=true` returned no deletion result on this site. The clean-up succeeded through the direct `/wp-json/wp/v2/menu-items/{id}?force=true` endpoint.
+
+## Lovable usage
+
+Updated: 2026-05-27 14:20 UTC.
+
+- Approved the pending Dubai-Team internal SEO/content/design plan in Lovable. Lovable saved it to `.lovable/plan.md`.
+- Sent a new hea-lth.co.il prompt to Lovable for high-money private health, medical aesthetics, plastic surgery, hair transplant, skin, wellness, doctor/clinic index, premium homepage/logo/design, and first 20 page priorities.
+- Lovable showed `25.3 credits expire in 9 hours` after the prompt was sent and was still working on the research result.
+
 ## Draft content upgraded
 
 Updated: 2026-05-27 05:14 UTC
