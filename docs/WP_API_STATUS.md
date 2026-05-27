@@ -19,24 +19,24 @@ Both REST route styles work:
 - `https://hea-lth.co.il/wp-json/wp/v2/...`
 - `https://hea-lth.co.il/?rest_route=/wp/v2/...`
 
-## Draft service pages created
+## Published service pages
 
 | ID | Slug | Status | Intent |
 | --- | --- | --- | --- |
-| 610 | `private-doctor-appointment` | draft | Private doctor appointment routing |
-| 611 | `medical-second-opinion` | draft | Second opinion service lead |
-| 612 | `mri-ct-appointment` | draft | MRI/CT appointment routing |
-| 613 | `health-insurance-refund` | draft | Health insurance refund assistance |
-| 614 | `doctor-home-visit` | draft | Doctor home visit lead |
-| 615 | `premium-health-services` | draft | Premium health services pillar |
+| 610 | `private-doctor-appointment` | publish | Private doctor appointment coordination |
+| 611 | `medical-second-opinion` | publish | Second opinion coordination |
+| 612 | `mri-ct-appointment` | publish | MRI/CT appointment coordination |
+| 613 | `health-insurance-refund` | publish | Health insurance refund route assistance |
+| 614 | `doctor-home-visit` | publish | Doctor home visit coordination |
+| 615 | `premium-health-services` | publish | Premium health services pillar |
 
-These are intentionally drafts. This is YMYL content: do not publish before medical/legal/privacy review, source references, emergency disclaimers, and a clear boundary that the site coordinates services and does not provide diagnosis or treatment.
+Updated: 2026-05-27 13:56 UTC. These pages were published after rewriting them as coordination/service pages, adding emergency copy, and adding no-medical-advice boundaries. They are visible first-pass pages, not reviewed treatment guides.
 
 ## Draft content upgraded
 
 Updated: 2026-05-27 05:14 UTC
 
-The six draft private-health service pages were upgraded through the WordPress REST API with Hebrew conversion copy, emergency notices, privacy-safe first-contact rules, CRM-ready CTAs, source/reviewer/update requirements, provider-license checks, and no-medical-advice guardrails. All six remain `draft`.
+The six private-health service pages were upgraded through the WordPress REST API with Hebrew conversion copy, emergency notices, privacy-safe first-contact rules, source/reviewer/update requirements, provider-license checks, and no-medical-advice guardrails. All six were later published after public-language cleanup.
 
 Operational note: the shared local API helper was fixed before the final post so JSON request bodies are read as UTF-8. Final REST verification returned proper Hebrew titles from WordPress.
 
