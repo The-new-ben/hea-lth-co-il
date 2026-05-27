@@ -62,6 +62,8 @@ function health_revenue_register_lead_type(): void {
         'preferred_route',
         'age_group',
         'lead_status',
+        'lead_score',
+        'lead_priority',
         'lead_consent',
         'privacy_ack',
         'landing_url',
@@ -121,6 +123,43 @@ function health_revenue_initial_status(string $service_category, string $urgency
     return 'new';
 }
 
+function health_revenue_priority_from_score(int $score): string {
+    if ($score >= 80) {
+        return 'Hot';
+    }
+
+    if ($score >= 50) {
+        return 'Warm';
+    }
+
+    return 'Watch';
+}
+
+function health_revenue_score_lead(string $service_category, string $specialty_needed, string $city, string $urgency, string $payer_type, string $preferred_route): int {
+    $score = 20;
+
+    if ($service_category !== '') {
+        $score += 20;
+    }
+    if ($specialty_needed !== '') {
+        $score += 10;
+    }
+    if ($city !== '') {
+        $score += 10;
+    }
+    if ($urgency !== '') {
+        $score += 20;
+    }
+    if ($payer_type !== '') {
+        $score += 10;
+    }
+    if ($preferred_route !== '') {
+        $score += 10;
+    }
+
+    return min(100, $score);
+}
+
 function health_revenue_handle_lead(): void {
     if (!isset($_POST['health_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['health_nonce'])), 'health_lead')) {
         wp_safe_redirect(add_query_arg('lead', 'bad_nonce', home_url('/')));
@@ -153,6 +192,8 @@ function health_revenue_handle_lead(): void {
     }
 
     $initial_status = health_revenue_initial_status($service_category, $urgency, $preferred_route);
+    $lead_score = health_revenue_score_lead($service_category, $specialty_needed, $city, $urgency, $payer_type, $preferred_route);
+    $lead_priority = health_revenue_priority_from_score($lead_score);
 
     $title = sprintf('%s - %s - %s', $name, $service_category, current_time('Y-m-d H:i'));
     $lead_id = wp_insert_post([
@@ -176,6 +217,8 @@ function health_revenue_handle_lead(): void {
             'preferred_route' => $preferred_route,
             'age_group' => $age_group,
             'lead_status' => $initial_status,
+            'lead_score' => (string) $lead_score,
+            'lead_priority' => $lead_priority,
             'lead_consent' => $consent,
             'privacy_ack' => $privacy_ack,
             'landing_url' => health_revenue_clean_url('landing_url') ?: home_url('/'),
@@ -210,6 +253,7 @@ function health_revenue_lead_columns(array $columns): array {
             $new_columns['service_category'] = __('Service', 'health-revenue');
             $new_columns['lead_urgency'] = __('Urgency', 'health-revenue');
             $new_columns['lead_status'] = __('Status', 'health-revenue');
+            $new_columns['lead_priority'] = __('Priority', 'health-revenue');
             $new_columns['utm_source'] = __('UTM source', 'health-revenue');
             $new_columns['landing_url'] = __('Landing URL', 'health-revenue');
         }
@@ -219,7 +263,7 @@ function health_revenue_lead_columns(array $columns): array {
 add_filter('manage_health_lead_posts_columns', 'health_revenue_lead_columns');
 
 function health_revenue_lead_column_content(string $column, int $post_id): void {
-    if (in_array($column, ['lead_phone', 'service_category', 'lead_urgency', 'utm_source', 'landing_url'], true)) {
+    if (in_array($column, ['lead_phone', 'service_category', 'lead_urgency', 'lead_priority', 'utm_source', 'landing_url'], true)) {
         echo esc_html((string) get_post_meta($post_id, $column, true));
         return;
     }
@@ -253,6 +297,8 @@ function health_revenue_render_lead_meta_box(WP_Post $post): void {
         __('Insurance provider', 'health-revenue') => get_post_meta($post->ID, 'insurance_provider', true),
         __('Preferred route', 'health-revenue') => get_post_meta($post->ID, 'preferred_route', true),
         __('Age group', 'health-revenue') => get_post_meta($post->ID, 'age_group', true),
+        __('Priority', 'health-revenue') => get_post_meta($post->ID, 'lead_priority', true),
+        __('Lead score', 'health-revenue') => get_post_meta($post->ID, 'lead_score', true),
         __('Landing URL', 'health-revenue') => get_post_meta($post->ID, 'landing_url', true),
         __('Referrer URL', 'health-revenue') => get_post_meta($post->ID, 'referrer_url', true),
         __('UTM source', 'health-revenue') => get_post_meta($post->ID, 'utm_source', true),
@@ -430,7 +476,7 @@ function health_revenue_export_lead_board(): void {
         wp_die(esc_html__('Could not open CSV output stream.', 'health-revenue'));
     }
 
-    fputcsv($output, ['lead_id', 'date', 'status', 'utm_source', 'utm_medium', 'utm_campaign', 'landing_url', 'edit_url']);
+    fputcsv($output, ['lead_id', 'date', 'status', 'priority', 'score', 'utm_source', 'utm_medium', 'utm_campaign', 'landing_url', 'edit_url']);
 
     foreach ($leads as $lead) {
         $status_key = (string) get_post_meta($lead->ID, 'lead_status', true);
@@ -438,6 +484,8 @@ function health_revenue_export_lead_board(): void {
             $lead->ID,
             get_the_date('Y-m-d H:i:s', $lead),
             $statuses[$status_key ?: 'new'] ?? $status_key,
+            get_post_meta($lead->ID, 'lead_priority', true),
+            get_post_meta($lead->ID, 'lead_score', true),
             get_post_meta($lead->ID, 'utm_source', true),
             get_post_meta($lead->ID, 'utm_medium', true),
             get_post_meta($lead->ID, 'utm_campaign', true),

@@ -83,4 +83,10 @@ The Health Leads menu includes a `Revenue Board` submenu. It summarizes the late
 
 Use it for weekly revenue triage: identify which pages and campaigns are producing qualified service-coordination opportunities before prioritizing new SEO work, provider outreach, or paid tests.
 
-The `Export board CSV` button downloads only board-level fields: lead ID, date, status, UTM source/medium/campaign, landing URL, and the private admin edit URL. It intentionally excludes name, phone, email, health-service selection, medical details, message, payer details, and sensitive data.
+The `Export board CSV` button downloads only board-level fields: lead ID, date, status, priority, score, UTM source/medium/campaign, landing URL, and the private admin edit URL. It intentionally excludes name, phone, email, health-service selection, medical details, message, payer details, and sensitive data.
+
+## 2026-05-27 Lead Priority Scoring
+
+New leads get an operator-only score and priority band: `Hot`, `Warm`, or `Watch`. Health scoring favors service category, specialty, city, urgency, payer route, and preferred coordination route.
+
+The score is for administrative queue priority only. It is not medical triage, diagnosis, treatment advice, provider acceptance, appointment availability, price, or revenue.
