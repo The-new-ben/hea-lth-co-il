@@ -3,6 +3,54 @@
 Date: 2026-05-27
 Owner: Codex acting as operator
 
+## Hair Transplant Turkey Cost Guide
+
+Updated: 2026-05-28 08:07 Asia/Jerusalem
+
+- Live page published and verified: `https://hea-lth.co.il/hair-transplant-turkey-cost/`.
+- Published as a public consumer-facing Hebrew guide of 2,046 words about hair transplant cost in Turkey.
+- Linked from five existing pages:
+  - `https://hea-lth.co.il/hair-transplant-consultation/`.
+  - `https://hea-lth.co.il/aesthetic-medicine-treatments/`.
+  - `https://hea-lth.co.il/doctor-clinic-index/`.
+  - `https://hea-lth.co.il/plastic-surgery-consultation/`.
+  - `https://hea-lth.co.il/medical-second-opinion/`.
+- Reused existing WordPress hair-transplant media as featured media and hero image:
+  - Media ID: `464`.
+  - Live URL: `https://hea-lth.co.il/wp-content/uploads/2025/03/השתלת-שיער-רופא.jpg`.
+- Added a public price/safety guide structure: package price vs total cost, FUE/DHI explanation, doctor involvement, questions before deposit, medical-tourism red flags, Turkey vs Israel comparison, aftercare, sources, FAQ, emergency copy, and no-medical-advice boundary.
+- Added page-level CSS to hide the oversized legacy logo on this page and reduce H1 width/size so the mobile first viewport does not collide with the accessibility widget.
+- Saved a new repeatable skill lesson in the Codex portfolio knowledge graph for hair-transplant medical tourism pages: do not sell the trip; compare price, doctor responsibility, clinic transparency, graft planning, donor-area safety, follow-up, and complication handling.
+- Saved a local SEO page-analysis cache under `.seo-cache/pages/hair-transplant-turkey-cost/page-analysis.json` and ignored `.seo-cache/` in git.
+- Research used before editing:
+  - ISHRS medical-tourism safety warning: `https://ishrs.org/buyer-beware-medical-tourism-for-hair-transplants-can-have-costly-consequences/`.
+  - ISHRS illegal hair-restoration practice warning: `https://ishrs.org/illegal-hair-transplant/`.
+  - American Academy of Dermatology hair transplant overview: `https://www.aad.org/public/diseases/hair-loss/treatment/transplant`.
+  - Cleveland Clinic hair transplant overview: `https://my.clevelandclinic.org/health/treatments/21519-hair-transplant`.
+  - Live clinic/market competitor pages around Turkey 2026 price ranges, FUE/DHI packages, hotel/transfer inclusions, and medical-tourism positioning. The public content is original and adapted to Hea-lth.
+
+### Live Verification
+
+- First quality gate failed usefully: 1,840 words, below the 2,000-word minimum. I expanded the guide before reporting.
+- Final quality gate: passed.
+- URL: `https://hea-lth.co.il/hair-transplant-turkey-cost/`.
+- Rendered H1 count: 1.
+- Word count: 2,046.
+- Blocked internal terms: none.
+- WordPress excerpt: clean patient-facing text, no internal wording.
+- Featured media: `464`.
+- Image URL check: live JPEG returns HTTP 200, `image/jpeg`, and `Content-Length` 46,722 bytes.
+- Mobile 390px rendered check: no horizontal overflow, one H1, trust band visible, oversized legacy logo hidden, no internal terms visible.
+- Hierarchy check: `hair-transplant-consultation`, `aesthetic-medicine-treatments`, `doctor-clinic-index`, `plastic-surgery-consultation`, and `medical-second-opinion` all return HTTP 200 and contain `/hair-transplant-turkey-cost/`.
+- Screenshot:
+  - `docs/health-hair-transplant-turkey-cost-mobile-2026-05-28-v4-top.png`
+
+### Honest Gap Statement
+
+- This is a real live page, not a draft: the page is published, verified, and linked from five related pages.
+- This block used fresh web research and existing WordPress media, but did not use fresh Lovable/ChatGPT/Gemini/image generation because the work was a WordPress REST publishing and verification block.
+- The Health theme still needs durable site-wide header/title polish through theme code and UPress Git pull. This specific page received a page-level fix so the first viewport is acceptable now.
+
 ## Live Changes
 
 - Published six private-health coordination/service pages with clean URLs.
