@@ -3,6 +3,55 @@
 Date: 2026-05-27
 Owner: Codex acting as operator
 
+## Hair Transplant Israel Cost Guide
+
+Updated: 2026-05-28 08:18 Asia/Jerusalem
+
+- Live page published and verified: `https://hea-lth.co.il/hair-transplant-israel-cost/`.
+- Published as a public consumer-facing Hebrew guide of 2,028 words about hair transplant cost in Israel.
+- Linked from five existing pages:
+  - `https://hea-lth.co.il/hair-transplant-consultation/`.
+  - `https://hea-lth.co.il/hair-transplant-turkey-cost/`.
+  - `https://hea-lth.co.il/aesthetic-medicine-treatments/`.
+  - `https://hea-lth.co.il/doctor-clinic-index/`.
+  - `https://hea-lth.co.il/medical-second-opinion/`.
+- Reused existing WordPress hair-transplant media as featured media and hero image:
+  - Media ID: `464`.
+  - Live URL: `https://hea-lth.co.il/wp-content/uploads/2025/03/השתלת-שיער-רופא.jpg`.
+- Added a public price/comparison guide structure: Israel price ranges, what affects price, FUE/DHI, checking doctor and clinic in Israel, Israel vs Turkey comparison, second-opinion triggers, quote comparison, consultation preparation, sources, FAQ, emergency copy, and no-medical-advice boundary.
+- Added page-level CSS to hide the oversized legacy logo on this page and reduce H1 width/size so the mobile first viewport does not collide with the accessibility widget.
+- Saved a new repeatable skill lesson in the Codex portfolio knowledge graph for Israel hair-transplant price pages: explain local follow-up, license checks, doctor accountability, and total-cost comparison without claiming Israel is automatically better for every patient.
+- Saved a local SEO page-analysis cache under `.seo-cache/pages/hair-transplant-israel-cost/page-analysis.json`.
+- Research used before editing:
+  - Ministry of Health licensed practitioner registry: `https://www.gov.il/he/service/licensed-medical-practitioners`.
+  - American Academy of Dermatology hair transplant overview: `https://www.aad.org/public/diseases/hair-loss/treatment/transplant`.
+  - Cleveland Clinic hair transplant overview: `https://my.clevelandclinic.org/health/treatments/21519-hair-transplant`.
+  - ISHRS illegal hair-restoration practice warning: `https://ishrs.org/illegal-hair-transplant/`.
+  - Live Israeli clinic/market competitor pages around 2026 price ranges, FUE/DHI, local doctor involvement, follow-up, and consultation framing. The public content is original and adapted to Hea-lth.
+
+### Live Verification
+
+- First quality gate failed usefully: 1,683 words, below the 2,000-word minimum. I expanded the guide before reporting.
+- Final quality gate: passed.
+- URL: `https://hea-lth.co.il/hair-transplant-israel-cost/`.
+- Rendered H1 count: 1.
+- Word count: 2,028.
+- Blocked internal terms: none.
+- WordPress excerpt: clean patient-facing text, no internal wording.
+- Featured media: `464`.
+- Image URL check: live JPEG returns HTTP 200, `image/jpeg`, and `Content-Length` 46,722 bytes.
+- Mobile 390px rendered check: no horizontal overflow, one H1, trust band visible, oversized legacy logo hidden, no internal terms visible.
+- Hierarchy check: `hair-transplant-consultation`, `hair-transplant-turkey-cost`, `aesthetic-medicine-treatments`, `doctor-clinic-index`, and `medical-second-opinion` all return HTTP 200 and contain `/hair-transplant-israel-cost/`.
+- Screenshot:
+  - `docs/health-hair-transplant-israel-cost-mobile-2026-05-28-v2-top.png`
+
+### Honest Gap Statement
+
+- This is a real live page, not a draft: the page is published, verified, and linked from five related pages.
+- The first publish attempt hit a temporary WordPress 503 while updating support links. I retried idempotently, and the second run succeeded without duplicating the page.
+- This block used fresh web research and existing WordPress media, but did not use fresh Lovable/ChatGPT/Gemini/image generation because the work was a WordPress REST publishing and verification block.
+- The Health theme still needs durable site-wide header/title polish through theme code and UPress Git pull. This specific page received a page-level fix so the first viewport is acceptable now.
+
 ## Hair Transplant Turkey Cost Guide
 
 Updated: 2026-05-28 08:07 Asia/Jerusalem
