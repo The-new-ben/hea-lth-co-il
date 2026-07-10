@@ -146,7 +146,16 @@ if (!function_exists('hea_lth_agent_deploy_restore')) {
             }
         }
 
-        if ('plugin' === ($state['kind'] ?? '') && !empty($state['was_active']) && !empty($state['plugin_file'])) {
+        if ('plugin' === ($state['kind'] ?? '') && !$hadTarget && !empty($state['plugin_file'])) {
+            deactivate_plugins((string) $state['plugin_file'], true);
+        }
+
+        if (
+            'plugin' === ($state['kind'] ?? '')
+            && $hadTarget
+            && !empty($state['was_active'])
+            && !empty($state['plugin_file'])
+        ) {
             $activated = activate_plugin((string) $state['plugin_file']);
             if (is_wp_error($activated)) {
                 return $activated;
@@ -412,12 +421,16 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             );
         }
 
-        if (
-            'plugin' === $kind
-            && 'hea-lth-ops' === $slug
-            && function_exists('hea_lth_ops_store_deployment')
-        ) {
-            hea_lth_ops_store_deployment($deploymentId);
+        if ('plugin' === $kind && 'hea-lth-ops' === $slug) {
+            update_option(
+                'hea_lth_ops_last_deployment',
+                [
+                    'deployment_id' => $deploymentId,
+                    'version' => $installedVersion,
+                    'deployed_at' => gmdate('c'),
+                ],
+                false
+            );
         }
 
         error_log(sprintf('Hea-lth deployment installed %s %s version %s (%s).', $kind, $slug, $installedVersion, $deploymentId));
