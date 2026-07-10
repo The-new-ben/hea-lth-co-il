@@ -11,11 +11,12 @@ import mimetypes
 import os
 import re
 import secrets
+import shutil
+import subprocess
 import sys
+import tempfile
 import time
-import urllib.error
 import urllib.parse
-import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -40,6 +41,25 @@ class WordPressClient:
         token = base64.b64encode(f"{username}:{application_password}".encode()).decode("ascii")
         self.authorization = f"Basic {token}"
         self.timeout = timeout
+        self.curl = shutil.which("curl") or shutil.which("curl.exe")
+        if not self.curl:
+            raise DeploymentError("curl is required for uPress-compatible WordPress REST deployment.")
+
+    @staticmethod
+    def _curl_config(headers: dict[str, str], timeout: int) -> str:
+        lines = [
+            "silent",
+            "show-error",
+            "connect-timeout = 30",
+            f"max-time = {timeout}",
+        ]
+        for name, value in headers.items():
+            header = f"{name}: {value}"
+            if "\r" in header or "\n" in header:
+                raise DeploymentError("WordPress request header contains a newline.")
+            escaped = header.replace("\\", "\\\\").replace('"', '\\"')
+            lines.append(f'header = "{escaped}"')
+        return "\n".join(lines) + "\n"
 
     def request(
         self,
@@ -64,16 +84,64 @@ class WordPressClient:
             body = json.dumps(json_body, separators=(",", ":")).encode("utf-8")
             request_headers["Content-Type"] = "application/json"
 
-        request = urllib.request.Request(url, data=body, headers=request_headers, method=method)
+        temporary_paths: list[Path] = []
         try:
-            with urllib.request.urlopen(request, timeout=self.timeout) as response:
-                status = response.status
-                raw = response.read()
-        except urllib.error.HTTPError as error:
-            status = error.code
-            raw = error.read()
-        except urllib.error.URLError as error:
-            raise DeploymentError(f"WordPress request failed: {method} {path}: {error.reason}") from error
+            config_fd, config_name = tempfile.mkstemp(prefix="hea-lth-curl-", suffix=".conf")
+            os.close(config_fd)
+            config_path = Path(config_name)
+            temporary_paths.append(config_path)
+            config_path.write_text(self._curl_config(request_headers, self.timeout), encoding="utf-8")
+            os.chmod(config_path, 0o600)
+
+            response_fd, response_name = tempfile.mkstemp(prefix="hea-lth-response-", suffix=".bin")
+            os.close(response_fd)
+            response_path = Path(response_name)
+            temporary_paths.append(response_path)
+
+            command = [
+                self.curl,
+                "--config",
+                str(config_path),
+                "--request",
+                method,
+                "--url",
+                url,
+                "--output",
+                str(response_path),
+                "--write-out",
+                "%{http_code}",
+            ]
+            if body is not None:
+                body_fd, body_name = tempfile.mkstemp(prefix="hea-lth-request-", suffix=".bin")
+                os.close(body_fd)
+                body_path = Path(body_name)
+                temporary_paths.append(body_path)
+                body_path.write_bytes(body)
+                os.chmod(body_path, 0o600)
+                command.extend(["--data-binary", f"@{body_path}"])
+
+            try:
+                result = subprocess.run(
+                    command,
+                    capture_output=True,
+                    text=True,
+                    timeout=self.timeout + 15,
+                    check=False,
+                )
+            except subprocess.TimeoutExpired as error:
+                raise DeploymentError(f"WordPress request timed out: {method} {path}") from error
+
+            if result.returncode != 0:
+                safe_error = result.stderr.strip()[:2000] or f"curl exit code {result.returncode}"
+                raise DeploymentError(f"WordPress request failed: {method} {path}: {safe_error}")
+            status_text = result.stdout.strip()
+            if not status_text.isdigit():
+                raise DeploymentError(f"WordPress request returned an invalid HTTP status: {method} {path}")
+            status = int(status_text)
+            raw = response_path.read_bytes()
+        finally:
+            for temporary_path in temporary_paths:
+                temporary_path.unlink(missing_ok=True)
 
         content: Any = None
         if raw:
