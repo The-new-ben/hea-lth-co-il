@@ -5,7 +5,7 @@
  * Description: Governed operational layer for Hea-lth health checks, release metadata, and future portal services.
  * Version: 0.1.0
  * Requires at least: 6.9
- * Requires PHP: 8.1
+ * Requires PHP: 7.4
  * Author: Hea-lth
  * Text Domain: hea-lth-ops
  *

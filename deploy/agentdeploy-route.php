@@ -180,6 +180,26 @@ if (!function_exists('hea_lth_agent_deploy_restore')) {
     }
 }
 
+if (!function_exists('hea_lth_agent_deploy_rollback_payload')) {
+    function hea_lth_agent_deploy_rollback_payload(string $deploymentId, $restored): array
+    {
+        if (is_wp_error($restored)) {
+            return [
+                'status' => 'failed',
+                'deployment_id' => $deploymentId,
+                'error' => $restored->get_error_code(),
+            ];
+        }
+
+        return [
+            'status' => 'rolled_back',
+            'deployment_id' => $deploymentId,
+            'had_target' => !empty($restored['had_target']),
+            'version' => (string) ($restored['version'] ?? ''),
+        ];
+    }
+}
+
 if (!function_exists('hea_lth_agent_deploy_preflight')) {
     function hea_lth_agent_deploy_preflight(WP_REST_Request $request)
     {
@@ -197,6 +217,7 @@ if (!function_exists('hea_lth_agent_deploy_preflight')) {
         return [
             'status' => 'ready',
             'filesystem_method' => get_filesystem_method(),
+            'php_version' => PHP_VERSION,
             'rollback_directory' => 'ready',
             'max_upload_bytes' => min((int) wp_max_upload_size(), (int) HEA_LTH_AGENT_DEPLOY_MAX_BYTES),
             'allowed_slugs' => hea_lth_agent_deploy_allowed_slugs(),
@@ -343,6 +364,7 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
                 [
                     'status' => 500,
                     'rolled_back' => !is_wp_error($restored),
+                    'rollback' => hea_lth_agent_deploy_rollback_payload($deploymentId, $restored),
                     'messages' => $skin->get_upgrade_messages(),
                 ]
             );
@@ -356,7 +378,11 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
                 return new WP_Error(
                     'agentdeploy_activation_failed',
                     $activated->get_error_message(),
-                    ['status' => 500, 'rolled_back' => !is_wp_error($restored)]
+                    [
+                        'status' => 500,
+                        'rolled_back' => !is_wp_error($restored),
+                        'rollback' => hea_lth_agent_deploy_rollback_payload($deploymentId, $restored),
+                    ]
                 );
             }
         }
@@ -377,7 +403,12 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             return new WP_Error(
                 'agentdeploy_version_mismatch',
                 'Installed package version does not match the expected version.',
-                ['status' => 500, 'installed_version' => $installedVersion, 'rolled_back' => !is_wp_error($restored)]
+                [
+                    'status' => 500,
+                    'installed_version' => $installedVersion,
+                    'rolled_back' => !is_wp_error($restored),
+                    'rollback' => hea_lth_agent_deploy_rollback_payload($deploymentId, $restored),
+                ]
             );
         }
 
