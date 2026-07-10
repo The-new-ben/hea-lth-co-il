@@ -1,0 +1,157 @@
+{
+  "program": "Hea-lth.co.il National Premium Medical Portal and Marketplace",
+  "pack": "Wave 0 Foundation Research Evidence Pack",
+  "research_date": "2026-07-10",
+  "generated_date": "2026-07-10",
+  "status": "Wave 0 complete; Waves 1–9 queued",
+  "file_count_excluding_manifest": 18,
+  "files": [
+    {
+      "filename": "00_README.md",
+      "bytes": 10423,
+      "sha256": "e6f1e8f109e88dcde67c035c807efa7ab6ff786d0522ba82efab112266dc5e6c",
+      "line_count": 157,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "01_EXECUTIVE_DECISION_MEMO.md",
+      "bytes": 12991,
+      "sha256": "7d30d6a28d6e47c01904f81f07bc3d2fc75fe7abe42cecbe4a88bad7b0da1a95",
+      "line_count": 180,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "02_SOURCE_LEDGER.csv",
+      "bytes": 19655,
+      "sha256": "03a881f59a0142b074ba6978f8a0e3739bd59010fe44c38ac7583478160eb709",
+      "line_count": 49,
+      "encoding": "UTF-8 with BOM"
+    },
+    {
+      "filename": "03_COMPETITOR_MASTER.csv",
+      "bytes": 37185,
+      "sha256": "82ef27e00666aa97def76954e5d8cd3de0071368aed2d75491b732197736fc32",
+      "line_count": 39,
+      "encoding": "UTF-8 with BOM"
+    },
+    {
+      "filename": "04_ISRAEL_MARKET_AND_GAP_MAP.md",
+      "bytes": 11823,
+      "sha256": "06cbb41d7d67b874cf00020e0ccf49b0f6cd5824e0af0d7476013d7228be4712",
+      "line_count": 193,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "05_GLOBAL_CAPABILITY_MATRIX.csv",
+      "bytes": 16231,
+      "sha256": "aecf0a67fa58704dc8ffca595e2ba2db069d86bb31446ed73df40f4a94dc34db",
+      "line_count": 11,
+      "encoding": "UTF-8 with BOM"
+    },
+    {
+      "filename": "06_KEYWORD_UNIVERSE.csv",
+      "bytes": 164975,
+      "sha256": "84901675994128dc80ac06d283f9c8f5ff254824f95b023c8aa1380e32e15578",
+      "line_count": 208,
+      "encoding": "UTF-8 with BOM"
+    },
+    {
+      "filename": "07_KEYWORD_TO_URL_MAP.csv",
+      "bytes": 170606,
+      "sha256": "bd53dc5eb0f853a6e6ddd88f652ec535f94a2815a461268bc0d30ac6a909f5b0",
+      "line_count": 151,
+      "encoding": "UTF-8 with BOM"
+    },
+    {
+      "filename": "13_CONTENT_GOVERNANCE_AND_MASTER_BRIEF.md",
+      "bytes": 11528,
+      "sha256": "146acb465b6fcfcc274200fb1d35a2872548a9780ae358e5c310559a62714646",
+      "line_count": 313,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "27_REGULATION_PRIVACY_SECURITY_CHECKLIST.md",
+      "bytes": 10970,
+      "sha256": "3d5c8177aceb659e9d54a9720d439602da752ec325f57ba16ad36a29e508945c",
+      "line_count": 332,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "28_RISK_REGISTER.csv",
+      "bytes": 28574,
+      "sha256": "737c5ad242d90f538fce50a7d947f54b823953d943e83e286a7626bfbd2d4a06",
+      "line_count": 48,
+      "encoding": "UTF-8 with BOM"
+    },
+    {
+      "filename": "29_ROADMAP_AND_BUDGET.md",
+      "bytes": 8874,
+      "sha256": "296ab8ffaf4437d934701a3ec5f9d463c1f314904c3ebd64568bee11aef1763e",
+      "line_count": 211,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "30_OPEN_QUESTIONS_AND_DATA_REQUESTS.md",
+      "bytes": 9020,
+      "sha256": "c2b3a73b627ae74d3e69a2eef957a8ac4cf257e30678a0bab4c96e5dd40ce572",
+      "line_count": 114,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "31_CONTINUATION_LEDGER.json",
+      "bytes": 13419,
+      "sha256": "6b24506475486292ca6289502cb98e7daed73ae25d88799aa9f8927312f7a604",
+      "line_count": 355,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "32_NEXT_RUN_PROMPTS.md",
+      "bytes": 28345,
+      "sha256": "833a432b05da9bde3aa2e526d21174d1f6b0e0554e35e035e269ddb34228c773",
+      "line_count": 470,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "33_RESEARCH_PLAN_AND_OPERATING_SYSTEM.md",
+      "bytes": 13708,
+      "sha256": "9473ab555cc841f12780334bbd8809858c72140cc07d50f19a9c6e6147fa82d2",
+      "line_count": 165,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "34_FOUNDATION_WAVE_FINDINGS.md",
+      "bytes": 10609,
+      "sha256": "14c23704197dcc088d68db45aed621fa815e41ce76d43c2acb07064d62f4b05b",
+      "line_count": 177,
+      "encoding": "UTF-8"
+    },
+    {
+      "filename": "35_QA_SELF_AUDIT.md",
+      "bytes": 5327,
+      "sha256": "e551cc379c8d9b0b01436e173813c2e4c1dd456199fdd6ff220d2a83336f5bb6",
+      "line_count": 61,
+      "encoding": "UTF-8"
+    }
+  ],
+  "pending_required_deliverables": [
+    "08_SERP_EVIDENCE.csv",
+    "09_MEDICAL_ENTITY_MODEL.md",
+    "10_GLOSSARY_PRIORITY.csv",
+    "11_CONTENT_AND_INTERNAL_LINK_ARCHITECTURE.md",
+    "12_MONEY_PAGE_PORTFOLIO.csv",
+    "14_GEO_AIO_STRATEGY.md",
+    "15_PRODUCT_REQUIREMENTS.md",
+    "16_SCREEN_AND_TEMPLATE_INVENTORY.csv",
+    "17_WORDPRESS_TECHNICAL_ARCHITECTURE.md",
+    "18_AI_CAPABILITY_AND_SAFETY_MATRIX.csv",
+    "19_3D_AR_VR_ROADMAP.md",
+    "20_PROVIDER_MARKETPLACE_OPERATIONS.md",
+    "21_COMMERCE_AND_SUPPLIER_MARKETPLACE.md",
+    "22_LEAD_ROUTING_AND_CRM_SPEC.md",
+    "23_BUSINESS_MODEL.md",
+    "24_FINANCIAL_MODEL.xlsx",
+    "25_SALES_AND_PARTNER_PLAN.md",
+    "26_ANALYTICS_AND_KPI_TREE.md"
+  ],
+  "integrity_note": "SHA-256 values cover the unpacked files as generated. MANIFEST.json is excluded from its own hash list."
+}
