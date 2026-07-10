@@ -52,7 +52,9 @@ class RouteRenderingTests(unittest.TestCase):
         self.assertIn("wp_mkdir_p($path)", route)
         self.assertIn("hea_lth_agent_deploy_ensure_directory($backupRoot)", route)
         self.assertIn("'php_version' => PHP_VERSION", route)
-        self.assertIn("hea_lth_ops_store_deployment($deploymentId)", route)
+        self.assertIn("update_option(", route)
+        self.assertIn("hea_lth_ops_last_deployment", route)
+        self.assertIn("deactivate_plugins((string) $state['plugin_file'], true)", route)
         self.assertNotIn("$wp_filesystem->mkdir($backupRoot", route)
 
     def test_multipart_contains_package_bytes_and_closing_boundary(self) -> None:
