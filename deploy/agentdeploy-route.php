@@ -36,7 +36,7 @@ if (!function_exists('hea_lth_agent_deploy_permission')) {
             return new WP_Error('agentdeploy_forbidden', 'Plugin update capability is required.', ['status' => 403]);
         }
 
-        $provided = (string) $request->get_header('x-hea-lth-deploy-token');
+        $provided = (string) $request->get_param('_agent_token');
         if ('' === $provided || !hash_equals(HEA_LTH_AGENT_DEPLOY_TOKEN, $provided)) {
             return new WP_Error('agentdeploy_bad_token', 'The one-time deployment token is invalid.', ['status' => 401]);
         }
@@ -424,7 +424,7 @@ if (!function_exists('hea_lth_agent_deploy_finalize')) {
 add_action('rest_api_init', static function (): void {
     $permission = 'hea_lth_agent_deploy_permission';
     register_rest_route('agentdeploy/v1', '/preflight', [
-        'methods' => WP_REST_Server::READABLE,
+        'methods' => WP_REST_Server::CREATABLE,
         'permission_callback' => $permission,
         'callback' => 'hea_lth_agent_deploy_preflight',
     ]);

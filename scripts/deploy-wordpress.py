@@ -76,7 +76,6 @@ class WordPressClient:
             "Authorization": self.authorization,
             "Accept": "application/json",
             "User-Agent": WAF_COMPATIBLE_USER_AGENT,
-            "X-Hea-Lth-Deploy": "1.0",
         }
         if headers:
             request_headers.update(headers)
@@ -381,11 +380,6 @@ def main() -> int:
     run_started = False
     finalized = False
     deployment_failed = False
-    deploy_headers = {
-        "X-Hea-Lth-Deploy-Token": deploy_token,
-        "X-Hea-Lth-Deployment-Id": deployment_id,
-    }
-
     try:
         _, created = client.request(
             "POST",
@@ -405,7 +399,10 @@ def main() -> int:
         print(f"Created temporary deployment bridge snippet id={snippet_id}.")
 
         _, preflight = client.request(
-            "GET", "/wp-json/agentdeploy/v1/preflight", headers=deploy_headers, expected=(200,)
+            "POST",
+            "/wp-json/agentdeploy/v1/preflight",
+            json_body={"_agent_token": deploy_token, "deployment_id": deployment_id},
+            expected=(200,),
         )
         if int(preflight.get("max_upload_bytes", 0)) < package_path.stat().st_size:
             raise DeploymentError("WordPress upload capacity is smaller than the built package.")
@@ -418,6 +415,7 @@ def main() -> int:
             "sha256": digest,
             "deployment_id": deployment_id,
             "activate": "true" if package.get("activate") else "false",
+            "_agent_token": deploy_token,
         }
         body, content_type = multipart(fields, "package", package_path)
         run_started = True
@@ -425,7 +423,7 @@ def main() -> int:
             "POST",
             "/wp-json/agentdeploy/v1/run",
             body=body,
-            headers={**deploy_headers, "Content-Type": content_type},
+            headers={"Content-Type": content_type},
             expected=(200,),
         )
         print(f"WordPress installed {package['slug']} version {result.get('version')}; verifying independently.")
@@ -436,8 +434,7 @@ def main() -> int:
         client.request(
             "POST",
             "/wp-json/agentdeploy/v1/finalize",
-            json_body={"deployment_id": deployment_id},
-            headers=deploy_headers,
+            json_body={"deployment_id": deployment_id, "_agent_token": deploy_token},
             expected=(200,),
         )
         finalized = True
@@ -449,8 +446,7 @@ def main() -> int:
                 _, rollback = client.request(
                     "POST",
                     "/wp-json/agentdeploy/v1/rollback",
-                    json_body={"deployment_id": deployment_id},
-                    headers=deploy_headers,
+                    json_body={"deployment_id": deployment_id, "_agent_token": deploy_token},
                     expected=(200,),
                 )
                 verify_rollback(client, package, rollback)
@@ -474,9 +470,9 @@ def main() -> int:
 
             try:
                 client.request(
-                    "GET",
+                    "POST",
                     "/wp-json/agentdeploy/v1/preflight",
-                    headers=deploy_headers,
+                    json_body={"_agent_token": deploy_token, "deployment_id": deployment_id},
                     expected=(404,),
                 )
                 print("Confirmed the temporary deployment route is absent.")

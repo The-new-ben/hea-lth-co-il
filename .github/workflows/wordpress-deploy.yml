@@ -164,4 +164,4 @@ jobs:
           python3 scripts/deploy-wordpress.py
           --package "$PACKAGE_NAME"
           --bootstrap-code-snippets
-          --deployment-id "gh-${GITHUB_SHA}"
+          --deployment-id "gh-${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"

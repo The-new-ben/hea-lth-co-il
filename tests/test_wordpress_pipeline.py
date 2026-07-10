@@ -44,6 +44,8 @@ class RouteRenderingTests(unittest.TestCase):
         self.assertNotIn("__ALLOWED_SLUGS_B64__", code)
         self.assertNotIn("__MAX_PACKAGE_BYTES__", code)
         self.assertNotIn("<?php", code[:20])
+        self.assertIn("get_param('_agent_token')", code)
+        self.assertNotIn("get_header('x-hea-lth-deploy-token')", code)
 
     def test_multipart_contains_package_bytes_and_closing_boundary(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -79,7 +81,7 @@ class ClientHeaderTests(unittest.TestCase):
 
         request = captured[0]
         self.assertIn("User-Agent: Mozilla/5.0", request["config"])
-        self.assertIn("X-Hea-Lth-Deploy: 1.0", request["config"])
+        self.assertNotIn("X-Hea-Lth-Deploy", request["config"])
         self.assertIn("Authorization: Basic ", request["config"])
         self.assertNotIn("Authorization", " ".join(request["command"]))
         self.assertEqual(request["kwargs"]["timeout"], 195)
