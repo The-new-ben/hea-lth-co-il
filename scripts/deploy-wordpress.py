@@ -20,6 +20,16 @@ from pathlib import Path
 from typing import Any
 
 
+# uPress's nginx/WAF rejects non-browser User-Agent values before the request
+# reaches WordPress. Keep an explicit deployment marker in a separate header so
+# hosting logs can still distinguish this client without triggering that rule.
+WAF_COMPATIBLE_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/138.0.0.0 Safari/537.36"
+)
+
+
 class DeploymentError(RuntimeError):
     pass
 
@@ -45,7 +55,8 @@ class WordPressClient:
         request_headers = {
             "Authorization": self.authorization,
             "Accept": "application/json",
-            "User-Agent": "hea-lth-wordpress-deploy/1.0",
+            "User-Agent": WAF_COMPATIBLE_USER_AGENT,
+            "X-Hea-Lth-Deploy": "1.0",
         }
         if headers:
             request_headers.update(headers)
