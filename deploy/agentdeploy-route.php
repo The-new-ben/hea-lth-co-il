@@ -412,6 +412,14 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             );
         }
 
+        if (
+            'plugin' === $kind
+            && 'hea-lth-ops' === $slug
+            && function_exists('hea_lth_ops_store_deployment')
+        ) {
+            hea_lth_ops_store_deployment($deploymentId);
+        }
+
         error_log(sprintf('Hea-lth deployment installed %s %s version %s (%s).', $kind, $slug, $installedVersion, $deploymentId));
 
         return [
