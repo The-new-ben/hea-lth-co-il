@@ -1,0 +1,71 @@
+{
+  "site_url": "https://hea-lth.co.il",
+  "max_package_bytes": 67108864,
+  "packages": [
+    {
+      "name": "hea-lth-ops",
+      "kind": "plugin",
+      "slug": "hea-lth-ops",
+      "source": "plugin-src/hea-lth-ops",
+      "main_file": "hea-lth-ops.php",
+      "activate": true,
+      "version_file": "plugin-src/hea-lth-ops/hea-lth-ops.php",
+      "version_pattern": "^\\s*\\*\\s*Version:\\s*([0-9]+(?:\\.[0-9]+){2}(?:[-+][A-Za-z0-9.-]+)?)\\s*$",
+      "version_constant_file": "plugin-src/hea-lth-ops/hea-lth-ops.php",
+      "version_constant_pattern": "const\\s+HEA_LTH_OPS_VERSION\\s*=\\s*'([^']+)'",
+      "healthcheck_path": "/wp-json/hea-lth-ops/v1/healthcheck",
+      "include": ["**/*"],
+      "exclude": [
+        "**/.git/**",
+        "**/.github/**",
+        "**/examples/**",
+        "**/build/**",
+        "**/README.md",
+        "**/phpcs.xml",
+        "**/composer.json",
+        "**/.editorconfig",
+        "**/.gitattributes",
+        "**/.gitignore"
+      ],
+      "manifest": {
+        "name": "Hea-lth Operations",
+        "author": "Hea-lth",
+        "homepage": "https://hea-lth.co.il",
+        "requires": "6.9",
+        "tested": "6.9",
+        "requires_php": "8.1"
+      }
+    },
+    {
+      "name": "health-revenue-theme",
+      "kind": "theme",
+      "slug": "health-revenue",
+      "source": ".",
+      "main_file": "style.css",
+      "activate": false,
+      "version_file": "style.css",
+      "version_pattern": "^Version:\\s*([0-9]+(?:\\.[0-9]+){2}(?:[-+][A-Za-z0-9.-]+)?)\\s*$",
+      "healthcheck_path": "",
+      "include": [
+        "assets/**/*",
+        "footer.php",
+        "front-page.php",
+        "functions.php",
+        "header.php",
+        "index.php",
+        "style.css",
+        "theme.json"
+      ],
+      "exclude": [],
+      "manifest": {
+        "name": "Health Revenue",
+        "author": "Hea-lth",
+        "homepage": "https://hea-lth.co.il",
+        "requires": "6.5",
+        "tested": "6.9",
+        "requires_php": "8.1"
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,11 @@
+.seo-cache/
+__pycache__/
+*.py[cod]
+plugin-dist/*.zip
+plugin-dist/*.zip.sha256
+plugin-dist/*.json
+tooling/web-quality/node_modules/
+tooling/php-quality/vendor/
+.lighthouseci/
+lighthouse-report*.html
+lighthouse-report*.json
