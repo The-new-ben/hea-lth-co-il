@@ -35,6 +35,15 @@ class DeploymentError(RuntimeError):
     pass
 
 
+class WordPressResponseError(DeploymentError):
+    def __init__(self, method: str, path: str, status: int, content: Any):
+        self.method = method
+        self.path = path
+        self.status = status
+        self.content = content
+        super().__init__(f"Unexpected WordPress response {status} for {method} {path}: {content}")
+
+
 class WordPressClient:
     def __init__(self, base_url: str, username: str, application_password: str, timeout: int = 180):
         self.base_url = base_url.rstrip("/")
@@ -152,7 +161,7 @@ class WordPressClient:
             safe_content = content
             if isinstance(content, dict):
                 safe_content = {key: value for key, value in content.items() if key not in {"authorization", "password"}}
-            raise DeploymentError(f"Unexpected WordPress response {status} for {method} {path}: {safe_content}")
+            raise WordPressResponseError(method, path, status, safe_content)
         return status, content
 
 
@@ -317,6 +326,33 @@ def verify_rollback(client: WordPressClient, package: dict[str, Any], rollback: 
         client.request("GET", path, expected=(404,))
 
 
+def compare_dotted_versions(left: str, right: str) -> int:
+    def parts(value: str) -> list[int]:
+        match = re.match(r"^\s*(\d+(?:\.\d+)*)", value)
+        if not match:
+            raise DeploymentError(f"Invalid dotted version: {value!r}")
+        return [int(part) for part in match.group(1).split(".")]
+
+    left_parts = parts(left)
+    right_parts = parts(right)
+    length = max(len(left_parts), len(right_parts))
+    left_parts.extend([0] * (length - len(left_parts)))
+    right_parts.extend([0] * (length - len(right_parts)))
+    if left_parts == right_parts:
+        return 0
+    return 1 if left_parts > right_parts else -1
+
+
+def extract_internal_rollback(error: BaseException) -> Any:
+    if not isinstance(error, WordPressResponseError) or not isinstance(error.content, dict):
+        return None
+    data = error.content.get("data")
+    if not isinstance(data, dict) or data.get("rolled_back") is not True:
+        return None
+    rollback = data.get("rollback")
+    return rollback if isinstance(rollback, dict) else None
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="deploy/wordpress-deploy.json")
@@ -406,6 +442,12 @@ def main() -> int:
         )
         if int(preflight.get("max_upload_bytes", 0)) < package_path.stat().st_size:
             raise DeploymentError("WordPress upload capacity is smaller than the built package.")
+        required_php = str(manifest.get("requires_php", "")).strip()
+        server_php = str(preflight.get("php_version", "")).strip()
+        if required_php and server_php and compare_dotted_versions(server_php, required_php) < 0:
+            raise DeploymentError(
+                f"WordPress PHP {server_php} is below the package requirement {required_php}."
+            )
 
         fields = {
             "kind": str(package["kind"]),
@@ -439,9 +481,13 @@ def main() -> int:
         )
         finalized = True
         print("Rollback backup finalized after verification.")
-    except Exception:
+    except Exception as error:
         deployment_failed = True
-        if run_started and not finalized:
+        internal_rollback = extract_internal_rollback(error)
+        if internal_rollback is not None:
+            verify_rollback(client, package, internal_rollback)
+            print("Failed install was already rolled back by WordPress and independently verified.", file=sys.stderr)
+        elif run_started and not finalized:
             try:
                 _, rollback = client.request(
                     "POST",

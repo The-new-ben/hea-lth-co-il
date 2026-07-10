@@ -51,6 +51,7 @@ class RouteRenderingTests(unittest.TestCase):
         route = (REPO / "deploy" / "agentdeploy-route.php").read_text(encoding="utf-8")
         self.assertIn("wp_mkdir_p($path)", route)
         self.assertIn("hea_lth_agent_deploy_ensure_directory($backupRoot)", route)
+        self.assertIn("'php_version' => PHP_VERSION", route)
         self.assertNotIn("$wp_filesystem->mkdir($backupRoot", route)
 
     def test_multipart_contains_package_bytes_and_closing_boundary(self) -> None:
@@ -131,6 +132,29 @@ class VerificationTests(unittest.TestCase):
             client,
             self.PACKAGE,
             {"status": "rolled_back", "had_target": True, "version": "0.0.9"},
+        )
+
+    def test_version_compare_handles_patch_versions(self) -> None:
+        self.assertGreaterEqual(deploy.compare_dotted_versions("7.4.33", "7.4"), 0)
+        self.assertLess(deploy.compare_dotted_versions("7.4.33", "8.1"), 0)
+
+    def test_internal_rollback_can_be_verified_without_second_route_call(self) -> None:
+        error = deploy.WordPressResponseError(
+            "POST",
+            "/wp-json/agentdeploy/v1/run",
+            500,
+            {
+                "code": "agentdeploy_install_failed",
+                "data": {
+                    "status": 500,
+                    "rolled_back": True,
+                    "rollback": {"status": "rolled_back", "had_target": False, "version": ""},
+                },
+            },
+        )
+        self.assertEqual(
+            deploy.extract_internal_rollback(error),
+            {"status": "rolled_back", "had_target": False, "version": ""},
         )
 
 

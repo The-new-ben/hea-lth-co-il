@@ -33,7 +33,7 @@
         "homepage": "https://hea-lth.co.il",
         "requires": "6.9",
         "tested": "6.9",
-        "requires_php": "8.1"
+        "requires_php": "7.4"
       }
     },
     {
