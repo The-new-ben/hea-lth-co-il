@@ -4,22 +4,38 @@ on:
   pull_request:
     paths:
       - '.github/workflows/wordpress-deploy.yml'
+      - 'assets/**'
       - 'deploy/**'
+      - 'footer.php'
+      - 'front-page.php'
+      - 'functions.php'
+      - 'header.php'
+      - 'index.php'
       - 'plugin-src/**'
       - 'scripts/build-wordpress-package.py'
       - 'scripts/deploy-wordpress.py'
+      - 'style.css'
       - 'tests/test_wordpress_pipeline.py'
+      - 'theme.json'
       - 'tooling/php-quality/**'
       - 'tooling/web-quality/**'
   push:
     branches: [main]
     paths:
       - '.github/workflows/wordpress-deploy.yml'
+      - 'assets/**'
       - 'deploy/**'
+      - 'footer.php'
+      - 'front-page.php'
+      - 'functions.php'
+      - 'header.php'
+      - 'index.php'
       - 'plugin-src/**'
       - 'scripts/build-wordpress-package.py'
       - 'scripts/deploy-wordpress.py'
+      - 'style.css'
       - 'tests/test_wordpress_pipeline.py'
+      - 'theme.json'
       - 'tooling/php-quality/**'
       - 'tooling/web-quality/**'
   workflow_dispatch:
@@ -33,6 +49,7 @@ concurrency:
 
 env:
   PACKAGE_NAME: hea-lth-ops
+  THEME_PACKAGE_NAME: health-revenue-theme
   PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
@@ -92,7 +109,7 @@ jobs:
         working-directory: tooling/php-quality
         run: |
           vendor/bin/phpcs -p --standard=phpcs.xml.dist
-          vendor/bin/phpstan analyse -c phpstan.neon.dist --no-progress --memory-limit=512M
+          vendor/bin/phpstan analyse -c phpstan.neon.dist --no-progress --memory-limit=1G
 
       - name: Audit pinned web quality tools
         run: |
@@ -105,15 +122,19 @@ jobs:
           set -euo pipefail
           SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           export SOURCE_DATE_EPOCH
-          first="$(python3 scripts/build-wordpress-package.py --package "$PACKAGE_NAME")"
-          first_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$first")"
-          second="$(python3 scripts/build-wordpress-package.py --package "$PACKAGE_NAME")"
-          second_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$second")"
-          test "$first_sha" = "$second_sha"
-          echo "Deterministic package SHA-256: $first_sha"
+          for package in "$PACKAGE_NAME" "$THEME_PACKAGE_NAME"; do
+            first="$(python3 scripts/build-wordpress-package.py --package "$package")"
+            first_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$first")"
+            second="$(python3 scripts/build-wordpress-package.py --package "$package")"
+            second_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$second")"
+            test "$first_sha" = "$second_sha"
+            echo "$package deterministic package SHA-256: $first_sha"
+          done
 
       - name: Verify deployment inputs without network writes
-        run: python3 scripts/deploy-wordpress.py --package "$PACKAGE_NAME" --dry-run
+        run: |
+          python3 scripts/deploy-wordpress.py --package "$PACKAGE_NAME" --dry-run
+          python3 scripts/deploy-wordpress.py --package "$THEME_PACKAGE_NAME" --dry-run
 
       - name: Upload validated release evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -158,10 +179,18 @@ jobs:
           SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           export SOURCE_DATE_EPOCH
           python3 scripts/build-wordpress-package.py --package "$PACKAGE_NAME"
+          python3 scripts/build-wordpress-package.py --package "$THEME_PACKAGE_NAME"
 
-      - name: Deploy with automatic rollback and route removal
+      - name: Deploy operations plugin with automatic rollback and route removal
         run: >-
           python3 scripts/deploy-wordpress.py
           --package "$PACKAGE_NAME"
           --bootstrap-code-snippets
           --deployment-id "gh-${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+
+      - name: Install inactive rebuilt theme with automatic rollback and route removal
+        run: >-
+          python3 scripts/deploy-wordpress.py
+          --package "$THEME_PACKAGE_NAME"
+          --bootstrap-code-snippets
+          --deployment-id "gh-${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-theme"

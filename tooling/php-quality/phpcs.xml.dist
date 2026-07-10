@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <ruleset name="Hea-lth WordPress Quality">
     <description>WordPress coding and PHP compatibility checks for first-party Hea-lth plugin code.</description>
+    <file>../../functions.php</file>
+    <file>../../header.php</file>
+    <file>../../footer.php</file>
+    <file>../../front-page.php</file>
+    <file>../../index.php</file>
     <file>../../plugin-src/hea-lth-ops/hea-lth-ops.php</file>
     <file>../../plugin-src/hea-lth-ops/index.php</file>
     <exclude-pattern>*/lib/*</exclude-pattern>

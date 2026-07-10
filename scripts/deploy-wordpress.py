@@ -288,6 +288,14 @@ def ensure_code_snippets(client: WordPressClient, bootstrap: bool) -> None:
 def verify_health(client: WordPressClient, package: dict[str, Any], version: str, deployment_id: str) -> dict[str, Any]:
     path = str(package.get("healthcheck_path", ""))
     if not path:
+        if package.get("kind") == "theme":
+            return {
+                "status": "ok",
+                "component": package["slug"],
+                "version": version,
+                "deployment_id": deployment_id,
+                "verification": "installer_version_check_for_inactive_theme",
+            }
         raise DeploymentError("Automatic deployment requires a component healthcheck path.")
     separator = "&" if "?" in path else "?"
     _, content = client.request("GET", f"{path}{separator}deployment={urllib.parse.quote(deployment_id)}", expected=(200,))
@@ -471,7 +479,7 @@ def main() -> int:
         print(f"WordPress installed {package['slug']} version {result.get('version')}; verifying independently.")
 
         health = verify_health(client, package, version, deployment_id)
-        print(f"Independent healthcheck passed for version {health.get('version')}.")
+        print(f"Release verification passed for version {health.get('version')} via {health.get('verification', 'public_healthcheck')}.")
 
         client.request(
             "POST",

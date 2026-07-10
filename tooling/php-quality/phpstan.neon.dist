@@ -4,6 +4,11 @@ includes:
 parameters:
     level: 5
     paths:
+        - ../../functions.php
+        - ../../header.php
+        - ../../footer.php
+        - ../../front-page.php
+        - ../../index.php
         - ../../plugin-src/hea-lth-ops/hea-lth-ops.php
         - ../../plugin-src/hea-lth-ops/index.php
     excludePaths:

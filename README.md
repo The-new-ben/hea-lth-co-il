@@ -4,6 +4,8 @@ WordPress delivery, governed SEO research, premium-health marketplace architectu
 
 ## Current control planes
 
+- [From-scratch rebuild contract](docs/HEA_LTH_FROM_SCRATCH_REBUILD_CONTRACT_2026-07-10.md)
+- [Theme architecture decisions](docs/THEME_ARCHITECTURE_DECISIONS_2026-07-10.md)
 - [WordPress agent deployment pipeline](docs/WORDPRESS_AGENT_DEPLOY_PIPELINE_2026-07-10.md)
 - [Enterprise tooling registry and Slack operating model](docs/ENTERPRISE_TOOLING_REGISTRY_2026-07-10.md)
 - [Wave 0 research baseline](research/hea-lth_research_pack_wave0_2026-07-10/00_README.md)
@@ -14,7 +16,9 @@ WordPress delivery, governed SEO research, premium-health marketplace architectu
 
 ```bash
 python scripts/build-wordpress-package.py --package hea-lth-ops
+python scripts/build-wordpress-package.py --package health-revenue-theme
 python scripts/deploy-wordpress.py --package hea-lth-ops --dry-run
+python scripts/deploy-wordpress.py --package health-revenue-theme --dry-run
 python -m unittest -v tests/test_wordpress_pipeline.py
 ```
 

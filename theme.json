@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "760px",
+      "wideSize": "1180px"
+    },
+    "color": {
+      "palette": [
+        { "slug": "ink", "color": "#102e35", "name": "Ink" },
+        { "slug": "teal", "color": "#0f8f8c", "name": "Clinical Teal" },
+        { "slug": "deep-teal", "color": "#073f45", "name": "Deep Teal" },
+        { "slug": "mint", "color": "#e9fbf7", "name": "Mint" },
+        { "slug": "cream", "color": "#fbf6ef", "name": "Warm Cream" },
+        { "slug": "gold", "color": "#c59b45", "name": "Premium Gold" },
+        { "slug": "white", "color": "#ffffff", "name": "White" }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "Heebo, Assistant, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          "name": "Hebrew UI",
+          "slug": "hebrew-ui"
+        }
+      ]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#fbf6ef",
+      "text": "#102e35"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--hebrew-ui)",
+      "lineHeight": "1.7"
+    }
+  }
+}

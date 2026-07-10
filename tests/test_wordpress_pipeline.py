@@ -124,6 +124,13 @@ class VerificationTests(unittest.TestCase):
             response,
         )
 
+    def test_inactive_theme_package_uses_installer_version_verification(self) -> None:
+        package = {"kind": "theme", "slug": "health-revenue", "healthcheck_path": ""}
+        verification = deploy.verify_health(FakeClient([]), package, "0.1.0", "deploy-theme")
+        self.assertEqual(verification["status"], "ok")
+        self.assertEqual(verification["component"], "health-revenue")
+        self.assertEqual(verification["verification"], "installer_version_check_for_inactive_theme")
+
     def test_rollback_of_first_install_requires_health_route_absence(self) -> None:
         client = FakeClient([(404, {"code": "rest_no_route"})])
         deploy.verify_rollback(client, self.PACKAGE, {"status": "rolled_back", "had_target": False, "version": ""})
@@ -174,6 +181,19 @@ class BootstrapTests(unittest.TestCase):
         deploy.ensure_code_snippets(client, bootstrap=True)
         self.assertEqual(client.calls[2][0], "POST")
         self.assertIn("/wp-json/wp/v2/plugins/code-snippets/code-snippets", client.calls[2][1])
+
+
+class ThemePackageTests(unittest.TestCase):
+    def test_theme_files_are_source_controlled(self) -> None:
+        for relative in ["style.css", "functions.php", "header.php", "footer.php", "front-page.php", "theme.json"]:
+            self.assertTrue((REPO / relative).is_file(), relative)
+
+    def test_theme_package_uses_live_php_floor(self) -> None:
+        config = deploy.json.loads((REPO / "deploy" / "wordpress-deploy.json").read_text(encoding="utf-8"))
+        package = next(item for item in config["packages"] if item["name"] == "health-revenue-theme")
+        self.assertEqual(package["manifest"]["requires_php"], "7.4")
+        self.assertEqual(package["kind"], "theme")
+        self.assertFalse(package["activate"])
 
 
 if __name__ == "__main__":
