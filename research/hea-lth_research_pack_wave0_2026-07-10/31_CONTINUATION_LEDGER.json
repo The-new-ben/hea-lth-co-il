@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.0",
+  "program": "Hea-lth.co.il National Premium Medical Portal and Marketplace",
+  "research_date": "2026-07-10",
+  "last_updated": "2026-07-10",
+  "status": "Foundation Wave 0 complete; full 36-workstream commission remains in progress",
+  "completed_waves": [
+    {
+      "wave_id": 0,
+      "name": "Control plane, preservation baseline, and data room",
+      "status": "complete for foundation scope",
+      "completion_definition": "Research operating system, evidence controls, public-site baseline, seed datasets, governance checklist, preliminary risk register, roadmap, data requests and continuation prompts."
+    }
+  ],
+  "completed_workstreams": [],
+  "partial_workstreams": [
+    {
+      "workstream_id": 2,
+      "status": "partial",
+      "summary": "Competitor universe seeded; only limited discovery baselines accessed. Official product/pricing/policy/page-level audits pending."
+    },
+    {
+      "workstream_id": 4,
+      "status": "partial",
+      "summary": "Hebrew seed keyword universe created with required priority terms. Demand metrics, trends, rankings and full expansion pending."
+    },
+    {
+      "workstream_id": 7,
+      "status": "partial",
+      "summary": "Preservation-first URL map seeded from public/link-discovered pages. Full crawl, GSC, backlinks, SERP overlap and redirect analysis pending."
+    },
+    {
+      "workstream_id": 10,
+      "status": "partial",
+      "summary": "Medical risk tiers, claim ledger, workflow and master brief created. Specialty-specific reviewer standards and operating capacity pending."
+    },
+    {
+      "workstream_id": 24,
+      "status": "partial",
+      "summary": "Regulation/privacy/security checklist and international standards baseline created. Current Israeli primary-law analysis and qualified adviser sign-off pending."
+    },
+    {
+      "workstream_id": 34,
+      "status": "partial",
+      "summary": "Research and capital-allocation roadmap created. Product/financial budget and board allocation decisions pending."
+    },
+    {
+      "workstream_id": 35,
+      "status": "partial",
+      "summary": "Preliminary 47-risk register created. Quantification, control testing and owner assignment confirmation pending."
+    },
+    {
+      "workstream_id": 36,
+      "status": "partial",
+      "summary": "Initial owner-level questions and data requests are in the memo/data-room file. Full researched answers pending later waves."
+    }
+  ],
+  "pending_workstreams": [
+    {
+      "workstream_id": 1,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 3,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 5,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 6,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 8,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 9,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 11,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 12,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 13,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 14,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 15,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 16,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 17,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 18,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 19,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 20,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 21,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 22,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 23,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 25,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 26,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 27,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 28,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 29,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 30,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 31,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 32,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    },
+    {
+      "workstream_id": 33,
+      "status": "pending",
+      "reason": "Not claimed complete in Wave 0; execute under the mapped continuation wave."
+    }
+  ],
+  "source_of_truth_files": [
+    "00_README.md",
+    "01_EXECUTIVE_DECISION_MEMO.md",
+    "02_SOURCE_LEDGER.csv",
+    "31_CONTINUATION_LEDGER.json",
+    "33_RESEARCH_PLAN_AND_OPERATING_SYSTEM.md",
+    "35_QA_SELF_AUDIT.md"
+  ],
+  "files_created": [
+    "00_README.md",
+    "01_EXECUTIVE_DECISION_MEMO.md",
+    "02_SOURCE_LEDGER.csv",
+    "03_COMPETITOR_MASTER.csv",
+    "04_ISRAEL_MARKET_AND_GAP_MAP.md",
+    "05_GLOBAL_CAPABILITY_MATRIX.csv",
+    "06_KEYWORD_UNIVERSE.csv",
+    "07_KEYWORD_TO_URL_MAP.csv",
+    "13_CONTENT_GOVERNANCE_AND_MASTER_BRIEF.md",
+    "27_REGULATION_PRIVACY_SECURITY_CHECKLIST.md",
+    "28_RISK_REGISTER.csv",
+    "29_ROADMAP_AND_BUDGET.md",
+    "30_OPEN_QUESTIONS_AND_DATA_REQUESTS.md",
+    "33_RESEARCH_PLAN_AND_OPERATING_SYSTEM.md",
+    "34_FOUNDATION_WAVE_FINDINGS.md",
+    "35_QA_SELF_AUDIT.md",
+    "31_CONTINUATION_LEDGER.json",
+    "32_NEXT_RUN_PROMPTS.md",
+    "MANIFEST.json"
+  ],
+  "files_pending": [
+    "08_SERP_EVIDENCE.csv",
+    "09_MEDICAL_ENTITY_MODEL.md",
+    "10_GLOSSARY_PRIORITY.csv",
+    "11_CONTENT_AND_INTERNAL_LINK_ARCHITECTURE.md",
+    "12_MONEY_PAGE_PORTFOLIO.csv",
+    "14_GEO_AIO_STRATEGY.md",
+    "15_PRODUCT_REQUIREMENTS.md",
+    "16_SCREEN_AND_TEMPLATE_INVENTORY.csv",
+    "17_WORDPRESS_TECHNICAL_ARCHITECTURE.md",
+    "18_AI_CAPABILITY_AND_SAFETY_MATRIX.csv",
+    "19_3D_AR_VR_ROADMAP.md",
+    "20_PROVIDER_MARKETPLACE_OPERATIONS.md",
+    "21_COMMERCE_AND_SUPPLIER_MARKETPLACE.md",
+    "22_LEAD_ROUTING_AND_CRM_SPEC.md",
+    "23_BUSINESS_MODEL.md",
+    "24_FINANCIAL_MODEL.xlsx",
+    "25_SALES_AND_PARTNER_PLAN.md",
+    "26_ANALYTICS_AND_KPI_TREE.md"
+  ],
+  "unresolved_questions": [
+    "What traffic, links, conversions and historical signals are attached to every current hea-lth.co.il URL?",
+    "What is the venture's exact legal and commercial operating role for leads, booking, concierge, marketplace sales and data processing?",
+    "Which provider, clinic, supplier and product records are already contracted, verified and operationally available?",
+    "Which 2–3 premium verticals have sufficient demand, supply, response capacity, reviewer capacity and unit economics for the first pilot?",
+    "What price observations can be reproduced with a documented source set, date, geography, inclusions and sample size?",
+    "Which Israeli Ministry of Health, privacy, advertising, pharmacy, device, accessibility, consumer and finance rules apply to each proposed feature?",
+    "What is the current WordPress/UPress/GitHub/plugin/theme/data architecture, security posture and migration constraint set?",
+    "What medical reviewers are available by specialty, at what capacity, cost, turnaround and re-review cadence?",
+    "What are the historic funnel definitions and rates from inquiry through contact, acceptance, booking, show, sale, cancellation, refund and revenue?",
+    "What revenue engine should be funded first: provider subscription, qualified lead/booking, concierge, B2C, B2B quote/RFP or another validated model?"
+  ],
+  "required_inputs": [
+    {
+      "priority": "P0",
+      "input": "Google Search Console property export and access",
+      "purpose": "URL preservation, query/page performance, indexing and migration risk"
+    },
+    {
+      "priority": "P0",
+      "input": "GA4 export and event/configuration audit",
+      "purpose": "Journeys, conversion definitions and privacy-safe measurement"
+    },
+    {
+      "priority": "P0",
+      "input": "Full technical crawl, XML sitemaps, redirects, canonicals, noindex and structured-data inventory",
+      "purpose": "Legacy URL and technical baseline"
+    },
+    {
+      "priority": "P0",
+      "input": "Backlink/historical URL export",
+      "purpose": "Link equity and migration risk"
+    },
+    {
+      "priority": "P0",
+      "input": "CMS/hosting/UPress/GitHub/plugin/theme/custom-code inventory",
+      "purpose": "Security, portability and technical architecture"
+    },
+    {
+      "priority": "P0",
+      "input": "CRM/lead/booking outcome export with pseudonymized/minimized data",
+      "purpose": "Routing, quality, SLA and unit economics"
+    },
+    {
+      "priority": "P0",
+      "input": "Provider/clinic and supplier/product inventory with contracts and verification evidence",
+      "purpose": "Marketplace supply and legal/commercial role"
+    },
+    {
+      "priority": "P0",
+      "input": "Current contracts, privacy notices, consent text, provider/supplier terms and legal opinions",
+      "purpose": "Operating-role and regulatory review"
+    },
+    {
+      "priority": "P1",
+      "input": "Historic financials and cost structure",
+      "purpose": "36-month low/base/high model"
+    },
+    {
+      "priority": "P1",
+      "input": "Medical reviewer roster/capacity/rates/conflicts",
+      "purpose": "Safe publication capacity"
+    },
+    {
+      "priority": "P1",
+      "input": "Semrush/Ahrefs authenticated exports",
+      "purpose": "Search volume, CPC, KD, current ranks and competitor gaps"
+    },
+    {
+      "priority": "P1",
+      "input": "Paid search, call tracking and campaign data",
+      "purpose": "High-intent demand validation and CAC"
+    },
+    {
+      "priority": "P2",
+      "input": "Owner decisions on first pilot verticals, acceptable regulated scope and capital envelope",
+      "purpose": "Portfolio and roadmap finalization"
+    }
+  ],
+  "next_recommended_run": {
+    "wave_id": 1,
+    "name": "Israeli market, regulation, payer, and supply map",
+    "workstreams": [
+      1,
+      3,
+      18,
+      24,
+      36
+    ],
+    "prompt_file": "32_NEXT_RUN_PROMPTS.md",
+    "prompt_section": "Wave 1",
+    "required_reads": [
+      "00_README.md",
+      "01_EXECUTIVE_DECISION_MEMO.md",
+      "02_SOURCE_LEDGER.csv",
+      "04_ISRAEL_MARKET_AND_GAP_MAP.md",
+      "27_REGULATION_PRIVACY_SECURITY_CHECKLIST.md",
+      "28_RISK_REGISTER.csv",
+      "30_OPEN_QUESTIONS_AND_DATA_REQUESTS.md",
+      "31_CONTINUATION_LEDGER.json",
+      "33_RESEARCH_PLAN_AND_OPERATING_SYSTEM.md"
+    ],
+    "completion_gate": "Evidence-backed Israeli vertical/payer/supply/regulatory map with exact primary sources, uncertainty labels, legal-review questions, updated risk register and ranked recommendations; no unsupported market-size estimate."
+  },
+  "next_synthesis_after_wave": 2,
+  "quality_rule": "Do not mark any workstream complete until its required evidence, primary-source checks, limitations, deliverable updates and QA results are present."
+}

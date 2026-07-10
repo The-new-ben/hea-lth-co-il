@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="Hea-lth WordPress Quality">
+    <description>WordPress coding and PHP compatibility checks for first-party Hea-lth plugin code.</description>
+    <file>../../plugin-src/hea-lth-ops/hea-lth-ops.php</file>
+    <file>../../plugin-src/hea-lth-ops/index.php</file>
+    <exclude-pattern>*/lib/*</exclude-pattern>
+    <arg name="basepath" value="../../"/>
+    <arg name="colors"/>
+    <arg value="ps"/>
+    <rule ref="WordPress"/>
+    <rule ref="PHPCompatibilityWP"/>
+    <config name="testVersion" value="8.1-"/>
+    <config name="minimum_supported_wp_version" value="6.9"/>
+</ruleset>

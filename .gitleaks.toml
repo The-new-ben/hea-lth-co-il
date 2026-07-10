@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated dependency trees are lock-file governed and scanned by npm/composer audit."
+paths = [
+  '''(^|/)tooling/php-quality/vendor/''',
+  '''(^|/)tooling/web-quality/node_modules/'''
+]

@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Asia/Jerusalem
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - ci
+
+  - package-ecosystem: composer
+    directory: /tooling/php-quality
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:15"
+      timezone: Asia/Jerusalem
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - php
+
+  - package-ecosystem: npm
+    directory: /tooling/web-quality
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:30"
+      timezone: Asia/Jerusalem
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - accessibility

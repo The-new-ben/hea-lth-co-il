@@ -1,0 +1,15 @@
+{
+  "name": "hea-lth-web-quality",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinned automated accessibility tooling for hea-lth.co.il.",
+  "scripts": {
+    "axe": "axe"
+  },
+  "devDependencies": {
+    "@axe-core/cli": "4.12.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
