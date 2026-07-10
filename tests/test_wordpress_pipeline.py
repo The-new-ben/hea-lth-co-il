@@ -47,6 +47,12 @@ class RouteRenderingTests(unittest.TestCase):
         self.assertIn("get_param('_agent_token')", code)
         self.assertNotIn("get_header('x-hea-lth-deploy-token')", code)
 
+    def test_route_creates_nested_rollback_directory_recursively(self) -> None:
+        route = (REPO / "deploy" / "agentdeploy-route.php").read_text(encoding="utf-8")
+        self.assertIn("wp_mkdir_p($path)", route)
+        self.assertIn("hea_lth_agent_deploy_ensure_directory($backupRoot)", route)
+        self.assertNotIn("$wp_filesystem->mkdir($backupRoot", route)
+
     def test_multipart_contains_package_bytes_and_closing_boundary(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             package = Path(directory) / "release.zip"

@@ -84,6 +84,39 @@ if (!function_exists('hea_lth_agent_deploy_validate_id')) {
     }
 }
 
+if (!function_exists('hea_lth_agent_deploy_ensure_directory')) {
+    /**
+     * Create a deployment directory recursively and prove WordPress can use it.
+     *
+     * WP_Filesystem_Direct::mkdir() creates only the final path segment. The
+     * rollback root is intentionally nested, so a first deployment on a clean
+     * host must use WordPress's recursive directory helper.
+     *
+     * @return true|WP_Error
+     */
+    function hea_lth_agent_deploy_ensure_directory(string $path)
+    {
+        global $wp_filesystem;
+
+        if (!isset($wp_filesystem) || !wp_mkdir_p($path) || !$wp_filesystem->is_dir($path)) {
+            return new WP_Error(
+                'agentdeploy_backup_dir_failed',
+                'Could not create the recursive rollback directory.',
+                ['status' => 500]
+            );
+        }
+        if (!$wp_filesystem->is_writable($path)) {
+            return new WP_Error(
+                'agentdeploy_backup_dir_not_writable',
+                'The rollback directory is not writable.',
+                ['status' => 500]
+            );
+        }
+
+        return true;
+    }
+}
+
 if (!function_exists('hea_lth_agent_deploy_restore')) {
     function hea_lth_agent_deploy_restore(array $state)
     {
@@ -155,9 +188,16 @@ if (!function_exists('hea_lth_agent_deploy_preflight')) {
             return $filesystem;
         }
 
+        $backupBase = trailingslashit(WP_CONTENT_DIR) . 'upgrade-temp-backup/hea-lth-agent';
+        $backupReady = hea_lth_agent_deploy_ensure_directory($backupBase);
+        if (is_wp_error($backupReady)) {
+            return $backupReady;
+        }
+
         return [
             'status' => 'ready',
             'filesystem_method' => get_filesystem_method(),
+            'rollback_directory' => 'ready',
             'max_upload_bytes' => min((int) wp_max_upload_size(), (int) HEA_LTH_AGENT_DEPLOY_MAX_BYTES),
             'allowed_slugs' => hea_lth_agent_deploy_allowed_slugs(),
         ];
@@ -264,8 +304,9 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
         if ($wp_filesystem->exists($backupRoot)) {
             $wp_filesystem->delete($backupRoot, true);
         }
-        if (!$wp_filesystem->mkdir($backupRoot, FS_CHMOD_DIR)) {
-            return new WP_Error('agentdeploy_backup_dir_failed', 'Could not create the rollback directory.', ['status' => 500]);
+        $backupReady = hea_lth_agent_deploy_ensure_directory($backupRoot);
+        if (is_wp_error($backupReady)) {
+            return $backupReady;
         }
         if ($hadTarget) {
             $copied = copy_dir($target, $backup);
