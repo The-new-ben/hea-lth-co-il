@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -14,6 +15,19 @@ SPEC = importlib.util.spec_from_file_location(
 assert SPEC and SPEC.loader
 deploy = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(deploy)
+
+
+class FakeHttpResponse:
+    status = 200
+
+    def __enter__(self) -> "FakeHttpResponse":
+        return self
+
+    def __exit__(self, *args: Any) -> None:
+        return None
+
+    def read(self) -> bytes:
+        return b"{}"
 
 
 class FakeClient:
@@ -53,6 +67,24 @@ class RouteRenderingTests(unittest.TestCase):
         self.assertIn(b"hea-lth-ops", body)
         self.assertIn(b"PK\x03\x04test", body)
         self.assertTrue(body.endswith(f"--{boundary}--\r\n".encode()))
+
+
+class ClientHeaderTests(unittest.TestCase):
+    def test_client_uses_upress_waf_compatible_identity(self) -> None:
+        captured: list[Any] = []
+
+        def open_request(request: Any, timeout: int) -> FakeHttpResponse:
+            captured.append((request, timeout))
+            return FakeHttpResponse()
+
+        client = deploy.WordPressClient("https://example.test", "admin", "app-password")
+        with patch.object(deploy.urllib.request, "urlopen", side_effect=open_request):
+            client.request("GET", "/wp-json/wp/v2/users/me")
+
+        request, timeout = captured[0]
+        self.assertTrue(request.get_header("User-agent").startswith("Mozilla/5.0"))
+        self.assertEqual(request.get_header("X-hea-lth-deploy"), "1.0")
+        self.assertEqual(timeout, 180)
 
 
 class VerificationTests(unittest.TestCase):
