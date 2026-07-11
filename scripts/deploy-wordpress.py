@@ -298,6 +298,30 @@ def ensure_code_snippets(client: WordPressClient, bootstrap: bool) -> None:
 def verify_health(client: WordPressClient, package: dict[str, Any], version: str, deployment_id: str) -> dict[str, Any]:
     path = str(package.get("healthcheck_path", ""))
     if not path:
+        if package.get("kind") == "theme":
+            stylesheet = urllib.parse.quote(str(package["slug"]), safe="")
+            _, content = client.request(
+                "GET",
+                f"/wp-json/wp/v2/themes/{stylesheet}?context=edit",
+                expected=(200,),
+            )
+            if not isinstance(content, dict):
+                raise DeploymentError(f"Theme verification did not return a theme record: {content}")
+            if not secrets.compare_digest(str(content.get("stylesheet", "")), str(package["slug"])):
+                raise DeploymentError(
+                    f"Theme stylesheet mismatch: expected {package['slug']}, received {content.get('stylesheet')}"
+                )
+            if not secrets.compare_digest(str(content.get("version", "")), version):
+                raise DeploymentError(
+                    f"Theme version mismatch: expected {version}, received {content.get('version')}"
+                )
+            return {
+                "status": "ok",
+                "component": package["slug"],
+                "version": version,
+                "deployment_id": deployment_id,
+                "verification": "authenticated_theme_rest",
+            }
         raise DeploymentError("Automatic deployment requires a component healthcheck path.")
     separator = "&" if "?" in path else "?"
     _, content = client.request("GET", f"{path}{separator}deployment={urllib.parse.quote(deployment_id)}", expected=(200,))
@@ -322,6 +346,29 @@ def verify_rollback(client: WordPressClient, package: dict[str, Any], rollback: 
 
     path = str(package.get("healthcheck_path", ""))
     if not path:
+        if package.get("kind") == "theme":
+            stylesheet = urllib.parse.quote(str(package["slug"]), safe="")
+            if rollback.get("had_target"):
+                _, theme = client.request(
+                    "GET",
+                    f"/wp-json/wp/v2/themes/{stylesheet}?context=edit",
+                    expected=(200,),
+                )
+                expected_version = str(rollback.get("version", ""))
+                if not isinstance(theme, dict) or not secrets.compare_digest(
+                    str(theme.get("stylesheet", "")), str(package["slug"])
+                ):
+                    raise DeploymentError(f"Restored theme verification failed: {theme}")
+                if expected_version and not secrets.compare_digest(str(theme.get("version", "")), expected_version):
+                    raise DeploymentError(
+                        f"Restored theme version mismatch: expected {expected_version}, received {theme.get('version')}"
+                    )
+            else:
+                client.request(
+                    "GET",
+                    f"/wp-json/wp/v2/themes/{stylesheet}?context=edit",
+                    expected=(404,),
+                )
         return
     if rollback.get("had_target"):
         _, health = client.request("GET", path, expected=(200,))

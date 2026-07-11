@@ -127,12 +127,14 @@ class VerificationTests(unittest.TestCase):
             response,
         )
 
-    def test_inactive_theme_package_uses_installer_version_verification(self) -> None:
+    def test_inactive_theme_package_uses_authenticated_theme_rest_verification(self) -> None:
         package = {"kind": "theme", "slug": "hea-lth-portal", "healthcheck_path": ""}
-        verification = deploy.verify_health(FakeClient([]), package, "0.1.0", "deploy-theme")
+        client = FakeClient([(200, {"stylesheet": "hea-lth-portal", "version": "0.1.0", "status": "inactive"})])
+        verification = deploy.verify_health(client, package, "0.1.0", "deploy-theme")
         self.assertEqual(verification["status"], "ok")
         self.assertEqual(verification["component"], "hea-lth-portal")
-        self.assertEqual(verification["verification"], "installer_version_check_for_inactive_theme")
+        self.assertEqual(verification["verification"], "authenticated_theme_rest")
+        self.assertIn("/wp-json/wp/v2/themes/hea-lth-portal?context=edit", client.calls[0][1])
 
     def test_rollback_of_first_install_requires_health_route_absence(self) -> None:
         client = FakeClient([(404, {"code": "rest_no_route"})])
