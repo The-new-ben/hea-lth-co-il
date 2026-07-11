@@ -136,6 +136,38 @@ class VerificationTests(unittest.TestCase):
         self.assertEqual(verification["verification"], "authenticated_theme_rest")
         self.assertIn("/wp-json/wp/v2/themes/hea-lth-portal?context=edit", client.calls[0][1])
 
+    def test_authenticated_cache_purge_uses_configured_endpoint(self) -> None:
+        client = FakeClient([(204, None)])
+        deploy.purge_public_cache(client, {"cache_purge_path": "/wp-json/ezcache/v1/cache"})
+        self.assertEqual(client.calls[0][0], "DELETE")
+        self.assertEqual(client.calls[0][1], "/wp-json/ezcache/v1/cache")
+        self.assertEqual(client.calls[0][2]["expected"], (200, 204))
+
+    def test_public_theme_surface_requires_configured_assets(self) -> None:
+        package = {
+            "public_verification_markers": [
+                "/wp-content/themes/hea-lth-portal/",
+                "/wp-content/themes/hea-lth-portal-child/style.css",
+            ]
+        }
+        client = FakeClient(
+            [
+                (
+                    200,
+                    '<link href="/wp-content/themes/hea-lth-portal/assets/css/portal.css"><link href="/wp-content/themes/hea-lth-portal-child/style.css">',
+                )
+            ]
+        )
+        deploy.verify_public_theme_surface(client, package)
+        self.assertEqual(client.calls[0][0], "GET")
+        self.assertEqual(client.calls[0][1], "/")
+
+    def test_public_theme_surface_rejects_stale_html(self) -> None:
+        package = {"public_verification_markers": ["/wp-content/themes/hea-lth-portal/"]}
+        client = FakeClient([(200, '<link href="/wp-content/themes/hello-elementor/style.css">')])
+        with self.assertRaises(deploy.DeploymentError):
+            deploy.verify_public_theme_surface(client, package)
+
     def test_rollback_of_first_install_requires_health_route_absence(self) -> None:
         client = FakeClient([(404, {"code": "rest_no_route"})])
         deploy.verify_rollback(client, self.PACKAGE, {"status": "rolled_back", "had_target": False, "version": ""})

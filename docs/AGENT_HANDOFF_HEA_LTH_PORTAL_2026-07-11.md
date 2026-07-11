@@ -78,6 +78,11 @@ The target is to become a trusted, premium, information-rich portal rather than 
 5. **Medical content cannot be mass-produced yet.**
    - Full articles need real Israeli SERP research, competitor research, expert-review ownership, dated primary sources, keyword-to-URL allocation, and anti-cannibalization rules.
 
+6. **External public cache can mask a successful theme activation.**
+   - After the successful child activation, the authenticated child health route and a cache-busted homepage both showed the new portal, while the bare homepage still returned stale Hello Elementor HTML from `ezCache` and the `SeoEdge` cache layer.
+   - Containment: a pipeline correction is being added to call authenticated `DELETE /wp-json/ezcache/v1/cache` after each verified package deployment and to require fresh public child-theme asset markers before finalization.
+   - Required proof: the bare `https://hea-lth.co.il/` response must load `hea-lth-portal` and `hea-lth-portal-child` assets after the next run, without a cache-busting query parameter.
+
 ## 5. URLs, GitHub, WordPress, and environments
 
 ### Production endpoints
@@ -177,6 +182,7 @@ The project now uses a checksum-verified GitHub-to-WordPress pipeline, not FTP o
 - The child theme is the only activation-authorized theme slug in the generated route. This is deliberate because the owner expressly authorized live activation of the new portal theme.
 - A theme package with an empty health route is verified by authenticated WordPress Themes REST, not merely by installer output.
 - The active child theme has a public health route that confirms component slug, version, and persisted release deployment ID.
+- `cache_purge_path` is configured as `/wp-json/ezcache/v1/cache`. The deploy client calls it with authenticated `DELETE` and then checks public theme asset markers before it finalizes the child release.
 - The temp Code Snippets bridge is deleted in `finally` and the route is rechecked for 404.
 
 ### Important pipeline status at handoff

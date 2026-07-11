@@ -340,6 +340,31 @@ def verify_health(client: WordPressClient, package: dict[str, Any], version: str
     return content
 
 
+def purge_public_cache(client: WordPressClient, config: dict[str, Any]) -> None:
+    path = str(config.get("cache_purge_path", "")).strip()
+    if not path:
+        return
+    client.request("DELETE", path, expected=(200, 204))
+    print("Requested authenticated public-cache purge.")
+
+
+def verify_public_theme_surface(client: WordPressClient, package: dict[str, Any]) -> None:
+    markers = [str(value) for value in package.get("public_verification_markers", []) if str(value)]
+    if not markers:
+        return
+    _, content = client.request(
+        "GET",
+        "/",
+        headers={"Cache-Control": "no-cache", "Pragma": "no-cache"},
+        expected=(200,),
+    )
+    if not isinstance(content, str):
+        raise DeploymentError("Public theme verification did not return HTML.")
+    missing = [marker for marker in markers if marker not in content]
+    if missing:
+        raise DeploymentError(f"Public theme verification is missing expected assets: {missing}")
+
+
 def verify_rollback(client: WordPressClient, package: dict[str, Any], rollback: Any) -> None:
     if not isinstance(rollback, dict) or rollback.get("status") != "rolled_back":
         raise DeploymentError(f"Rollback did not report a verified restoration: {rollback}")
@@ -534,6 +559,9 @@ def main() -> int:
 
         health = verify_health(client, package, version, deployment_id)
         print(f"Independent healthcheck passed for version {health.get('version')}.")
+
+        purge_public_cache(client, config)
+        verify_public_theme_surface(client, package)
 
         client.request(
             "POST",
