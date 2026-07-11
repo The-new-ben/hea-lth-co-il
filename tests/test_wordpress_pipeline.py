@@ -202,6 +202,7 @@ class ThemePackageTests(unittest.TestCase):
         self.assertEqual(parent["kind"], "theme")
         self.assertFalse(parent["activate"])
         self.assertTrue(child["activate"])
+        self.assertEqual(child["manifest"]["requires_php"], "7.4")
         self.assertEqual(child["healthcheck_path"], "/wp-json/hea-lth-portal/v1/healthcheck")
 
 

@@ -104,14 +104,12 @@ $facts = array_filter(
 			<?php endif; ?>
 
 			<?php foreach ( $topic_groups as $group ) : ?>
-				<?php if ( is_array( $group['terms'] ) && ! is_wp_error( $group['terms'] ) && ! empty( $group['terms'] ) ) : ?>
+				<?php if ( is_array( $group['terms'] ) && ! empty( $group['terms'] ) ) : ?>
 					<section class="hp-profile-topics">
 						<h2><?php echo esc_html( $group['label'] ); ?></h2>
 						<ul>
 							<?php foreach ( $group['terms'] as $term ) : ?>
-								<?php if ( $term instanceof WP_Term ) : ?>
-									<li><?php echo esc_html( $term->name ); ?></li>
-								<?php endif; ?>
+								<li><?php echo esc_html( $term->name ); ?></li>
 							<?php endforeach; ?>
 						</ul>
 					</section>

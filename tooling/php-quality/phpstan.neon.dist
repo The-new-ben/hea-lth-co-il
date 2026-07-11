@@ -4,8 +4,9 @@ includes:
 parameters:
     level: 5
     paths:
-        - ../../plugin-src/hea-lth-ops/hea-lth-ops.php
-        - ../../plugin-src/hea-lth-ops/index.php
+        - ../../plugin-src/hea-lth-platform-core
+        - ../../theme-src/hea-lth-portal
+        - ../../theme-src/hea-lth-portal-child
     excludePaths:
-        - ../../plugin-src/hea-lth-ops/lib (?)
+        - ../../theme-src/hea-lth-portal/assets/vendor
     reportUnmatchedIgnoredErrors: true

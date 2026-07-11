@@ -50,7 +50,7 @@ function hea_lth_portal_route( $route_key ) {
 
 	if ( ! isset( $routes[ $route_key ] ) ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			trigger_error( 'Unknown Hea-lth canonical route key: ' . (string) $route_key, E_USER_WARNING );
+			trigger_error( 'Unknown Hea-lth canonical route key: ' . esc_html( (string) $route_key ), E_USER_WARNING );
 		}
 
 		return home_url( '/' );
@@ -69,7 +69,7 @@ function hea_lth_portal_route( $route_key ) {
  * production launch every record must be reconciled against the legacy crawl,
  * Search Console, backlinks, content equivalence, and the keyword-to-URL map.
  *
- * @return array<string, array{path: string, release: string}>
+ * @return array<string, mixed>
  */
 function hea_lth_portal_foundation_routes() {
 	$routes = array(
@@ -115,7 +115,7 @@ function hea_lth_portal_foundation_route( $route_key ) {
 
 	if ( ! isset( $routes[ $route_key ] ) || ! is_array( $routes[ $route_key ] ) || empty( $routes[ $route_key ]['path'] ) ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			trigger_error( 'Unknown Hea-lth foundation route key: ' . (string) $route_key, E_USER_WARNING );
+			trigger_error( 'Unknown Hea-lth foundation route key: ' . esc_html( (string) $route_key ), E_USER_WARNING );
 		}
 
 		return home_url( '/' );

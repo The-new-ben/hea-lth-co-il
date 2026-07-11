@@ -99,10 +99,12 @@ function hea_lth_portal_get_directory_context() {
 	$keys    = array( 'specialty', 'region', 'service', 'body_region' );
 
 	foreach ( $keys as $key ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public GET filters do not mutate state.
 		if ( ! isset( $_GET[ $key ] ) || is_array( $_GET[ $key ] ) ) {
 			continue;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public GET filters do not mutate state.
 		$value = sanitize_title( wp_unslash( (string) $_GET[ $key ] ) );
 		if ( '' !== $value ) {
 			$filters[ $key ] = $value;

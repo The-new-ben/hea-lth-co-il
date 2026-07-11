@@ -60,14 +60,12 @@ $topic_groups  = array(
 	<div class="hp-treatment-layout">
 		<article class="hp-treatment-content">
 			<?php foreach ( $topic_groups as $group ) : ?>
-				<?php if ( is_array( $group['terms'] ) && ! is_wp_error( $group['terms'] ) && ! empty( $group['terms'] ) ) : ?>
+				<?php if ( is_array( $group['terms'] ) && ! empty( $group['terms'] ) ) : ?>
 					<section class="hp-treatment-topics">
 						<h2><?php echo esc_html( $group['label'] ); ?></h2>
 						<ul>
 							<?php foreach ( $group['terms'] as $term ) : ?>
-								<?php if ( $term instanceof WP_Term ) : ?>
-									<li><?php echo esc_html( $term->name ); ?></li>
-								<?php endif; ?>
+								<li><?php echo esc_html( $term->name ); ?></li>
 							<?php endforeach; ?>
 						</ul>
 					</section>
