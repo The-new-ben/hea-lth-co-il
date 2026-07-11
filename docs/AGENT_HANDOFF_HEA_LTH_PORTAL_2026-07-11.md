@@ -100,9 +100,10 @@ The target is to become a trusted, premium, information-rich portal rather than 
 | Git remote | `https://github.com/The-new-ben/hea-lth-co-il.git` |
 | Production branch | `main` |
 | Current development branch | `codex/portal-production` |
-| Latest pushed production commit at handoff | `59479910eabef85205eaba0d1a0df07faf8cc21e` |
+| Latest pushed production commit at handoff | `e847a47fe6d6b6c4220043d94eff281c01f75d59` |
 | First portal deployment run | `https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29166607077` |
 | First portal deployment result | Failed only at child-theme PHP compatibility preflight. Plugin and parent steps succeeded. |
+| Second portal CI run | `https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167134652` stopped before production deployment when PHPStan exhausted the workflow's 512 MB limit. |
 
 ### GitHub access and credentials
 
@@ -185,6 +186,12 @@ The project now uses a checksum-verified GitHub-to-WordPress pipeline, not FTP o
 - Parent theme install succeeded and was independently verified using authenticated Themes REST.
 - Child preflight rejected `requires_php: 8.1` because the host reports `7.4.33`; no child files were installed and no theme changed.
 - The local corrective edit sets the child manifest requirement to `7.4`. It must be committed and pushed in a new run. Do not re-run the old commit.
+
+Update after the first correction attempt:
+
+- Commit `e847a47` corrected the child requirement and expanded portal-wide PHPCS and PHPStan coverage.
+- GitHub Actions run `29167134652` stopped before production deployment because the newly expanded PHPStan scan exceeded the workflow's previous 512 MB memory limit. The local scan passed at 1 GB.
+- The corrective workflow edit must use `--memory-limit=1G`. Do not reduce the portal scan back to the legacy plugin-only scope.
 
 ## 7. New WordPress implementation
 

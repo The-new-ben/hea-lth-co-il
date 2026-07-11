@@ -96,7 +96,7 @@ jobs:
         working-directory: tooling/php-quality
         run: |
           vendor/bin/phpcs -p --standard=phpcs.xml.dist
-          vendor/bin/phpstan analyse -c phpstan.neon.dist --no-progress --memory-limit=512M
+          vendor/bin/phpstan analyse -c phpstan.neon.dist --no-progress --memory-limit=1G
 
       - name: Audit pinned web quality tools
         run: |
