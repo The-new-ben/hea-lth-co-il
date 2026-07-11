@@ -103,6 +103,22 @@ class ClientHeaderTests(unittest.TestCase):
         with self.assertRaises(deploy.DeploymentError):
             deploy.WordPressClient._curl_config({"X-Test": "safe\r\nInjected: true"}, 180)
 
+    def test_client_retains_full_successful_html_for_public_verification(self) -> None:
+        payload = b"<html>" + (b"x" * 5000) + b"/wp-content/themes/hea-lth-portal-child/style.css</html>"
+
+        def run_curl(command: list[str], **kwargs: Any) -> Any:
+            response_path = Path(command[command.index("--output") + 1])
+            response_path.write_bytes(payload)
+            return deploy.subprocess.CompletedProcess(command, 0, stdout="200", stderr="")
+
+        client = deploy.WordPressClient("https://example.test", "admin", "app-password")
+        with patch.object(deploy.subprocess, "run", side_effect=run_curl):
+            _, content = client.request("GET", "/", expected=(200,))
+
+        self.assertIsInstance(content, str)
+        self.assertIn("/wp-content/themes/hea-lth-portal-child/style.css", content)
+        self.assertGreater(len(content), 5000)
+
 
 class VerificationTests(unittest.TestCase):
     PACKAGE = {"slug": "hea-lth-platform-core", "healthcheck_path": "/wp-json/hea-lth-platform/v1/healthcheck"}

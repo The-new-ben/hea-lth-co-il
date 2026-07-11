@@ -156,11 +156,13 @@ class WordPressClient:
             try:
                 content = json.loads(raw.decode("utf-8-sig"))
             except (UnicodeDecodeError, json.JSONDecodeError):
-                content = raw.decode("utf-8", errors="replace")[:4000]
+                content = raw.decode("utf-8", errors="replace")
         if status not in expected:
             safe_content = content
             if isinstance(content, dict):
                 safe_content = {key: value for key, value in content.items() if key not in {"authorization", "password"}}
+            elif isinstance(content, str):
+                safe_content = content[:4000]
             raise WordPressResponseError(method, path, status, safe_content)
         return status, content
 
