@@ -1,0 +1,43 @@
+:root {
+  --hp-forest-950: #0a2320;
+  --hp-forest-700: #235a51;
+  --hp-mint-50: #f2f9f6;
+  --hp-paper: #fffdf8;
+  --hp-bronze: #805a14;
+  --hp-muted: #4f6360;
+  --hp-font-ui: "Heebo", "Noto Sans Hebrew", "Assistant", Arial, sans-serif;
+  --hp-font-display: "Frank Ruhl Libre", "Noto Serif Hebrew", Georgia, serif;
+}
+
+.editor-styles-wrapper {
+  color: var(--hp-forest-950);
+  background: var(--hp-mint-50);
+  font-family: var(--hp-font-ui);
+  line-height: 1.7;
+}
+
+.editor-styles-wrapper .wp-block {
+  max-width: 760px;
+}
+
+.editor-styles-wrapper .wp-block[data-align="wide"] {
+  max-width: 1440px;
+}
+
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3 {
+  color: var(--hp-forest-950);
+  font-family: var(--hp-font-display);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.editor-styles-wrapper a {
+  color: var(--hp-forest-700);
+}
+
+.editor-styles-wrapper .wp-block-quote {
+  padding-right: 1.25rem;
+  border-right: 3px solid var(--hp-bronze);
+}

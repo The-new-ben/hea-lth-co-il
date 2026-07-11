@@ -19,10 +19,24 @@ if (!defined('HEA_LTH_AGENT_DEPLOY_MAX_BYTES')) {
     define('HEA_LTH_AGENT_DEPLOY_MAX_BYTES', __MAX_PACKAGE_BYTES__);
 }
 
+if (!defined('HEA_LTH_AGENT_DEPLOY_ACTIVATABLE_THEME_SLUGS_B64')) {
+    define('HEA_LTH_AGENT_DEPLOY_ACTIVATABLE_THEME_SLUGS_B64', '__ACTIVATABLE_THEME_SLUGS_B64__');
+}
+
 if (!function_exists('hea_lth_agent_deploy_allowed_slugs')) {
     function hea_lth_agent_deploy_allowed_slugs(): array
     {
         $decoded = base64_decode('__ALLOWED_SLUGS_B64__', true);
+        $slugs = is_string($decoded) ? json_decode($decoded, true) : null;
+
+        return is_array($slugs) ? array_values(array_filter(array_map('sanitize_key', $slugs))) : [];
+    }
+}
+
+if (!function_exists('hea_lth_agent_deploy_activatable_theme_slugs')) {
+    function hea_lth_agent_deploy_activatable_theme_slugs(): array
+    {
+        $decoded = base64_decode(HEA_LTH_AGENT_DEPLOY_ACTIVATABLE_THEME_SLUGS_B64, true);
         $slugs = is_string($decoded) ? json_decode($decoded, true) : null;
 
         return is_array($slugs) ? array_values(array_filter(array_map('sanitize_key', $slugs))) : [];
@@ -77,6 +91,13 @@ if (!function_exists('hea_lth_agent_deploy_state_key')) {
     }
 }
 
+if (!function_exists('hea_lth_agent_deploy_release_option_name')) {
+    function hea_lth_agent_deploy_release_option_name(string $slug): string
+    {
+        return 'hea_lth_agent_release_' . str_replace('-', '_', sanitize_key($slug));
+    }
+}
+
 if (!function_exists('hea_lth_agent_deploy_validate_id')) {
     function hea_lth_agent_deploy_validate_id(string $deploymentId): bool
     {
@@ -127,6 +148,23 @@ if (!function_exists('hea_lth_agent_deploy_restore')) {
         $backupRoot = (string) ($state['backup_root'] ?? '');
         $hadTarget = !empty($state['had_target']);
 
+        $previousStylesheet = (string) ($state['previous_stylesheet'] ?? '');
+        if (
+            'theme' === ($state['kind'] ?? '')
+            && '' !== $previousStylesheet
+            && !hash_equals($previousStylesheet, get_stylesheet())
+        ) {
+            $previousTheme = wp_get_theme($previousStylesheet);
+            if (!$previousTheme->exists()) {
+                return new WP_Error('agentdeploy_previous_theme_missing', 'The prior active theme is unavailable for rollback.');
+            }
+
+            switch_theme($previousStylesheet);
+            if (!hash_equals($previousStylesheet, get_stylesheet())) {
+                return new WP_Error('agentdeploy_theme_rollback_switch_failed', 'Could not restore the prior active theme.');
+            }
+        }
+
         if ('' === $target || !isset($wp_filesystem)) {
             return new WP_Error('agentdeploy_bad_rollback_state', 'Rollback state is incomplete.');
         }
@@ -159,6 +197,15 @@ if (!function_exists('hea_lth_agent_deploy_restore')) {
             $activated = activate_plugin((string) $state['plugin_file']);
             if (is_wp_error($activated)) {
                 return $activated;
+            }
+        }
+
+        $releaseOption = (string) ($state['release_option'] ?? '');
+        if ('' !== $releaseOption) {
+            if (!empty($state['had_release_option'])) {
+                update_option($releaseOption, $state['previous_release_option'] ?? [], false);
+            } else {
+                delete_option($releaseOption);
             }
         }
 
@@ -267,8 +314,8 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
         if ('' === $expectedVersion) {
             return new WP_Error('agentdeploy_bad_version', 'Expected package version is required.', ['status' => 400]);
         }
-        if ('theme' === $kind && $activate) {
-            return new WP_Error('agentdeploy_theme_activation_blocked', 'Automatic theme activation is prohibited.', ['status' => 400]);
+        if ('theme' === $kind && $activate && !in_array($slug, hea_lth_agent_deploy_activatable_theme_slugs(), true)) {
+            return new WP_Error('agentdeploy_theme_activation_not_authorized', 'This theme is not authorized for activation by the deployment manifest.', ['status' => 403]);
         }
 
         $targetExists = 'plugin' === $kind
@@ -309,6 +356,7 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
 
         $pluginFile = '';
         $wasActive = false;
+        $previousStylesheet = '';
         if ('plugin' === $kind) {
             $pluginFile = $slug . '/' . $mainFile;
             if ('' === $mainFile || 0 !== validate_file($pluginFile)) {
@@ -318,6 +366,8 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             $wasActive = is_plugin_active($pluginFile);
         } else {
             $target = trailingslashit(get_theme_root()) . $slug;
+            $previousStylesheet = get_stylesheet();
+            $wasActive = hash_equals($slug, $previousStylesheet);
         }
 
         $backupRoot = trailingslashit(WP_CONTENT_DIR) . 'upgrade-temp-backup/hea-lth-agent/' . $deploymentId;
@@ -330,6 +380,10 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
         } elseif ($hadTarget) {
             $previousVersion = (string) wp_get_theme($slug)->get('Version');
         }
+
+        $releaseOption = hea_lth_agent_deploy_release_option_name($slug);
+        $previousReleaseOption = get_option($releaseOption, false);
+        $hadReleaseOption = false !== $previousReleaseOption;
 
         if ($wp_filesystem->exists($backupRoot)) {
             $wp_filesystem->delete($backupRoot, true);
@@ -356,7 +410,11 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             'had_target' => $hadTarget,
             'plugin_file' => $pluginFile,
             'was_active' => $wasActive,
+            'previous_stylesheet' => $previousStylesheet,
             'previous_version' => $previousVersion,
+            'release_option' => $releaseOption,
+            'had_release_option' => $hadReleaseOption,
+            'previous_release_option' => $previousReleaseOption,
         ];
         set_transient($stateKey, $state, HOUR_IN_SECONDS);
 
@@ -396,6 +454,38 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             }
         }
 
+        if ('theme' === $kind && $activate) {
+            $installedTheme = wp_get_theme($slug);
+            if (!$installedTheme->exists()) {
+                $restored = hea_lth_agent_deploy_restore($state);
+                delete_transient($stateKey);
+                return new WP_Error(
+                    'agentdeploy_theme_missing_after_install',
+                    'The installed theme is unavailable for activation.',
+                    [
+                        'status' => 500,
+                        'rolled_back' => !is_wp_error($restored),
+                        'rollback' => hea_lth_agent_deploy_rollback_payload($deploymentId, $restored),
+                    ]
+                );
+            }
+
+            switch_theme($slug);
+            if (!hash_equals($slug, get_stylesheet())) {
+                $restored = hea_lth_agent_deploy_restore($state);
+                delete_transient($stateKey);
+                return new WP_Error(
+                    'agentdeploy_theme_activation_failed',
+                    'WordPress did not report the requested theme as active.',
+                    [
+                        'status' => 500,
+                        'rolled_back' => !is_wp_error($restored),
+                        'rollback' => hea_lth_agent_deploy_rollback_payload($deploymentId, $restored),
+                    ]
+                );
+            }
+        }
+
         wp_cache_flush();
         do_action('litespeed_purge_all');
 
@@ -421,17 +511,15 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             );
         }
 
-        if ('plugin' === $kind && 'hea-lth-ops' === $slug) {
-            update_option(
-                'hea_lth_ops_last_deployment',
-                [
-                    'deployment_id' => $deploymentId,
-                    'version' => $installedVersion,
-                    'deployed_at' => gmdate('c'),
-                ],
-                false
-            );
-        }
+        update_option(
+            $releaseOption,
+            [
+                'deployment_id' => $deploymentId,
+                'version' => $installedVersion,
+                'deployed_at' => gmdate('c'),
+            ],
+            false
+        );
 
         error_log(sprintf('Hea-lth deployment installed %s %s version %s (%s).', $kind, $slug, $installedVersion, $deploymentId));
 
@@ -441,7 +529,7 @@ if (!function_exists('hea_lth_agent_deploy_run')) {
             'kind' => $kind,
             'slug' => $slug,
             'version' => $installedVersion,
-            'active' => 'plugin' === $kind ? is_plugin_active($pluginFile) : false,
+            'active' => 'plugin' === $kind ? is_plugin_active($pluginFile) : hash_equals($slug, get_stylesheet()),
             'messages' => $skin->get_upgrade_messages(),
         ];
     }

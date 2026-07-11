@@ -1,0 +1,166 @@
+{
+  "version": "1.1.0",
+  "model": {
+    "id": "adult-human-v1",
+    "status": "license-gated",
+    "webDeliveryAllowed": false,
+    "clinicalReview": "required"
+  },
+  "regions": [
+    {
+      "id": "nose",
+      "label": "אף ונשימה",
+      "contexts": [
+        {
+          "id": "aesthetic",
+          "label": "אסתטיקה ומבנה",
+          "routing": {
+            "treatmentHubRouteKey": "plastic_surgery_consultation",
+            "directory": { "specialty": "plastic-surgery", "bodyRegion": "nose" },
+            "map": { "bodyRegion": "nose", "specialty": "plastic-surgery" },
+            "catalog": { "bodyRegion": "nose" }
+          },
+          "entries": [
+            {
+              "kind": "מרכז טיפול",
+              "label": "ניתוחי אף ורפואה אסתטית",
+              "detail": "הבנת אפשרויות ושאלות לקראת פגישה",
+              "routeKey": "plastic_surgery_consultation"
+            },
+            {
+              "kind": "אינדקס מקצוענים",
+              "label": "כירורגיה פלסטית",
+              "detail": "חיפוש לפי תחום, אזור ופרטי מרפאה",
+              "routeKey": "doctor_clinic_index",
+              "query": { "specialty": "plastic-surgery", "body_region": "nose" }
+            }
+          ]
+        },
+        {
+          "id": "breathing",
+          "label": "נשימה ואוזן אף גרון",
+          "routing": {
+            "treatmentHubRouteKey": "guides",
+            "directory": { "specialty": "otolaryngology", "bodyRegion": "nose" },
+            "map": { "bodyRegion": "nose", "specialty": "otolaryngology" },
+            "catalog": { "bodyRegion": "nose" }
+          },
+          "entries": [
+            {
+              "kind": "מרכז מידע",
+              "label": "הכנה לשיחה על נשימה אפית",
+              "detail": "שאלות, מסמכים והמשך בירור",
+              "routeKey": "guides"
+            },
+            {
+              "kind": "אינדקס מקצוענים",
+              "label": "אף אוזן גרון",
+              "detail": "חיפוש אנשי מקצוע ומרפאות לפי מידע מאומת",
+              "routeKey": "doctor_clinic_index",
+              "query": { "specialty": "otolaryngology", "body_region": "nose" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "skin-face",
+      "label": "עור ופנים",
+      "contexts": [
+        {
+          "id": "skin-care",
+          "label": "עור, דרמטולוגיה ואסתטיקה",
+          "routing": {
+            "treatmentHubRouteKey": "aesthetic_medicine",
+            "directory": { "specialty": "dermatology", "bodyRegion": "skin-face" },
+            "map": { "bodyRegion": "skin-face", "specialty": "dermatology" },
+            "catalog": { "bodyRegion": "skin-face" }
+          },
+          "entries": [
+            {
+              "kind": "מרכז טיפול",
+              "label": "עור ורפואה אסתטית",
+              "detail": "מדריכים, הכנה ובחירת מסלול",
+              "routeKey": "aesthetic_medicine"
+            },
+            {
+              "kind": "אינדקס מקצוענים",
+              "label": "רפואת עור",
+              "detail": "חיפוש לפי תחום ומיקום",
+              "routeKey": "doctor_clinic_index",
+              "query": { "specialty": "dermatology", "body_region": "skin-face" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scalp",
+      "label": "שיער וקרקפת",
+      "contexts": [
+        {
+          "id": "hair-care",
+          "label": "בירור וטיפולי שיער",
+          "routing": {
+            "treatmentHubRouteKey": "hair_transplant_consultation",
+            "directory": { "bodyRegion": "scalp" },
+            "map": { "bodyRegion": "scalp" },
+            "catalog": { "bodyRegion": "scalp" }
+          },
+          "entries": [
+            {
+              "kind": "מרכז טיפול",
+              "label": "שיער וקרקפת",
+              "detail": "אפשרויות, שאלות וחיפוש שירות",
+              "routeKey": "hair_transplant_consultation"
+            },
+            {
+              "kind": "מדריכים",
+              "label": "הכנה לשיחת ייעוץ",
+              "detail": "רשימת שאלות ומידע שכדאי לאסוף",
+              "routeKey": "guides"
+            },
+            {
+              "kind": "אינדקס מקצוענים",
+              "label": "מומחים ומרפאות לשיער",
+              "detail": "חיפוש לפי אזור גוף ופרטים ציבוריים מאומתים",
+              "routeKey": "doctor_clinic_index",
+              "query": { "body_region": "scalp" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "movement",
+      "label": "מפרקים ותנועה",
+      "contexts": [
+        {
+          "id": "orthopedics",
+          "label": "בירור, שיקום ותנועה",
+          "routing": {
+            "treatmentHubRouteKey": "wellness",
+            "directory": { "specialty": "orthopedics", "bodyRegion": "movement" },
+            "map": { "bodyRegion": "movement", "specialty": "orthopedics" },
+            "catalog": { "bodyRegion": "movement" }
+          },
+          "entries": [
+            {
+              "kind": "מרכז מידע",
+              "label": "מפרקים ותנועה",
+              "detail": "מדריכים ושאלות לבירור המשך",
+              "routeKey": "wellness"
+            },
+            {
+              "kind": "אינדקס מקצוענים",
+              "label": "אורתופדיה ושיקום",
+              "detail": "חיפוש לפי תחום, אזור וסוג שירות",
+              "routeKey": "doctor_clinic_index",
+              "query": { "specialty": "orthopedics", "body_region": "movement" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

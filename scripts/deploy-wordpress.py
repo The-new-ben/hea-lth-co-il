@@ -187,14 +187,24 @@ def read_manifest(repo: Path, package: dict[str, Any], dist: str) -> tuple[Path,
     return package_path, manifest
 
 
-def render_route(template_path: Path, token: str, allowed_slugs: list[str], max_bytes: int) -> str:
+def render_route(
+    template_path: Path,
+    token: str,
+    allowed_slugs: list[str],
+    activatable_theme_slugs: list[str],
+    max_bytes: int,
+) -> str:
     code = template_path.read_text(encoding="utf-8")
     if code.startswith("<?php"):
         code = code[len("<?php") :].lstrip("\r\n")
     encoded_slugs = base64.b64encode(json.dumps(allowed_slugs).encode("utf-8")).decode("ascii")
+    encoded_activatable_theme_slugs = base64.b64encode(
+        json.dumps(activatable_theme_slugs).encode("utf-8")
+    ).decode("ascii")
     replacements = {
         "__DEPLOY_TOKEN__": token,
         "__ALLOWED_SLUGS_B64__": encoded_slugs,
+        "__ACTIVATABLE_THEME_SLUGS_B64__": encoded_activatable_theme_slugs,
         "__MAX_PACKAGE_BYTES__": str(max_bytes),
     }
     for marker, value in replacements.items():
@@ -410,6 +420,11 @@ def main() -> int:
         repo / args.route_template,
         deploy_token,
         [str(item["slug"]) for item in config["packages"]],
+        [
+            str(item["slug"])
+            for item in config["packages"]
+            if item.get("kind") == "theme" and item.get("activate") is True
+        ],
         int(config.get("max_package_bytes", 67108864)),
     )
     snippet_id: int | None = None

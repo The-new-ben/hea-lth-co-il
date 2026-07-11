@@ -37,11 +37,13 @@ class RouteRenderingTests(unittest.TestCase):
         code = deploy.render_route(
             REPO / "deploy" / "agentdeploy-route.php",
             "x" * 64,
-            ["hea-lth-ops"],
+            ["hea-lth-platform-core", "hea-lth-portal", "hea-lth-portal-child"],
+            ["hea-lth-portal-child"],
             1024,
         )
         self.assertNotIn("__DEPLOY_TOKEN__", code)
         self.assertNotIn("__ALLOWED_SLUGS_B64__", code)
+        self.assertNotIn("__ACTIVATABLE_THEME_SLUGS_B64__", code)
         self.assertNotIn("__MAX_PACKAGE_BYTES__", code)
         self.assertNotIn("<?php", code[:20])
         self.assertIn("get_param('_agent_token')", code)
@@ -53,7 +55,8 @@ class RouteRenderingTests(unittest.TestCase):
         self.assertIn("hea_lth_agent_deploy_ensure_directory($backupRoot)", route)
         self.assertIn("'php_version' => PHP_VERSION", route)
         self.assertIn("update_option(", route)
-        self.assertIn("hea_lth_ops_last_deployment", route)
+        self.assertIn("hea_lth_agent_deploy_release_option_name", route)
+        self.assertIn("switch_theme($previousStylesheet)", route)
         self.assertIn("deactivate_plugins((string) $state['plugin_file'], true)", route)
         self.assertNotIn("$wp_filesystem->mkdir($backupRoot", route)
 
@@ -102,11 +105,11 @@ class ClientHeaderTests(unittest.TestCase):
 
 
 class VerificationTests(unittest.TestCase):
-    PACKAGE = {"slug": "hea-lth-ops", "healthcheck_path": "/wp-json/hea-lth-ops/v1/healthcheck"}
+    PACKAGE = {"slug": "hea-lth-platform-core", "healthcheck_path": "/wp-json/hea-lth-platform/v1/healthcheck"}
 
     def test_health_requires_matching_deployment_id(self) -> None:
         client = FakeClient(
-            [(200, {"status": "ok", "component": "hea-lth-ops", "version": "0.1.0", "deployment_id": "wrong"})]
+            [(200, {"status": "ok", "component": "hea-lth-platform-core", "version": "0.1.0", "deployment_id": "wrong"})]
         )
         with self.assertRaises(deploy.DeploymentError):
             deploy.verify_health(client, self.PACKAGE, "0.1.0", "deploy-correct")
@@ -114,7 +117,7 @@ class VerificationTests(unittest.TestCase):
     def test_health_accepts_exact_release_identity(self) -> None:
         response = {
             "status": "ok",
-            "component": "hea-lth-ops",
+            "component": "hea-lth-platform-core",
             "version": "0.1.0",
             "deployment_id": "deploy-correct",
         }
@@ -123,6 +126,13 @@ class VerificationTests(unittest.TestCase):
             deploy.verify_health(client, self.PACKAGE, "0.1.0", "deploy-correct"),
             response,
         )
+
+    def test_inactive_theme_package_uses_installer_version_verification(self) -> None:
+        package = {"kind": "theme", "slug": "hea-lth-portal", "healthcheck_path": ""}
+        verification = deploy.verify_health(FakeClient([]), package, "0.1.0", "deploy-theme")
+        self.assertEqual(verification["status"], "ok")
+        self.assertEqual(verification["component"], "hea-lth-portal")
+        self.assertEqual(verification["verification"], "installer_version_check_for_inactive_theme")
 
     def test_rollback_of_first_install_requires_health_route_absence(self) -> None:
         client = FakeClient([(404, {"code": "rest_no_route"})])
@@ -174,6 +184,23 @@ class BootstrapTests(unittest.TestCase):
         deploy.ensure_code_snippets(client, bootstrap=True)
         self.assertEqual(client.calls[2][0], "POST")
         self.assertIn("/wp-json/wp/v2/plugins/code-snippets/code-snippets", client.calls[2][1])
+
+
+class ThemePackageTests(unittest.TestCase):
+    def test_theme_files_are_source_controlled(self) -> None:
+        parent = REPO / "theme-src" / "hea-lth-portal"
+        for relative in ["style.css", "functions.php", "header.php", "footer.php", "front-page.php", "theme.json"]:
+            self.assertTrue((parent / relative).is_file(), relative)
+
+    def test_theme_packages_use_live_php_floor_and_child_activation(self) -> None:
+        config = deploy.json.loads((REPO / "deploy" / "wordpress-deploy.json").read_text(encoding="utf-8"))
+        parent = next(item for item in config["packages"] if item["name"] == "hea-lth-portal")
+        child = next(item for item in config["packages"] if item["name"] == "hea-lth-portal-child")
+        self.assertEqual(parent["manifest"]["requires_php"], "7.4")
+        self.assertEqual(parent["kind"], "theme")
+        self.assertFalse(parent["activate"])
+        self.assertTrue(child["activate"])
+        self.assertEqual(child["healthcheck_path"], "/wp-json/hea-lth-portal/v1/healthcheck")
 
 
 if __name__ == "__main__":

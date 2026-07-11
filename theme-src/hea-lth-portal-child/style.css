@@ -1,0 +1,18 @@
+/*
+Theme Name: Hea-lth Portal Child
+Theme URI: https://hea-lth.co.il
+Author: Hea-lth
+Author URI: https://hea-lth.co.il
+Description: Production child theme for the Hea-lth Portal presentation system.
+Version: 0.1.0
+Requires at least: 6.5
+Tested up to: 6.9
+Requires PHP: 7.4
+Template: hea-lth-portal
+Text Domain: hea-lth-portal-child
+*/
+
+/*
+ * The parent theme owns the design system and template library. This child
+ * theme is the controlled production activation point for safe overrides.
+ */

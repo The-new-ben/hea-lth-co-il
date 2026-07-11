@@ -1,4 +1,4 @@
-name: WordPress CI and automatic production deploy
+name: Hea-lth portal CI and production deploy
 
 on:
   pull_request:
@@ -6,9 +6,10 @@ on:
       - '.github/workflows/wordpress-deploy.yml'
       - 'deploy/**'
       - 'plugin-src/**'
-      - 'scripts/build-wordpress-package.py'
-      - 'scripts/deploy-wordpress.py'
+      - 'scripts/**'
+      - 'theme-src/**'
       - 'tests/test_wordpress_pipeline.py'
+      - '.gitleaks.toml'
       - 'tooling/php-quality/**'
       - 'tooling/web-quality/**'
   push:
@@ -17,9 +18,10 @@ on:
       - '.github/workflows/wordpress-deploy.yml'
       - 'deploy/**'
       - 'plugin-src/**'
-      - 'scripts/build-wordpress-package.py'
-      - 'scripts/deploy-wordpress.py'
+      - 'scripts/**'
+      - 'theme-src/**'
       - 'tests/test_wordpress_pipeline.py'
+      - '.gitleaks.toml'
       - 'tooling/php-quality/**'
       - 'tooling/web-quality/**'
   workflow_dispatch:
@@ -32,7 +34,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  PACKAGE_NAME: hea-lth-ops
+  PLATFORM_PACKAGE_NAME: hea-lth-platform-core
+  PARENT_THEME_PACKAGE_NAME: hea-lth-portal
+  CHILD_THEME_PACKAGE_NAME: hea-lth-portal-child
   PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
@@ -105,24 +109,35 @@ jobs:
           set -euo pipefail
           SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           export SOURCE_DATE_EPOCH
-          first="$(python3 scripts/build-wordpress-package.py --package "$PACKAGE_NAME")"
-          first_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$first")"
-          second="$(python3 scripts/build-wordpress-package.py --package "$PACKAGE_NAME")"
-          second_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$second")"
-          test "$first_sha" = "$second_sha"
-          echo "Deterministic package SHA-256: $first_sha"
+          for package in "$PLATFORM_PACKAGE_NAME" "$PARENT_THEME_PACKAGE_NAME" "$CHILD_THEME_PACKAGE_NAME"; do
+            first="$(python3 scripts/build-wordpress-package.py --package "$package")"
+            first_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$first")"
+            second="$(python3 scripts/build-wordpress-package.py --package "$package")"
+            second_sha="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["sha256"])' <<<"$second")"
+            test "$first_sha" = "$second_sha"
+            echo "$package deterministic package SHA-256: $first_sha"
+          done
 
       - name: Verify deployment inputs without network writes
-        run: python3 scripts/deploy-wordpress.py --package "$PACKAGE_NAME" --dry-run
+        run: |
+          python3 scripts/deploy-wordpress.py --package "$PLATFORM_PACKAGE_NAME" --dry-run
+          python3 scripts/deploy-wordpress.py --package "$PARENT_THEME_PACKAGE_NAME" --dry-run
+          python3 scripts/deploy-wordpress.py --package "$CHILD_THEME_PACKAGE_NAME" --dry-run
 
       - name: Upload validated release evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: hea-lth-ops-release-${{ github.sha }}
+          name: hea-lth-portal-release-${{ github.sha }}
           path: |
-            plugin-dist/hea-lth-ops-*.zip
-            plugin-dist/hea-lth-ops-*.zip.sha256
-            plugin-dist/hea-lth-ops.json
+            plugin-dist/hea-lth-platform-core-*.zip
+            plugin-dist/hea-lth-platform-core-*.zip.sha256
+            plugin-dist/hea-lth-platform-core.json
+            plugin-dist/hea-lth-portal-*.zip
+            plugin-dist/hea-lth-portal-*.zip.sha256
+            plugin-dist/hea-lth-portal.json
+            plugin-dist/hea-lth-portal-child-*.zip
+            plugin-dist/hea-lth-portal-child-*.zip.sha256
+            plugin-dist/hea-lth-portal-child.json
           if-no-files-found: error
           retention-days: 30
 
@@ -157,11 +172,27 @@ jobs:
         run: |
           SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           export SOURCE_DATE_EPOCH
-          python3 scripts/build-wordpress-package.py --package "$PACKAGE_NAME"
+          python3 scripts/build-wordpress-package.py --package "$PLATFORM_PACKAGE_NAME"
+          python3 scripts/build-wordpress-package.py --package "$PARENT_THEME_PACKAGE_NAME"
+          python3 scripts/build-wordpress-package.py --package "$CHILD_THEME_PACKAGE_NAME"
 
-      - name: Deploy with automatic rollback and route removal
+      - name: Deploy platform plugin with automatic rollback and route removal
         run: >-
           python3 scripts/deploy-wordpress.py
-          --package "$PACKAGE_NAME"
+          --package "$PLATFORM_PACKAGE_NAME"
           --bootstrap-code-snippets
           --deployment-id "gh-${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+
+      - name: Install portal parent theme before the child theme activation
+        run: >-
+          python3 scripts/deploy-wordpress.py
+          --package "$PARENT_THEME_PACKAGE_NAME"
+          --bootstrap-code-snippets
+          --deployment-id "gh-${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-parent"
+
+      - name: Activate verified portal child theme with automatic rollback and route removal
+        run: >-
+          python3 scripts/deploy-wordpress.py
+          --package "$CHILD_THEME_PACKAGE_NAME"
+          --bootstrap-code-snippets
+          --deployment-id "gh-${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-child"
