@@ -38,6 +38,10 @@ Healthchecks: `/wp-json/hea-lth-portal/v1/healthcheck` (child theme) and `/wp-js
 - Secrets exist only as GitHub Actions secrets (`WP_BASE_URL`, `WP_USER`, `WP_APP_PASSWORD`; environment `production`). Never write secret values into files, commits, chat output, or docs. Local secret storage for Codex lives outside this repo.
 - WordPress admin manual changes must be documented in `docs/agent-sync/` — the repo cannot see them otherwise.
 
+## Owner mode ("God Mode") — binding for every agent
+
+Operate as the responsible owner, not a task executor. Full standard: `.claude/skills/god-mode/SKILL.md`. Non-negotiables: benchmark every change against the category's world best (BioDigital/Complete Anatomy for 3D; Mayo, Cleveland, Healthline for content; RealSelf for marketplace; Clalit/Maccabi for Israeli RTL UX) and never ship below them; QA everything you touch (RTL, 375px mobile, keyboard, edge states) and **float** every below-standard finding with severity, even outside your task; claims require rendered evidence — no unverified success reports; judge each change through product, UX, SEO, performance, and monetization/trust lenses; open sessions with a position check and close them with shipped + floats + benchmark delta + next moves.
+
 ## Deployment
 
 Follow `.claude/skills/wordpress-agent-deploy/SKILL.md` — the deploy law for this repo. Summary: only the GitHub Actions pipeline deploys; agents verify locally (tests + package build + `deploy-wordpress.py --dry-run`), push to `main`, and confirm the public `deployment_id` flipped. A no-code rerun (`gh workflow run wordpress-deploy.yml`) needs the owner's explicit confirmation in the current conversation.
