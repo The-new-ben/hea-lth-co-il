@@ -557,8 +557,10 @@ The following must remain separately governed: organic migration, full SEO evide
 You are joining the Hea-lth.co.il enterprise portal project. Work in English.
 
 First read these two source-of-truth files in full:
-1. https://raw.githubusercontent.com/The-new-ben/hea-lth-co-il/main/docs/AGENT_HANDOFF_HEA_LTH_PORTAL_2026-07-11.md
-2. https://raw.githubusercontent.com/The-new-ben/hea-lth-co-il/main/docs/PORTAL_SOURCE_FILE_MAP_2026-07-12.md
+1. https://github.com/The-new-ben/hea-lth-co-il/blob/main/docs/AGENT_HANDOFF_HEA_LTH_PORTAL_2026-07-11.md
+2. https://github.com/The-new-ben/hea-lth-co-il/blob/main/docs/PORTAL_SOURCE_FILE_MAP_2026-07-12.md
+
+The repository is private. If either URL returns an access page or 404, request collaborator read access to `The-new-ben/hea-lth-co-il`; do not recreate the handoff from memory or ask for credential values.
 
 Ground truth:
 - The live site is https://hea-lth.co.il/.

@@ -5,7 +5,7 @@ Applies to production commit: [`9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c`](https
 
 This map is the companion to [AGENT_HANDOFF_HEA_LTH_PORTAL_2026-07-11.md](AGENT_HANDOFF_HEA_LTH_PORTAL_2026-07-11.md). It inventories all first-party production source files currently committed for the new portal. It does not treat untracked owner research, local exports, archive files, secrets, WordPress uploads, or generated deployment ZIPs as source of truth.
 
-Repository: [The-new-ben/hea-lth-co-il](https://github.com/The-new-ben/hea-lth-co-il)
+Repository: [The-new-ben/hea-lth-co-il](https://github.com/The-new-ben/hea-lth-co-il), private. A successor needs collaborator access; public raw URLs intentionally do not expose these files.
 Production branch: [`main`](https://github.com/The-new-ben/hea-lth-co-il/tree/main)
 Live portal: [https://hea-lth.co.il/](https://hea-lth.co.il/)
 
