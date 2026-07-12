@@ -43,7 +43,26 @@ assert_true( false !== strpos( $css, '.hp-care-navigator' ), 'Care navigator req
 assert_true( false === strpos( $css, '.hp-hero__explorer' ), 'Discarded explorer styles must not remain in the design system.' );
 assert_true( false === strpos( $css, '.hp-map-line' ), 'Deprecated mock-map line styling must not remain in the design system.' );
 assert_true( false === strpos( $css, '.hp-map-marker' ), 'Deprecated mock-map marker styling must not remain in the design system.' );
-assert_true( false !== strpos( $functions, 'Noto+Sans+Hebrew' ), 'The theme must request the selected Hebrew UI font.' );
-assert_true( false !== strpos( $functions, 'Noto+Serif+Hebrew' ), 'The theme must request the selected Hebrew editorial font.' );
+$fonts_css = (string) file_get_contents( $root . '/theme-src/hea-lth-portal/assets/css/fonts.css' );
+
+assert_true( false !== strpos( $functions, "get_theme_file_uri( 'assets/css/fonts.css' )" ), 'The theme must enqueue the self-hosted font stylesheet.' );
+assert_true( false === strpos( $functions, 'fonts.googleapis.com' ), 'The theme must not load fonts from a third-party CDN (AGENTS.md).' );
+assert_true( false === strpos( $functions, 'fonts.gstatic.com' ), 'The theme must not preconnect to a third-party font origin.' );
+assert_true( false !== strpos( $fonts_css, '"Noto Sans Hebrew"' ), 'The self-hosted font kit must declare the Hebrew UI family.' );
+assert_true( false !== strpos( $fonts_css, '"Noto Serif Hebrew"' ), 'The self-hosted font kit must declare the Hebrew editorial family.' );
+
+$font_files = array(
+	'noto-sans-hebrew-var-hebrew.woff2',
+	'noto-sans-hebrew-var-latin.woff2',
+	'noto-serif-hebrew-var-hebrew.woff2',
+	'noto-serif-hebrew-var-latin.woff2',
+);
+
+foreach ( $font_files as $font_file ) {
+	$font_path = $root . '/theme-src/hea-lth-portal/assets/fonts/' . $font_file;
+	assert_true( is_file( $font_path ) && filesize( $font_path ) > 4000, 'Vendored font file missing or truncated: ' . $font_file );
+	$signature = (string) file_get_contents( $font_path, false, null, 0, 4 );
+	assert_true( 'wOF2' === $signature, 'Vendored font must be a valid woff2 binary: ' . $font_file );
+}
 
 echo "Homepage discovery design contract passed.\n";
