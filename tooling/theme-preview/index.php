@@ -273,9 +273,9 @@ function wp_head(): void {
 	echo '<title>' . esc_html( $hea_lth_preview_title ) . " | Hea-lth</title>";
 	echo '<meta name="description" content="Hea-lth: מידע, מדריכים, אינדקס מקצוענים ומסלולי בחירה ברפואה פרטית.">';
 	echo '<link rel="icon" href="data:,">';
-	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
-	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
-	echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700;800&family=Noto+Serif+Hebrew:wght@400;500;600&display=swap">';
+	echo '<link rel="preload" href="' . esc_attr( get_theme_file_uri( 'assets/fonts/noto-sans-hebrew-var-hebrew.woff2' ) ) . '" as="font" type="font/woff2" crossorigin>';
+	echo '<link rel="preload" href="' . esc_attr( get_theme_file_uri( 'assets/fonts/noto-serif-hebrew-var-hebrew.woff2' ) ) . '" as="font" type="font/woff2" crossorigin>';
+	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/fonts.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/portal.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/templates.css' ) ) . '">';
 }

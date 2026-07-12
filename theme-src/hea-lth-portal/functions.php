@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.1.0' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.2.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
@@ -62,9 +62,9 @@ function hea_lth_portal_enqueue_assets() {
 
 	wp_enqueue_style(
 		'hea-lth-portal-fonts',
-		'https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700;800&family=Noto+Serif+Hebrew:wght@400;500;600&display=swap',
+		get_theme_file_uri( 'assets/css/fonts.css' ),
 		array(),
-		null
+		$version
 	);
 
 	wp_enqueue_style(
@@ -332,25 +332,24 @@ function hea_lth_portal_directory_filter_robots( $robots ) {
 add_filter( 'wp_robots', 'hea_lth_portal_directory_filter_robots' );
 
 /**
- * Preconnect only to the two font origins used by the theme preview and build.
- * Production can self-host these files after licensing and performance review.
- *
- * @param array $urls Resource-hint entries.
- * @param string $relation Hint relationship.
- * @return array
+ * Preload the two Hebrew variable font files that drive the first paint. The
+ * fonts are self-hosted under the theme (same-origin), so no third-party
+ * font origin is contacted at runtime.
  */
-function hea_lth_portal_resource_hints( $urls, $relation ) {
-	if ( 'preconnect' === $relation ) {
-		$urls[] = 'https://fonts.googleapis.com';
-		$urls[] = array(
-			'href'        => 'https://fonts.gstatic.com',
-			'crossorigin' => 'anonymous',
+function hea_lth_portal_preload_fonts() {
+	$fonts = array(
+		'assets/fonts/noto-sans-hebrew-var-hebrew.woff2',
+		'assets/fonts/noto-serif-hebrew-var-hebrew.woff2',
+	);
+
+	foreach ( $fonts as $font ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( get_theme_file_uri( $font ) )
 		);
 	}
-
-	return $urls;
 }
-add_filter( 'wp_resource_hints', 'hea_lth_portal_resource_hints', 10, 2 );
+add_action( 'wp_head', 'hea_lth_portal_preload_fonts', 2 );
 
 /**
  * Provide a restrained description only when a dedicated SEO plugin is not

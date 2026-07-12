@@ -205,9 +205,29 @@ $reviewed_guides = hea_lth_portal_get_reviewed_guides( 3 );
 			<?php wp_reset_postdata(); ?>
 		<?php else : ?>
 			<div class="hp-reviewed-feed-empty">
-				<strong><?php esc_html_e( 'המדריכים המודגשים יוצגו כאן לאחר אישור עריכתי, תאריך בדיקה ומקור גלוי.', 'hea-lth-portal' ); ?></strong>
-				<p><?php esc_html_e( 'בינתיים אפשר לעיין במרכזי התחומים, באינדקס ובמילון הבריאות.', 'hea-lth-portal' ); ?></p>
-				<a class="hp-inline-link hp-inline-link--light" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'guides' ) ); ?>"><?php esc_html_e( 'לספריית המדריכים', 'hea-lth-portal' ); ?><span aria-hidden="true">←</span></a>
+				<div class="hp-reviewed-feed-empty__intro">
+					<p class="hp-eyebrow hp-eyebrow--light"><?php esc_html_e( 'תקן הפרסום שלנו', 'hea-lth-portal' ); ?></p>
+					<strong><?php esc_html_e( 'המדריכים הראשונים נמצאים בבדיקה עריכתית.', 'hea-lth-portal' ); ?></strong>
+					<p><?php esc_html_e( 'כל מדריך מתפרסם כאן רק אחרי שעמד בשלושת תנאי הסף. בינתיים אפשר לעיין במרכזי התחומים ובמילון הבריאות.', 'hea-lth-portal' ); ?></p>
+					<a class="hp-inline-link hp-inline-link--light" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'guides' ) ); ?>"><?php esc_html_e( 'לספריית המדריכים', 'hea-lth-portal' ); ?><span aria-hidden="true">←</span></a>
+				</div>
+				<ol class="hp-reviewed-feed-empty__standard">
+					<li>
+						<span aria-hidden="true">01</span>
+						<b><?php esc_html_e( 'אישור עריכתי', 'hea-lth-portal' ); ?></b>
+						<p><?php esc_html_e( 'עורך אחראי מאשר את התוכן לפני שהוא מוצג לציבור.', 'hea-lth-portal' ); ?></p>
+					</li>
+					<li>
+						<span aria-hidden="true">02</span>
+						<b><?php esc_html_e( 'תאריך בדיקה', 'hea-lth-portal' ); ?></b>
+						<p><?php esc_html_e( 'מועד הבדיקה האחרון מוצג בגלוי על כל מדריך.', 'hea-lth-portal' ); ?></p>
+					</li>
+					<li>
+						<span aria-hidden="true">03</span>
+						<b><?php esc_html_e( 'מקור גלוי', 'hea-lth-portal' ); ?></b>
+						<p><?php esc_html_e( 'ההפניה המקצועית שעליה נשען המדריך מוצגת לצד התוכן.', 'hea-lth-portal' ); ?></p>
+					</li>
+				</ol>
 			</div>
 		<?php endif; ?>
 	</div>
