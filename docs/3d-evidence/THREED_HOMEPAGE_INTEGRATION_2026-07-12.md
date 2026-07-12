@@ -1,10 +1,17 @@
 # 3D anatomy — homepage viewer integration (2026-07-12)
 
-Branch: `claude/3d-frontpage-integration` (not merged to `main`; **no production
-deploy performed**). This record documents a complete, locally-verified
-integration of the licensed Z-Anatomy skeletal model into the homepage hero,
-gated by the existing platform approval gate. One owner decision (deploy
-approval) stands between this and the live homepage.
+> **DEPLOYED TO PRODUCTION 2026-07-12.** Merged to `main` (`034ce22`), deployed via
+> GitHub Actions run `29199564252`. Live `deployment_id` flipped to
+> `gh-034ce22…29199564252` on both healthchecks. The skeletal viewer renders on
+> the live homepage (`https://hea-lth.co.il`): config `approved/three-webgl`,
+> model `z-anatomy-skeletal-v1 v1.1.0`, 277 meshes, 88 clickable structures,
+> Draco-decoded on the live host, old teaser removed, YMYL disclaimer visible.
+> Auto-activated via the shipped default manifest (owner chose "Deploy + auto-show").
+> Render evidence: `docs/3d-evidence/LIVE-homepage-skeleton-render-2026-07-12.png`.
+
+Originally built on branch `claude/3d-frontpage-integration`. This record documents
+a complete integration of the licensed Z-Anatomy skeletal model into the homepage
+hero, gated by the platform approval gate.
 
 ## What shipped into the branch (verified)
 
