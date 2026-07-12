@@ -231,12 +231,36 @@ final class Hea_Lth_Anatomy_Model_Registry {
 		$value = get_option( self::OPTION, '' );
 
 		if ( ! is_string( $value ) || '' === trim( $value ) ) {
-			return null;
+			// No administrator-set manifest: fall back to the shipped default so
+			// an approved model is live on install. The default is still run
+			// through normalize + gate below; it is a source, not a bypass. An
+			// administrator can override or disable it from the settings page.
+			$value = self::read_default_manifest_json();
+			if ( null === $value ) {
+				return null;
+			}
 		}
 
 		$decoded = json_decode( $value, true );
 
 		return is_array( $decoded ) ? self::normalize_manifest( $decoded ) : null;
+	}
+
+	/**
+	 * Read the plugin's shipped default manifest JSON, if present.
+	 *
+	 * @return string|null
+	 */
+	private static function read_default_manifest_json() {
+		$path = dirname( __DIR__ ) . '/data/default-anatomy-manifest.json';
+
+		if ( ! is_readable( $path ) ) {
+			return null;
+		}
+
+		$contents = file_get_contents( $path );
+
+		return ( is_string( $contents ) && '' !== trim( $contents ) ) ? $contents : null;
 	}
 
 	/**

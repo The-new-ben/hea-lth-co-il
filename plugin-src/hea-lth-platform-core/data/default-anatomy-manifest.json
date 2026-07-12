@@ -1,0 +1,647 @@
+{
+  "modelId": "z-anatomy-skeletal-v1",
+  "version": "1.1.0",
+  "status": "approved",
+  "license": {
+    "owner": "Z-Anatomy (Gauthier Kervyn) + BodyParts3D / The Database Center for Life Science",
+    "sourceUrl": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
+    "webDeliveryAllowed": true,
+    "derivativeUseAllowed": true,
+    "contractReference": "CC-BY-SA-4.0 (Z-Anatomy) + CC-BY-SA-2.1-JP (BodyParts3D) — docs/3d-evidence/Z-ANATOMY-License.txt",
+    "attributionRequired": true,
+    "reviewedAt": "2026-07-12"
+  },
+  "clinicalReview": {
+    "status": "approved",
+    "owner": "צוות העריכה של Hea-lth",
+    "reviewedAt": "2026-07-12",
+    "kind": "editorial-nomenclature",
+    "notes": "Editorial attestation (docs/THREED_EDITORIAL_REVIEW_DECISION_2026-07-12.md): structure labels follow standard Terminologia Anatomica (TA2) nomenclature. Reference-nomenclature check, NOT a clinical/medical endorsement. The public viewer shows a visible illustration-only disclaimer and full source attribution. Mesh names normalized to the gate charset via design-lab/3d-human-engine/pipeline/normalize_glb_names.py."
+  },
+  "asset": {
+    "sourceGlb": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
+    "lods": [
+      {
+        "id": "lod-0",
+        "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-preview.glb",
+        "purpose": "mobile",
+        "triangleCount": 104304,
+        "compressedBytes": 634044
+      },
+      {
+        "id": "lod-1",
+        "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
+        "purpose": "desktop",
+        "triangleCount": 598529,
+        "compressedBytes": 1863280
+      },
+      {
+        "id": "lod-2",
+        "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
+        "purpose": "detail",
+        "triangleCount": 598529,
+        "compressedBytes": 1863280
+      }
+    ],
+    "validation": {
+      "gltfValid": true,
+      "visualQa": "passed",
+      "performanceQa": "passed"
+    },
+    "quality": {
+      "sourceTriangleCount": 598529,
+      "anatomicalFidelityQa": "passed",
+      "semanticMeshQa": "passed"
+    }
+  },
+  "layers": [
+    {
+      "id": "skeletal-system",
+      "kind": "system",
+      "defaultVisible": true,
+      "meshIds": [
+        "Femur.l",
+        "Femur.r",
+        "Tibia.l",
+        "Tibia.r",
+        "Humerus.l",
+        "Humerus.r",
+        "Mandible",
+        "Scapula.l",
+        "Scapula.r",
+        "Clavicle.l",
+        "Clavicle.r",
+        "Patella.l",
+        "Patella.r"
+      ]
+    }
+  ],
+  "structures": [
+    {
+      "id": "anatomy:cranium",
+      "meshIds": [
+        "Frontal_bone",
+        "Parietal_bone.l",
+        "Parietal_bone.r",
+        "Occipital_bone",
+        "Temporal_bone.l",
+        "Temporal_bone.r",
+        "Sphenoid_bone",
+        "Ethmoid_bone"
+      ],
+      "labels": {
+        "he": "גולגולת",
+        "en": "Cranium"
+      },
+      "contexts": [
+        {
+          "id": "cranial",
+          "labelHe": "אנטומיית הגולגולת",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:cranial-anatomy"
+            ],
+            "specialties": [
+              "specialty:neurosurgery"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:mandible",
+      "meshIds": [
+        "Mandible"
+      ],
+      "labels": {
+        "he": "עצם הלסת התחתונה",
+        "en": "Mandible"
+      },
+      "contexts": [
+        {
+          "id": "maxillofacial",
+          "labelHe": "כירורגיית פה ולסת",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:jaw-anatomy"
+            ],
+            "specialties": [
+              "specialty:oral-maxillofacial-surgery"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:auditory-ossicles",
+      "meshIds": [
+        "Incus.l",
+        "Incus.r",
+        "Malleus.l",
+        "Malleus.r",
+        "Stapes.l",
+        "Stapes.r"
+      ],
+      "labels": {
+        "he": "עצמות השמע",
+        "en": "Auditory ossicles"
+      },
+      "contexts": [
+        {
+          "id": "hearing-ent",
+          "labelHe": "שמיעה ואף אוזן גרון",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:hearing-anatomy"
+            ],
+            "specialties": [
+              "specialty:otolaryngology"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:cervical-spine",
+      "meshIds": [
+        "Atlas_C1",
+        "Axis_C2",
+        "Vertebra_C3",
+        "Vertebra_C4",
+        "Vertebra_C5",
+        "Vertebra_C6",
+        "Vertebra_C7"
+      ],
+      "labels": {
+        "he": "עמוד השדרה הצווארי",
+        "en": "Cervical spine"
+      },
+      "contexts": [
+        {
+          "id": "spine-ortho",
+          "labelHe": "עמוד שדרה ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:spine-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics",
+              "specialty:neurosurgery"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:thoracic-spine",
+      "meshIds": [
+        "Vertebra_T1",
+        "Vertebra_T2",
+        "Vertebra_T3",
+        "Vertebra_T4",
+        "Vertebra_T5",
+        "Vertebra_T6",
+        "Vertebra_T7",
+        "Vertebra_T8",
+        "Vertebra_T9",
+        "Vertebra_T10",
+        "Vertebra_T11",
+        "Vertebra_T12"
+      ],
+      "labels": {
+        "he": "עמוד השדרה הגבי",
+        "en": "Thoracic spine"
+      },
+      "contexts": [
+        {
+          "id": "spine-ortho",
+          "labelHe": "עמוד שדרה ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:spine-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:lumbar-spine",
+      "meshIds": [
+        "Vertebra_L1",
+        "Vertebra_L2",
+        "Vertebra_L3",
+        "Vertebra_L4",
+        "Vertebra_L5"
+      ],
+      "labels": {
+        "he": "עמוד השדרה המותני",
+        "en": "Lumbar spine"
+      },
+      "contexts": [
+        {
+          "id": "spine-ortho",
+          "labelHe": "עמוד שדרה ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:spine-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics",
+              "specialty:neurosurgery"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:sacrum-coccyx",
+      "meshIds": [
+        "Sacrum",
+        "Coccyx"
+      ],
+      "labels": {
+        "he": "העצה והעצם הזנבית",
+        "en": "Sacrum and coccyx"
+      },
+      "contexts": [
+        {
+          "id": "spine-ortho",
+          "labelHe": "עמוד שדרה ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:skeletal-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:rib-cage",
+      "meshIds": [
+        "First_rib.l",
+        "First_rib.r",
+        "Second_rib.l",
+        "Second_rib.r",
+        "Third_rib.l",
+        "Third_rib.r",
+        "Fourth_rib.l",
+        "Fourth_rib.r",
+        "Fifth_rib.l",
+        "Fifth_rib.r",
+        "Sixth_rib.l",
+        "Sixth_rib.r",
+        "Seventh_rib.l",
+        "Seventh_rib.r",
+        "Eighth_rib.l",
+        "Eighth_rib.r",
+        "Ninth_rib.l",
+        "Ninth_rib.r",
+        "Tenth_rib.l",
+        "Tenth_rib.r",
+        "Eleventh_rib.l",
+        "Eleventh_rib.r",
+        "Twelfth_rib.l",
+        "Twelfth_rib.r"
+      ],
+      "labels": {
+        "he": "בית החזה (צלעות)",
+        "en": "Rib cage"
+      },
+      "contexts": [
+        {
+          "id": "thoracic",
+          "labelHe": "דופן בית החזה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:thoracic-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics",
+              "specialty:thoracic-surgery"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:sternum",
+      "meshIds": [
+        "Manubrium_of_sternum",
+        "Body_of_sternum",
+        "Xiphoid_process"
+      ],
+      "labels": {
+        "he": "עצם החזה",
+        "en": "Sternum"
+      },
+      "contexts": [
+        {
+          "id": "thoracic",
+          "labelHe": "דופן בית החזה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:thoracic-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:clavicle",
+      "meshIds": [
+        "Clavicle.l",
+        "Clavicle.r"
+      ],
+      "labels": {
+        "he": "עצם הבריח",
+        "en": "Clavicle"
+      },
+      "contexts": [
+        {
+          "id": "shoulder-ortho",
+          "labelHe": "כתף ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:shoulder-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:scapula",
+      "meshIds": [
+        "Scapula.l",
+        "Scapula.r"
+      ],
+      "labels": {
+        "he": "עצם השכם",
+        "en": "Scapula"
+      },
+      "contexts": [
+        {
+          "id": "shoulder-ortho",
+          "labelHe": "כתף ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:shoulder-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:humerus",
+      "meshIds": [
+        "Humerus.l",
+        "Humerus.r"
+      ],
+      "labels": {
+        "he": "עצם הזרוע",
+        "en": "Humerus"
+      },
+      "contexts": [
+        {
+          "id": "upper-limb",
+          "labelHe": "גפה עליונה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:skeletal-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:radius",
+      "meshIds": [
+        "Radius.l",
+        "Radius.r"
+      ],
+      "labels": {
+        "he": "עצם החישור",
+        "en": "Radius"
+      },
+      "contexts": [
+        {
+          "id": "upper-limb",
+          "labelHe": "גפה עליונה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:skeletal-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:ulna",
+      "meshIds": [
+        "Ulna.l",
+        "Ulna.r"
+      ],
+      "labels": {
+        "he": "עצם הגומד",
+        "en": "Ulna"
+      },
+      "contexts": [
+        {
+          "id": "upper-limb",
+          "labelHe": "גפה עליונה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:skeletal-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:pelvis",
+      "meshIds": [
+        "Hip_bone.l",
+        "Hip_bone.r"
+      ],
+      "labels": {
+        "he": "עצמות האגן",
+        "en": "Pelvis (hip bones)"
+      },
+      "contexts": [
+        {
+          "id": "pelvis-ortho",
+          "labelHe": "אגן ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:pelvis-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:femur",
+      "meshIds": [
+        "Femur.l",
+        "Femur.r"
+      ],
+      "labels": {
+        "he": "עצם הירך",
+        "en": "Femur"
+      },
+      "contexts": [
+        {
+          "id": "lower-limb",
+          "labelHe": "גפה תחתונה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:skeletal-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:patella",
+      "meshIds": [
+        "Patella.l",
+        "Patella.r"
+      ],
+      "labels": {
+        "he": "עצם הפיקה",
+        "en": "Patella"
+      },
+      "contexts": [
+        {
+          "id": "knee-ortho",
+          "labelHe": "ברך ואורתופדיה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:knee-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:tibia",
+      "meshIds": [
+        "Tibia.l",
+        "Tibia.r"
+      ],
+      "labels": {
+        "he": "עצם השוק",
+        "en": "Tibia"
+      },
+      "contexts": [
+        {
+          "id": "lower-limb",
+          "labelHe": "גפה תחתונה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:skeletal-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy:fibula",
+      "meshIds": [
+        "Fibula.l",
+        "Fibula.r"
+      ],
+      "labels": {
+        "he": "עצם השוקית",
+        "en": "Fibula"
+      },
+      "contexts": [
+        {
+          "id": "lower-limb",
+          "labelHe": "גפה תחתונה",
+          "resolverEntityIds": {
+            "topics": [
+              "topic:skeletal-anatomy"
+            ],
+            "specialties": [
+              "specialty:orthopedics"
+            ],
+            "treatments": [],
+            "equipmentCategories": []
+          }
+        }
+      ]
+    }
+  ]
+}

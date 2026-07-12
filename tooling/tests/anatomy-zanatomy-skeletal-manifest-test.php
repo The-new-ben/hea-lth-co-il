@@ -116,4 +116,12 @@ assert_same( false, array_key_exists( 'license', $public ), 'The public response
 assert_same( false, array_key_exists( 'contractReference', $public ), 'The public response must not expose a contract reference.' );
 assert_same( false, array_key_exists( 'sourceGlb', $public['asset'] ), 'The public response must not expose the protected source asset path.' );
 
+// Auto-show path: with NO administrator option set, the plugin must fall back to
+// the shipped default manifest and still gate to an approved public config.
+unset( $hea_lth_test_options['hea_lth_anatomy_model_manifest'] );
+$default_public = Hea_Lth_Anatomy_Model_Registry::get_public_configuration();
+assert_same( 'approved', $default_public['status'], 'The shipped default manifest must auto-activate an approved viewer when no admin option is set.' );
+assert_same( 'three-webgl', $default_public['engine'], 'The default auto-activated model must target the WebGL engine.' );
+assert_true( count( $default_public['structures'] ) >= 18, 'The default auto-activated model must carry whole-skeleton structures.' );
+
 echo "Z-Anatomy skeletal manifest gate test passed.\n";
