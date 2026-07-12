@@ -40,6 +40,7 @@ if ( ! isset( $hea_lth_preview_pages[ $hea_lth_preview_page ] ) ) {
 $hea_lth_preview_title          = $hea_lth_preview_pages[ $hea_lth_preview_page ]['title'];
 $hea_lth_preview_main_post_seen = false;
 $hea_lth_preview_three_fixture  = 'anatomy' === $hea_lth_preview_page && isset( $_GET['threeFixture'] ) && '1' === (string) $_GET['threeFixture'];
+$hea_lth_preview_front_three    = 'home' === $hea_lth_preview_page && isset( $_GET['threeFixture'] ) && '1' === (string) $_GET['threeFixture'];
 
 /**
  * Isolated local fixtures used only to render dormant profile and treatment
@@ -91,6 +92,71 @@ function hea_lth_preview_fixture(): array {
 	return isset( $fixtures[ $hea_lth_preview_page ] ) ? $fixtures[ $hea_lth_preview_page ] : array();
 }
 
+/**
+ * Local-only approved skeletal configuration that mirrors the shape the platform
+ * plugin's public gate returns. It is used purely to render and QA the homepage
+ * WebGL viewer against the real, promoted Draco assets. It never ships in a
+ * package and never touches WordPress or the live site.
+ *
+ * @return array<string, mixed>
+ */
+function hea_lth_preview_model_url( string $relative ): string {
+	$disk = realpath( __DIR__ . '/../../theme-src/hea-lth-portal/' . $relative );
+	$version = false !== $disk ? (string) filemtime( $disk ) : '0';
+
+	return get_theme_file_uri( $relative ) . '?v=' . $version;
+}
+
+function hea_lth_preview_skeletal_config(): array {
+	return array(
+		'status'   => 'approved',
+		'engine'   => 'three-webgl',
+		'testOnly' => true,
+		'modelId'  => 'z-anatomy-skeletal-v1',
+		'version'  => '1.0.0',
+		'asset'    => array(
+			'lods' => array(
+				array(
+					'id'              => 'lod-0',
+					'path'            => hea_lth_preview_model_url( 'assets/models/skeletal-preview.glb' ),
+					'purpose'         => 'mobile',
+					'triangleCount'   => 104304,
+					'compressedBytes' => 634048,
+				),
+				array(
+					'id'              => 'lod-1',
+					'path'            => hea_lth_preview_model_url( 'assets/models/skeletal-detail.glb' ),
+					'purpose'         => 'desktop',
+					'triangleCount'   => 598529,
+					'compressedBytes' => 1863284,
+				),
+			),
+		),
+		'layers'     => array(
+			array(
+				'id'             => 'skeletal-system',
+				'kind'           => 'system',
+				'label'          => 'מערכת השלד',
+				'defaultVisible' => true,
+				'meshIds'        => array( 'Femur.l', 'Femur.r', 'Tibia.l', 'Tibia.r', 'Humerus.l', 'Humerus.r', 'Mandible', 'Scapula.l', 'Scapula.r', 'Clavicle.l', 'Clavicle.r', 'Patella.l', 'Patella.r' ),
+			),
+		),
+		'structures' => array(
+			array( 'id' => 'anatomy:auditory-ossicles', 'regionId' => 'auditory-ossicles', 'label' => 'עצמות השמע', 'meshIds' => array( 'Incus.l', 'Incus.r', 'Malleus.l', 'Malleus.r', 'Stapes.l', 'Stapes.r' ), 'contexts' => array() ),
+			array( 'id' => 'anatomy:mandible', 'regionId' => 'mandible', 'label' => 'עצם הלסת התחתונה', 'meshIds' => array( 'Mandible' ), 'contexts' => array() ),
+			array( 'id' => 'anatomy:femur', 'regionId' => 'femur', 'label' => 'עצם הירך', 'meshIds' => array( 'Femur.l', 'Femur.r' ), 'contexts' => array() ),
+			array( 'id' => 'anatomy:patella', 'regionId' => 'patella', 'label' => 'עצם הפיקה', 'meshIds' => array( 'Patella.l', 'Patella.r' ), 'contexts' => array() ),
+			array( 'id' => 'anatomy:humerus', 'regionId' => 'humerus', 'label' => 'עצם הזרוע', 'meshIds' => array( 'Humerus.l', 'Humerus.r' ), 'contexts' => array() ),
+			array( 'id' => 'anatomy:scapula', 'regionId' => 'scapula', 'label' => 'עצם השכם', 'meshIds' => array( 'Scapula.l', 'Scapula.r' ), 'contexts' => array() ),
+		),
+		'capabilities' => array( 'rotate' => true, 'zoom' => true, 'meshSelection' => true, 'layerSelection' => false ),
+	);
+}
+
+if ( $hea_lth_preview_front_three ) {
+	$GLOBALS['hea_lth_preview_front_anatomy'] = hea_lth_preview_skeletal_config();
+}
+
 define( 'HEA_LTH_PORTAL_PREVIEW', true );
 
 function hea_lth_preview_theme_directory(): string {
@@ -109,16 +175,22 @@ function bloginfo( string $show ): void {
 	}
 }
 
+function hea_lth_preview_base_url(): string {
+	$host = isset( $_SERVER['HTTP_HOST'] ) && '' !== $_SERVER['HTTP_HOST'] ? (string) $_SERVER['HTTP_HOST'] : '127.0.0.1:8787';
+
+	return 'http://' . $host;
+}
+
 function home_url( string $path = '/' ): string {
-	return 'http://127.0.0.1:8787' . $path;
+	return hea_lth_preview_base_url() . $path;
 }
 
 function rest_url( string $path = '' ): string {
-	return 'http://127.0.0.1:8787/wp-json/' . ltrim( $path, '/' );
+	return hea_lth_preview_base_url() . '/wp-json/' . ltrim( $path, '/' );
 }
 
 function get_theme_file_uri( string $path = '' ): string {
-	return 'http://127.0.0.1:8787/theme-src/hea-lth-portal/' . ltrim( $path, '/' );
+	return hea_lth_preview_base_url() . '/theme-src/hea-lth-portal/' . ltrim( $path, '/' );
 }
 
 function esc_html( $value ): string {
@@ -269,6 +341,18 @@ function wp_footer(): void {
 	}
 	if ( 'directory' === $hea_lth_preview_page ) {
 		echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/directory-browser.js' ) ) . '"></script>';
+	}
+	if ( 'home' === $hea_lth_preview_page && $GLOBALS['hea_lth_preview_front_three'] ?? false ) {
+		$front_config = hea_lth_preview_skeletal_config();
+		$front_map    = array(
+			'imports' => array(
+				'three'         => get_theme_file_uri( 'assets/vendor/three/build/three.module.min.js' ),
+				'three/addons/' => get_theme_file_uri( 'assets/vendor/three/examples/jsm/' ),
+			),
+		);
+		echo '<script>window.heaLthAnatomyViewer = ' . wp_json_encode( $front_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
+		echo '<script type="importmap">' . wp_json_encode( $front_map, JSON_UNESCAPED_SLASHES ) . '</script>';
+		echo '<script type="module" src="' . esc_attr( get_theme_file_uri( 'assets/js/anatomy-three-viewer.js' ) ) . '"></script>';
 	}
 }
 

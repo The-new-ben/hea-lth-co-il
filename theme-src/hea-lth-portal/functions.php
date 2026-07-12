@@ -157,6 +157,18 @@ function hea_lth_portal_has_approved_three_anatomy_model( $config ) {
 }
 
 /**
+ * Surfaces where the self-hosted WebGL viewer may render: the dedicated anatomy
+ * template, the anatomy page, or the homepage hero. This decides only where the
+ * runtime may appear; the platform approval gate is still enforced separately
+ * before any import map, module, or asset is emitted.
+ *
+ * @return bool
+ */
+function hea_lth_portal_is_anatomy_viewer_surface() {
+	return is_page_template( 'page-templates/template-anatomy.php' ) || is_page( 'anatomy' ) || is_front_page();
+}
+
+/**
  * Print the local import map before the 3D module. Three.js is deliberately
  * self-hosted in the theme package, not loaded from a third-party CDN at run
  * time. The module is emitted only after the platform gate has approved a
@@ -165,7 +177,7 @@ function hea_lth_portal_has_approved_three_anatomy_model( $config ) {
  * @return void
  */
 function hea_lth_portal_print_anatomy_three_import_map() {
-	if ( ! is_page_template( 'page-templates/template-anatomy.php' ) && ! is_page( 'anatomy' ) ) {
+	if ( ! hea_lth_portal_is_anatomy_viewer_surface() ) {
 		return;
 	}
 
@@ -190,44 +202,73 @@ add_action( 'wp_head', 'hea_lth_portal_print_anatomy_three_import_map', 2 );
  * has supplied a local, browser-deliverable GLB.
  */
 function hea_lth_portal_enqueue_anatomy_assets() {
-	if ( ! is_page_template( 'page-templates/template-anatomy.php' ) && ! is_page( 'anatomy' ) ) {
+	$is_anatomy_surface = is_page_template( 'page-templates/template-anatomy.php' ) || is_page( 'anatomy' );
+	$is_front           = is_front_page();
+
+	if ( ! $is_anatomy_surface && ! $is_front ) {
 		return;
 	}
 
 	$model_config = hea_lth_portal_anatomy_viewer_config();
 
-	wp_enqueue_script(
-		'hea-lth-anatomy-discovery',
-		get_theme_file_uri( 'assets/js/anatomy-discovery.js' ),
-		array( 'hea-lth-portal' ),
-		HEA_LTH_PORTAL_VERSION,
-		true
-	);
+	if ( $is_anatomy_surface ) {
+		// Full discovery experience: the accessible region/context resolver and
+		// the verified-directory map ship alongside the model on its own page.
+		wp_enqueue_script(
+			'hea-lth-anatomy-discovery',
+			get_theme_file_uri( 'assets/js/anatomy-discovery.js' ),
+			array( 'hea-lth-portal' ),
+			HEA_LTH_PORTAL_VERSION,
+			true
+		);
 
-	wp_add_inline_script(
-		'hea-lth-anatomy-discovery',
-		'window.heaLthAnatomyViewer = ' . wp_json_encode( $model_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '; window.heaLthAnatomyRoutes = ' . wp_json_encode( hea_lth_portal_anatomy_route_map(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
-		'before'
-	);
+		wp_add_inline_script(
+			'hea-lth-anatomy-discovery',
+			'window.heaLthAnatomyViewer = ' . wp_json_encode( $model_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '; window.heaLthAnatomyRoutes = ' . wp_json_encode( hea_lth_portal_anatomy_route_map(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
+			'before'
+		);
 
-	$map_config = hea_lth_portal_directory_map_config();
-	wp_enqueue_script(
-		'hea-lth-anatomy-directory-map',
-		get_theme_file_uri( 'assets/js/anatomy-directory-map.js' ),
-		array( 'hea-lth-anatomy-discovery' ),
-		HEA_LTH_PORTAL_VERSION,
-		true
-	);
-	wp_add_inline_script(
-		'hea-lth-anatomy-directory-map',
-		'window.heaLthDirectoryMap = ' . wp_json_encode( $map_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
-		'before'
-	);
+		$map_config = hea_lth_portal_directory_map_config();
+		wp_enqueue_script(
+			'hea-lth-anatomy-directory-map',
+			get_theme_file_uri( 'assets/js/anatomy-directory-map.js' ),
+			array( 'hea-lth-anatomy-discovery' ),
+			HEA_LTH_PORTAL_VERSION,
+			true
+		);
+		wp_add_inline_script(
+			'hea-lth-anatomy-directory-map',
+			'window.heaLthDirectoryMap = ' . wp_json_encode( $map_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
+			'before'
+		);
+	}
 
 	if ( ! hea_lth_portal_has_approved_three_anatomy_model( $model_config ) ) {
 		return;
 	}
 
+	if ( $is_front && ! $is_anatomy_surface ) {
+		// Homepage hero carries only the approved model config on the always-
+		// present theme script. The resolver and map controllers are anatomy-
+		// page features and are intentionally not loaded here.
+		wp_add_inline_script(
+			'hea-lth-portal',
+			'window.heaLthAnatomyViewer = ' . wp_json_encode( $model_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
+			'after'
+		);
+	}
+
+	hea_lth_portal_enqueue_anatomy_three_module();
+}
+add_action( 'wp_enqueue_scripts', 'hea_lth_portal_enqueue_anatomy_assets' );
+
+/**
+ * Enqueue the self-hosted WebGL viewer as an ES module, with a classic-script
+ * fallback for WordPress versions without the script-module API.
+ *
+ * @return void
+ */
+function hea_lth_portal_enqueue_anatomy_three_module() {
 	$three_script = get_theme_file_uri( 'assets/js/anatomy-three-viewer.js' );
 
 	if ( function_exists( 'wp_enqueue_script_module' ) ) {
@@ -244,7 +285,6 @@ function hea_lth_portal_enqueue_anatomy_assets() {
 	);
 	wp_script_add_data( 'hea-lth-anatomy-three-viewer', 'type', 'module' );
 }
-add_action( 'wp_enqueue_scripts', 'hea_lth_portal_enqueue_anatomy_assets' );
 
 /**
  * Load the public verified-directory browser only on its dedicated template.

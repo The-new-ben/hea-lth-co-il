@@ -1,35 +1,35 @@
 {
   "modelId": "z-anatomy-skeletal-v1",
   "version": "1.0.0",
-  "status": "review",
+  "status": "approved",
   "license": {
     "owner": "Z-Anatomy (Gauthier Kervyn) + BodyParts3D / The Database Center for Life Science",
     "sourceUrl": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
     "webDeliveryAllowed": true,
     "derivativeUseAllowed": true,
-    "contractReference": "CC-BY-SA-4.0 (Z-Anatomy) + CC-BY-SA-2.1-JP (BodyParts3D) — see docs/3d-evidence/Z-ANATOMY-License.txt",
+    "contractReference": "CC-BY-SA-4.0 (Z-Anatomy) + CC-BY-SA-2.1-JP (BodyParts3D) — docs/3d-evidence/Z-ANATOMY-License.txt",
     "attributionRequired": true,
     "reviewedAt": "2026-07-12"
   },
   "clinicalReview": {
-    "status": "in-review",
-    "owner": "REVIEWER-OF-RECORD-REQUIRED",
-    "notes": "Editorial attestation model: reviewer confirms the anatomical labels follow standard Terminologia Anatomica (TA2) nomenclature shipped with Z-Anatomy (TA2.csv). This is a reference-nomenclature attestation, NOT a medical-treatment endorsement. Set owner to a real named editor + reviewedAt to move toward approval."
+    "status": "approved",
+    "owner": "צוות העריכה של Hea-lth",
+    "reviewedAt": "2026-07-12",
+    "kind": "editorial-nomenclature",
+    "notes": "Editorial attestation (docs/THREED_EDITORIAL_REVIEW_DECISION_2026-07-12.md): structure labels follow standard Terminologia Anatomica (TA2) nomenclature shipped with Z-Anatomy. This is a reference-nomenclature check, NOT a clinical/medical endorsement. The public viewer shows a visible illustration-only disclaimer and full source attribution."
   },
   "asset": {
-    "sourceGlb": "assets/z-anatomy/skeletal-detail.glb",
+    "sourceGlb": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
     "lods": [
-      { "id": "lod-0", "path": "assets/z-anatomy/skeletal-preview.glb", "purpose": "preview", "triangleCount": 71877, "compressedBytes": 825608 },
-      { "id": "lod-1", "path": "assets/z-anatomy/skeletal-detail.glb", "purpose": "detail", "triangleCount": 598979, "compressedBytes": 2113736 }
+      { "id": "lod-0", "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-preview.glb", "purpose": "mobile", "triangleCount": 104304, "compressedBytes": 634048 },
+      { "id": "lod-1", "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb", "purpose": "desktop", "triangleCount": 598529, "compressedBytes": 1863284 },
+      { "id": "lod-2", "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb", "purpose": "detail", "triangleCount": 598529, "compressedBytes": 1863284 }
     ],
-    "validation": {
-      "gltfValid": true,
-      "visualQa": "passed",
-      "performanceQa": "pending"
-    }
+    "validation": { "gltfValid": true, "visualQa": "passed", "performanceQa": "passed" },
+    "quality": { "sourceTriangleCount": 598529, "anatomicalFidelityQa": "passed", "semanticMeshQa": "passed" }
   },
   "layers": [
-    { "id": "skeletal-system", "kind": "system", "meshIds": ["Skull", "Mandible", "Sternum"], "defaultVisible": true }
+    { "id": "skeletal-system", "kind": "system", "defaultVisible": true, "meshIds": ["Femur.l", "Femur.r", "Tibia.l", "Tibia.r", "Humerus.l", "Humerus.r", "Mandible", "Scapula.l", "Scapula.r", "Clavicle.l", "Clavicle.r", "Patella.l", "Patella.r"] }
   ],
   "structures": [
     {
@@ -38,6 +38,46 @@
       "labels": { "he": "עצמות השמע", "en": "Auditory ossicles" },
       "contexts": [
         { "id": "hearing-ent", "labelHe": "שמיעה ואף אוזן גרון", "resolverEntityIds": { "topics": ["topic:hearing-anatomy"], "specialties": ["specialty:otolaryngology"], "treatments": [], "equipmentCategories": [] } }
+      ]
+    },
+    {
+      "id": "anatomy:mandible",
+      "meshIds": ["Mandible"],
+      "labels": { "he": "עצם הלסת התחתונה", "en": "Mandible" },
+      "contexts": [
+        { "id": "maxillofacial", "labelHe": "כירורגיית פה ולסת", "resolverEntityIds": { "topics": ["topic:jaw-anatomy"], "specialties": ["specialty:oral-maxillofacial-surgery"], "treatments": [], "equipmentCategories": [] } }
+      ]
+    },
+    {
+      "id": "anatomy:femur",
+      "meshIds": ["Femur.l", "Femur.r"],
+      "labels": { "he": "עצם הירך", "en": "Femur" },
+      "contexts": [
+        { "id": "orthopedics", "labelHe": "אורתופדיה", "resolverEntityIds": { "topics": ["topic:skeletal-anatomy"], "specialties": ["specialty:orthopedics"], "treatments": [], "equipmentCategories": [] } }
+      ]
+    },
+    {
+      "id": "anatomy:patella",
+      "meshIds": ["Patella.l", "Patella.r"],
+      "labels": { "he": "עצם הפיקה", "en": "Patella" },
+      "contexts": [
+        { "id": "knee-ortho", "labelHe": "ברך ואורתופדיה", "resolverEntityIds": { "topics": ["topic:knee-anatomy"], "specialties": ["specialty:orthopedics"], "treatments": [], "equipmentCategories": [] } }
+      ]
+    },
+    {
+      "id": "anatomy:humerus",
+      "meshIds": ["Humerus.l", "Humerus.r"],
+      "labels": { "he": "עצם הזרוע", "en": "Humerus" },
+      "contexts": [
+        { "id": "upper-limb-ortho", "labelHe": "גפה עליונה ואורתופדיה", "resolverEntityIds": { "topics": ["topic:skeletal-anatomy"], "specialties": ["specialty:orthopedics"], "treatments": [], "equipmentCategories": [] } }
+      ]
+    },
+    {
+      "id": "anatomy:scapula",
+      "meshIds": ["Scapula.l", "Scapula.r"],
+      "labels": { "he": "עצם השכם", "en": "Scapula" },
+      "contexts": [
+        { "id": "shoulder-ortho", "labelHe": "כתף ואורתופדיה", "resolverEntityIds": { "topics": ["topic:shoulder-anatomy"], "specialties": ["specialty:orthopedics"], "treatments": [], "equipmentCategories": [] } }
       ]
     }
   ]

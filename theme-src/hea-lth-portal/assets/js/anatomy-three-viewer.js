@@ -1,6 +1,16 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+
+// Same-origin Draco decoder, resolved from this module's own URL so the path is
+// correct on any host (live theme or local preview) with no server-side config.
+// The decoder .wasm is fetched as an ArrayBuffer by DRACOLoader, so it does not
+// depend on the host serving application/wasm.
+const DRACO_DECODER_PATH = new URL(
+  '../vendor/three/examples/jsm/libs/draco/gltf/',
+  import.meta.url
+).href;
 
 const modelConfig = window.heaLthAnatomyViewer;
 
@@ -55,8 +65,10 @@ class AnatomyThreeViewer {
     this.controls = null;
     this.canvas = null;
     this.model = null;
+    this.dracoLoader = null;
     this.resizeObserver = null;
     this.animationFrame = null;
+    this.idleFrames = 0;
     this.raycaster = new THREE.Raycaster();
     this.pointer = new THREE.Vector2();
     this.pointerStart = null;
@@ -106,7 +118,7 @@ class AnatomyThreeViewer {
     this.controls.enablePan = false;
     this.controls.minDistance = 0.25;
     this.controls.maxDistance = 100;
-    this.controls.addEventListener('change', () => this.render());
+    this.controls.addEventListener('change', () => this.requestRender());
 
     this.scene.add(new THREE.HemisphereLight(0xdff4e9, 0x07251f, 2.7));
 
@@ -128,7 +140,6 @@ class AnatomyThreeViewer {
     }, { once: true });
 
     this.loadModel();
-    this.animate();
   }
 
   createCameraControls() {
@@ -231,12 +242,28 @@ class AnatomyThreeViewer {
     }
 
     const loader = new GLTFLoader();
+    // Attach the Draco decoder so compressed LODs (the shipped skeletal set is
+    // Draco-encoded) decode. It is a no-op for uncompressed GLBs.
+    this.dracoLoader = new DRACOLoader();
+    this.dracoLoader.setDecoderPath(DRACO_DECODER_PATH);
+    // No setDecoderConfig: DRACOLoader prefers the WASM decoder when WebAssembly
+    // is available and falls back to the JS decoder otherwise, which is exactly
+    // what we want and avoids the deprecated type-config path.
+    loader.setDRACOLoader(this.dracoLoader);
+
     loader.load(
       this.lod.path,
       (gltf) => this.onModelLoaded(gltf),
       undefined,
       () => this.fail('model-load-failed')
     );
+  }
+
+  releaseDracoLoader() {
+    if (this.dracoLoader) {
+      this.dracoLoader.dispose();
+      this.dracoLoader = null;
+    }
   }
 
   onModelLoaded(gltf) {
@@ -268,6 +295,9 @@ class AnatomyThreeViewer {
     });
 
     this.scene.add(this.model);
+    // Size the canvas to the stage before framing, so the initial camera fit is
+    // correct even if the ResizeObserver has not fired yet.
+    this.resize();
     this.frameCamera();
     this.applyDefaultLayers();
     this.createLayerControls();
@@ -279,6 +309,9 @@ class AnatomyThreeViewer {
       modelId: this.config.modelId,
       lod: this.lod.id
     });
+
+    // Geometry is decoded into GPU buffers now; free the decoder worker pool.
+    this.releaseDracoLoader();
   }
 
   prepareMaterial(mesh) {
@@ -502,10 +535,33 @@ class AnatomyThreeViewer {
     this.render();
   }
 
+  requestRender() {
+    // On-demand rendering: start the damping-aware loop only when something
+    // changes. The model is static, so an always-on rAF loop would waste GPU
+    // and battery for no visual benefit. The loop stops itself once the camera
+    // settles (see animate()).
+    if (this.animationFrame === null) {
+      this.idleFrames = 0;
+      this.animationFrame = window.requestAnimationFrame(() => this.animate());
+    }
+  }
+
   animate() {
+    const changed = this.controls.update();
+    if (changed) {
+      this.idleFrames = 0;
+      this.render();
+    } else {
+      this.idleFrames += 1;
+    }
+
+    if (this.idleFrames > 6) {
+      // Camera has settled (damping done); idle until the next interaction.
+      this.animationFrame = null;
+      return;
+    }
+
     this.animationFrame = window.requestAnimationFrame(() => this.animate());
-    this.controls.update();
-    this.render();
   }
 
   render() {
@@ -521,6 +577,7 @@ class AnatomyThreeViewer {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
+    this.releaseDracoLoader();
     if (this.renderer) {
       this.renderer.dispose();
     }

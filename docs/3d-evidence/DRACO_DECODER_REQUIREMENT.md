@@ -1,6 +1,16 @@
 # Draco decoder requirement for the 3D anatomy viewer (2026-07-12)
 
-**Status: BLOCKER for shipping the compressed GLB assets.** Every LOD produced by
+> **RESOLVED 2026-07-12 (branch `claude/3d-frontpage-integration`).** The
+> `DRACOLoader.js` addon and the `libs/draco/gltf/` decoder set (matching pinned
+> three.js 0.185.1) are now vendored same-origin under
+> `theme-src/hea-lth-portal/assets/vendor/three/examples/jsm/`, and the viewer
+> (`anatomy-three-viewer.js`) attaches a `DRACOLoader` whose decoder path is
+> resolved from the module's own URL. A Draco-compressed skeletal GLB was loaded
+> and rendered in a real browser through the actual theme viewer with no console
+> error (see `THREED_HOMEPAGE_INTEGRATION_2026-07-12.md`). License recorded in
+> `THIRD_PARTY_NOTICES.md`. The section below is retained as the original spec.
+
+**Status (original): BLOCKER for shipping the compressed GLB assets.** Every LOD produced by
 `design-lab/3d-human-engine/pipeline/export_web.py` is Draco-compressed (detail level 6,
 preview level 8). three.js cannot decode Draco geometry without the Draco decoder, and
 that decoder is **not vendored** in the theme today. Until it is, the layered figure GLBs
