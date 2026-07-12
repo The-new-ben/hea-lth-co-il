@@ -1,0 +1,44 @@
+{
+  "modelId": "z-anatomy-skeletal-v1",
+  "version": "1.0.0",
+  "status": "review",
+  "license": {
+    "owner": "Z-Anatomy (Gauthier Kervyn) + BodyParts3D / The Database Center for Life Science",
+    "sourceUrl": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
+    "webDeliveryAllowed": true,
+    "derivativeUseAllowed": true,
+    "contractReference": "CC-BY-SA-4.0 (Z-Anatomy) + CC-BY-SA-2.1-JP (BodyParts3D) — see docs/3d-evidence/Z-ANATOMY-License.txt",
+    "attributionRequired": true,
+    "reviewedAt": "2026-07-12"
+  },
+  "clinicalReview": {
+    "status": "in-review",
+    "owner": "REVIEWER-OF-RECORD-REQUIRED",
+    "notes": "Editorial attestation model: reviewer confirms the anatomical labels follow standard Terminologia Anatomica (TA2) nomenclature shipped with Z-Anatomy (TA2.csv). This is a reference-nomenclature attestation, NOT a medical-treatment endorsement. Set owner to a real named editor + reviewedAt to move toward approval."
+  },
+  "asset": {
+    "sourceGlb": "assets/z-anatomy/skeletal-detail.glb",
+    "lods": [
+      { "id": "lod-0", "path": "assets/z-anatomy/skeletal-preview.glb", "purpose": "preview", "triangleCount": 71877, "compressedBytes": 825608 },
+      { "id": "lod-1", "path": "assets/z-anatomy/skeletal-detail.glb", "purpose": "detail", "triangleCount": 598979, "compressedBytes": 2113736 }
+    ],
+    "validation": {
+      "gltfValid": true,
+      "visualQa": "passed",
+      "performanceQa": "pending"
+    }
+  },
+  "layers": [
+    { "id": "skeletal-system", "kind": "system", "meshIds": ["Skull", "Mandible", "Sternum"], "defaultVisible": true }
+  ],
+  "structures": [
+    {
+      "id": "anatomy:auditory-ossicles",
+      "meshIds": ["Incus.l", "Incus.r", "Malleus.l", "Malleus.r", "Stapes.l", "Stapes.r"],
+      "labels": { "he": "עצמות השמע", "en": "Auditory ossicles" },
+      "contexts": [
+        { "id": "hearing-ent", "labelHe": "שמיעה ואף אוזן גרון", "resolverEntityIds": { "topics": ["topic:hearing-anatomy"], "specialties": ["specialty:otolaryngology"], "treatments": [], "equipmentCategories": [] } }
+      ]
+    }
+  ]
+}
