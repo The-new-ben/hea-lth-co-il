@@ -353,6 +353,17 @@ function wp_footer(): void {
 
 			echo '<script>window.heaLthAnatomyViewer = ' . wp_json_encode( $fixture_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
 		}
+		// Mirror the production route map injected by functions.php so the
+		// resolver's service links are testable locally.
+		$preview_anatomy_routes = array(
+			'aesthetic_medicine'           => '/aesthetic-medicine-treatments/',
+			'plastic_surgery_consultation' => '/plastic-surgery-consultation/',
+			'hair_transplant_consultation' => '/hair-transplant-consultation/',
+			'doctor_clinic_index'          => '/doctor-clinic-index/',
+			'guides'                       => '/guides/',
+			'wellness'                     => '/wellness/',
+		);
+		echo '<script>window.heaLthAnatomyRoutes = ' . wp_json_encode( $preview_anatomy_routes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
 		echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/anatomy-discovery.js' ) ) . '"></script>';
 		if ( $hea_lth_preview_three_fixture ) {
 			echo '<script type="importmap">' . wp_json_encode( $import_map, JSON_UNESCAPED_SLASHES ) . '</script>';

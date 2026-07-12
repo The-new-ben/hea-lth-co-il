@@ -352,6 +352,21 @@ function hea_lth_portal_preload_fonts() {
 add_action( 'wp_head', 'hea_lth_portal_preload_fonts', 2 );
 
 /**
+ * Fallback site icon served from the theme when no Site Icon is configured in
+ * wp-admin. An owner-selected Site Icon always wins over this fallback.
+ */
+function hea_lth_portal_fallback_site_icon() {
+	if ( function_exists( 'has_site_icon' ) && has_site_icon() ) {
+		return;
+	}
+
+	printf( '<link rel="icon" type="image/svg+xml" href="%s">' . "\n", esc_url( get_theme_file_uri( 'assets/img/favicon.svg' ) ) );
+	printf( '<link rel="icon" type="image/png" sizes="32x32" href="%s">' . "\n", esc_url( get_theme_file_uri( 'assets/img/favicon-32.png' ) ) );
+	printf( '<link rel="apple-touch-icon" href="%s">' . "\n", esc_url( get_theme_file_uri( 'assets/img/favicon-180.png' ) ) );
+}
+add_action( 'wp_head', 'hea_lth_portal_fallback_site_icon', 1 );
+
+/**
  * Provide a restrained description only when a dedicated SEO plugin is not
  * responsible for metadata. Individual editorial pages may supply the
  * _hea_lth_meta_description field; the public theme never fabricates medical
