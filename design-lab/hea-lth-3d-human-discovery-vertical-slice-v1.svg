@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1680" viewBox="0 0 1920 1680" role="img" aria-labelledby="title desc">
+  <title id="title">Hea-lth 3D Human Discovery vertical slice</title>
+  <desc id="desc">A non-production UI blueprint showing how an interactive human viewer connects a selected nose to treatments, specialists, locations, and medical equipment.</desc>
+  <defs>
+    <style>
+      .sans { font-family: Gisha, Arial, sans-serif; }
+      .serif { font-family: FrankRuehl, David, serif; }
+      .label { font-family: Gisha, Arial, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 1.2px; }
+      .small { font-family: Gisha, Arial, sans-serif; font-size: 22px; }
+      .body { font-family: Gisha, Arial, sans-serif; font-size: 26px; }
+      .h3 { font-family: Gisha, Arial, sans-serif; font-size: 34px; font-weight: 700; }
+      .display { font-family: FrankRuehl, David, serif; font-size: 62px; font-weight: 700; }
+      .hair { stroke: #B7CCC6; stroke-width: 2; }
+      .quiet { fill: #B7CCC6; }
+    </style>
+    <radialGradient id="stageGlow" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#235A51"/>
+      <stop offset="100%" stop-color="#0A2320"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1680" fill="#F2F9F6"/>
+  <rect x="44" y="44" width="1832" height="1592" rx="24" fill="#F9F7EE" stroke="#D5E5E0" stroke-width="2"/>
+  <rect x="44" y="44" width="1832" height="110" rx="24" fill="#0A2320"/>
+  <text x="1818" y="89" fill="#F2F9F6" class="sans" font-size="36" font-weight="700" text-anchor="end">HEA-LTH</text>
+  <text x="1818" y="121" fill="#B7CCC6" class="label" text-anchor="end">3D DISCOVERY VERTICAL SLICE</text>
+  <text x="88" y="89" fill="#F2F9F6" class="label">DESIGN REVIEW ONLY</text>
+  <text x="88" y="121" fill="#B7CCC6" class="label">NO FINAL ANATOMY ASSET SHOWN</text>
+
+  <text x="1818" y="242" fill="#9E752B" class="label" text-anchor="end">INTERACTIVE BODY TO SERVICE DISCOVERY</text>
+  <text x="1818" y="312" fill="#0A2320" class="display" direction="rtl" text-anchor="end">בחירה בגוף פותחת מסלול מידע</text>
+  <text x="1818" y="356" fill="#4F6360" class="body" direction="rtl" text-anchor="end">המודל פותח מידע והחלטות. הוא אינו מאבחן ואינו מבטיח תוצאה רפואית.</text>
+
+  <!-- Viewer stage -->
+  <g transform="translate(88 430)">
+    <rect width="1040" height="930" rx="24" fill="url(#stageGlow)"/>
+    <text x="976" y="58" fill="#B7CCC6" class="label" text-anchor="end">LICENSED AND CLINICALLY REVIEWED MODEL REQUIRED</text>
+    <line x1="52" y1="114" x2="988" y2="114" stroke="#235A51" stroke-width="2"/>
+
+    <!-- system controls -->
+    <rect x="52" y="146" width="164" height="44" rx="22" fill="#F2F9F6"/>
+    <text x="134" y="175" fill="#0A2320" class="small" text-anchor="middle" direction="rtl">מעטפת</text>
+    <rect x="232" y="146" width="164" height="44" rx="22" fill="#143F35" stroke="#B7CCC6" stroke-width="1"/>
+    <text x="314" y="175" fill="#F2F9F6" class="small" text-anchor="middle" direction="rtl">מערכות</text>
+    <rect x="412" y="146" width="164" height="44" rx="22" fill="#143F35" stroke="#B7CCC6" stroke-width="1"/>
+    <text x="494" y="175" fill="#F2F9F6" class="small" text-anchor="middle" direction="rtl">פנים הגוף</text>
+    <rect x="592" y="146" width="164" height="44" rx="22" fill="#143F35" stroke="#B7CCC6" stroke-width="1"/>
+    <text x="674" y="175" fill="#F2F9F6" class="small" text-anchor="middle" direction="rtl">חתך</text>
+
+    <!-- human conceptual silhouette -->
+    <g transform="translate(438 218)" fill="none" stroke="#DFF2EA" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.96">
+      <ellipse cx="82" cy="78" rx="64" ry="76"/>
+      <path d="M80 154 C44 186 26 240 26 302 C26 382 35 446 46 504 C56 560 44 622 34 694"/>
+      <path d="M88 154 C126 188 142 240 142 302 C142 382 132 446 121 504 C111 560 123 622 134 694"/>
+      <path d="M26 250 C-22 296 -46 356 -70 444"/>
+      <path d="M142 250 C190 296 214 356 238 444"/>
+      <path d="M64 504 C56 566 40 628 28 716"/>
+      <path d="M106 504 C114 566 130 628 142 716"/>
+      <path d="M24 716 L6 808"/>
+      <path d="M146 716 L164 808"/>
+      <path d="M32 808 L-24 808"/>
+      <path d="M138 808 L194 808"/>
+      <path d="M28 264 C58 286 110 286 140 264" stroke="#71928C" stroke-width="4"/>
+      <path d="M52 186 C70 202 98 202 116 186" stroke="#71928C" stroke-width="4"/>
+      <circle cx="82" cy="100" r="10" fill="#9E752B" stroke="#F9F7EE" stroke-width="4"/>
+    </g>
+
+    <!-- hotspot label -->
+    <line x1="524" y1="318" x2="774" y2="288" stroke="#9E752B" stroke-width="3"/>
+    <rect x="774" y="256" width="172" height="64" rx="14" fill="#F9F7EE"/>
+    <text x="924" y="295" fill="#0A2320" class="small" direction="rtl" text-anchor="end">אף</text>
+
+    <!-- camera controls -->
+    <g transform="translate(68 772)">
+      <rect width="310" height="106" rx="18" fill="#143F35" stroke="#235A51" stroke-width="2"/>
+      <text x="282" y="36" fill="#B7CCC6" class="label" text-anchor="end">VIEW CONTROLS</text>
+      <text x="258" y="78" fill="#F2F9F6" class="small" direction="rtl" text-anchor="end">קדמי</text>
+      <text x="174" y="78" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">צד</text>
+      <text x="78" y="78" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">אחורי</text>
+    </g>
+    <text x="988" y="884" fill="#B7CCC6" class="label" text-anchor="end">ORBIT • ZOOM • LAYER • ISOLATE • RESET</text>
+  </g>
+
+  <!-- result drawer -->
+  <g transform="translate(1162 430)">
+    <rect width="656" height="930" rx="24" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="610" y="60" fill="#9E752B" class="label" text-anchor="end">SELECTED STRUCTURE</text>
+    <text x="610" y="126" fill="#0A2320" class="display" direction="rtl" text-anchor="end">אף</text>
+    <text x="610" y="168" fill="#4F6360" class="small" direction="rtl" text-anchor="end">בחרו את ההקשר הנכון לחיפוש</text>
+    <line x1="42" y1="200" x2="610" y2="200" class="hair"/>
+
+    <rect x="42" y="232" width="568" height="66" rx="14" fill="#F2F9F6" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="574" y="274" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">אסתטיקה ושינוי מבני</text>
+    <rect x="42" y="314" width="568" height="66" rx="14" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="574" y="356" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">נשימה ואף אוזן גרון</text>
+    <rect x="42" y="396" width="568" height="66" rx="14" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="574" y="438" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">פגיעה ושחזור</text>
+    <rect x="42" y="478" width="568" height="66" rx="14" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="574" y="520" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">עור וטיפולים משלימים</text>
+    <rect x="42" y="560" width="568" height="66" rx="14" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="574" y="602" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">מכשור וציוד רפואי</text>
+
+    <rect x="42" y="664" width="568" height="212" rx="18" fill="#0A2320"/>
+    <text x="570" y="714" fill="#B7CCC6" class="label" text-anchor="end">RESOLUTION RULE</text>
+    <text x="570" y="760" fill="#F2F9F6" class="h3" direction="rtl" text-anchor="end">רק תוצאות עם קשר מאומת</text>
+    <text x="570" y="804" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">תחום רפואי, טיפול, תוכן, איש מקצוע</text>
+    <text x="570" y="840" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">או ציוד עם מקור, בעלים ותאריך בדיקה</text>
+  </g>
+
+  <!-- mapped result rail -->
+  <g transform="translate(88 1410)">
+    <text x="1730" y="0" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">הקשר נבחר מעדכן תוכן, אנשי מקצוע, ציוד ומפה</text>
+    <text x="1730" y="38" fill="#4F6360" class="small" direction="rtl" text-anchor="end">הנתונים והתוצאות מגיעים מהקטלוג והדירקטורי. המודל עצמו לא ממציא התאמה.</text>
+    <g transform="translate(0 72)">
+      <rect width="404" height="124" rx="18" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+      <text x="366" y="38" fill="#9E752B" class="label" text-anchor="end">KNOWLEDGE</text>
+      <text x="366" y="84" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">מדריכים ומחקרים</text>
+      <rect x="426" width="404" height="124" rx="18" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+      <text x="792" y="38" fill="#9E752B" class="label" text-anchor="end">CARE</text>
+      <text x="792" y="84" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">טיפולים ואנשי מקצוע</text>
+      <rect x="852" width="404" height="124" rx="18" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+      <text x="1218" y="38" fill="#9E752B" class="label" text-anchor="end">EQUIPMENT</text>
+      <text x="1218" y="84" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">ציוד וספקים</text>
+      <rect x="1278" width="404" height="124" rx="18" fill="#0A2320"/>
+      <text x="1644" y="38" fill="#B7CCC6" class="label" text-anchor="end">MAP</text>
+      <text x="1644" y="84" fill="#F2F9F6" class="h3" direction="rtl" text-anchor="end">מפה ותוצאות קרובות</text>
+    </g>
+  </g>
+</svg>

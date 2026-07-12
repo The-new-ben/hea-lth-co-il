@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hea-lth.co.il/schemas/anatomy-model-manifest.v1.json",
+  "title": "Hea-lth anatomy model manifest",
+  "description": "Versioned metadata for a 3D human, regional anatomy, organ, procedure, or equipment model.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "modelId",
+    "version",
+    "license",
+    "clinicalReview",
+    "asset",
+    "layers",
+    "structures"
+  ],
+  "properties": {
+    "modelId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*-v[0-9]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "approved", "deprecated"],
+      "default": "draft"
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "sourceUrl", "webDeliveryAllowed", "derivativeUseAllowed", "contractReference"],
+      "properties": {
+        "owner": { "type": "string", "minLength": 1 },
+        "sourceUrl": { "type": "string", "format": "uri" },
+        "webDeliveryAllowed": { "type": "boolean" },
+        "derivativeUseAllowed": { "type": "boolean" },
+        "contractReference": { "type": "string", "minLength": 1 },
+        "attributionRequired": { "type": "boolean", "default": false },
+        "reviewedAt": { "type": "string", "format": "date" }
+      }
+    },
+    "clinicalReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner"],
+      "properties": {
+        "status": { "type": "string", "enum": ["required", "in-review", "approved", "expired"] },
+        "owner": { "type": "string", "minLength": 1 },
+        "reviewedAt": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceGlb", "lods", "validation"],
+      "properties": {
+        "sourceGlb": { "type": "string", "minLength": 1 },
+        "lods": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "path", "purpose"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^lod-[0-9]+$" },
+              "path": { "type": "string", "minLength": 1 },
+              "purpose": { "type": "string", "enum": ["preview", "mobile", "desktop", "detail"] },
+              "triangleCount": { "type": "integer", "minimum": 0 },
+              "compressedBytes": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "validation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gltfValid", "visualQa", "performanceQa"],
+          "properties": {
+            "gltfValid": { "type": "boolean" },
+            "visualQa": { "type": "string", "enum": ["pending", "passed", "failed"] },
+            "performanceQa": { "type": "string", "enum": ["pending", "passed", "failed"] }
+          }
+        }
+      }
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "meshIds"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$" },
+          "kind": { "type": "string", "enum": ["surface", "system", "organ", "procedure", "equipment"] },
+          "meshIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "defaultVisible": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    "structures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "meshIds", "labels", "contexts"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^anatomy:[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "meshIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "labels": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["he", "en"],
+            "properties": {
+              "he": { "type": "string", "minLength": 1 },
+              "en": { "type": "string", "minLength": 1 }
+            }
+          },
+          "contexts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "labelHe", "resolverEntityIds"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+                "labelHe": { "type": "string", "minLength": 1 },
+                "resolverEntityIds": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["topics", "specialties", "treatments", "equipmentCategories"],
+                  "properties": {
+                    "topics": { "type": "array", "items": { "type": "string" } },
+                    "specialties": { "type": "array", "items": { "type": "string" } },
+                    "treatments": { "type": "array", "items": { "type": "string" } },
+                    "equipmentCategories": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="2820" viewBox="0 0 1920 2820" role="img" aria-labelledby="title desc">
+  <title id="title">Hea-lth portal design blueprint v2</title>
+  <desc id="desc">A non-production design system and content architecture board for a premium Hebrew health portal.</desc>
+  <defs>
+    <style>
+      .sans { font-family: Gisha, Arial, sans-serif; }
+      .serif { font-family: FrankRuehl, David, serif; }
+      .label { font-family: Gisha, Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+      .small { font-family: Gisha, Arial, sans-serif; font-size: 22px; }
+      .body { font-family: Gisha, Arial, sans-serif; font-size: 26px; }
+      .h3 { font-family: Gisha, Arial, sans-serif; font-size: 34px; font-weight: 700; }
+      .display { font-family: FrankRuehl, David, serif; font-size: 80px; font-weight: 700; }
+      .rule { stroke: #D5E5E0; stroke-width: 2; }
+      .hair { stroke: #B7CCC6; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1920" height="2820" fill="#F2F9F6"/>
+  <rect x="48" y="48" width="1824" height="2724" rx="24" fill="#F9F7EE" stroke="#D5E5E0" stroke-width="2"/>
+
+  <!-- Header -->
+  <rect x="48" y="48" width="1824" height="112" rx="24" fill="#0A2320"/>
+  <text x="1784" y="93" fill="#F2F9F6" class="sans" font-size="38" font-weight="700" text-anchor="end">HEA-LTH</text>
+  <text x="1784" y="126" fill="#B7CCC6" class="label" text-anchor="end">IDENTITY IN DEVELOPMENT</text>
+  <text x="88" y="93" fill="#F2F9F6" class="label">V2 DESIGN BOARD</text>
+  <text x="88" y="126" fill="#B7CCC6" class="label">NOT FOR PUBLICATION</text>
+
+  <!-- Board title -->
+  <text x="1784" y="260" fill="#0A2320" class="label" text-anchor="end">A PREMIUM HEALTH PORTAL, NOT A LANDING PAGE</text>
+  <text x="1784" y="354" fill="#0A2320" class="display" direction="rtl" text-anchor="end">מערכת עיצוב וארכיטקטורה</text>
+  <text x="1784" y="406" fill="#4F6360" class="body" direction="rtl" text-anchor="end">למסע בין טיפולים, ידע רפואי, אנשי מקצוע, מרפאות, בתי חולים וטכנולוגיה רפואית</text>
+  <line x1="88" y1="470" x2="1784" y2="470" class="hair"/>
+
+  <!-- Token foundation -->
+  <text x="1784" y="548" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">יסודות המערכת</text>
+  <text x="1784" y="587" fill="#4F6360" class="small" direction="rtl" text-anchor="end">הערכים נגזרו מהמסכים שסופקו, נבדקו לקונטרסט, וישמשו כל מסך וכל רכיב</text>
+
+  <g transform="translate(88 632)">
+    <rect width="248" height="168" rx="16" fill="#0A2320"/>
+    <text x="24" y="54" fill="#F2F9F6" class="label">FOREST 950</text>
+    <text x="24" y="128" fill="#B7CCC6" class="sans" font-size="28">#0A2320</text>
+    <rect x="272" width="248" height="168" rx="16" fill="#143F35"/>
+    <text x="296" y="54" fill="#F2F9F6" class="label">FOREST 800</text>
+    <text x="296" y="128" fill="#B7CCC6" class="sans" font-size="28">#143F35</text>
+    <rect x="544" width="248" height="168" rx="16" fill="#F2F9F6" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="568" y="54" fill="#0A2320" class="label">MINT 50</text>
+    <text x="568" y="128" fill="#4F6360" class="sans" font-size="28">#F2F9F6</text>
+    <rect x="816" width="248" height="168" rx="16" fill="#F9F7EE" stroke="#CDCAB7" stroke-width="2"/>
+    <text x="840" y="54" fill="#0A2320" class="label">IVORY 50</text>
+    <text x="840" y="128" fill="#4F6360" class="sans" font-size="28">#F9F7EE</text>
+    <rect x="1088" width="248" height="168" rx="16" fill="#9E752B"/>
+    <text x="1112" y="54" fill="#F9F7EE" class="label">BRONZE 600</text>
+    <text x="1112" y="128" fill="#F9F7EE" class="sans" font-size="28">#9E752B</text>
+    <rect x="1360" width="336" height="168" rx="16" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="1668" y="56" fill="#0A2320" class="label" text-anchor="end">TOKEN RULE</text>
+    <text x="1668" y="100" fill="#4F6360" class="small" direction="rtl" text-anchor="end">אין צבע, מרווח או רדיוס</text>
+    <text x="1668" y="132" fill="#4F6360" class="small" direction="rtl" text-anchor="end">שאינם שייכים למערכת</text>
+  </g>
+
+  <!-- Type study -->
+  <g transform="translate(88 850)">
+    <rect width="1696" height="230" rx="20" fill="#FFFFFF" stroke="#D5E5E0" stroke-width="2"/>
+    <text x="1648" y="58" fill="#9E752B" class="label" text-anchor="end">TYPE DECISION GATE</text>
+    <text x="1648" y="132" fill="#0A2320" class="serif" font-size="58" direction="rtl" text-anchor="end">כותרת עברית צריכה להרגיש מדויקת, לא דקורטיבית</text>
+    <text x="1648" y="184" fill="#4F6360" class="body" direction="rtl" text-anchor="end">שלוש משפחות פונטים ייבחנו באותו תפריט, חיפוש, מאמר, טבלה ומסך מובייל לפני בחירה</text>
+    <line x1="88" y1="54" x2="88" y2="184" stroke="#9E752B" stroke-width="4"/>
+  </g>
+
+  <!-- Global navigation and mega menu -->
+  <text x="1784" y="1174" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">ניווט ראשי ומגה מנו</text>
+  <text x="1784" y="1214" fill="#4F6360" class="small" direction="rtl" text-anchor="end">שש כניסות עיקריות, פעולה אחת ברורה, ומפת עומק שימושית במקום עומס קישורים</text>
+  <g transform="translate(88 1250)">
+    <rect width="1696" height="86" rx="16" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="1648" y="54" fill="#0A2320" class="h3" text-anchor="end">HEA-LTH</text>
+    <text x="1370" y="52" fill="#0A2320" class="small" direction="rtl" text-anchor="middle">טיפולים וניתוחים</text>
+    <text x="1135" y="52" fill="#0A2320" class="small" direction="rtl" text-anchor="middle">אסתטיקה, עור ושיער</text>
+    <text x="885" y="52" fill="#0A2320" class="small" direction="rtl" text-anchor="middle">רפואה פרטית</text>
+    <text x="665" y="52" fill="#0A2320" class="small" direction="rtl" text-anchor="middle">בדיקות ומניעה</text>
+    <text x="445" y="52" fill="#0A2320" class="small" direction="rtl" text-anchor="middle">רופאים ומרפאות</text>
+    <rect x="104" y="17" width="196" height="52" rx="26" fill="#0A2320"/>
+    <text x="202" y="51" fill="#F2F9F6" class="small" direction="rtl" text-anchor="middle">בחירת מסלול</text>
+    <rect x="0" y="87" width="1696" height="356" rx="0" fill="#0A2320"/>
+    <text x="1648" y="132" fill="#B7CCC6" class="label" text-anchor="end">MEGA MENU EXAMPLE</text>
+    <line x1="1280" y1="157" x2="1280" y2="395" stroke="#235A51" stroke-width="2"/>
+    <line x1="880" y1="157" x2="880" y2="395" stroke="#235A51" stroke-width="2"/>
+    <line x1="480" y1="157" x2="480" y2="395" stroke="#235A51" stroke-width="2"/>
+    <text x="1648" y="196" fill="#F2F9F6" class="h3" direction="rtl" text-anchor="end">טיפולים פופולריים</text>
+    <text x="1648" y="238" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">ניתוחים פלסטיים</text>
+    <text x="1648" y="275" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">אסתטיקה רפואית</text>
+    <text x="1648" y="312" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">השתלת שיער</text>
+    <text x="1648" y="349" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">בדיקות מתקדמות</text>
+    <text x="1240" y="196" fill="#F2F9F6" class="h3" direction="rtl" text-anchor="end">איך בוחרים</text>
+    <text x="1240" y="238" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">השוואת אפשרויות</text>
+    <text x="1240" y="275" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">שאלות לפגישת ייעוץ</text>
+    <text x="1240" y="312" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">החלמה וסיכונים</text>
+    <text x="1240" y="349" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">מחקר ומקורות</text>
+    <text x="840" y="196" fill="#F2F9F6" class="h3" direction="rtl" text-anchor="end">מצאו אנשי מקצוע</text>
+    <text x="840" y="238" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">רופאים לפי תחום</text>
+    <text x="840" y="275" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">מרפאות ובתי חולים</text>
+    <text x="840" y="312" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">לפי עיר ושפה</text>
+    <text x="840" y="349" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">פרופילים מאומתים</text>
+    <text x="440" y="196" fill="#F2F9F6" class="h3" direction="rtl" text-anchor="end">תוכן עדכני</text>
+    <text x="440" y="238" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">מדריכים ומאמרים</text>
+    <text x="440" y="275" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">חדשות וחדשנות</text>
+    <text x="440" y="312" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">מילון רפואי</text>
+    <text x="440" y="349" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">מכשור וציוד רפואי</text>
+  </g>
+
+  <!-- Hero wireframe -->
+  <text x="1784" y="1774" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">היררכיית פתיחה לדף הבית</text>
+  <text x="1784" y="1814" fill="#4F6360" class="small" direction="rtl" text-anchor="end">חיפוש הוא הפעולה המרכזית. הקטגוריות, התוכן והמסלולים מגיעים אחריו במבנה ברור</text>
+  <g transform="translate(88 1850)">
+    <rect width="1696" height="458" rx="24" fill="#DFF2EA" stroke="#B7CCC6" stroke-width="2"/>
+    <rect x="72" y="72" width="470" height="312" rx="20" fill="#FFFFFF" stroke="#D5E5E0" stroke-width="2"/>
+    <text x="496" y="124" fill="#9E752B" class="label" text-anchor="end">ONLY VERIFIED DATA WHEN LIVE</text>
+    <text x="496" y="190" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">מערכת הבחירה האישית</text>
+    <line x1="118" y1="222" x2="496" y2="222" class="hair"/>
+    <text x="496" y="270" fill="#4F6360" class="small" direction="rtl" text-anchor="end">טיפול או ניתוח</text>
+    <text x="496" y="312" fill="#4F6360" class="small" direction="rtl" text-anchor="end">בדיקה, רופא, קליניקה או בית חולים</text>
+    <text x="496" y="354" fill="#4F6360" class="small" direction="rtl" text-anchor="end">טכנולוגיה או ציוד רפואי</text>
+    <text x="1616" y="126" fill="#9E752B" class="label" text-anchor="end">HOMEPAGE HERO</text>
+    <text x="1616" y="224" fill="#0A2320" class="display" direction="rtl" text-anchor="end">מה אתם מחפשים?</text>
+    <text x="1616" y="275" fill="#4F6360" class="body" direction="rtl" text-anchor="end">טיפול, רופא, מרפאה, בית חולים או טכנולוגיה רפואית</text>
+    <rect x="738" y="315" width="878" height="74" rx="16" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="1564" y="361" fill="#4F6360" class="small" direction="rtl" text-anchor="end">התחילו בחיפוש מדויק</text>
+    <rect x="758" y="329" width="126" height="46" rx="23" fill="#0A2320"/>
+    <text x="821" y="361" fill="#F2F9F6" class="small" direction="rtl" text-anchor="middle">חיפוש</text>
+  </g>
+
+  <!-- Homepage rails -->
+  <text x="1784" y="2428" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">מסילות תוכן בדף בית גדול</text>
+  <text x="1784" y="2468" fill="#4F6360" class="small" direction="rtl" text-anchor="end">כל מסילה מחוברת לתבנית, בעל תוכן, מקור נתונים, ותוצאת משתמש ברורה</text>
+  <g transform="translate(88 2510)">
+    <rect width="1696" height="94" rx="16" fill="#0A2320"/>
+    <text x="1648" y="58" fill="#F2F9F6" class="h3" direction="rtl" text-anchor="end">טיפולים וניתוחים</text>
+    <text x="1240" y="58" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">אסתטיקה, עור ושיער</text>
+    <text x="850" y="58" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">רפואה פרטית ובדיקות</text>
+    <text x="398" y="58" fill="#B7CCC6" class="small" direction="rtl" text-anchor="end">רופאים, מרפאות ובתי חולים</text>
+  </g>
+  <g transform="translate(88 2626)">
+    <rect width="1696" height="94" rx="16" fill="#FFFFFF" stroke="#B7CCC6" stroke-width="2"/>
+    <text x="1648" y="58" fill="#0A2320" class="h3" direction="rtl" text-anchor="end">השוואת אפשרויות ומחירים</text>
+    <text x="1182" y="58" fill="#4F6360" class="small" direction="rtl" text-anchor="end">מדריכים, מחקרים וחדשות</text>
+    <text x="770" y="58" fill="#4F6360" class="small" direction="rtl" text-anchor="end">מילון רפואי ומפות</text>
+    <text x="396" y="58" fill="#4F6360" class="small" direction="rtl" text-anchor="end">לאנשי מקצוע ולספקים</text>
+  </g>
+</svg>

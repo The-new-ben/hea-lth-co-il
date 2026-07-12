@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hea-lth.co.il — עיצוב מחדש (תצוגה מקדימה)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f9f7; --surface:#ffffff; --ink:#122522; --muted:#5b6b68; --line:#e4ede9;
+  --teal-900:#0b3d38; --teal-800:#0f4f48; --teal:#14665f; --teal-600:#1a7a6f; --teal-400:#3a9c90;
+  --gold:#12a08f; --gold-2:#3fbfae; --gold-soft:#e4f5f0; --sand:#eef4f1;
+  --urgent:#a3312b; --urgent-soft:#fdeceb;
+  --shadow-sm:0 2px 10px rgba(11,61,56,.06);
+  --shadow:0 20px 50px rgba(11,61,56,.12);
+  --shadow-gold:0 14px 34px rgba(18,160,143,.22);
+  --radius:16px; --radius-sm:10px; --radius-lg:24px;
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;direction:rtl;color:var(--ink);background:var(--bg);
+  font-family:"Heebo","Assistant","Segoe UI",Arial,sans-serif;line-height:1.7;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{line-height:1.15;margin:0;font-weight:800;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+img,svg{max-width:100%;display:block}
+.container{width:min(var(--maxw),calc(100% - 40px));margin-inline:auto}
+.icon{width:24px;height:24px;flex:0 0 auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:0 26px;border:0;border-radius:999px;font:inherit;font-weight:700;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease,background .2s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn-gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#06403a;box-shadow:var(--shadow-gold)}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 12px 28px rgba(20,102,95,.28)}
+.btn-ghost{background:#fff;color:var(--teal-800);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--teal-400)}
+.btn-block{width:100%}
+.btn-sm{min-height:44px;padding:0 18px;font-size:.95rem}
+
+/* emergency ribbon */
+.ribbon{background:var(--urgent);color:#fff;font-weight:600;font-size:.92rem}
+.ribbon .container{display:flex;align-items:center;gap:10px;justify-content:center;padding:8px 0;text-align:center;flex-wrap:wrap}
+.ribbon svg{width:18px;height:18px}
+.ribbon a{text-decoration:underline;font-weight:800}
+
+/* preview tag */
+.previewtag{position:fixed;inset-block-start:auto;inset-block-end:16px;inset-inline-start:16px;z-index:120;background:rgba(11,61,56,.92);color:#fff;font-size:.76rem;font-weight:700;padding:7px 13px;border-radius:999px;box-shadow:var(--shadow);backdrop-filter:blur(6px);letter-spacing:.02em}
+
+/* header */
+header.site{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header-inner{display:flex;align-items:center;gap:22px;min-height:74px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:1.2rem}
+.brand .mark{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(140deg,var(--teal-600),var(--teal-900));color:#fff;box-shadow:0 8px 18px rgba(11,61,56,.28);position:relative;overflow:hidden}
+.brand .mark::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(63,191,174,.55),transparent 55%)}
+.brand .mark svg{width:24px;height:24px;position:relative;z-index:1}
+.brand small{display:block;font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.18em;margin-top:2px}
+nav.main{display:flex;align-items:center;gap:26px;margin-inline-start:auto;font-weight:600;color:var(--ink);font-size:.98rem}
+nav.main a{position:relative;padding:6px 0;color:#28403c}
+nav.main a:hover{color:var(--teal)}
+nav.main a::after{content:"";position:absolute;inset-inline:0;bottom:-2px;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .2s ease;transform-origin:right}
+nav.main a:hover::after{transform:scaleX(1)}
+.header-cta{display:flex;align-items:center;gap:12px}
+.header-phone{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--teal-800)}
+.header-phone svg{width:19px;height:19px;color:var(--teal)}
+.burger{display:none;background:none;border:0;padding:8px;color:var(--teal-900)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:64px 0 72px;
+  background:
+    radial-gradient(1100px 520px at 88% -8%,rgba(20,102,95,.16),transparent 60%),
+    radial-gradient(760px 420px at 6% 8%,rgba(63,191,174,.22),transparent 58%),
+    linear-gradient(180deg,#ffffff, #f2f8f5);
+  border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--gold-soft);color:#0b5a4f;border:1px solid #bfe6dd;font-weight:700;font-size:.86rem;padding:7px 14px;border-radius:999px;margin-bottom:20px}
+.eyebrow svg{width:16px;height:16px;color:var(--gold)}
+.hero h1{font-size:clamp(2.1rem,4.1vw,3.5rem);font-weight:900;letter-spacing:-.02em}
+.hero h1 .hl{background:linear-gradient(120deg,var(--teal-600),var(--teal-900));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{color:var(--muted);font-size:1.16rem;max-width:600px;margin:20px 0 26px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-trust{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:.86rem;font-weight:600;color:#2c433f;box-shadow:var(--shadow-sm)}
+.chip svg{width:17px;height:17px;color:var(--teal-600)}
+.rating-row{display:flex;align-items:center;gap:12px;margin-top:22px;color:var(--muted);font-size:.9rem}
+.stars{display:inline-flex;gap:2px;color:var(--gold)}
+.stars svg{width:18px;height:18px}
+
+/* hero form card */
+.formcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:26px;position:relative}
+.formcard::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(160deg,rgba(63,191,174,.65),transparent 40%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.formcard h2{font-size:1.32rem}
+.formcard .sub{color:var(--muted);font-size:.95rem;margin:6px 0 4px}
+.steps-dots{display:flex;gap:8px;margin:16px 0 6px}
+.steps-dots span{height:6px;flex:1;border-radius:999px;background:var(--line);transition:background .25s}
+.steps-dots span.on{background:linear-gradient(90deg,var(--teal-400),var(--teal))}
+.step{display:none;animation:fade .3s ease}
+.step.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.step h3{font-size:1.02rem;margin-bottom:12px;color:#22413c}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:1.5px solid var(--line);border-radius:12px;padding:12px 12px;font-weight:600;font-size:.92rem;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.15s;background:#fff;color:#26403b;text-align:right}
+.opt svg{width:20px;height:20px;color:var(--teal-600);flex:0 0 auto}
+.opt:hover{border-color:var(--teal-400);background:#f4faf8}
+.opt.sel{border-color:var(--teal);background:#eef7f4;box-shadow:0 0 0 3px rgba(20,102,95,.10)}
+.field{margin-bottom:12px}
+.field label{display:block;font-weight:700;font-size:.9rem;margin-bottom:6px;color:#26403b}
+.field input,.field select,.field textarea{width:100%;min-height:48px;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font:inherit;background:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal-400);box-shadow:0 0 0 3px rgba(58,156,144,.16)}
+.consent{display:flex;gap:9px;align-items:flex-start;font-size:.82rem;color:var(--muted);margin:8px 0}
+.consent input{margin-top:5px;flex:0 0 auto}
+.step-nav{display:flex;gap:10px;margin-top:14px}
+.mini-emerg{font-size:.8rem;color:var(--urgent);background:var(--urgent-soft);border:1px solid #f4cfcc;border-radius:10px;padding:9px 11px;font-weight:600;margin-top:10px}
+.formnote{font-size:.78rem;color:var(--muted);text-align:center;margin-top:12px}
+
+/* trust bar */
+.trustbar{background:var(--teal-900);color:#eaf4f1}
+.trustbar .container{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:26px 0}
+.tstat{display:flex;flex-direction:column;gap:2px}
+.tstat b{font-size:1.7rem;font-weight:900;color:#fff}
+.tstat span{font-size:.86rem;color:#a9c8c1}
+.tstat.with-icon{flex-direction:row;align-items:center;gap:12px}
+.tstat .ic{width:42px;height:42px;border-radius:12px;background:rgba(63,191,174,.18);display:grid;place-items:center;flex:0 0 auto}
+.tstat .ic svg{width:22px;height:22px;color:var(--gold-2)}
+
+/* sections */
+section{padding:74px 0}
+.sec-head{max-width:760px;margin:0 auto 40px;text-align:center}
+.kicker{display:inline-block;color:var(--teal-600);font-weight:800;letter-spacing:.14em;font-size:.8rem;text-transform:uppercase;margin-bottom:12px}
+.sec-head h2{font-size:clamp(1.7rem,3vw,2.5rem);font-weight:900}
+.sec-head p{color:var(--muted);font-size:1.08rem;margin-top:14px}
+
+/* treatment grid */
+.treat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:12px;transition:.2s;position:relative;overflow:hidden}
+.tcard:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:transparent}
+.tcard .tic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(140deg,#eef7f4,#e0f0eb);color:var(--teal);flex:0 0 auto}
+.tcard:hover .tic{background:linear-gradient(140deg,var(--gold-soft),#cdeee6);color:var(--gold)}
+.tcard .tic svg{width:26px;height:26px}
+.tcard h3{font-size:1.16rem}
+.tcard p{color:var(--muted);font-size:.93rem}
+.price-anchor{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:12px;border-top:1px dashed var(--line)}
+.price-anchor .pa-val{font-weight:800;color:var(--teal-800);font-size:.95rem}
+.price-anchor .pa-val small{display:block;font-weight:600;color:var(--muted);font-size:.72rem}
+.price-anchor .go{width:34px;height:34px;border-radius:10px;background:#f2f8f5;display:grid;place-items:center;color:var(--teal);transition:.2s}
+.tcard:hover .go{background:var(--teal);color:#fff}
+.tcard .go svg{width:18px;height:18px}
+.disc-note{max-width:820px;margin:22px auto 0;text-align:center;font-size:.82rem;color:var(--muted)}
+
+/* concierge services */
+.svc-band{background:linear-gradient(180deg,#0b3d38,#0f4f48);color:#eaf4f1}
+.svc-band .kicker{color:var(--gold-2)}
+.svc-band .sec-head h2{color:#fff}
+.svc-band .sec-head p{color:#a9c8c1}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.svc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:22px;display:flex;gap:14px;transition:.2s}
+.svc:hover{background:rgba(255,255,255,.09);border-color:rgba(63,191,174,.4)}
+.svc .si{width:46px;height:46px;border-radius:12px;background:rgba(63,191,174,.16);display:grid;place-items:center;flex:0 0 auto;color:var(--gold-2)}
+.svc .si svg{width:23px;height:23px}
+.svc h3{font-size:1.08rem;color:#fff;margin-bottom:5px}
+.svc p{color:#a9c8c1;font-size:.9rem}
+.svc a.more{color:var(--gold-2);font-weight:700;font-size:.86rem;margin-top:8px;display:inline-flex;gap:5px;align-items:center}
+
+/* doctor index teaser */
+.filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:28px}
+.fchip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;font-weight:600;font-size:.9rem;cursor:pointer;color:#2c433f;transition:.15s;display:inline-flex;align-items:center;gap:7px}
+.fchip svg{width:15px;height:15px;color:var(--teal-600)}
+.fchip:hover{border-color:var(--teal-400)}
+.fchip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.fchip.on svg{color:#fff}
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;transition:.2s}
+.doc:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+.doc-top{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.avatar{width:56px;height:56px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.15rem;background:linear-gradient(140deg,var(--teal-600),var(--teal-900))}
+.avatar.g{background:linear-gradient(140deg,var(--gold-2),var(--gold))}
+.doc-top h3{font-size:1.06rem}
+.doc-top .spec{color:var(--muted);font-size:.86rem}
+.verified{display:inline-flex;align-items:center;gap:5px;color:var(--teal-600);font-size:.78rem;font-weight:700;margin-top:3px}
+.verified svg{width:15px;height:15px}
+.doc-meta{display:flex;flex-direction:column;gap:7px;font-size:.86rem;color:#3a4f4b;margin-bottom:14px}
+.doc-meta div{display:flex;align-items:center;gap:8px}
+.doc-meta svg{width:15px;height:15px;color:var(--teal-600);flex:0 0 auto}
+.doc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tag{background:#eef7f4;color:var(--teal-800);font-size:.74rem;font-weight:600;padding:4px 9px;border-radius:7px}
+.doc-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:13px;border-top:1px solid var(--line)}
+.doc-foot .pr{font-weight:700;color:var(--teal-800);font-size:.88rem}
+.doc-foot .pr small{display:block;font-weight:600;color:var(--muted);font-size:.72rem}
+
+/* price compare */
+.compare{background:var(--sand)}
+.tabs{display:flex;gap:8px;justify-content:center;margin-bottom:26px;flex-wrap:wrap}
+.tab{border:1.5px solid #d9e6e2;background:#fff;border-radius:999px;padding:10px 20px;font-weight:700;cursor:pointer;color:#3a4f4b;transition:.15s}
+.tab.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.panel{display:none;max-width:820px;margin:0 auto}
+.panel.on{display:block;animation:fade .3s ease}
+.ptable{width:100%;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;border-collapse:collapse}
+.ptable th,.ptable td{padding:15px 18px;text-align:right;border-bottom:1px solid var(--line);font-size:.95rem}
+.ptable th{background:#0f4f48;color:#fff;font-weight:700}
+.ptable tr:last-child td{border-bottom:0}
+.ptable td.val{font-weight:800;color:var(--teal-800);white-space:nowrap}
+.ptable tbody tr:hover{background:#f7fbf9}
+.compare-note{text-align:center;font-size:.82rem;color:var(--muted);margin-top:18px;max-width:760px;margin-inline:auto}
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vs-col{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.vs-col h4{font-size:1.1rem;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.vs-col ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.vs-col li{display:flex;gap:9px;font-size:.9rem;color:#3a4f4b}
+.vs-col li svg{width:17px;height:17px;color:var(--teal-600);flex:0 0 auto;margin-top:3px}
+
+/* how it works */
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.hstep{position:relative;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.hstep .num{width:44px;height:44px;border-radius:12px;background:linear-gradient(140deg,var(--teal-600),var(--teal-900));color:#fff;font-weight:900;display:grid;place-items:center;font-size:1.15rem;margin-bottom:14px}
+.hstep:nth-child(2) .num{background:linear-gradient(140deg,var(--gold-2),var(--gold));color:#06403a}
+.hstep h3{font-size:1.08rem;margin-bottom:7px}
+.hstep p{color:var(--muted);font-size:.9rem}
+.boundary{margin-top:26px;text-align:center;background:var(--gold-soft);border:1px solid #bfe6dd;border-radius:var(--radius);padding:18px;color:#0b5a4f;font-weight:600}
+
+/* EEAT / governance */
+.eeat{background:#fff}
+.eeat-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.gov-list{display:flex;flex-direction:column;gap:16px}
+.gov{display:flex;gap:14px}
+.gov .gi{width:46px;height:46px;border-radius:12px;background:#eef7f4;display:grid;place-items:center;color:var(--teal);flex:0 0 auto}
+.gov .gi svg{width:23px;height:23px}
+.gov h3{font-size:1.06rem;margin-bottom:4px}
+.gov p{color:var(--muted);font-size:.92rem}
+.gov p a{color:var(--teal-600);font-weight:700;text-decoration:underline}
+.review-card{background:linear-gradient(160deg,#0b3d38,#123f3a);color:#eaf4f1;border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow)}
+.review-card .rc-top{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.review-card .rc-top .avatar{background:linear-gradient(140deg,var(--gold-2),var(--gold));color:#06403a}
+.review-card h3{color:#fff;font-size:1.1rem}
+.review-card .rc-top span{color:#a9c8c1;font-size:.86rem}
+.review-card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+.review-card li{display:flex;gap:10px;font-size:.9rem;color:#cfe4df}
+.review-card li svg{width:18px;height:18px;color:var(--gold-2);flex:0 0 auto;margin-top:2px}
+.review-card .updated{margin-top:16px;font-size:.78rem;color:#88b0a8;border-top:1px solid rgba(255,255,255,.12);padding-top:13px}
+
+/* testimonials */
+.testi{background:var(--bg)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.quote{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:14px}
+.quote .stars svg{width:16px;height:16px}
+.quote p{font-size:.98rem;color:#2c403c;line-height:1.65}
+.quote .who{display:flex;align-items:center;gap:11px;margin-top:auto}
+.quote .who .avatar{width:44px;height:44px;font-size:.95rem}
+.quote .who b{font-size:.92rem}
+.quote .who span{font-size:.8rem;color:var(--muted)}
+
+/* second opinion band */
+.soband{background:linear-gradient(120deg,var(--teal-800),var(--teal-600));color:#fff;border-radius:var(--radius-lg);padding:44px;display:grid;grid-template-columns:1.3fr .7fr;gap:30px;align-items:center;box-shadow:var(--shadow)}
+.soband h2{font-size:clamp(1.5rem,2.6vw,2.1rem);color:#fff}
+.soband p{color:#cfe4df;margin-top:12px;font-size:1.04rem}
+.soband .so-cta{display:flex;justify-content:flex-end}
+@media(max-width:820px){.soband{grid-template-columns:1fr;text-align:center}.soband .so-cta{justify-content:center}}
+
+/* faq */
+.faq-wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;padding:18px 22px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:1.02rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .fq-ic{width:28px;height:28px;border-radius:8px;background:#eef7f4;display:grid;place-items:center;color:var(--teal);transition:.2s;flex:0 0 auto}
+.faq[open] summary .fq-ic{background:var(--teal);color:#fff;transform:rotate(45deg)}
+.faq .fq-body{padding:0 22px 20px;color:var(--muted);font-size:.96rem}
+
+/* final CTA + full form */
+.final{background:linear-gradient(180deg,#f2f8f5,#e9f3ef)}
+.final-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px;align-items:start}
+.final-copy h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900}
+.final-copy p{color:var(--muted);margin-top:14px;font-size:1.05rem}
+.final-benefits{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.final-benefits div{display:flex;gap:10px;align-items:center;font-weight:600;color:#26403b}
+.final-benefits svg{width:20px;height:20px;color:var(--teal-600);flex:0 0 auto}
+.fullform{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:28px}
+.fullform h3{font-size:1.25rem;margin-bottom:4px}
+.fullform .sub{color:var(--muted);font-size:.93rem;margin-bottom:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* footer */
+footer.site{background:var(--teal-900);color:#bcd6d0;padding:56px 0 28px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;margin-bottom:34px}
+.foot-brand .brand{color:#fff;margin-bottom:14px}
+.foot-brand p{font-size:.9rem;color:#9dbfb8;max-width:320px}
+.foot-col h4{color:#fff;font-size:.98rem;margin-bottom:14px}
+.foot-col a{display:block;color:#a9c8c1;font-size:.9rem;padding:5px 0;transition:.15s}
+.foot-col a:hover{color:var(--gold-2)}
+.foot-disc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:18px 20px;font-size:.85rem;color:#cfe4df;margin-bottom:22px}
+.foot-disc b{color:#fff}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.82rem;color:#88b0a8;border-top:1px solid rgba(255,255,255,.12);padding-top:22px}
+
+/* sticky mobile bar */
+.mobar{position:fixed;inset-inline:0;bottom:0;z-index:110;display:none;gap:8px;padding:10px 14px;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(11,61,56,.1)}
+.mobar a{flex:1;min-height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:700;font-size:.9rem}
+.mobar .m-call{background:#eef7f4;color:var(--teal-800)}
+.mobar .m-wa{background:#e7f6ef;color:#0f7a52}
+.mobar .m-cta{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#06403a}
+.mobar svg{width:18px;height:18px}
+
+/* responsive */
+@media(max-width:1000px){
+  .treat-grid{grid-template-columns:repeat(2,1fr)}
+  .doc-grid,.svc-grid,.testi-grid,.steps4{grid-template-columns:1fr 1fr}
+  .trustbar .container{grid-template-columns:1fr 1fr}
+}
+@media(max-width:860px){
+  nav.main,.header-phone{display:none}
+  .burger{display:block}
+  .hero-grid{grid-template-columns:1fr;gap:34px}
+  .eeat-grid,.final-grid{grid-template-columns:1fr}
+  .vs-grid{grid-template-columns:1fr}
+  .mobar{display:flex}
+  body{padding-bottom:70px}
+  section{padding:56px 0}
+}
+@media(max-width:560px){
+  .treat-grid,.doc-grid,.svc-grid,.testi-grid,.steps4,.trustbar .container,.grid2,.opts{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.7 1.4 6.8L12 17.8 5.9 20.5l1.4-6.8L2.2 9l6.9-.7z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.8 2z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.8.8-2.7-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3c-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.9 4.5 4 .6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 12-8 12s-8-7-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-doctor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M12 11v3"/></symbol>
+    <symbol id="i-opinion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h8M8 14h5"/><path d="M21 12a8 8 0 0 1-11.5 7.2L3 21l1.8-6.5A8 8 0 1 1 21 12z"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2"/><circle cx="12" cy="12" r="3.5"/></symbol>
+    <symbol id="i-refund" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18v12H3z"/><path d="M3 10h18"/><circle cx="8" cy="14" r="1.3"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+    <symbol id="i-concierge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M5 20a7 7 0 0 1 14 0"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1.4"/></symbol>
+    <symbol id="i-scalpel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l7-7M11 13l8.5-8.5a1.5 1.5 0 0 0-2-2L9 11z"/><path d="M9 11l4 4"/></symbol>
+    <symbol id="i-syringe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2l4 4M17 5l2 2M14 8l2 2-8 8H6v-2z"/><path d="M13 9l-2-2"/></symbol>
+    <symbol id="i-hair" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 4-14 8-14s8 6 8 14"/><path d="M8 20c0-6 2-10 4-10s4 4 4 10"/></symbol>
+    <symbol id="i-laser" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M5 5l3 3M19 5l-3 3"/><path d="M8 13h8l-1 8H9z"/></symbol>
+    <symbol id="i-skin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="11" r="1"/><circle cx="11" cy="15" r="1"/></symbol>
+    <symbol id="i-nose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v8a4 4 0 0 1-1.5 3.2L9 15.5A3 3 0 0 0 11 21h2a4 4 0 0 0 4-4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M18 3v18"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 6h6zM19 7l-3 6h6z"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9.5 16.5H2.5z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  </defs>
+</svg>
+
+<span class="previewtag">תצוגה מקדימה לעיצוב · נתונים לדוגמה</span>
+
+<!-- emergency ribbon -->
+<div class="ribbon">
+  <div class="container">
+    <svg><use href="#i-warn"/></svg>
+    <span>מצב חירום? כאב חזה, קוצר נשימה, סימני שבץ, דימום חמור או סכנת חיים — חייגו מיד <a href="tel:101">מד״א 101</a> או פנו לחדר מיון.</span>
+  </div>
+</div>
+
+<!-- header -->
+<header class="site">
+  <div class="container header-inner">
+    <a class="brand" href="#" aria-label="hea-lth">
+      <span class="mark"><svg><use href="#i-plus"/></svg></span>
+      <span>hea-lth<small>בריאות פרטית · תיאום ובחירה</small></span>
+    </a>
+    <nav class="main" aria-label="ניווט ראשי">
+      <a href="#treatments">טיפולים אסתטיים</a>
+      <a href="#services">שירותים פרטיים</a>
+      <a href="#index">אינדקס רופאים</a>
+      <a href="#compare">מחירונים</a>
+      <a href="#faq">שאלות נפוצות</a>
+    </nav>
+    <div class="header-cta">
+      <a class="header-phone" href="tel:*0000"><svg><use href="#i-phone"/></svg>*0000</a>
+      <a class="btn btn-gold btn-sm" href="#lead">בדיקת התאמה</a>
+      <button class="burger" aria-label="תפריט"><svg class="icon"><use href="#i-search"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- hero -->
+<section class="hero" style="padding-top:56px">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow"><svg><use href="#i-star"/></svg> קונסיירז' בריאות פרטי + מרקטפלייס רפואה אסתטית</span>
+      <h1>מוצאים את הרופא, המרפאה והמסלול הפרטי <span class="hl">המתאים לכם</span> — בלי לרדוף אחרי טלפונים</h1>
+      <p class="lead">hea-lth מרכזת רופאים ומרפאות מאומתים, טווחי מחיר שקופים ותיאום שירות אישי — כדי שתוכלו להשוות, לשאול ולהתקדם בביטחון. אנחנו מתאמים ומנתבים בלבד; אנחנו לא מאבחנים ולא ממליצים על טיפול.</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="#lead"><svg class="icon"><use href="#i-check"/></svg>בדיקת התאמה חינם</a>
+        <a class="btn btn-ghost" href="#index"><svg class="icon"><use href="#i-search"/></svg>לאינדקס הרופאים</a>
+      </div>
+      <div class="hero-trust">
+        <span class="chip"><svg><use href="#i-shield-check"/></svg>רישוי מאומת מול משרד הבריאות</span>
+        <span class="chip"><svg><use href="#i-book"/></svg>בקרת מקורות ועדכון</span>
+        <span class="chip"><svg><use href="#i-lock"/></svg>פרטיות והסכמה מלאה</span>
+      </div>
+      <div class="rating-row">
+        <span class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></span>
+        <span>4.9 · לפי משובי שירות התיאום (נתון לדוגמה)</span>
+      </div>
+    </div>
+
+    <!-- multi-step lead form -->
+    <aside class="formcard" id="lead" aria-label="טופס בדיקת התאמה">
+      <h2>איזה שירות בריאות לתאם?</h2>
+      <p class="sub">3 שלבים קצרים. בלי לשלוח מסמכים רפואיים בשלב הזה.</p>
+      <div class="steps-dots"><span class="on"></span><span></span><span></span></div>
+
+      <form onsubmit="return false">
+        <!-- step 1 -->
+        <div class="step active" data-step="1">
+          <h3>1 · מה מחפשים?</h3>
+          <div class="opts">
+            <button class="opt" type="button" onclick="pick(this)"><svg><use href="#i-doctor"/></svg>רופא/ה פרטי/ת</button>
+            <button class="opt" type="button" onclick="pick(this)"><svg><use href="#i-opinion"/></svg>חוות דעת שנייה</button>
+            <button class="opt" type="button" onclick="pick(this)"><svg><use href="#i-syringe"/></svg>טיפול אסתטי</button>
+            <button class="opt" type="button" onclick="pick(this)"><svg><use href="#i-scan"/></svg>MRI / CT</button>
+            <button class="opt" type="button" onclick="pick(this)"><svg><use href="#i-refund"/></svg>החזר ביטוח</button>
+            <button class="opt" type="button" onclick="pick(this)"><svg><use href="#i-concierge"/></svg>שירות פרימיום</button>
+          </div>
+          <div class="step-nav"><button class="btn btn-teal btn-block" type="button" onclick="next(1)">המשך</button></div>
+        </div>
+
+        <!-- step 2 -->
+        <div class="step" data-step="2">
+          <h3>2 · אזור וזמן</h3>
+          <div class="field"><label>עיר / אזור</label><input placeholder="לדוגמה: תל אביב, חיפה, ירושלים"></div>
+          <div class="field"><label>מסגרת זמן</label>
+            <select><option>בדיקה ראשונית</option><option>השבוע</option><option>עד 30 יום</option><option>גמיש</option></select>
+          </div>
+          <div class="field"><label>מסלול תשלום</label>
+            <select><option>פרטי</option><option>שב״ן / קופת חולים</option><option>ביטוח בריאות פרטי</option><option>לא בטוח/ה</option></select>
+          </div>
+          <div class="step-nav">
+            <button class="btn btn-ghost btn-sm" type="button" onclick="prev(2)">חזרה</button>
+            <button class="btn btn-teal btn-block" type="button" onclick="next(2)">המשך</button>
+          </div>
+        </div>
+
+        <!-- step 3 -->
+        <div class="step" data-step="3">
+          <h3>3 · פרטי יצירת קשר</h3>
+          <div class="field"><label>שם מלא</label><input placeholder="שם פרטי ומשפחה"></div>
+          <div class="field"><label>טלפון</label><input placeholder="05X-XXXXXXX"></div>
+          <label class="consent"><input type="checkbox"> אני מבין/ה שהאתר אינו מספק אבחון, טיפול או ייעוץ רפואי, ואין לשלוח מידע רפואי רגיש שאינו נדרש לתיאום.</label>
+          <label class="consent"><input type="checkbox"> אני מאשר/ת שמירת פרטי הפנייה ויצירת קשר לצורך תיאום שירות או בדיקת התאמה.</label>
+          <div class="step-nav">
+            <button class="btn btn-ghost btn-sm" type="button" onclick="prev(3)">חזרה</button>
+            <button class="btn btn-gold btn-block" type="button">שליחת פנייה לתיאום</button>
+          </div>
+          <p class="mini-emerg">הטופס אינו למצבי חירום ואינו מחליף פנייה לרופא, מוקד רפואי או מיון.</p>
+        </div>
+      </form>
+      <p class="formnote">🔒 הפנייה מאובטחת ומנותבת לתיאום אנושי · ללא ייעוץ רפואי אוטומטי</p>
+    </aside>
+  </div>
+</section>
+
+<!-- trust bar -->
+<div class="trustbar">
+  <div class="container">
+    <div class="tstat with-icon"><span class="ic"><svg><use href="#i-shield-check"/></svg></span><div><b>מאומת</b><span>רישוי מול משרד הבריאות</span></div></div>
+    <div class="tstat"><b>120+</b><span>רופאים ומרפאות ברשת (לדוגמה)</span></div>
+    <div class="tstat"><b>7</b><span>תחומי רפואה אסתטית ופרטית</span></div>
+    <div class="tstat"><b>6</b><span>שירותי תיאום קונסיירז'</span></div>
+  </div>
+</div>
+
+<!-- treatments -->
+<section id="treatments">
+  <div class="container">
+    <div class="sec-head">
+      <span class="kicker">רפואה אסתטית ופרטית</span>
+      <h2>בוחרים תחום — ורואים טווח מחיר לפני שמתקדמים</h2>
+      <p>כרטיסי טיפול עם עוגני מחיר שקופים לייחוס ציבורי. המחיר הסופי תמיד נקבע לאחר בדיקה מקצועית והצעת מחיר מהמרפאה.</p>
+    </div>
+    <div class="treat-grid">
+      <a class="tcard" href="#lead"><span class="tic"><svg><use href="#i-scalpel"/></svg></span><h3>כירורגיה פלסטית</h3><p>התייעצות, השוואת מנתחים ומסלול תשלום — לפי אזור וזמינות.</p><span class="price-anchor"><span class="pa-val">מחיר לאחר ייעוץ<small>לפי הליך ומנתח</small></span><span class="go"><svg><use href="#i-arrow"/></svg></span></span></a>
+      <a class="tcard" href="#lead"><span class="tic"><svg><use href="#i-nose"/></svg></span><h3>ניתוח אף</h3><p>סוגי הליך, שאלות לבדיקה מול המנתח והבנת מרכיבי המחיר.</p><span class="price-anchor"><span class="pa-val">6,000–25,000 ₪*<small>טווח ייחוס ציבורי</small></span><span class="go"><svg><use href="#i-arrow"/></svg></span></span></a>
+      <a class="tcard" href="#lead"><span class="tic"><svg><use href="#i-syringe"/></svg></span><h3>בוטוקס</h3><p>לפי אזור טיפול, שאלות בטיחות ובחירת מרפאה מורשית.</p><span class="price-anchor"><span class="pa-val">מ-700 ₪ לאזור*<small>טווח ייחוס ציבורי</small></span><span class="go"><svg><use href="#i-arrow"/></svg></span></span></a>
+      <a class="tcard" href="#lead"><span class="tic"><svg><use href="#i-hair"/></svg></span><h3>השתלת שיער</h3><p>בחירת מרפאה, ישראל מול חו״ל, ושאלות מעקב וסיכון.</p><span class="price-anchor"><span class="pa-val">ישראל / חו״ל<small>מחיר לאחר ייעוץ</small></span><span class="go"><svg><use href="#i-arrow"/></svg></span></span></a>
+      <a class="tcard" href="#lead"><span class="tic"><svg><use href="#i-heart"/></svg></span><h3>רפואה אסתטית</h3><p>חומצה היאלורונית, מילוי קמטים, פיסול פנים וקו לסת.</p><span class="price-anchor"><span class="pa-val">מחיר לאחר ייעוץ<small>לפי טיפול ואזור</small></span><span class="go"><svg><use href="#i-arrow"/></svg></span></span></a>
+      <a class="tcard" href="#lead"><span class="tic"><svg><use href="#i-laser"/></svg></span><h3>הסרת שיער בלייזר</h3><p>לפי אזור גוף, מבנה חבילות והתאמה — מול מרפאה מורשית.</p><span class="price-anchor"><span class="pa-val">לפי אזור ומסלול<small>מחיר לאחר ייעוץ</small></span><span class="go"><svg><use href="#i-arrow"/></svg></span></span></a>
+      <a class="tcard" href="#lead"><span class="tic"><svg><use href="#i-skin"/></svg></span><h3>טיפולי עור</h3><p>פיגמנטציה, צלקות אקנה, התחדשות עור ומסלול רופא/ה עור.</p><span class="price-anchor"><span class="pa-val">מחיר לאחר ייעוץ<small>לפי טיפול</small></span><span class="go"><svg><use href="#i-arrow"/></svg></span></span></a>
+      <a class="tcard" href="#index" style="background:linear-gradient(160deg,#0f4f48,#14665f);color:#fff;border:0"><span class="tic" style="background:rgba(63,191,174,.2);color:var(--gold-2)"><svg><use href="#i-search"/></svg></span><h3 style="color:#fff">כל התחומים</h3><p style="color:#bcd6d0">לאינדקס המלא של רופאים ומרפאות מאומתים לפי התמחות ואזור.</p><span class="price-anchor" style="border-color:rgba(255,255,255,.2)"><span class="pa-val" style="color:#fff">אינדקס מלא</span><span class="go" style="background:rgba(255,255,255,.15);color:#fff"><svg><use href="#i-arrow"/></svg></span></span></a>
+    </div>
+    <p class="disc-note">* טווחי מחיר לייחוס ציבורי בלבד, נאספו ממקורות פומביים. המחיר הסופי נקבע לאחר בדיקה מקצועית והצעת מחיר מהמרפאה. hea-lth אינה קובעת התאמה רפואית ואינה מבטיחה תוצאה.</p>
+  </div>
+</section>
+
+<!-- concierge services -->
+<section class="svc-band" id="services">
+  <div class="container">
+    <div class="sec-head">
+      <span class="kicker">תיאום קונסיירז' פרטי</span>
+      <h2>שישה מסלולי תיאום שחוסכים לכם את הרדיפה</h2>
+      <p>אנחנו אוספים את פרטי התיאום והתשלום, מציגים אפשרויות ומנתבים — וההחלטה הרפואית תמיד נשארת אצל רופא/ה מורשה.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc"><span class="si"><svg><use href="#i-doctor"/></svg></span><div><h3>רופא/ה פרטי/ת</h3><p>תיאום מול מומחה לפי תחום, מיקום, חלון זמן ומסלול תשלום.</p><a class="more" href="#lead">לפרטים <svg class="icon" style="width:14px;height:14px"><use href="#i-arrow"/></svg></a></div></div>
+      <div class="svc"><span class="si"><svg><use href="#i-opinion"/></svg></span><div><h3>חוות דעת שנייה</h3><p>מסלול מסודר מול רופא/ה מומחה לפני החלטה משמעותית.</p><a class="more" href="#secondopinion">לפרטים <svg class="icon" style="width:14px;height:14px"><use href="#i-arrow"/></svg></a></div></div>
+      <div class="svc"><span class="si"><svg><use href="#i-scan"/></svg></span><div><h3>MRI / CT פרטי</h3><p>עזרה אדמיניסטרטיבית לפני תור: הפניה, אזור ומסלול תשלום.</p><a class="more" href="#lead">לפרטים <svg class="icon" style="width:14px;height:14px"><use href="#i-arrow"/></svg></a></div></div>
+      <div class="svc"><span class="si"><svg><use href="#i-refund"/></svg></span><div><h3>החזר ביטוח בריאות</h3><p>בדיקת מסלול לפי קופה, שב״ן או פוליסה פרטית — ללא הבטחת זכאות.</p><a class="more" href="#lead">לפרטים <svg class="icon" style="width:14px;height:14px"><use href="#i-arrow"/></svg></a></div></div>
+      <div class="svc"><span class="si"><svg><use href="#i-home"/></svg></span><div><h3>ביקור רופא בבית</h3><p>תיאום למצבים שאינם חירום לפי אזור וזמינות.</p><a class="more" href="#lead">לפרטים <svg class="icon" style="width:14px;height:14px"><use href="#i-arrow"/></svg></a></div></div>
+      <div class="svc"><span class="si"><svg><use href="#i-concierge"/></svg></span><div><h3>שירותי בריאות פרימיום</h3><p>ליווי תיאום אישי: תורים, מסמכים, החזרים וניהול תהליך.</p><a class="more" href="#lead">לפרטים <svg class="icon" style="width:14px;height:14px"><use href="#i-arrow"/></svg></a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- doctor index teaser (NEW feature) -->
+<section id="index">
+  <div class="container">
+    <div class="sec-head">
+      <span class="kicker">חדש · אינדקס רופאים ומרפאות</span>
+      <h2>משווים ספקים מאומתים לפי מה שחשוב לכם</h2>
+      <p>סינון לפי התמחות, עיר, שפה וסוג ייעוץ. כל כרטיס כולל סימון רישוי, תחומי טיפול ומסלול מחיר — לבחירה מושכלת לפני פנייה.</p>
+    </div>
+    <div class="filters">
+      <button class="fchip on" onclick="fchip(this)"><svg><use href="#i-search"/></svg>הכול</button>
+      <button class="fchip" onclick="fchip(this)"><svg><use href="#i-doctor"/></svg>כירורגיה פלסטית</button>
+      <button class="fchip" onclick="fchip(this)"><svg><use href="#i-heart"/></svg>רפואה אסתטית</button>
+      <button class="fchip" onclick="fchip(this)"><svg><use href="#i-hair"/></svg>השתלת שיער</button>
+      <button class="fchip" onclick="fchip(this)"><svg><use href="#i-pin"/></svg>תל אביב</button>
+      <button class="fchip" onclick="fchip(this)"><svg><use href="#i-globe"/></svg>אונליין</button>
+    </div>
+    <div class="doc-grid">
+      <div class="doc">
+        <div class="doc-top"><span class="avatar">אב</span><div><h3>ד״ר א. בן־דוד <span style="font-weight:600;color:var(--muted);font-size:.8rem">(לדוגמה)</span></h3><div class="spec">כירורגיה פלסטית</div><span class="verified"><svg><use href="#i-shield-check"/></svg>רישוי מאומת מול משרד הבריאות</span></div></div>
+        <div class="doc-meta"><div><svg><use href="#i-pin"/></svg>תל אביב · מרכז</div><div><svg><use href="#i-globe"/></svg>עברית, אנגלית, רוסית</div><div><svg><use href="#i-opinion"/></svg>ייעוץ במרפאה · חוות דעת שנייה</div></div>
+        <div class="doc-tags"><span class="tag">ניתוח אף</span><span class="tag">מתיחת פנים</span><span class="tag">רקונסטרוקציה</span></div>
+        <div class="doc-foot"><span class="pr">מחיר לאחר ייעוץ<small>נבדק: 05/2026</small></span><a class="btn btn-teal btn-sm" href="#lead">לתיאום</a></div>
+      </div>
+      <div class="doc">
+        <div class="doc-top"><span class="avatar g">מל</span><div><h3>מרפאת לוטוס <span style="font-weight:600;color:var(--muted);font-size:.8rem">(לדוגמה)</span></h3><div class="spec">רפואה אסתטית</div><span class="verified"><svg><use href="#i-shield-check"/></svg>רישוי מאומת מול משרד הבריאות</span></div></div>
+        <div class="doc-meta"><div><svg><use href="#i-pin"/></svg>הרצליה</div><div><svg><use href="#i-globe"/></svg>עברית, אנגלית</div><div><svg><use href="#i-syringe"/></svg>בוטוקס · חומצה היאלורונית</div></div>
+        <div class="doc-tags"><span class="tag">בוטוקס</span><span class="tag">מילוי קמטים</span><span class="tag">פיסול פנים</span></div>
+        <div class="doc-foot"><span class="pr">בוטוקס מ-700 ₪*<small>נבדק: 05/2026</small></span><a class="btn btn-teal btn-sm" href="#lead">לתיאום</a></div>
+      </div>
+      <div class="doc">
+        <div class="doc-top"><span class="avatar">שכ</span><div><h3>ד״ר ש. כהן <span style="font-weight:600;color:var(--muted);font-size:.8rem">(לדוגמה)</span></h3><div class="spec">השתלת שיער</div><span class="verified"><svg><use href="#i-shield-check"/></svg>רישוי מאומת מול משרד הבריאות</span></div></div>
+        <div class="doc-meta"><div><svg><use href="#i-pin"/></svg>ירושלים</div><div><svg><use href="#i-globe"/></svg>עברית, אנגלית, צרפתית</div><div><svg><use href="#i-scan"/></svg>ייעוץ במרפאה · אונליין</div></div>
+        <div class="doc-tags"><span class="tag">FUE</span><span class="tag">קו שיער</span><span class="tag">מעקב</span></div>
+        <div class="doc-foot"><span class="pr">מחיר לאחר ייעוץ<small>נבדק: 05/2026</small></span><a class="btn btn-teal btn-sm" href="#lead">לתיאום</a></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:30px"><a class="btn btn-ghost" href="#lead"><svg class="icon"><use href="#i-search"/></svg>לאינדקס המלא · 120+ ספקים</a></div>
+  </div>
+</section>
+
+<!-- price compare (NEW feature) -->
+<section class="compare" id="compare">
+  <div class="container">
+    <div class="sec-head">
+      <span class="kicker">חדש · משווה מחירים שקוף</span>
+      <h2>טווחי מחיר ומרכיבי החלטה — במקום ניחושים</h2>
+      <p>נתוני ייחוס פומביים כדי להבין סדר גודל לפני פנייה. אלה אינם הצעת מחיר ואינם המלצה רפואית.</p>
+    </div>
+    <div class="tabs">
+      <button class="tab on" onclick="tab(this,'p-botox')">בוטוקס</button>
+      <button class="tab" onclick="tab(this,'p-nose')">ניתוח אף</button>
+      <button class="tab" onclick="tab(this,'p-hair')">השתלת שיער: ישראל / חו״ל</button>
+    </div>
+
+    <div class="panel on" id="p-botox">
+      <table class="ptable">
+        <thead><tr><th>היקף הטיפול</th><th>טווח ייחוס*</th><th>מה משפיע על המחיר</th></tr></thead>
+        <tbody>
+          <tr><td>אזור אחד</td><td class="val">~700 ₪</td><td>אזור, כמות יחידות, מרפאה</td></tr>
+          <tr><td>שלושה אזורים</td><td class="val">~1,500 ₪</td><td>מספר אזורים, ניסיון המטפל/ת</td></tr>
+          <tr><td>טיפול פנים רחב</td><td class="val">2,500–3,500 ₪</td><td>היקף, שילוב טיפולים, מיקום</td></tr>
+        </tbody>
+      </table>
+      <p class="compare-note">* דוגמאות ממחירונים פומביים. המחיר בפועל נקבע לאחר בדיקה מקצועית. בוטוקס הוא טיפול רפואי שמבוצע על ידי מורשה בלבד.</p>
+    </div>
+
+    <div class="panel" id="p-nose">
+      <table class="ptable">
+        <thead><tr><th>סוג הליך</th><th>טווח ייחוס*</th><th>מה משפיע על המחיר</th></tr></thead>
+        <tbody>
+          <tr><td>ניתוח אף רפואי</td><td class="val">6,000–15,000 ₪</td><td>מורכבות, מנתח, בית חולים</td></tr>
+          <tr><td>ניתוח אף אסתטי</td><td class="val">12,000–25,000 ₪</td><td>טכניקה, מנתח, מעקב</td></tr>
+          <tr><td>מקרה מורכב / משולב</td><td class="val">12,000–40,000 ₪</td><td>היקף, תיקון חוזר, הרדמה</td></tr>
+        </tbody>
+      </table>
+      <p class="compare-note">* טווחים ממקורות פומביים לצורך התמצאות בלבד. המחיר הסופי נקבע לאחר התייעצות והצעת מחיר מהמנתח/המרפאה.</p>
+    </div>
+
+    <div class="panel" id="p-hair">
+      <div class="vs-grid">
+        <div class="vs-col"><h4><svg class="icon" style="color:var(--teal)"><use href="#i-pin"/></svg>ישראל</h4>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>מעקב וזמינות המשך קרובים לבית</li>
+            <li><svg><use href="#i-check"/></svg>תקשורת בעברית ומול מרפאה מקומית מורשית</li>
+            <li><svg><use href="#i-check"/></svg>אין עלויות טיסה ושהות</li>
+            <li><svg><use href="#i-scale"/></svg>מחיר ייחוס נקבע לאחר ייעוץ</li>
+          </ul>
+        </div>
+        <div class="vs-col"><h4><svg class="icon" style="color:var(--gold)"><use href="#i-globe"/></svg>חו״ל (למשל טורקיה)</h4>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>לעיתים מחיר חבילה נמוך יותר</li>
+            <li><svg><use href="#i-warn"/></svg>מעקב וטיפול בסיבוכים מרחוק מורכבים יותר</li>
+            <li><svg><use href="#i-warn"/></svg>יש לבדוק רישוי, ניסיון ותנאי אחריות</li>
+            <li><svg><use href="#i-scale"/></svg>להוסיף עלויות טיסה, שהות ותרגום</li>
+          </ul>
+        </div>
+      </div>
+      <p class="compare-note">השוואת שיקולים כללית להתמצאות. אינה המלצה רפואית ואינה קביעת התאמה. בחירת מרפאה ותוכנית טיפול הן החלטה מול רופא/ה מורשה.</p>
+    </div>
+  </div>
+</section>
+
+<!-- how it works -->
+<section>
+  <div class="container">
+    <div class="sec-head">
+      <span class="kicker">איך זה עובד</span>
+      <h2>מסלול תיאום שלא מחליף רופא</h2>
+    </div>
+    <div class="steps4">
+      <div class="hstep"><div class="num">1</div><h3>בדיקת התאמה קצרה</h3><p>ממלאים שירות, אזור, מסגרת זמן ופרטי קשר — בלי מסמכים רפואיים.</p></div>
+      <div class="hstep"><div class="num">2</div><h3>אפשרויות מותאמות</h3><p>מקבלים אפשרויות רופא/מרפאה, סוג ייעוץ ומסלול תשלום רלוונטיים.</p></div>
+      <div class="hstep"><div class="num">3</div><h3>משווים ושואלים</h3><p>בוחנים טווחי מחיר, שפות, זמינות ותחומי טיפול — ומחליטים בקצב שלכם.</p></div>
+      <div class="hstep"><div class="num">4</div><h3>מתקדמים לתיאום</h3><p>אנחנו מסייעים לתאם את הפגישה ולארגן את המשך התהליך.</p></div>
+    </div>
+    <div class="boundary"><svg class="icon" style="display:inline;vertical-align:-5px;color:var(--gold)"><use href="#i-shield"/></svg> ההחלטה הרפואית — אבחון, התאמת טיפול או פרשנות בדיקות — תמיד נשארת אצל רופא/ה מורשה. hea-lth מתאמת שירות בלבד.</div>
+  </div>
+</section>
+
+<!-- EEAT / governance -->
+<section class="eeat">
+  <div class="container eeat-grid">
+    <div>
+      <span class="kicker">אמון ובקרה</span>
+      <h2 style="font-size:clamp(1.6rem,2.8vw,2.3rem)">למה אפשר לסמוך על המידע כאן</h2>
+      <p style="color:var(--muted);margin:14px 0 26px;font-size:1.05rem">בריאות היא תחום רגיש (YMYL). לכן כל תוכן ותהליך בנויים סביב מקורות רשמיים, בקרה ושקיפות.</p>
+      <div class="gov-list">
+        <div class="gov"><span class="gi"><svg><use href="#i-shield-check"/></svg></span><div><h3>רישוי מאומת</h3><p>ספקים נבדקים מול מרשם בעלי הרישיון של <a href="https://www.gov.il/he/service/health-registries" target="_blank" rel="noopener">משרד הבריאות</a> לפני ניתוב או הצגה.</p></div></div>
+        <div class="gov"><span class="gi"><svg><use href="#i-book"/></svg></span><div><h3>מקורות ועדכון</h3><p>כל עמוד רפואי כולל מקור, גורם בודק ותאריך עדכון. ללא הבטחות תוצאה וללא תוכן שיווקי מוסווה.</p></div></div>
+        <div class="gov"><span class="gi"><svg><use href="#i-lock"/></svg></span><div><h3>פרטיות מובנית</h3><p>לא אוספים מסמכים רפואיים בפנייה הראשונה, בהתאם לחובות מול <a href="https://www.gov.il/he/departments/the_privacy_protection_authority" target="_blank" rel="noopener">הרשות להגנת הפרטיות</a>.</p></div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="rc-top"><span class="avatar">בר</span><div><h3>ד״ר בקרה רפואית (לדוגמה)</h3><span>גורם בודק · תוכן רפואי</span></div></div>
+      <ul>
+        <li><svg><use href="#i-check"/></svg>כל ניסוח רפואי עובר בדיקה לפני פרסום</li>
+        <li><svg><use href="#i-check"/></svg>אין אבחון, המלצת טיפול או תיעדוף חירום באתר</li>
+        <li><svg><use href="#i-check"/></svg>מחירים מוצגים כטווח ייחוס בלבד</li>
+        <li><svg><use href="#i-check"/></svg>תמונות לפני/אחרי — רק בהסכמה, הקשר וללא הבטחה</li>
+      </ul>
+      <div class="updated">מדיניות עריכה · עודכן לאחרונה 05/2026 · מקורות: משרד הבריאות, הרשות להגנת הפרטיות</div>
+    </div>
+  </div>
+</section>
+
+<!-- testimonials -->
+<section class="testi">
+  <div class="container">
+    <div class="sec-head">
+      <span class="kicker">משובי שירות (לדוגמה)</span>
+      <h2>מה אנשים אומרים על חוויית התיאום</h2>
+      <p>משובים על שירות התיאום והליווי האדמיניסטרטיבי — לא על תוצאה רפואית.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="quote"><span class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></span><p>"עזרו לי לתאם חוות דעת שנייה ולהבין את מסלול ההחזר, בלי לחץ ובלי לרדוף אחרי טלפונים."</p><div class="who"><span class="avatar">מ</span><div><b>מ׳ מרמת גן</b><span>תיאום חוות דעת שנייה</span></div></div></div>
+      <div class="quote"><span class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></span><p>"קיבלתי כמה אפשרויות מרפאה עם טווחי מחיר ברורים, והצלחתי להשוות בשקט לפני שהחלטתי."</p><div class="who"><span class="avatar g">י</span><div><b>י׳ מחיפה</b><span>רפואה אסתטית</span></div></div></div>
+      <div class="quote"><span class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></span><p>"הליווי לתיאום MRI פרטי חסך לי המון זמן. הכול היה ברור, מסודר ומכבד את הפרטיות."</p><div class="who"><span class="avatar">ד</span><div><b>ד׳ מירושלים</b><span>תיאום הדמיה פרטית</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- second opinion band -->
+<section id="secondopinion" style="padding-top:0">
+  <div class="container">
+    <div class="soband">
+      <div>
+        <span class="kicker" style="color:var(--gold-2)">בעדיפות ראשונה</span>
+        <h2>חוות דעת רפואית שנייה — תיאום מסודר מול רופא/ה מומחה</h2>
+        <p>לפני החלטה על ניתוח או טיפול משמעותי: אנחנו עוזרים להתאים התמחות, לארגן אפשרויות פגישה, להבין רשימת מסמכים למרפאה ולבדוק מסלול תשלום או החזר — בלי להבטיח זמינות, כיסוי או תוצאה.</p>
+      </div>
+      <div class="so-cta"><a class="btn btn-gold" href="#lead">בדיקת אפשרות לתיאום</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="sec-head">
+      <span class="kicker">שאלות נפוצות</span>
+      <h2>מה שחשוב לדעת לפני שמתחילים</h2>
+    </div>
+    <div class="faq-wrap">
+      <details class="faq" open><summary>האם האתר נותן ייעוץ רפואי או אבחון?<span class="fq-ic"><svg class="icon" style="width:16px;height:16px"><use href="#i-plus"/></svg></span></summary><div class="fq-body">לא. hea-lth מתאמת שירותים אדמיניסטרטיביים ופרטיים ומנתבת לרופא/ה מורשה. אנחנו לא מאבחנים, לא ממליצים על טיפול ולא מבצעים תיעדוף חירום. במצב חירום פונים למד״א 101 או למיון.</div></details>
+      <details class="faq"><summary>איך נקבעים המחירים שמוצגים?<span class="fq-ic"><svg class="icon" style="width:16px;height:16px"><use href="#i-plus"/></svg></span></summary><div class="fq-body">כל המחירים הם טווחי ייחוס פומביים להתמצאות בלבד. המחיר הסופי נקבע תמיד לאחר בדיקה מקצועית והצעת מחיר מהמרפאה או הרופא/ה.</div></details>
+      <details class="faq"><summary>איך מאומתים הרופאים והמרפאות?<span class="fq-ic"><svg class="icon" style="width:16px;height:16px"><use href="#i-plus"/></svg></span></summary><div class="fq-body">ספקים נבדקים מול מרשם בעלי הרישיון של משרד הבריאות. איננו מדרגים או ממליצים על ספק ספציפי כ"הטוב ביותר" — אנחנו מציגים מידע מאומת כדי שתבחרו בעצמכם.</div></details>
+      <details class="faq"><summary>מה עם הפרטיות והמידע שלי?<span class="fq-ic"><svg class="icon" style="width:16px;height:16px"><use href="#i-plus"/></svg></span></summary><div class="fq-body">בפנייה הראשונה לא שולחים מסמכים רפואיים, אבחנות או תוצאות בדיקה. שמירת הפרטים והיצירת קשר נעשות רק לאחר אישור הסכמה ופרטיות מפורש.</div></details>
+      <details class="faq"><summary>מה עושים במצב חירום?<span class="fq-ic"><svg class="icon" style="width:16px;height:16px"><use href="#i-plus"/></svg></span></summary><div class="fq-body">הטופס אינו למצבי חירום. בכאב חזה, קוצר נשימה, סימני שבץ, דימום חמור או סכנת חיים — חייגו מיד למד״א 101 או פנו לחדר מיון.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- final CTA + full form -->
+<section class="final">
+  <div class="container final-grid">
+    <div class="final-copy">
+      <span class="kicker">בדיקת התאמה</span>
+      <h2>נתאם את השירות הנכון — בקצב שלכם</h2>
+      <p>מלאו את הפרטים ונחזור עם כיוון תיאום רלוונטי. הפנייה נשמרת בצורה מאובטחת ומנותבת לפי שירות, דחיפות, אזור ומסלול תשלום.</p>
+      <div class="final-benefits">
+        <div><svg><use href="#i-check"/></svg>ללא ייעוץ רפואי אוטומטי — ניתוב לגורם מורשה</div>
+        <div><svg><use href="#i-check"/></svg>ספקים מאומתים מול משרד הבריאות</div>
+        <div><svg><use href="#i-check"/></svg>שקיפות מחיר וטווחי ייחוס</div>
+        <div><svg><use href="#i-check"/></svg>פרטיות והסכמה מלאה לפני יצירת קשר</div>
+      </div>
+    </div>
+
+    <form class="fullform" onsubmit="return false" aria-label="טופס פנייה מלא">
+      <h3>שליחת פנייה לתיאום</h3>
+      <p class="sub">שדות חובה: שם, טלפון, שירות, ואישור פרטיות והסכמה.</p>
+      <div class="grid2">
+        <div class="field"><label>שם מלא *</label><input placeholder="שם פרטי ומשפחה"></div>
+        <div class="field"><label>טלפון *</label><input placeholder="05X-XXXXXXX"></div>
+        <div class="field"><label>אימייל</label><input type="email" placeholder="you@email.com"></div>
+        <div class="field"><label>שירות מבוקש *</label><select><option value="">בחירת שירות</option><option>רופא פרטי</option><option>חוות דעת שנייה</option><option>טיפול אסתטי</option><option>MRI / CT</option><option>החזר ביטוח בריאות</option><option>ביקור רופא בבית</option><option>שירותי בריאות פרימיום</option></select></div>
+        <div class="field"><label>התמחות / תחום</label><input placeholder="אורתופדיה, קרדיולוגיה, אסתטיקה..."></div>
+        <div class="field"><label>עיר / אזור</label><input placeholder="עיר מגורים"></div>
+        <div class="field"><label>דחיפות</label><select><option>בדיקה ראשונית</option><option>היום / מחר</option><option>השבוע</option><option>עד 30 יום</option></select></div>
+        <div class="field"><label>מסלול תשלום</label><select><option>פרטי</option><option>שב״ן / קופת חולים</option><option>ביטוח בריאות פרטי</option><option>לא יודע/ת</option></select></div>
+      </div>
+      <div class="field"><label>מידע כללי לתיאום בלבד</label><textarea rows="3" placeholder="לא לשלוח מידע רגיש או מסמכים רפואיים בשלב זה."></textarea></div>
+      <label class="consent"><input type="checkbox"> אני מבין/ה שהאתר אינו מספק אבחון, טיפול או ייעוץ רפואי ושאין לשלוח מידע רפואי רגיש שאינו נדרש לתיאום ראשוני.</label>
+      <label class="consent"><input type="checkbox"> אני מאשר/ת שמירת פרטי הפנייה ויצירת קשר לצורך תיאום שירות או בדיקת התאמה.</label>
+      <button class="btn btn-gold btn-block" type="button" style="margin-top:8px">שליחת פנייה לתיאום</button>
+      <p class="formnote">הטופס אינו מיועד למצבי חירום ואינו מחליף פנייה לרופא מטפל, מוקד רפואי או מיון.</p>
+    </form>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="site">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand"><span class="mark"><svg><use href="#i-plus"/></svg></span><span style="color:#fff">hea-lth</span></div>
+        <p>תיאום שירותי בריאות פרטיים ומרקטפלייס רפואה אסתטית בישראל. אנחנו מתאמים ומנתבים — לא מאבחנים ולא מעניקים טיפול.</p>
+      </div>
+      <div class="foot-col"><h4>תחומים</h4><a href="#treatments">כירורגיה פלסטית</a><a href="#treatments">רפואה אסתטית</a><a href="#treatments">השתלת שיער</a><a href="#treatments">הסרת שיער בלייזר</a><a href="#treatments">טיפולי עור</a></div>
+      <div class="foot-col"><h4>שירותים</h4><a href="#services">רופא פרטי</a><a href="#secondopinion">חוות דעת שנייה</a><a href="#services">MRI / CT</a><a href="#services">החזר ביטוח</a><a href="#services">שירותי פרימיום</a></div>
+      <div class="foot-col"><h4>מידע</h4><a href="#index">אינדקס רופאים</a><a href="#compare">מחירונים</a><a href="#faq">שאלות נפוצות</a><a href="#">מדיניות עריכה</a><a href="#">פרטיות ותנאים</a></div>
+    </div>
+    <div class="foot-disc">
+      <b>גילוי רפואי חשוב:</b> האתר אינו מספק אבחון, טיפול, המלצה רפואית או שירות חירום. המידע מיועד לתיאום שירותים בלבד ואינו מחליף התייעצות עם רופא מורשה. במקרה חירום, כאב חזה, קוצר נשימה, סימני שבץ, דימום חמור או סכנת חיים — פנו מיד למד״א 101 או לחדר מיון.
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 hea-lth.co.il · תיאום שירותים בלבד, לא אבחון או טיפול רפואי.</span>
+      <span>עוצב מחדש · תצוגה מקדימה</span>
+    </div>
+  </div>
+</footer>
+
+<!-- sticky mobile bar -->
+<div class="mobar">
+  <a class="m-call" href="tel:*0000"><svg><use href="#i-phone"/></svg>חיוג</a>
+  <a class="m-wa" href="#"><svg><use href="#i-wa"/></svg>וואטסאפ</a>
+  <a class="m-cta" href="#lead"><svg><use href="#i-check"/></svg>בדיקת התאמה</a>
+</div>
+
+<script>
+// multi-step hero form
+var cur=1, total=3;
+function show(n){
+  document.querySelectorAll('.step').forEach(function(s){s.classList.toggle('active', +s.dataset.step===n);});
+  document.querySelectorAll('.steps-dots span').forEach(function(d,i){d.classList.toggle('on', i<n);});
+  cur=n;
+}
+function next(n){ if(n<total) show(n+1); }
+function prev(n){ if(n>1) show(n-1); }
+function pick(btn){
+  btn.parentNode.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel');});
+  btn.classList.add('sel');
+}
+// index filter chips (visual)
+function fchip(b){ b.parentNode.querySelectorAll('.fchip').forEach(function(c){c.classList.remove('on');}); b.classList.add('on'); }
+// price tabs
+function tab(b,id){
+  b.parentNode.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');}); b.classList.add('on');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on', p.id===id);});
+}
+</script>
+</body>
+</html>

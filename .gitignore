@@ -1,4 +1,6 @@
 .seo-cache/
+tmp/
+output/
 __pycache__/
 *.py[cod]
 plugin-dist/*.zip

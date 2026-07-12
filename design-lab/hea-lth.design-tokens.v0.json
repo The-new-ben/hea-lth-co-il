@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "name": "Hea-lth design tokens",
+    "version": "0.1.0",
+    "status": "candidate",
+    "source": "2026-07-10 TIFF palette extraction and design review",
+    "implementationBoundary": "Design artifact only. Do not copy into WordPress until the identity and type gates pass."
+  },
+  "color": {
+    "forest": {
+      "950": { "value": "#0A2320", "role": "highest contrast surface and heading" },
+      "800": { "value": "#143F35", "role": "primary action and dark component surface" },
+      "700": { "value": "#235A51", "role": "secondary interactive state" }
+    },
+    "mint": {
+      "50": { "value": "#F2F9F6", "role": "clinical editorial surface" },
+      "200": { "value": "#B7CCC6", "role": "border and quiet emphasis" }
+    },
+    "ivory": {
+      "50": { "value": "#F9F7EE", "role": "private medicine surface" }
+    },
+    "text": {
+      "primary": { "value": "#0A2320", "role": "headings and high emphasis" },
+      "secondary": { "value": "#4F6360", "role": "supporting copy and metadata" },
+      "inverse": { "value": "#F2F9F6", "role": "dark surface copy" }
+    },
+    "bronze": {
+      "600": { "value": "#9E752B", "role": "non-text premium accent" },
+      "500": { "value": "#BB8937", "role": "hover and data accent" }
+    },
+    "semantic": {
+      "surface.page": { "value": "{color.mint.50}" },
+      "surface.private": { "value": "{color.ivory.50}" },
+      "surface.dark": { "value": "{color.forest.950}" },
+      "action.primary": { "value": "{color.forest.800}" },
+      "action.primaryText": { "value": "{color.text.inverse}" },
+      "border.default": { "value": "{color.mint.200}" },
+      "text.primary": { "value": "{color.text.primary}" },
+      "text.secondary": { "value": "{color.text.secondary}" }
+    }
+  },
+  "fontFamily": {
+    "display": {
+      "value": ["FrankRuehl", "David", "serif"],
+      "status": "candidate",
+      "use": "Editorial headings only. Must pass type comparison before approval."
+    },
+    "ui": {
+      "value": ["Gisha", "Arial", "sans-serif"],
+      "status": "candidate",
+      "use": "Navigation, forms, cards, metadata, data tables. Must pass type comparison before approval."
+    }
+  },
+  "fontSize": {
+    "display": { "value": { "min": "42px", "max": "72px", "lineHeight": 1.12 } },
+    "h1": { "value": { "min": "36px", "max": "56px", "lineHeight": 1.16 } },
+    "h2": { "value": { "min": "30px", "max": "42px", "lineHeight": 1.2 } },
+    "h3": { "value": { "min": "24px", "max": "32px", "lineHeight": 1.25 } },
+    "body": { "value": { "min": "16px", "max": "18px", "lineHeight": 1.65 } },
+    "meta": { "value": { "min": "13px", "max": "14px", "lineHeight": 1.45 } }
+  },
+  "space": {
+    "1": { "value": "4px" },
+    "2": { "value": "8px" },
+    "3": { "value": "12px" },
+    "4": { "value": "16px" },
+    "5": { "value": "20px" },
+    "6": { "value": "24px" },
+    "8": { "value": "32px" },
+    "10": { "value": "40px" },
+    "12": { "value": "48px" },
+    "16": { "value": "64px" },
+    "20": { "value": "80px" },
+    "24": { "value": "96px" },
+    "32": { "value": "128px" },
+    "40": { "value": "160px" }
+  },
+  "radius": {
+    "none": { "value": "0px" },
+    "control": { "value": "8px" },
+    "card": { "value": "16px" },
+    "feature": { "value": "24px" },
+    "pill": { "value": "999px" }
+  },
+  "shadow": {
+    "quiet": { "value": "0 1px 2px rgba(10, 35, 32, 0.06)" },
+    "raised": { "value": "0 12px 32px rgba(10, 35, 32, 0.12)" }
+  },
+  "motion": {
+    "fast": { "value": "120ms" },
+    "standard": { "value": "220ms" },
+    "slow": { "value": "360ms" },
+    "easing": { "value": "cubic-bezier(.2,.6,.2,1)" },
+    "accessibility": { "value": "All motion is disabled when prefers-reduced-motion is reduce." }
+  },
+  "layout": {
+    "container.max": { "value": "1440px" },
+    "grid.desktopColumns": { "value": 12 },
+    "grid.desktopGutter": { "value": "24px" },
+    "grid.mobileGutter": { "value": "16px" },
+    "content.articleMax": { "value": "720px" },
+    "content.toolMax": { "value": "1040px" }
+  }
+}

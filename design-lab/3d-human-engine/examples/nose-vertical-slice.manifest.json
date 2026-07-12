@@ -1,0 +1,87 @@
+{
+  "modelId": "adult-human-v1",
+  "version": "0.1.0",
+  "status": "draft",
+  "license": {
+    "owner": "TBD",
+    "sourceUrl": "https://example.invalid/requires-approved-asset",
+    "webDeliveryAllowed": false,
+    "derivativeUseAllowed": false,
+    "contractReference": "TBD"
+  },
+  "clinicalReview": {
+    "status": "required",
+    "owner": "TBD"
+  },
+  "asset": {
+    "sourceGlb": "assets/TBD.glb",
+    "lods": [
+      {
+        "id": "lod-0",
+        "path": "assets/TBD-preview.glb",
+        "purpose": "preview"
+      }
+    ],
+    "validation": {
+      "gltfValid": false,
+      "visualQa": "pending",
+      "performanceQa": "pending"
+    }
+  },
+  "layers": [
+    {
+      "id": "skin",
+      "kind": "surface",
+      "meshIds": ["skin.outer"],
+      "defaultVisible": true
+    },
+    {
+      "id": "respiratory",
+      "kind": "system",
+      "meshIds": ["respiratory.nasal-cavity"],
+      "defaultVisible": false
+    }
+  ],
+  "structures": [
+    {
+      "id": "anatomy:nose",
+      "meshIds": ["face.nose.external", "respiratory.nasal-cavity"],
+      "labels": {
+        "he": "אף",
+        "en": "Nose"
+      },
+      "contexts": [
+        {
+          "id": "aesthetic",
+          "labelHe": "אסתטיקה ושינוי מבני",
+          "resolverEntityIds": {
+            "topics": ["topic:rhinoplasty-overview"],
+            "specialties": ["specialty:plastic-surgery"],
+            "treatments": ["treatment:rhinoplasty"],
+            "equipmentCategories": []
+          }
+        },
+        {
+          "id": "breathing",
+          "labelHe": "נשימה ואף אוזן גרון",
+          "resolverEntityIds": {
+            "topics": ["topic:nasal-breathing"],
+            "specialties": ["specialty:otolaryngology"],
+            "treatments": ["treatment:functional-rhinoplasty"],
+            "equipmentCategories": []
+          }
+        },
+        {
+          "id": "equipment",
+          "labelHe": "מכשור וציוד רפואי",
+          "resolverEntityIds": {
+            "topics": [],
+            "specialties": [],
+            "treatments": [],
+            "equipmentCategories": ["equipment-category:nasal-care"]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+flowchart LR
+    subgraph foundation ["Traffic and Knowledge Foundation"]
+        glossary["Medical Glossary"]
+        encyclopedia["Conditions and Procedures"]
+        reference["Drugs Devices and Tests"]
+        innovation["AI and Medical Innovation"]
+    end
+
+    subgraph authority ["Authority and Decision Hubs"]
+        aesthetics["Aesthetic Medicine"]
+        surgery["Plastic Surgery"]
+        hair["Hair Skin and Transplants"]
+        privateCare["Private Medicine and Wellness"]
+    end
+
+    subgraph money ["Premium Money Layer"]
+        treatmentPages["Treatments Prices and Comparisons"]
+        providerMarket["Verified Provider Marketplace"]
+        deviceMarket["Medical Device Commerce"]
+        concierge["Premium Concierge"]
+    end
+
+    subgraph conversion ["Accounts Transactions and Revenue"]
+        memberAccount["Patient Account"]
+        providerPortal["Professional Portal"]
+        leadRouter["Consent Based Lead Routing"]
+        checkout["Booking Checkout and Financing"]
+        recurring["Subscriptions Sponsorship and Data"]
+    end
+
+    subgraph trust ["Trust Data and Intelligence"]
+        evidence["Evidence and Medical Review"]
+        providerData["License and Provider Verification"]
+        knowledgeGraph["Medical Knowledge Graph"]
+    end
+
+    glossary --> encyclopedia
+    encyclopedia --> aesthetics
+    encyclopedia --> surgery
+    reference --> privateCare
+    innovation --> aesthetics
+    innovation --> privateCare
+    aesthetics --> treatmentPages
+    surgery --> treatmentPages
+    hair --> treatmentPages
+    privateCare --> concierge
+    aesthetics --> providerMarket
+    surgery --> providerMarket
+    hair --> providerMarket
+    reference --> deviceMarket
+    treatmentPages --> memberAccount
+    providerMarket --> leadRouter
+    deviceMarket --> checkout
+    concierge --> leadRouter
+    memberAccount --> checkout
+    providerPortal --> providerMarket
+    leadRouter --> checkout
+    checkout --> recurring
+    evidence -.-> authority
+    providerData -.-> providerMarket
+    knowledgeGraph -.-> foundation
+    knowledgeGraph -.-> treatmentPages
+
+    style foundation fill:#C2E5FF,stroke:#3DADFF
+    style authority fill:#C6FAF6,stroke:#5AD8CC
+    style money fill:#FFECBD,stroke:#FFC943
+    style conversion fill:#DCCCFF,stroke:#874FFF
+    style trust fill:#CDF4D3,stroke:#66D575
+
