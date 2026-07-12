@@ -77,3 +77,4 @@ Run from the repo root; all must pass:
 - Conventional commits: `feat:`, `fix:`, `docs:`, `test:`, `chore:`.
 - Prefer extending the existing registries/gates over new parallel mechanisms. One mega-menu, one route registry, one deploy pipeline.
 - Do not add third-party CDNs at runtime; vendor assets into the theme (three.js is already vendored under `theme-src/hea-lth-portal/assets/vendor/three/`, r185).
+- **Shipped 3D code freeze (owner directive, 2026-07-12):** the live 3D stack from commits `2206dd0`→`034ce22` must not be refactored, rewritten, or restyled by any agent. Additive work and evidence-backed minimal defect fixes only; anything else needs the owner's explicit instruction in the current conversation. Protected file list: `docs/agent-sync/OWNER_DIRECTIVE_SHIPPED_3D_CODE_FREEZE_2026-07-12.md`.
