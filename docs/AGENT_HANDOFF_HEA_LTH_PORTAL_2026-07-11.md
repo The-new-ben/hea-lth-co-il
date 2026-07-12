@@ -1,8 +1,12 @@
 # Hea-lth Portal: full agent handoff
 
-Last updated: 2026-07-11, Asia/Jerusalem
+Last updated: 2026-07-12, Asia/Jerusalem
 
 This is the current source-of-truth handoff for a new agent joining the Hea-lth project. Read it fully before changing code, content, WordPress, GitHub, SEO strategy, design, tracking, or provider data.
+
+> **Verified release snapshot, 2026-07-12.** The from-scratch `hea-lth-portal-child` theme is now active on the public homepage. The latest production run is [GitHub Actions run 29167917145](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167917145), completed successfully at commit [`9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c`](https://github.com/The-new-ben/hea-lth-co-il/commit/9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c). A fresh public request to `https://hea-lth.co.il/` returned HTTP 200, the parent and child asset markers, one H1, the portal mega-menu marker, no Hello Elementor marker, and no PHP fatal/parse/critical-error marker. Statements below that describe the child activation as blocked are historical and are superseded by this snapshot and the release chronology in section 3.
+
+For a complete first-party source inventory with file-level responsibilities and GitHub links, read [PORTAL_SOURCE_FILE_MAP_2026-07-12.md](PORTAL_SOURCE_FILE_MAP_2026-07-12.md) after this document. It deliberately lists source and vendor boundaries without copying credentials or generated release ZIPs into documentation.
 
 ## 1. Mission and non-negotiable product standard
 
@@ -31,57 +35,88 @@ The target is to become a trusted, premium, information-rich portal rather than 
 
 ### What is live and proven
 
-| Area | State | Evidence |
+| Area | State | Evidence as of 2026-07-12 |
 | --- | --- | --- |
-| Current public site | Live | `https://hea-lth.co.il/` returns HTTP 200. |
-| Current active theme | Live | Public page currently loads `/wp-content/themes/hello-elementor`. |
-| New platform plugin | Live and independently verified | `hea-lth-platform-core` v0.1.0 is active. Public health route returned `status: ok` for deployment `gh-59479910eabef85205eaba0d1a0df07faf8cc21e-29166607077-1`. |
-| New parent theme | Installed, inactive | The GitHub release job installed `hea-lth-portal` v0.1.0 and verified it through authenticated WordPress theme REST. |
-| New child theme | Not installed or activated yet | The first activation attempt stopped before installation because its release manifest incorrectly required PHP 8.1 while production runs PHP 7.4.33. |
-| Temporary deployment bridge cleanup | Proven for the failed child attempt | The temporary Code Snippets route was deleted and its REST route confirmed absent. |
-| CI validation | Proven for commit `5947991` | GitHub Actions run `29166607077` completed build, lint, static analysis, secret scan, reproducible builds, and dry runs successfully. |
+| Public portal homepage | Live | `https://hea-lth.co.il/` returned HTTP 200 on a fresh normal URL request. The response contained both `/wp-content/themes/hea-lth-portal/` and `/wp-content/themes/hea-lth-portal-child/style.css`, contained `hp-mega`, contained exactly one H1, and did not contain `hello-elementor`, `Fatal error`, `Parse error`, or `There has been a critical error`. |
+| Active production child theme | Live and release-verified | `hea-lth-portal-child` v0.1.0 was activated through the governed pipeline. Public child health route returned `status: ok` for deployment `gh-9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c-29167917145-1-child`. |
+| Parent theme | Live as the active child theme's parent | `hea-lth-portal` v0.1.0 was installed and independently verified through authenticated WordPress Themes REST before child activation. |
+| Platform plugin | Live and release-verified | `hea-lth-platform-core` v0.1.0 public health route returned `status: ok` for deployment `gh-9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c-29167917145-1`. |
+| GitHub to WordPress delivery | Validated and live | [Run 29167917145](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167917145) completed successfully after validation, deterministic package builds, governed deployment, health checks, cache purge, and full public-HTML marker verification. |
+| Cache release gate | Validated and live | The pipeline now sends authenticated `DELETE /wp-json/ezcache/v1/cache` after a release, then retains and verifies the complete public HTML response rather than a truncated fragment. |
+| Temporary deployment bridge cleanup | Proven | The ephemeral Code Snippets route is deleted in a `finally` path and checked for absence after each release. |
 
-### What is not live yet
+### What exists but is not yet operational or approved
 
-| Area | State | Required before claiming success |
+| Area | State | What this actually means |
 | --- | --- | --- |
-| From-scratch portal theme | In progress | Correct PHP compatibility manifest, successful child deployment, activation, public health verification, visual QA, and screenshot evidence. |
-| Full design approval | Evidence-gated | Figma quota was exhausted. Local source design exists but is not a final approved Figma system. |
-| SEO program | Foundation and evidence-gated | Research documents and seed keyword map exist, but no comprehensive Israeli keyword database, SERP pack, final keyword-to-URL map, redirect map, or publishing calendar is approved. |
-| Lead routing and monetization | Foundation | Plugin has governed data model and routing boundaries, but there is no live intake form, consent workflow, CRM integration, SLA, attribution, billing, or production routing automation. |
-| Verified provider marketplace | Foundation | Data types and protected templates exist. There are no populated verified providers, clinics, contracts, reviews, schedules, or commercial inventory. |
-| Commerce | Not started | No catalog, stock, checkout, payment, fulfillment, return, or regulated-product controls exist. |
-| 3D human body experience | Engine foundation only | Three.js interaction code exists. No approved high-fidelity medical asset, no approved anatomy mappings, no public provider map data, and no commercial map key are released. |
-| Analytics and experiments | Not started or unknown | GSC access was shown by the owner, but data extraction, GA4, event taxonomy, dashboards, conversion reporting, and CRM attribution are not proven in repository artifacts. |
+| Full design approval | Evidence-gated | A real WordPress portal theme is now live, but there is no approved final Figma library, high-end logo system, design review record, or Chrome Profile 3 screenshot pack. Figma Starter write capacity was exhausted at the last check. |
+| SEO program | Foundation and evidence-gated | Research documents and a seed keyword map exist locally, but not a comprehensive Israeli keyword database, dated SERP pack, approved keyword-to-canonical-URL map, redirect map, content calendar, or production monitoring dashboard. |
+| Lead routing and monetization | Foundation | The plugin establishes data and routing boundaries only. There is no live consent-first intake, CRM integration, SLA, attribution, billing, real provider capacity inventory, or routing automation. The historic lead-loss problem is therefore not solved. |
+| Verified provider marketplace | Foundation | Custom content types and guarded public templates exist. There are no published verified provider, clinic, hospital, equipment, review, availability, contract, or commercial inventory records. |
+| Commerce | Not started | There is no product catalog, regulated-product review process, checkout, payment, fulfillment, refund, or referral reconciliation implementation. |
+| 3D human body experience | Engine foundation, asset-gated | Three.js, model-stage, rotation/layer/mesh-selection code, accessible controls, a discovery resolver, and map boundary exist. No licensed, clinically reviewed, quality-validated public anatomy GLB/GLTF manifest has passed the gate, so real WebGL is deliberately not sent to visitors. The homepage currently has a non-WebGL teaser, not a real rotating body. |
+| Analytics and experimentation | Not started or unknown | GSC access was shown by the owner, but no repository evidence proves a GSC export, GA4 access, event taxonomy, warehouse, conversion reporting, dashboards, or CRM attribution. |
+
+### Release chronology and why the final state is trustworthy
+
+| Milestone | Result | Evidence |
+| --- | --- | --- |
+| `c3defd8` initial portal/pipeline release | Partial success | The plugin and parent theme proved WordPress identity, filesystem access, and deployment architecture. The child preflight safely refused PHP 8.1 on a PHP 7.4.33 host. |
+| `e847a47` compatibility and quality correction | Source corrected | Child deployment manifest changed to PHP 7.4 and portal-wide static checks were expanded. |
+| `29167134652` CI memory failure | Contained | PHPStan exceeded the former 512 MB CI limit before production deployment. No live package was released by that failed run. |
+| `e2f291f` CI correction | Source corrected | PHPStan memory allocated at 1 GB without reducing the portal scan. |
+| `29167190760` first successful child activation | Live but cache-masked | The child theme activated successfully. Public cache still served older HTML at the bare URL. |
+| `e7c3cab` cache release control | Source corrected | Cache purge and public-theme marker verification were added. |
+| `29167751632` incomplete public verification | Contained | Public verification incorrectly read only the first 4,000 characters. The run detected incomplete proof and rolled the child update back. It did not falsely claim success. |
+| `9d42872` final verification correction | Source corrected | Successful HTML responses are now kept in full; only error payload text is truncated for safe diagnostics. |
+| `29167917145` final production release | Successful and current | Child theme and plugin health routes returned expected release IDs; cache purge and full HTML marker verification passed. |
+
+### Enterprise scorecard at handoff
+
+This is a maturity assessment, not a percentage-complete claim. It keeps a successful theme release from being mistaken for a completed business.
+
+| Dimension | State | Evidence and gap |
+| --- | --- | --- |
+| Business strategy and economics | Foundation | Commercial pyramid and intended revenue models are documented, but no approved offer, pricing, contracts, or unit economics exist. |
+| Information architecture and taxonomy | In progress | Portal routes, templates, entities, mega menus, and discovery areas are implemented; formal migration and taxonomy governance remain incomplete. |
+| SEO evidence and governance | Evidence-gated | Seed documents exist locally, but no full GSC/SEMrush export, dated Israeli SERP database, final canonical/redirect map, or production measurement is proven. |
+| Experience and design system | Evidence-gated | Token-driven portal theme is live; final Figma library, brand/logo approval, comparative design evidence, and Chrome screenshot acceptance are missing. |
+| Technical platform and delivery | Live | Versioned source, CI, deterministic packages, governed WordPress release, health routes, rollback/cleanup behavior, cache purge, and public marker verification are proven. |
+| Medical content operation | Foundation | Template safety gates exist, but author/reviewer roster, evidence workflow, content calendar, and published reviewed corpus do not. |
+| Monetization and lead operations | Foundation | Data boundary exists; consent capture, CRM, routing, attribution, SLA, billing, and reconciliation do not. |
+| Provider marketplace | Foundation | Entities and templates exist; credentialed providers, availability, agreements, reviews, and operations do not. |
+| Commerce and premium products | Not started | No regulated catalog, checkout/referral, fulfillment, returns, or payment operations. |
+| Product intelligence and advanced interfaces | Foundation | Discovery architecture and gated 3D/map runtime exist; approved model, inventory, evaluation, and safety proof do not. |
+| Data, analytics, and experimentation | Not started or unknown | No confirmed event taxonomy, GA4/GSC export pipeline, dashboard, data warehouse, or experiment framework. |
+| Trust, legal, privacy, and clinical safety | Foundation | Conservative defaults prevent fake public claims/data; formal policies, consent design, reviewer ownership, disclosures, and legal review remain required. |
+| Operating model and roadmap | Foundation | Handoff, research material, release proof, and priorities exist; named cross-functional owners, decision log, budget, and operating cadence are not yet confirmed. |
 
 ## 4. Active red alerts
 
-1. **Production theme activation is blocked by a manifest compatibility error.**
-   - Impact: the new portal is not visible. The current live homepage remains Hello Elementor.
-   - Root cause: the child theme's deployment configuration was set to `requires_php: 8.1`; the production WordPress preflight reported PHP `7.4.33`.
-   - Containment: the child package was not installed, no active theme changed, temporary bridge was deleted. The platform plugin and inactive parent theme remain installed.
-   - Corrective source change already made locally: `deploy/wordpress-deploy.json` now sets the child `requires_php` to `7.4`.
-   - Required next proof: commit, push, CI run, child installation and activation, `/wp-json/hea-lth-portal/v1/healthcheck?deployment=<new-id>`, public homepage visual check.
+1. **Lead routing is not operational.**
+   - Impact: the original business leak, unowned or incorrectly routed leads, is not yet solved by the new visual portal.
+   - Containment: no live health-data intake or routing is pretending to work. The current code does not collect leads or sensitive health data.
+   - Required proof: consent-first intake design, CRM selection and data-processing review, routing matrix, provider eligibility/capacity, fallback owner, SLA, audit trail, attribution, and end-to-end test cases.
 
-2. **Lead routing is not operational.**
-   - The historic business problem is that leads were not routed properly.
-   - Current plugin intentionally does not collect health data, leads, payment data, or contact forms. This is safe but means it does not solve the operational leak yet.
-   - Required next product work: consent-first intake design, CRM choice, endpoint contract, qualification fields, provider eligibility, queue/SLA, fallback owner, audit log, attribution, reporting, and test matrix.
+2. **Organic migration is not ready.**
+   - Impact: historical URLs may hold visibility and backlink equity.
+   - Containment: the theme uses controlled route keys and does not bulk-remove URLs or make a blanket redirect/noindex decision.
+   - Required proof: crawl, GSC page/query export, backlink inspection, canonical and redirect decision log, content-equivalence checks, and post-launch monitoring.
 
-3. **Organic migration is not ready.**
-   - Legacy URLs have value. The new theme uses a controlled route registry and sends visual navigation to known legacy skeleton paths, but that is not a redirect or migration plan.
-   - Do not remove URLs, publish replacement content, or create broad redirects without a crawl, GSC metrics, backlink inspection, canonical decisions, and post-launch monitoring.
+3. **The ultra-realistic 3D anatomy asset is not approved.**
+   - Impact: a real rotatable human model cannot responsibly be placed on the homepage yet.
+   - Containment: the site renders an honest discovery teaser and an accessible non-3D resolver. It does not show a generic CesiumMan or Happy Davinci placeholder as medical anatomy.
+   - Required proof: explicit license and derivative/web delivery rights, named clinical reviewer and date, GLB validation, visual/performance QA, semantic mesh IDs, high-detail LOD of at least 100,000 triangles, and same-origin public asset path.
 
-4. **3D launch asset is not approved.**
-   - Do not represent the current viewer as an ultra-real medical model. It is a gated technical foundation only.
+4. **Medical content cannot be mass-produced yet.**
+   - Impact: publishing unsupported long-form health material risks YMYL quality, trust, and cannibalization.
+   - Containment: no bulk 3,000 to 5,000 word articles were written or published by the local agent.
+   - Required proof: Israeli SERP evidence, competitor evidence, one primary intent per canonical URL, source/reviewer ownership, medical review, revision dates, and an approved ChatGPT Pro Extended research-to-draft workflow.
 
-5. **Medical content cannot be mass-produced yet.**
-   - Full articles need real Israeli SERP research, competitor research, expert-review ownership, dated primary sources, keyword-to-URL allocation, and anti-cannibalization rules.
-
-6. **External public cache can mask a successful theme activation.**
-   - After the successful child activation, the authenticated child health route and a cache-busted homepage both showed the new portal, while the bare homepage still returned stale Hello Elementor HTML from `ezCache` and the `SeoEdge` cache layer.
-   - Containment: a pipeline correction is being added to call authenticated `DELETE /wp-json/ezcache/v1/cache` after each verified package deployment and to require fresh public child-theme asset markers before finalization.
-   - Required proof: the bare `https://hea-lth.co.il/` response must load `hea-lth-portal` and `hea-lth-portal-child` assets after the next run, without a cache-busting query parameter.
+5. **Chrome visual evidence is incomplete.**
+   - Impact: the release has functional/public-HTML proof but not yet the owner-required desktop/mobile Chrome Profile 3 screenshot evidence.
+   - Evidence: the physical Chrome window was found, but the desktop capture interface failed with `SetIsBorderRequired failed: No such interface supported (0x80004002)`. The Chrome extension was also unavailable.
+   - Required proof: capture the live homepage, a mega menu, and an internal template in actual Chrome Profile 3 after the capture interface is healthy. Do not substitute a synthetic image as evidence.
 
 ## 5. URLs, GitHub, WordPress, and environments
 
@@ -89,12 +124,12 @@ The target is to become a trusted, premium, information-rich portal rather than 
 
 | Purpose | URL or identifier | Notes |
 | --- | --- | --- |
-| Public site | `https://hea-lth.co.il/` | Current public homepage still uses Hello Elementor until the child activation is successful. |
+| Public site | `https://hea-lth.co.il/` | New `hea-lth-portal-child` is active and public. The normal URL was verified with parent and child asset markers after cache purge. |
 | WordPress REST root | `https://hea-lth.co.il/wp-json/` | Read-only inspection verified it is reachable. |
 | Core plugins REST route | `/wp-json/wp/v2/plugins` | Available; requires authenticated WordPress deployment identity for mutation. |
 | Core themes REST route | `/wp-json/wp/v2/themes` | Available; used for authenticated inactive-parent verification. |
-| Platform health | `/wp-json/hea-lth-platform/v1/healthcheck` | Safe public release identity only. No provider, lead, medical, or credential data. |
-| Child theme health after activation | `/wp-json/hea-lth-portal/v1/healthcheck` | Exists only when the child theme is active. |
+| Platform health | `/wp-json/hea-lth-platform/v1/healthcheck` | Safe public release identity only. Current proof: [`gh-...29167917145-1`](https://hea-lth.co.il/wp-json/hea-lth-platform/v1/healthcheck?deployment=gh-9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c-29167917145-1). No provider, lead, medical, or credential data. |
+| Child theme health | `/wp-json/hea-lth-portal/v1/healthcheck` | The active child theme exposes safe release identity. Current proof: [`gh-...29167917145-1-child`](https://hea-lth.co.il/wp-json/hea-lth-portal/v1/healthcheck?deployment=gh-9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c-29167917145-1-child). |
 | UPress account | `https://my.upress.co.il/account/websites/hea-lth.co.il` | Owner controls hosting. Do not use manual ZIP upload as a substitute for the governed deploy pipeline. |
 
 ### Repository
@@ -105,10 +140,11 @@ The target is to become a trusted, premium, information-rich portal rather than 
 | Git remote | `https://github.com/The-new-ben/hea-lth-co-il.git` |
 | Production branch | `main` |
 | Current development branch | `codex/portal-production` |
-| Latest pushed production commit at handoff | `e847a47fe6d6b6c4220043d94eff281c01f75d59` |
+| Latest pushed production commit at handoff | [`9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c`](https://github.com/The-new-ben/hea-lth-co-il/commit/9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c) |
 | First portal deployment run | `https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29166607077` |
 | First portal deployment result | Failed only at child-theme PHP compatibility preflight. Plugin and parent steps succeeded. |
-| Second portal CI run | `https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167134652` stopped before production deployment when PHPStan exhausted the workflow's 512 MB limit. |
+| Second portal CI run | [`29167134652`](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167134652) stopped before production deployment when PHPStan exhausted the workflow's 512 MB limit. |
+| Current successful production run | [`29167917145`](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167917145) completed successfully with public child-theme verification. |
 
 ### GitHub access and credentials
 
@@ -119,7 +155,7 @@ Never print, paste, commit, screenshot, or request raw secret values in chat, sh
 | GitHub CLI | Authenticated as `The-new-ben`; usable scopes included `repo` and `workflow` | Read repository, push approved source, inspect workflow runs and secrets by name only. |
 | GitHub environment | `production` exists | It has `WP_BASE_URL` and `WP_USER` environment secrets. |
 | Repository secrets | `WP_BASE_URL` and `WP_APP_PASSWORD` were listed by name | Workflow currently resolves the values. Do not expose or rotate them casually. Recommended later hardening: move `WP_APP_PASSWORD` into the `production` environment and remove duplicate repository-level secrets only after a successful verified release. |
-| WordPress deployment identity | Authenticated in GitHub Action as WordPress user ID `1`, with `update_plugins` | The workflow also needs `install_plugins`, `update_themes`, `install_themes`, and `switch_themes` for a fresh theme install and activation. The bridge will report exact missing capabilities if absent. |
+| WordPress deployment identity | Authenticated in GitHub Action as WordPress user ID `1` | It has successfully completed plugin installation/update, parent-theme install/update, child-theme install/update, and child-theme activation. The bridge will report exact missing capabilities if a future host change removes them. |
 | WordPress Application Password | Exists in GitHub secret storage | Never retrieve into local command output. Use the GitHub workflow. |
 | Chrome | User asked for Chrome Profile 3 | The Codex Chrome extension was unavailable at the last check. Do not substitute the in-app browser when the owner specifically requests Chrome state. Ask the owner to attach a logged-in Profile 3 tab if a browser-session task requires it. |
 
@@ -187,17 +223,12 @@ The project now uses a checksum-verified GitHub-to-WordPress pipeline, not FTP o
 
 ### Important pipeline status at handoff
 
-- GitHub run `29166607077` proves that the deploy identity and host filesystem work.
-- Plugin deployment succeeded and was independently verified on public WordPress REST.
-- Parent theme install succeeded and was independently verified using authenticated Themes REST.
-- Child preflight rejected `requires_php: 8.1` because the host reports `7.4.33`; no child files were installed and no theme changed.
-- The local corrective edit sets the child manifest requirement to `7.4`. It must be committed and pushed in a new run. Do not re-run the old commit.
-
-Update after the first correction attempt:
-
-- Commit `e847a47` corrected the child requirement and expanded portal-wide PHPCS and PHPStan coverage.
-- GitHub Actions run `29167134652` stopped before production deployment because the newly expanded PHPStan scan exceeded the workflow's previous 512 MB memory limit. The local scan passed at 1 GB.
-- The corrective workflow edit must use `--memory-limit=1G`. Do not reduce the portal scan back to the legacy plugin-only scope.
+- GitHub run [`29166607077`](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29166607077) first proved the deploy identity and host filesystem work. It safely stopped the child when PHP 8.1 conflicted with the PHP 7.4.33 host.
+- Commit [`e847a47`](https://github.com/The-new-ben/hea-lth-co-il/commit/e847a47) set the child requirement to PHP 7.4 and expanded portal-wide PHPCS/PHPStan coverage.
+- GitHub run [`29167134652`](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167134652) exposed the 512 MB PHPStan limit before any production deployment. Commit [`e2f291f`](https://github.com/The-new-ben/hea-lth-co-il/commit/e2f291f) raised CI to `--memory-limit=1G` without shrinking the scan.
+- GitHub run [`29167190760`](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167190760) successfully installed and activated the child theme. It exposed the independent public-cache issue rather than a WordPress/theme defect.
+- Commit [`e7c3cab`](https://github.com/The-new-ben/hea-lth-co-il/commit/e7c3cab) made cache purge and public asset markers mandatory. Commit [`9d42872`](https://github.com/The-new-ben/hea-lth-co-il/commit/9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c) corrected verification to inspect full successful HTML.
+- GitHub run [`29167917145`](https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167917145) is the current successful production release. Do not re-run old commits merely to reproduce history.
 
 ## 7. New WordPress implementation
 
@@ -402,48 +433,36 @@ Do not run:
 - checkout/restore commands that discard untracked work
 - destructive moves across unrelated folders
 
-The new production source is committed on `main` through `5947991`. A follow-up corrective commit is needed for:
-
-- child manifest PHP compatibility from 8.1 to 7.4;
-- broadened portal quality configuration;
-- security and PHPStan fixes made after the failed run.
+The new production source is committed on `main` through `9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c`. The activation, PHP compatibility, PHPStan memory, cache purge, and full public-HTML verification corrections are already included in that published lineage.
 
 Untracked research and design assets should be reviewed and selectively committed in an explicit documentation branch later. Do not bulk-add all of `docs/`, `output/`, `preview/`, `design-lab/`, or `tmp/` without checking rights, relevance, size, privacy, and whether the material is a source artifact versus a local export.
 
-## 13. How to resume the blocked live release
+## 13. How to verify a future live release
 
-Follow this exact sequence. Do not skip package or health verification.
+The initial release is no longer blocked. Use this sequence for every future portal, plugin, or asset deployment.
 
-1. Finish the current PHPStan fixes and run PHPCS and PHPStan again.
-2. Confirm `deploy/wordpress-deploy.json` has `hea-lth-portal-child` manifest `requires_php` set to `7.4`.
-3. Run the deterministic package build twice for all three packages and compare SHA-256 values.
-4. Run all pipeline tests, actionlint, PHP syntax lint, PHPCS, and PHPStan.
-5. Commit only the corrective source and quality configuration files. Do not add unrelated untracked research.
-6. Fetch `origin/main`, ensure the branch can fast-forward or rebase without overwriting user work, and push the correction to `main`.
-7. Monitor the new GitHub Action run. The production workflow order is plugin, parent theme, child theme.
-8. Confirm the child deployment has a new deployment ID and succeeds.
-9. Verify independently:
-   - `https://hea-lth.co.il/wp-json/hea-lth-platform/v1/healthcheck?deployment=<plugin-id>` if plugin changed;
-   - `https://hea-lth.co.il/wp-json/hea-lth-portal/v1/healthcheck?deployment=<child-id>`;
-   - public homepage returns HTTP 200;
-   - public HTML loads `/wp-content/themes/hea-lth-portal/` parent assets and `/wp-content/themes/hea-lth-portal-child/style.css`;
-   - navigation and homepage have no PHP warnings, fatal error, broken CSS, or missing assets;
-   - temporary `agentdeploy/v1` route is absent after cleanup.
-10. Use actual Chrome Profile 3 screenshots after the owner attaches it. Capture desktop and mobile evidence of the homepage, mega menus, and one important internal template. Do not use the in-app browser as a substitute when the user explicitly asks for Chrome.
+1. Change only governed source files. Do not bulk-add owner research, screenshots, temporary exports, or unknown assets.
+2. Run deterministic package builds twice, pipeline unit tests, actionlint, PHP syntax lint, PHPCS, PHPStan, and a package dry run.
+3. Push only after the local gates pass. The main-branch workflow deploys in this order: platform plugin, inactive parent theme, active child theme.
+4. Record the new workflow run URL and deployment IDs. Check the relevant public health routes.
+5. Verify the normal public homepage, without a cache-busting query string, includes both parent and child asset markers, the expected portal marker, and no PHP error markers.
+6. Confirm the temporary `agentdeploy/v1` route is absent after cleanup.
+7. Capture desktop and mobile evidence in actual Chrome Profile 3: home, open mega menu, and one internal template. Current Chrome capture is an unresolved evidence gap, not a reason to weaken the release gates.
+8. For URL/content changes, add redirect/canonical and GSC checks before release. For 3D, add the separate asset manifest, clinical, quality, license, and performance review before release.
 
 ## 14. Immediate three priorities after the theme is live
 
-1. **Live visual and technical verification**
-   - Proof: Chrome screenshots, responsive checks, public HTML and asset checks, menu keyboard interaction, page-template checks, status/health proof, error log check if available.
-   - Owner outcome: the owner can actually see the new portal and judge it.
+1. **Live visual, accessibility, and performance verification**
+   - Proof: Chrome Profile 3 desktop/mobile screenshots, keyboard menu behavior, responsive checks, Lighthouse/Core Web Vitals baseline, template visual QA, and error-log check if available.
+   - Owner outcome: the owner can see and judge the actual public portal, not only a release log.
 
-2. **SEO migration and data foundation**
-   - Proof: full legacy crawl, GSC export, indexability map, redirect/canonical decisions, keyword universe, Israeli SERP evidence, final keyword-to-URL map, content inventory, and monitoring dashboard.
-   - Owner outcome: protect existing traffic while building a credible route to difficult premium queries.
+2. **SEO migration and evidence foundation**
+   - Proof: full legacy crawl, GSC export, indexability map, redirect/canonical decisions, Israeli keyword universe, dated local SERP evidence, final one-intent-per-URL map, content inventory, and monitoring dashboard.
+   - Owner outcome: protect existing organic value while building a credible route to difficult premium queries.
 
 3. **Lead and revenue operating design**
    - Proof: approved offer model, provider verification policy, consent-first intake prototype, CRM decision, routing matrix, SLA, ownership, attribution specification, and testable non-sensitive lead flow.
-   - Owner outcome: revenue and service quality are engineered before high-value traffic is sent into the system.
+   - Owner outcome: the portal can make, route, and measure revenue without compromising trust.
 
 ## 15. Recommended specialist skills and tool usage
 
@@ -511,20 +530,48 @@ Invoke-RestMethod 'https://hea-lth.co.il/wp-json/hea-lth-platform/v1/healthcheck
 Invoke-RestMethod 'https://hea-lth.co.il/wp-json/hea-lth-portal/v1/healthcheck?deployment=<child-deployment-id>'
 ```
 
-## 18. Definition of success for this phase
+## 18. Phase-close status and definition of success
 
-This phase is complete only when all of the following are evidenced:
+### Already evidenced
 
-- `hea-lth-portal` parent and `hea-lth-portal-child` child deploy successfully to production;
-- the child theme is active and public pages render the new portal, not Hello Elementor;
-- the deployment bridge is always cleaned up and returns 404 afterward;
-- package build and digest verification pass;
-- PHP 7.4 compatibility is proven against the live host;
-- PHPCS security/compatibility and PHPStan pass for new portal source;
+- `hea-lth-portal` parent and `hea-lth-portal-child` child deployed successfully to production;
+- the child theme is active and the public normal URL renders portal assets, not Hello Elementor;
+- deployment health routes contain the exact current release IDs;
+- package build and digest verification, PHP 7.4 compatibility, PHPCS security/compatibility, PHPStan, cache purge, and complete public HTML verification passed in the successful production run;
+- no fake clinical, provider, price, availability, review, or map data was added as a shortcut.
+
+### Still required to close the visual release phase
+
 - desktop and mobile visual evidence is captured in Chrome Profile 3;
-- header, mega menus, homepage, treatment hub, directory, guides, professional/account discovery, and gated body-map entry are visually checked;
-- no fake clinical, provider, price, availability, review, or map data appears;
-- new architecture does not destroy legacy URL equity;
-- next-phase SEO migration, lead operations, analytics, medical editorial, provider marketplace, and 3D release gates have named owners and evidence requirements.
+- header, mega menus, homepage, treatment hub, directory, guides, professional/account discovery, and gated body-map entry are visually inspected;
+- keyboard navigation, RTL behavior, responsive behavior, and core performance are recorded;
+- release proof is entered in the project command center with dated screenshots.
+
+### Explicitly out of scope for calling the portal enterprise complete
+
+The following must remain separately governed: organic migration, full SEO evidence and content operation, lead operations, CRM and attribution, analytics, medical editorial governance, verified provider marketplace, commerce, 3D release, map integration, and legal/privacy safety. A green theme deployment is not evidence that any of these systems are live.
+
+## 19. Copy/paste start message for a successor agent
+
+```text
+You are joining the Hea-lth.co.il enterprise portal project. Work in English.
+
+First read these two source-of-truth files in full:
+1. https://raw.githubusercontent.com/The-new-ben/hea-lth-co-il/main/docs/AGENT_HANDOFF_HEA_LTH_PORTAL_2026-07-11.md
+2. https://raw.githubusercontent.com/The-new-ben/hea-lth-co-il/main/docs/PORTAL_SOURCE_FILE_MAP_2026-07-12.md
+
+Ground truth:
+- The live site is https://hea-lth.co.il/.
+- Production is the active hea-lth-portal-child child theme over hea-lth-portal parent theme, with hea-lth-platform-core plugin.
+- Current verified production commit: 9d4287282c75b6fcf3bc91b71bf1b1e665d9ff3c.
+- Current verified successful production run: https://github.com/The-new-ben/hea-lth-co-il/actions/runs/29167917145.
+- Do not expose, request, print, commit, or move secret values. GitHub secret names and locations are in the handoff.
+- Do not delete or bulk-commit user-owned untracked files.
+- Do not alter legacy URLs or mass-publish medical content without migration/SERP/GSC/reviewer evidence.
+- Do not enable a generic placeholder GLB as medical anatomy. The WebGL engine is intentionally license/clinical/quality gated.
+- Do not claim SEO, lead routing, CRM, provider marketplace, commerce, analytics, or the true 3D body are live. They are not.
+
+Before any change, report: the exact user outcome, affected scorecard dimension, current proof, risks to URL equity/trust/privacy/performance, and acceptance evidence. Use the governed GitHub-to-WordPress pipeline for production code. Verify public health and full homepage markers after every release.
+```
 
 End of handoff.
