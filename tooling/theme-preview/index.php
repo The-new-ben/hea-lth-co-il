@@ -108,48 +108,68 @@ function hea_lth_preview_model_url( string $relative ): string {
 }
 
 function hea_lth_preview_skeletal_config(): array {
+	// Load the canonical shipped manifest so the local viewer reflects the real
+	// gated structure/layer set. LOD paths are rewritten to local, cache-busted
+	// theme URLs; everything else mirrors the manifest exactly.
+	$manifest_path = realpath( __DIR__ . '/../../design-lab/3d-human-engine/examples/z-anatomy-skeletal-v1.manifest.json' );
+	$manifest      = ( false !== $manifest_path ) ? json_decode( (string) file_get_contents( $manifest_path ), true ) : null;
+	if ( ! is_array( $manifest ) ) {
+		return array( 'status' => 'license-gated', 'engine' => 'none' );
+	}
+
+	$file_by_purpose = array(
+		'mobile'  => 'assets/models/skeletal-preview.glb',
+		'desktop' => 'assets/models/skeletal-detail.glb',
+		'detail'  => 'assets/models/skeletal-detail.glb',
+	);
+
+	$lods = array();
+	foreach ( $manifest['asset']['lods'] as $lod ) {
+		if ( 'detail' === $lod['purpose'] ) {
+			continue; // gate-proof LOD is not a runtime target
+		}
+		$relative = isset( $file_by_purpose[ $lod['purpose'] ] ) ? $file_by_purpose[ $lod['purpose'] ] : 'assets/models/skeletal-detail.glb';
+		$lods[]   = array(
+			'id'              => $lod['id'],
+			'path'            => hea_lth_preview_model_url( $relative ),
+			'purpose'         => $lod['purpose'],
+			'triangleCount'   => $lod['triangleCount'],
+			'compressedBytes' => $lod['compressedBytes'],
+		);
+	}
+
+	$structures = array();
+	foreach ( $manifest['structures'] as $structure ) {
+		$structures[] = array(
+			'id'       => $structure['id'],
+			'regionId' => preg_replace( '/^anatomy:/', '', $structure['id'] ),
+			'label'    => $structure['labels']['he'],
+			'meshIds'  => $structure['meshIds'],
+			'contexts' => $structure['contexts'],
+		);
+	}
+
+	$layers = array();
+	foreach ( $manifest['layers'] as $layer ) {
+		$layers[] = array(
+			'id'             => $layer['id'],
+			'kind'           => $layer['kind'],
+			'label'          => 'מערכת השלד',
+			'defaultVisible' => ! empty( $layer['defaultVisible'] ),
+			'meshIds'        => $layer['meshIds'],
+		);
+	}
+
 	return array(
-		'status'   => 'approved',
-		'engine'   => 'three-webgl',
-		'testOnly' => true,
-		'modelId'  => 'z-anatomy-skeletal-v1',
-		'version'  => '1.0.0',
-		'asset'    => array(
-			'lods' => array(
-				array(
-					'id'              => 'lod-0',
-					'path'            => hea_lth_preview_model_url( 'assets/models/skeletal-preview.glb' ),
-					'purpose'         => 'mobile',
-					'triangleCount'   => 104304,
-					'compressedBytes' => 634048,
-				),
-				array(
-					'id'              => 'lod-1',
-					'path'            => hea_lth_preview_model_url( 'assets/models/skeletal-detail.glb' ),
-					'purpose'         => 'desktop',
-					'triangleCount'   => 598529,
-					'compressedBytes' => 1863284,
-				),
-			),
-		),
-		'layers'     => array(
-			array(
-				'id'             => 'skeletal-system',
-				'kind'           => 'system',
-				'label'          => 'מערכת השלד',
-				'defaultVisible' => true,
-				'meshIds'        => array( 'Femur.l', 'Femur.r', 'Tibia.l', 'Tibia.r', 'Humerus.l', 'Humerus.r', 'Mandible', 'Scapula.l', 'Scapula.r', 'Clavicle.l', 'Clavicle.r', 'Patella.l', 'Patella.r' ),
-			),
-		),
-		'structures' => array(
-			array( 'id' => 'anatomy:auditory-ossicles', 'regionId' => 'auditory-ossicles', 'label' => 'עצמות השמע', 'meshIds' => array( 'Incus.l', 'Incus.r', 'Malleus.l', 'Malleus.r', 'Stapes.l', 'Stapes.r' ), 'contexts' => array() ),
-			array( 'id' => 'anatomy:mandible', 'regionId' => 'mandible', 'label' => 'עצם הלסת התחתונה', 'meshIds' => array( 'Mandible' ), 'contexts' => array() ),
-			array( 'id' => 'anatomy:femur', 'regionId' => 'femur', 'label' => 'עצם הירך', 'meshIds' => array( 'Femur.l', 'Femur.r' ), 'contexts' => array() ),
-			array( 'id' => 'anatomy:patella', 'regionId' => 'patella', 'label' => 'עצם הפיקה', 'meshIds' => array( 'Patella.l', 'Patella.r' ), 'contexts' => array() ),
-			array( 'id' => 'anatomy:humerus', 'regionId' => 'humerus', 'label' => 'עצם הזרוע', 'meshIds' => array( 'Humerus.l', 'Humerus.r' ), 'contexts' => array() ),
-			array( 'id' => 'anatomy:scapula', 'regionId' => 'scapula', 'label' => 'עצם השכם', 'meshIds' => array( 'Scapula.l', 'Scapula.r' ), 'contexts' => array() ),
-		),
-		'capabilities' => array( 'rotate' => true, 'zoom' => true, 'meshSelection' => true, 'layerSelection' => false ),
+		'status'       => 'approved',
+		'engine'       => 'three-webgl',
+		'testOnly'     => true,
+		'modelId'      => $manifest['modelId'],
+		'version'      => $manifest['version'],
+		'asset'        => array( 'lods' => $lods ),
+		'layers'       => $layers,
+		'structures'   => $structures,
+		'capabilities' => array( 'rotate' => true, 'zoom' => true, 'meshSelection' => true, 'layerSelection' => count( $layers ) > 1 ),
 	);
 }
 

@@ -97,6 +97,20 @@ foreach ( $public['structures'] as $structure ) {
 }
 assert_true( is_array( $ossicles ) && in_array( 'Incus.l', $ossicles['meshIds'], true ), 'Real semantic mesh names must survive normalization.' );
 
+// Expanded (v1.1.0) whole-skeleton click-to-identify coverage.
+assert_true( count( $public['structures'] ) >= 18, 'The skeletal model must expose whole-skeleton structure coverage (>=18 structures).' );
+assert_true( in_array( 'cranium', $region_ids, true ), 'The cranium structure must resolve.' );
+assert_true( in_array( 'thoracic-spine', $region_ids, true ), 'The thoracic spine structure must resolve.' );
+assert_true( in_array( 'rib-cage', $region_ids, true ), 'The rib cage structure must resolve.' );
+
+$cranium = null;
+foreach ( $public['structures'] as $structure ) {
+	if ( 'cranium' === $structure['regionId'] ) {
+		$cranium = $structure;
+	}
+}
+assert_true( is_array( $cranium ) && in_array( 'Frontal_bone', $cranium['meshIds'], true ), 'Gate-normalized (underscore) mesh names must survive as valid mesh ids.' );
+
 // The browser payload must never leak contract or protected-source metadata.
 assert_same( false, array_key_exists( 'license', $public ), 'The public response must not expose license/contract metadata.' );
 assert_same( false, array_key_exists( 'contractReference', $public ), 'The public response must not expose a contract reference.' );

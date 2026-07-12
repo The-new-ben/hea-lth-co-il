@@ -28,9 +28,11 @@ label-stripping pipeline (`design-lab/3d-human-engine/pipeline/export_web.py`,
 
 | LOD | purpose | file | triangles | bytes | sha256 (first 12) |
 |---|---|---|---|---|---|
-| lod-0 | mobile | skeletal-preview.glb | 104,304 | 634,048 | bb0246c9da84 |
-| lod-1 | desktop | skeletal-detail.glb | 598,529 | 1,863,284 | ddf876ddd03d |
-| lod-2 | detail (gate proof) | skeletal-detail.glb | 598,529 | 1,863,284 | ddf876ddd03d |
+| lod-0 | mobile | skeletal-preview.glb | 104,304 | 634,044 | dac034874c31 |
+| lod-1 | desktop | skeletal-detail.glb | 598,529 | 1,863,280 | f4fc761e5fdc |
+| lod-2 | detail (gate proof) | skeletal-detail.glb | 598,529 | 1,863,280 | f4fc761e5fdc |
+
+(Byte/sha values are post name-normalization; see the v1.1.0 update below. Triangle counts unchanged.)
 
 Both GLBs are Draco-compressed, `KHR_draco_mesh_compression`, real TA2 mesh names
 preserved (`Incus.l`, `Femur.l`, `Mandible`, …), and contain **no** baked
@@ -80,12 +82,23 @@ Two ways to activate after the branch is merged and deployed:
 3. Set the manifest option (step 1 above); confirm the homepage shows the viewer.
 4. Verify public `deployment_id` flipped on both healthchecks.
 
+## Update — whole-skeleton click-to-identify (manifest v1.1.0)
+
+The earlier semantic-coverage float is **resolved**. The gate's `sanitize_mesh_ids`
+forbids spaces, and Z-Anatomy names 243 of 277 bones with spaces. A reusable
+pipeline step `design-lab/3d-human-engine/pipeline/normalize_glb_names.py`
+rewrites glTF node names to the gate charset (`Frontal bone.l` → `Frontal_bone.l`),
+touching only the JSON chunk — Draco geometry in the BIN chunk is byte-identical
+(triangle counts unchanged; file size within 4 bytes). Applied to both shipped
+LODs (243 renamed, 0 collisions, 0 still-unsafe). The manifest now exposes **19
+structures / 88 clickable bones** spanning the whole recognizable skeleton
+(cranium, mandible, ossicles, cervical/thoracic/lumbar spine, sacrum/coccyx, 24
+ribs, sternum, clavicle, scapula, humerus, radius, ulna, pelvis, femur, patella,
+tibia, fibula). Browser-verified: every sampled bone resolves to its correct
+Hebrew label through the real viewer lookup.
+
 ## Open floats (see session report)
 
-- **Semantic coverage**: the gate's `sanitize_mesh_ids` forbids spaces, so only
-  space-free TA2 names (`Femur.l`, `Mandible`, …) are click-to-identify today.
-  Full coverage needs the export to normalize names (e.g. `Frontal bone` →
-  `Frontal_bone`). Tracked for the next asset pass.
 - **Asset cache-busting** on the live host: the manifest LOD paths are stable
   filenames. Ship versioned filenames (`skeletal-detail-v2.glb`) on asset updates.
 - **Formal performance QA**: functional perf verified (sizes, on-demand render,
