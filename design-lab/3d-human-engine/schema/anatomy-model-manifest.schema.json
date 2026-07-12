@@ -56,7 +56,7 @@
     "asset": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["sourceGlb", "lods", "validation"],
+      "required": ["sourceGlb", "lods", "validation", "quality"],
       "properties": {
         "sourceGlb": { "type": "string", "minLength": 1 },
         "lods": {
@@ -83,6 +83,16 @@
             "gltfValid": { "type": "boolean" },
             "visualQa": { "type": "string", "enum": ["pending", "passed", "failed"] },
             "performanceQa": { "type": "string", "enum": ["pending", "passed", "failed"] }
+          }
+        },
+        "quality": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sourceTriangleCount", "anatomicalFidelityQa", "semanticMeshQa"],
+          "properties": {
+            "sourceTriangleCount": { "type": "integer", "minimum": 0 },
+            "anatomicalFidelityQa": { "type": "string", "enum": ["pending", "passed", "failed"] },
+            "semanticMeshQa": { "type": "string", "enum": ["pending", "passed", "failed"] }
           }
         }
       }
