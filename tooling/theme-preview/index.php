@@ -373,7 +373,7 @@ function wp_footer(): void {
 	if ( 'directory' === $hea_lth_preview_page ) {
 		echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/directory-browser.js' ) ) . '"></script>';
 	}
-	if ( 'home' === $hea_lth_preview_page && $GLOBALS['hea_lth_preview_front_three'] ?? false ) {
+	if ( 'home' === $hea_lth_preview_page && ( $GLOBALS['hea_lth_preview_front_three'] ?? false ) ) {
 		$front_config = hea_lth_preview_skeletal_config();
 		$front_map    = array(
 			'imports' => array(
@@ -381,7 +381,18 @@ function wp_footer(): void {
 				'three/addons/' => get_theme_file_uri( 'assets/vendor/three/examples/jsm/' ),
 			),
 		);
-		echo '<script>window.heaLthAnatomyViewer = ' . wp_json_encode( $front_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
+		$front_routes = array(
+			'aesthetic_medicine'           => '/aesthetic-medicine-treatments/',
+			'plastic_surgery_consultation' => '/plastic-surgery-consultation/',
+			'hair_transplant_consultation' => '/hair-transplant-consultation/',
+			'doctor_clinic_index'          => '/doctor-clinic-index/',
+			'guides'                       => '/guides/',
+			'wellness'                     => '/wellness/',
+		);
+		// Mirror production: the homepage hero now carries the full resolver, so
+		// the discovery controller + route map must load alongside the module.
+		echo '<script>window.heaLthAnatomyViewer = ' . wp_json_encode( $front_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '; window.heaLthAnatomyRoutes = ' . wp_json_encode( $front_routes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
+		echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/anatomy-discovery.js' ) ) . '"></script>';
 		echo '<script type="importmap">' . wp_json_encode( $front_map, JSON_UNESCAPED_SLASHES ) . '</script>';
 		echo '<script type="module" src="' . esc_attr( get_theme_file_uri( 'assets/js/anatomy-three-viewer.js' ) ) . '"></script>';
 	}

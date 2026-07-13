@@ -849,6 +849,92 @@ svg {
   color: var(--hp-bronze-light);
 }
 
+/* Interactive-body hero (approved model): 3D above the fold + services panel */
+.hp-hero--anatomy {
+  padding: 0;
+}
+
+.hp-hero-anatomy {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: center;
+  min-height: 600px;
+  padding: 58px 0 66px;
+}
+
+.hp-hero-anatomy__intro {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+}
+
+.hp-hero-anatomy__intro h1 {
+  margin: 0;
+  font-family: var(--hp-font-ui);
+  font-size: clamp(2.4rem, 3.7vw, 4.1rem);
+  font-weight: 800;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.hp-hero-anatomy__viewer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(150deg, rgba(21, 70, 60, .55), rgba(3, 20, 17, .82));
+  border: 1px solid rgba(183, 204, 198, .22);
+  border-radius: 28px;
+  box-shadow: var(--hp-shadow-deep);
+}
+
+.hp-hero-anatomy__stagewrap {
+  position: relative;
+}
+
+.hp-anatomy-model-stage--hero {
+  min-height: 440px;
+  border-radius: var(--hp-radius-md);
+}
+
+.hp-hero-anatomy__hint {
+  margin: 10px 0 0;
+  color: rgba(242, 249, 246, .5);
+  font-size: .72rem;
+  text-align: center;
+}
+
+.hp-hero-anatomy__panel {
+  display: grid;
+  gap: 12px;
+}
+
+.hp-hero-anatomy__controls > p {
+  margin: 0 0 7px;
+  color: var(--hp-bronze-light);
+  font-size: .67rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.hp-anatomy-results--hero {
+  margin: 2px 0 0;
+}
+
+@media (max-width: 1120px) {
+  .hp-hero-anatomy { grid-template-columns: 1fr; gap: 30px; min-height: auto; padding: 48px 0 56px; }
+  .hp-hero-anatomy__intro { max-width: none; }
+}
+
+@media (max-width: 680px) {
+  .hp-anatomy-model-stage--hero { min-height: 380px; }
+  .hp-hero-anatomy__viewer { padding: 14px; border-radius: 22px; }
+}
+
 /* Search start */
 .hp-start-search {
   position: relative;

@@ -17,6 +17,7 @@ define( 'HEA_LTH_PORTAL_VERSION', '0.2.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
+require_once get_template_directory() . '/inc/portal-seo.php';
 
 /**
  * Register visual foundations and navigation locations.
@@ -211,23 +212,28 @@ function hea_lth_portal_enqueue_anatomy_assets() {
 
 	$model_config = hea_lth_portal_anatomy_viewer_config();
 
+	// The accessible region/context resolver powers the "click a body part ->
+	// connected services" experience. It ships on both the dedicated anatomy
+	// page and the homepage hero (the only surfaces reaching this point), so
+	// the interactive body is a first-fold feature, matching category leaders
+	// (BioDigital, Zygote).
+	wp_enqueue_script(
+		'hea-lth-anatomy-discovery',
+		get_theme_file_uri( 'assets/js/anatomy-discovery.js' ),
+		array( 'hea-lth-portal' ),
+		HEA_LTH_PORTAL_VERSION,
+		true
+	);
+
+	wp_add_inline_script(
+		'hea-lth-anatomy-discovery',
+		'window.heaLthAnatomyViewer = ' . wp_json_encode( $model_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '; window.heaLthAnatomyRoutes = ' . wp_json_encode( hea_lth_portal_anatomy_route_map(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
+		'before'
+	);
+
+	// The verified-directory map is heavier and REST-backed; keep it on the
+	// dedicated anatomy page only.
 	if ( $is_anatomy_surface ) {
-		// Full discovery experience: the accessible region/context resolver and
-		// the verified-directory map ship alongside the model on its own page.
-		wp_enqueue_script(
-			'hea-lth-anatomy-discovery',
-			get_theme_file_uri( 'assets/js/anatomy-discovery.js' ),
-			array( 'hea-lth-portal' ),
-			HEA_LTH_PORTAL_VERSION,
-			true
-		);
-
-		wp_add_inline_script(
-			'hea-lth-anatomy-discovery',
-			'window.heaLthAnatomyViewer = ' . wp_json_encode( $model_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '; window.heaLthAnatomyRoutes = ' . wp_json_encode( hea_lth_portal_anatomy_route_map(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
-			'before'
-		);
-
 		$map_config = hea_lth_portal_directory_map_config();
 		wp_enqueue_script(
 			'hea-lth-anatomy-directory-map',
@@ -245,17 +251,6 @@ function hea_lth_portal_enqueue_anatomy_assets() {
 
 	if ( ! hea_lth_portal_has_approved_three_anatomy_model( $model_config ) ) {
 		return;
-	}
-
-	if ( $is_front && ! $is_anatomy_surface ) {
-		// Homepage hero carries only the approved model config on the always-
-		// present theme script. The resolver and map controllers are anatomy-
-		// page features and are intentionally not loaded here.
-		wp_add_inline_script(
-			'hea-lth-portal',
-			'window.heaLthAnatomyViewer = ' . wp_json_encode( $model_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
-			'after'
-		);
 	}
 
 	hea_lth_portal_enqueue_anatomy_three_module();
