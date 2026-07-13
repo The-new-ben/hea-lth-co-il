@@ -66,14 +66,14 @@ assert_true( is_array( $decoded ), 'The canonical skeletal manifest must be vali
 $hea_lth_test_options['hea_lth_anatomy_model_manifest'] = $raw;
 $public = Hea_Lth_Anatomy_Model_Registry::get_public_configuration();
 
-assert_same( 'approved', $public['status'], 'The shipped Z-Anatomy skeletal manifest must pass the public gate.' );
-assert_same( 'three-webgl', $public['engine'], 'The approved skeletal asset must target the owned Three.js engine.' );
-assert_same( 'z-anatomy-skeletal-v1', $public['modelId'], 'The public config must expose the skeletal model id.' );
+assert_same( 'approved', $public['status'], 'The shipped Z-Anatomy layered manifest must pass the public gate.' );
+assert_same( 'three-webgl', $public['engine'], 'The approved layered asset must target the owned Three.js engine.' );
+assert_same( 'z-anatomy-layered-v2', $public['modelId'], 'The public config must expose the layered model id.' );
 
 // Runtime LODs are same-origin theme assets.
 $paths = array_map( static function ( $lod ) { return $lod['path']; }, $public['asset']['lods'] );
-assert_true( in_array( '/wp-content/themes/hea-lth-portal/assets/models/skeletal-preview.glb', $paths, true ), 'The mobile preview LOD must be exposed to the browser.' );
-assert_true( in_array( '/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb', $paths, true ), 'The desktop/detail LOD must be exposed to the browser.' );
+assert_true( in_array( '/wp-content/themes/hea-lth-portal/assets/models/layered-figure-preview.glb', $paths, true ), 'The mobile preview LOD must be exposed to the browser.' );
+assert_true( in_array( '/wp-content/themes/hea-lth-portal/assets/models/layered-figure-detail.glb', $paths, true ), 'The desktop/detail LOD must be exposed to the browser.' );
 
 // A high-detail LOD at or above the triangle floor must exist.
 $has_detail = false;
@@ -110,6 +110,31 @@ foreach ( $public['structures'] as $structure ) {
 	}
 }
 assert_true( is_array( $cranium ) && in_array( 'Frontal_bone', $cranium['meshIds'], true ), 'Gate-normalized (underscore) mesh names must survive as valid mesh ids.' );
+
+// Layered-figure (v2) coverage: the muscular system ships alongside the
+// skeleton in one asset, muscles visible by default, and the major muscle
+// groups are clickable structures with real mesh ids.
+$layer_ids = array_map( static function ( $layer ) { return $layer['id']; }, $public['layers'] );
+assert_true( in_array( 'muscular-system', $layer_ids, true ), 'The muscular layer must ship in the layered figure.' );
+assert_true( in_array( 'skeletal-system', $layer_ids, true ), 'The skeletal layer must remain available in the layered figure.' );
+
+foreach ( $public['layers'] as $layer ) {
+	if ( 'muscular-system' === $layer['id'] ) {
+		assert_true( ! empty( $layer['defaultVisible'] ), 'The muscular layer must be visible by default (the figure reads as a body).' );
+		assert_true( count( $layer['meshIds'] ) >= 400, 'The muscular layer must carry the full muscle mesh set.' );
+	}
+}
+
+assert_true( count( $public['structures'] ) >= 32, 'The layered model must expose skeletal + muscular structure coverage.' );
+assert_true( in_array( 'biceps', $region_ids, true ) || in_array( 'anatomy:biceps', array_map( static function ( $s ) { return $s['id']; }, $public['structures'] ), true ), 'The biceps structure must resolve.' );
+
+$biceps = null;
+foreach ( $public['structures'] as $structure ) {
+	if ( 'anatomy:biceps' === $structure['id'] ) {
+		$biceps = $structure;
+	}
+}
+assert_true( is_array( $biceps ) && in_array( 'Long_head_of_biceps_brachii.l', $biceps['meshIds'], true ), 'Real muscular mesh names must survive into the public config.' );
 
 // The browser payload must never leak contract or protected-source metadata.
 assert_same( false, array_key_exists( 'license', $public ), 'The public response must not expose license/contract metadata.' );

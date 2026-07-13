@@ -117,18 +117,14 @@ function hea_lth_preview_skeletal_config(): array {
 		return array( 'status' => 'license-gated', 'engine' => 'none' );
 	}
 
-	$file_by_purpose = array(
-		'mobile'  => 'assets/models/skeletal-preview.glb',
-		'desktop' => 'assets/models/skeletal-detail.glb',
-		'detail'  => 'assets/models/skeletal-detail.glb',
-	);
-
 	$lods = array();
 	foreach ( $manifest['asset']['lods'] as $lod ) {
 		if ( 'detail' === $lod['purpose'] ) {
 			continue; // gate-proof LOD is not a runtime target
 		}
-		$relative = isset( $file_by_purpose[ $lod['purpose'] ] ) ? $file_by_purpose[ $lod['purpose'] ] : 'assets/models/skeletal-detail.glb';
+		// Manifest-driven: serve the same file the manifest names, from the
+		// local theme tree, so asset swaps flow through without harness edits.
+		$relative = 'assets/models/' . basename( (string) parse_url( (string) $lod['path'], PHP_URL_PATH ) );
 		$lods[]   = array(
 			'id'              => $lod['id'],
 			'path'            => hea_lth_preview_model_url( $relative ),
