@@ -51,14 +51,25 @@ foreach ( $foundation_routes as $route ) {
 	}
 }
 
-assert_true( count( $blueprint ) >= 7, 'Blueprint must cover the seven UI-linked foundation pages.' );
+assert_true( count( $blueprint ) >= 8, 'Blueprint must cover the UI-linked foundation pages plus the accessibility statement.' );
 assert_true( isset( $blueprint['anatomy'] ), 'Blueprint must provision the interactive-body page — the 3D full experience must not 404.' );
+assert_true( isset( $blueprint['accessibility'] ), 'Blueprint must provision the accessibility statement page (IS 5568).' );
 
 foreach ( $blueprint as $slug => $page ) {
 	assert_true( in_array( '/' . $slug . '/', $foundation_paths, true ), 'Provisioned slug must exist in the foundation route registry: ' . $slug );
 	assert_true( is_string( $page['title'] ) && '' !== trim( $page['title'] ), 'Provisioned page needs a real title: ' . $slug );
-	assert_true( '' !== $page['template'], 'Provisioned page needs a template: ' . $slug );
-	assert_true( is_file( $root . '/theme-src/hea-lth-portal/' . $page['template'] ), 'Blueprint template must ship in the parent theme: ' . $page['template'] );
+	$has_template = '' !== $page['template'];
+	$has_content  = isset( $page['content'] ) && '' !== trim( (string) $page['content'] );
+	assert_true( $has_template || $has_content, 'Provisioned page needs a template or real content: ' . $slug );
+	if ( $has_template ) {
+		assert_true( is_file( $root . '/theme-src/hea-lth-portal/' . $page['template'] ), 'Blueprint template must ship in the parent theme: ' . $page['template'] );
+	}
+}
+
+$statement = Hea_Lth_Page_Provisioner::accessibility_statement_content();
+
+foreach ( array( '5568', 'WCAG 2.1', 'נגישות', 'רכז' ) as $needle ) {
+	assert_true( false !== strpos( $statement, $needle ), 'Accessibility statement must reference: ' . $needle );
 }
 
 $source = (string) file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-page-provisioner.php' );
