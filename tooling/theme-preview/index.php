@@ -278,12 +278,14 @@ function wp_head(): void {
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/fonts.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/portal.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/templates.css' ) ) . '">';
+	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/a11y.css' ) ) . '">';
 }
 
 function wp_footer(): void {
 	global $hea_lth_preview_page, $hea_lth_preview_three_fixture;
 
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/portal.js' ) ) . '"></script>';
+	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/a11y-panel.js' ) ) . '"></script>';
 	if ( 'anatomy' === $hea_lth_preview_page ) {
 		if ( $hea_lth_preview_three_fixture ) {
 			$fixture_config = array(

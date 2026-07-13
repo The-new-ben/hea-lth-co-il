@@ -1,0 +1,170 @@
+/*
+ * Native accessibility panel + adjustment modes (IS 5568 / WCAG 2.1 AA).
+ * The html-level classes are applied before first paint by the boot snippet,
+ * so persisted adjustments never flash.
+ */
+
+.hp-a11y {
+  position: fixed;
+  z-index: 990;
+  bottom: 18px;
+  right: 18px;
+  font-family: var(--hp-font-ui);
+}
+
+.hp-a11y__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  color: var(--hp-paper);
+  background: var(--hp-forest-800);
+  border: 2px solid rgba(249, 247, 238, .4);
+  border-radius: 50%;
+  box-shadow: 0 10px 26px rgba(10, 35, 32, .32);
+  transition: transform .18s var(--hp-ease), background .18s var(--hp-ease);
+}
+
+.hp-a11y__toggle svg {
+  width: 26px;
+  height: 26px;
+}
+
+.hp-a11y__toggle:hover,
+.hp-a11y__toggle:focus-visible {
+  background: var(--hp-forest-950);
+  transform: translateY(-2px);
+}
+
+.hp-a11y__toggle:focus-visible,
+.hp-a11y__option:focus-visible,
+.hp-a11y__reset:focus-visible,
+.hp-a11y__statement:focus-visible {
+  outline: 3px solid var(--hp-bronze);
+  outline-offset: 3px;
+}
+
+.hp-a11y__panel {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  display: grid;
+  gap: 7px;
+  width: 228px;
+  padding: 16px;
+  background: var(--hp-paper);
+  border: 1px solid var(--hp-mint-200);
+  border-radius: 16px;
+  box-shadow: var(--hp-shadow-raised);
+}
+
+.hp-a11y__heading {
+  margin: 0 0 4px;
+  color: var(--hp-forest-950);
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.hp-a11y__option,
+.hp-a11y__reset {
+  min-height: 40px;
+  padding: 8px 12px;
+  color: var(--hp-forest-950);
+  background: var(--hp-mint-50);
+  border: 1px solid var(--hp-mint-200);
+  border-radius: 10px;
+  font-size: .82rem;
+  font-weight: 700;
+  text-align: right;
+  transition: background .15s var(--hp-ease), color .15s var(--hp-ease), border-color .15s var(--hp-ease);
+}
+
+.hp-a11y__option[aria-pressed="true"] {
+  color: var(--hp-paper);
+  background: var(--hp-forest-800);
+  border-color: var(--hp-forest-800);
+}
+
+.hp-a11y__option:hover,
+.hp-a11y__reset:hover {
+  border-color: var(--hp-forest-700);
+}
+
+.hp-a11y__reset {
+  background: transparent;
+}
+
+.hp-a11y__statement {
+  margin-top: 2px;
+  color: var(--hp-forest-800);
+  font-size: .78rem;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+/* --- Adjustment modes ------------------------------------------------- */
+
+html.hp-a11y-font-110 {
+  font-size: 110%;
+}
+
+html.hp-a11y-font-125 {
+  font-size: 125%;
+}
+
+html.hp-a11y-underline body a {
+  text-decoration: underline !important;
+}
+
+html.hp-a11y-no-motion *,
+html.hp-a11y-no-motion *::before,
+html.hp-a11y-no-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+html.hp-a11y-contrast {
+  --hp-muted: #16211f;
+  --hp-muted-light: #e8f2ee;
+  --hp-line: rgba(4, 16, 14, 0.45);
+  --hp-bronze: #5c400a;
+  --hp-bronze-light: #f4e3b5;
+}
+
+html.hp-a11y-contrast body.hp-body {
+  color: #04110f;
+}
+
+html.hp-a11y-contrast .hp-hero,
+html.hp-a11y-contrast .hp-section--journal,
+html.hp-a11y-contrast .hp-section--anatomy,
+html.hp-a11y-contrast .hp-section--professionals,
+html.hp-a11y-contrast .hp-site-footer {
+  color: #ffffff;
+}
+
+html.hp-a11y-contrast .hp-hero__lede,
+html.hp-a11y-contrast .hp-hero__assurance,
+html.hp-a11y-contrast .hp-anatomy-teaser__copy > p,
+html.hp-a11y-contrast .hp-journal-card > p,
+html.hp-a11y-contrast .hp-journal-card div > p,
+html.hp-a11y-contrast .hp-reviewed-feed-empty p:not(.hp-eyebrow),
+html.hp-a11y-contrast .hp-footer__brand > p,
+html.hp-a11y-contrast .hp-footer__links a,
+html.hp-a11y-contrast .hp-footer__trust p,
+html.hp-a11y-contrast .hp-footer__bottom {
+  color: #ffffff;
+}
+
+@media (max-width: 680px) {
+  .hp-a11y {
+    bottom: 14px;
+    right: 14px;
+  }
+
+  .hp-a11y__panel {
+    width: min(228px, calc(100vw - 40px));
+  }
+}

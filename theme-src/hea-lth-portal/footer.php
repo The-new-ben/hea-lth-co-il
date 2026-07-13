@@ -68,6 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'privacy' ) ); ?>"><?php esc_html_e( 'פרטיות', 'hea-lth-portal' ); ?></a>
 			<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'terms' ) ); ?>"><?php esc_html_e( 'תנאי שימוש', 'hea-lth-portal' ); ?></a>
 			<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'editorial_policy' ) ); ?>"><?php esc_html_e( 'מדיניות עריכה ובדיקה', 'hea-lth-portal' ); ?></a>
+			<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'accessibility' ) ); ?>"><?php esc_html_e( 'הצהרת נגישות', 'hea-lth-portal' ); ?></a>
 		</nav>
 	</div>
 </footer>
