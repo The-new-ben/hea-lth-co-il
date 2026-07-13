@@ -50,3 +50,26 @@ live site, not assumed.
 
 Real-body swap (muscle figure exported and staged), imagery licensing decision,
 mega-menu taxonomy depth, money-keyword content build.
+
+---
+
+## Round 5 addendum (same day): a11y + identity shipped — release 721974f
+
+Deployed and live-verified: native accessibility panel (5 adjustments,
+persisted, pre-paint boot), statement page at /accessibility/ (IS 5568 / WCAG
+2.1 AA, honest gaps), pojo-accessibility retired in the same release, site
+name now "Hea-lth" sitewide ("מדריכים ומחקרים - Hea-lth"), theme+plugin 0.3.0.
+
+Two failed deploy attempts first, both instructive:
+1. WPCS escaping error CI caught that my local gate-run masked (piped PHPCS
+   exit code — never again; explicit exit codes now).
+2. **Elementor is still ACTIVE on the host** — its blogname/blogdescription
+   listener threw "Access denied" on the anonymous provisioning request,
+   500-ing the healthcheck; the pipeline auto-rolled-back and verified the
+   rollback. Fixed with tolerant option updates (value persists before
+   listeners fire). Owner decision pending: deactivate Elementor (dead weight
+   + interference; theme does not use it).
+
+Residue: the homepage title's leading phrase is still the legacy tagline
+(likely Yoast's static homepage title template — wp-admin, or next round);
+accessibility-coordinator contact details pending owner input.
