@@ -150,6 +150,25 @@ class Hea_Lth_Page_Provisioner {
 	}
 
 	/**
+	 * Update an option while tolerating third-party option listeners that
+	 * throw in anonymous contexts (the still-installed Elementor kit sync
+	 * raised "Access denied" here and 500-ed the request). WordPress persists
+	 * the value before listeners run, so a listener failure must not abort
+	 * provisioning or the surrounding request.
+	 *
+	 * @param string $option Option name.
+	 * @param string $value  New value.
+	 * @return void
+	 */
+	private static function update_option_tolerantly( $option, $value ) {
+		try {
+			update_option( $option, $value );
+		} catch ( \Throwable $listener_failure ) {
+			unset( $listener_failure ); // The value is saved; a listener crash is not ours to surface.
+		}
+	}
+
+	/**
 	 * Replace only the known legacy site identity strings. Any value the owner
 	 * has customised since is left untouched.
 	 *
@@ -157,11 +176,11 @@ class Hea_Lth_Page_Provisioner {
 	 */
 	public static function provision_site_identity() {
 		if ( 'שירותי בריאות פרימיום' === get_option( 'blogname' ) ) {
-			update_option( 'blogname', 'Hea-lth' );
+			self::update_option_tolerantly( 'blogname', 'Hea-lth' );
 		}
 
 		if ( 'שירותי בריאות פרטיים בתיאום אישי' === get_option( 'blogdescription' ) ) {
-			update_option( 'blogdescription', 'מרכז בחירה לרפואה פרטית' );
+			self::update_option_tolerantly( 'blogdescription', 'מרכז בחירה לרפואה פרטית' );
 		}
 	}
 
@@ -182,7 +201,11 @@ class Hea_Lth_Page_Provisioner {
 		}
 
 		if ( is_plugin_active( self::LEGACY_TOOLBAR_PLUGIN ) ) {
-			deactivate_plugins( self::LEGACY_TOOLBAR_PLUGIN );
+			try {
+				deactivate_plugins( self::LEGACY_TOOLBAR_PLUGIN );
+			} catch ( \Throwable $deactivation_failure ) {
+				unset( $deactivation_failure ); // A plugin's own deactivation hook must not break the request.
+			}
 		}
 	}
 }
