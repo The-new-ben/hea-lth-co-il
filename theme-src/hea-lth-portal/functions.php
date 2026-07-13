@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.3.0' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.4.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';

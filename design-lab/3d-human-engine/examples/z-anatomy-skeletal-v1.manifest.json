@@ -1,647 +1,2186 @@
 {
-  "modelId": "z-anatomy-skeletal-v1",
-  "version": "1.1.0",
+ "modelId": "z-anatomy-layered-v2",
+ "version": "2.0.0",
+ "status": "approved",
+ "license": {
+  "owner": "Z-Anatomy (Gauthier Kervyn) + BodyParts3D / The Database Center for Life Science",
+  "sourceUrl": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
+  "webDeliveryAllowed": true,
+  "derivativeUseAllowed": true,
+  "contractReference": "CC-BY-SA-4.0 (Z-Anatomy) + CC-BY-SA-2.1-JP (BodyParts3D) — docs/3d-evidence/Z-ANATOMY-License.txt",
+  "attributionRequired": true,
+  "reviewedAt": "2026-07-12"
+ },
+ "clinicalReview": {
   "status": "approved",
-  "license": {
-    "owner": "Z-Anatomy (Gauthier Kervyn) + BodyParts3D / The Database Center for Life Science",
-    "sourceUrl": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
-    "webDeliveryAllowed": true,
-    "derivativeUseAllowed": true,
-    "contractReference": "CC-BY-SA-4.0 (Z-Anatomy) + CC-BY-SA-2.1-JP (BodyParts3D) — docs/3d-evidence/Z-ANATOMY-License.txt",
-    "attributionRequired": true,
-    "reviewedAt": "2026-07-12"
-  },
-  "clinicalReview": {
-    "status": "approved",
-    "owner": "צוות העריכה של Hea-lth",
-    "reviewedAt": "2026-07-12",
-    "kind": "editorial-nomenclature",
-    "notes": "Editorial attestation (docs/THREED_EDITORIAL_REVIEW_DECISION_2026-07-12.md): structure labels follow standard Terminologia Anatomica (TA2) nomenclature. Reference-nomenclature check, NOT a clinical/medical endorsement. The public viewer shows a visible illustration-only disclaimer and full source attribution. Mesh names normalized to the gate charset via design-lab/3d-human-engine/pipeline/normalize_glb_names.py."
-  },
-  "asset": {
-    "sourceGlb": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
-    "lods": [
-      {
-        "id": "lod-0",
-        "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-preview.glb",
-        "purpose": "mobile",
-        "triangleCount": 104304,
-        "compressedBytes": 634044
-      },
-      {
-        "id": "lod-1",
-        "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
-        "purpose": "desktop",
-        "triangleCount": 598529,
-        "compressedBytes": 1863280
-      },
-      {
-        "id": "lod-2",
-        "path": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
-        "purpose": "detail",
-        "triangleCount": 598529,
-        "compressedBytes": 1863280
-      }
-    ],
-    "validation": {
-      "gltfValid": true,
-      "visualQa": "passed",
-      "performanceQa": "passed"
-    },
-    "quality": {
-      "sourceTriangleCount": 598529,
-      "anatomicalFidelityQa": "passed",
-      "semanticMeshQa": "passed"
-    }
-  },
-  "layers": [
-    {
-      "id": "skeletal-system",
-      "kind": "system",
-      "defaultVisible": true,
-      "meshIds": [
-        "Femur.l",
-        "Femur.r",
-        "Tibia.l",
-        "Tibia.r",
-        "Humerus.l",
-        "Humerus.r",
-        "Mandible",
-        "Scapula.l",
-        "Scapula.r",
-        "Clavicle.l",
-        "Clavicle.r",
-        "Patella.l",
-        "Patella.r"
-      ]
-    }
+  "owner": "צוות העריכה של Hea-lth",
+  "reviewedAt": "2026-07-12",
+  "kind": "editorial-nomenclature",
+  "notes": "Editorial attestation (docs/THREED_EDITORIAL_REVIEW_DECISION_2026-07-12.md): structure labels follow standard Terminologia Anatomica (TA2) nomenclature. Reference-nomenclature check, NOT a clinical/medical endorsement. The public viewer shows a visible illustration-only disclaimer and full source attribution. Mesh names normalized to the gate charset via design-lab/3d-human-engine/pipeline/normalize_glb_names.py."
+ },
+ "asset": {
+  "sourceGlb": "/wp-content/themes/hea-lth-portal/assets/models/skeletal-detail.glb",
+  "lods": [
+   {
+    "id": "lod-0",
+    "path": "/wp-content/themes/hea-lth-portal/assets/models/layered-figure-preview.glb",
+    "purpose": "mobile",
+    "triangleCount": 149982,
+    "compressedBytes": 1480168
+   },
+   {
+    "id": "lod-1",
+    "path": "/wp-content/themes/hea-lth-portal/assets/models/layered-figure-detail.glb",
+    "purpose": "desktop",
+    "triangleCount": 2736010,
+    "compressedBytes": 6752688
+   },
+   {
+    "id": "lod-2",
+    "path": "/wp-content/themes/hea-lth-portal/assets/models/layered-figure-detail.glb",
+    "purpose": "detail",
+    "triangleCount": 2736010,
+    "compressedBytes": 6752688
+   }
   ],
-  "structures": [
+  "validation": {
+   "gltfValid": true,
+   "visualQa": "passed",
+   "performanceQa": "passed"
+  },
+  "quality": {
+   "sourceTriangleCount": 598529,
+   "anatomicalFidelityQa": "passed",
+   "semanticMeshQa": "passed"
+  }
+ },
+ "layers": [
+  {
+   "id": "muscular-system",
+   "label": "מערכת השרירים",
+   "kind": "system",
+   "defaultVisible": true,
+   "meshIds": [
+    "Abdominal_part_of_pectoralis_major_muscle_.l",
+    "Abdominal_part_of_pectoralis_major_muscle_.r",
+    "Abductor_digiti_minimi_of_foot.l",
+    "Abductor_digiti_minimi_of_foot.r",
+    "Abductor_digiti_minimi_of_hand.l",
+    "Abductor_digiti_minimi_of_hand.r",
+    "Abductor_hallucis.l",
+    "Abductor_hallucis.r",
+    "Abductor_pollicis_brevis.l",
+    "Abductor_pollicis_brevis.r",
+    "Abductor_pollicis_longus.l",
+    "Abductor_pollicis_longus.r",
+    "Acromial_part_of_deltoid_muscle.l",
+    "Acromial_part_of_deltoid_muscle.r",
+    "Adductor_brevis.l",
+    "Adductor_brevis.r",
+    "Adductor_longus.l",
+    "Adductor_longus.r",
+    "Adductor_magnus.l",
+    "Adductor_magnus.r",
+    "Adductor_minimus_.l",
+    "Adductor_minimus_.r",
+    "Anconeus_muscle.l",
+    "Anconeus_muscle.r",
+    "Anserine_bursa.l",
+    "Anserine_bursa.r",
+    "Antebrachial_fascia.l",
+    "Antebrachial_fascia.r",
+    "Anterior_belly_of_digastric_muscle.l",
+    "Anterior_belly_of_digastric_muscle.r",
+    "Anterior_intermuscular_septum_of_leg.l",
+    "Anterior_intermuscular_septum_of_leg.r",
+    "Anterior_layer_of_thoracolumbar_fascia.l",
+    "Anterior_layer_of_thoracolumbar_fascia.r",
+    "Ary-epiglottic_part_of_oblique_arytenoid_muscle.l",
+    "Ary-epiglottic_part_of_oblique_arytenoid_muscle.r",
+    "Ascending_part_of_trapezius_muscle.l",
+    "Ascending_part_of_trapezius_muscle.r",
+    "Bicipitoradial_bursa.l",
+    "Bicipitoradial_bursa.r",
+    "Brachial_fascia.l",
+    "Brachial_fascia.r",
+    "Brachialis_muscle.l",
+    "Brachialis_muscle.r",
+    "Brachioradialis_muscle.l",
+    "Brachioradialis_muscle.r",
+    "Bucinator.l",
+    "Bucinator.r",
+    "Bursa_of_piriformis_muscle.l",
+    "Bursa_of_piriformis_muscle.r",
+    "Calcaneal_tendon.l",
+    "Calcaneal_tendon.r",
+    "Clavicular_head_of_pectoralis_major_muscle.l",
+    "Clavicular_head_of_pectoralis_major_muscle.r",
+    "Clavicular_part_of_deltoid_muscle.l",
+    "Clavicular_part_of_deltoid_muscle.r",
+    "Clavipectoral_fascia.l",
+    "Clavipectoral_fascia.r",
+    "Coccygeus_muscle.l",
+    "Coccygeus_muscle.r",
+    "Common_flexor_tendon_sheath.l",
+    "Common_flexor_tendon_sheath.r",
+    "Common_tendinous_ring.l",
+    "Common_tendinous_ring.r",
+    "Common_tendon_sheath_of_fibularis_muscles.l",
+    "Common_tendon_sheath_of_fibularis_muscles.r",
+    "Coracobrachial_bursa.l",
+    "Coracobrachial_bursa.r",
+    "Coracobrachialis_muscle.l",
+    "Coracobrachialis_muscle.r",
+    "Corrugator_supercilii.l",
+    "Corrugator_supercilii.r",
+    "Cruciform_part_of_fibrous_sheath_of_digit_of_hand.l",
+    "Cruciform_part_of_fibrous_sheath_of_digit_of_hand.r",
+    "Crural_fascia.l",
+    "Crural_fascia.r",
+    "Deep_head_of_flexor_pollicis_brevis.l",
+    "Deep_head_of_flexor_pollicis_brevis.r",
+    "Deep_head_of_pronator_teres.l",
+    "Deep_head_of_pronator_teres.r",
+    "Deep_infrapatellar_bursa.l",
+    "Deep_infrapatellar_bursa.r",
+    "Deep_part_of_masseter.l",
+    "Deep_part_of_masseter.r",
+    "Deltoid_fascia.l",
+    "Deltoid_fascia.r",
+    "Depressor_anguli_oris.l",
+    "Depressor_anguli_oris.r",
+    "Depressor_labii_inferioris.l",
+    "Depressor_labii_inferioris.r",
+    "Depressor_septi_nasi.l",
+    "Depressor_septi_nasi.r",
+    "Descending_part_of_trapezius_muscle.l",
+    "Descending_part_of_trapezius_muscle.r",
+    "Diaphragm",
+    "Diaphragmatic_fascia",
+    "Dorsal_fascia_of_hand.l",
+    "Dorsal_fascia_of_hand.r",
+    "Dorsal_interossei_muscles_of_foot.l",
+    "Dorsal_interossei_muscles_of_foot.r",
+    "Dorsal_interossei_muscles_of_hand.l",
+    "Dorsal_interossei_muscles_of_hand.r",
+    "Dorsal_parts_of_lateral_intertransversarii_lumborum_muscles.l",
+    "Dorsal_parts_of_lateral_intertransversarii_lumborum_muscles.r",
+    "Epicranial_aponeurosis.l",
+    "Epicranial_aponeurosis.r",
+    "Extensor_carpi_radialis_brevis.l",
+    "Extensor_carpi_radialis_brevis.r",
+    "Extensor_carpi_radialis_longus.l",
+    "Extensor_carpi_radialis_longus.r",
+    "Extensor_digiti_minimi.l",
+    "Extensor_digiti_minimi.r",
+    "Extensor_digitorum.l",
+    "Extensor_digitorum.r",
+    "Extensor_digitorum_brevis.l",
+    "Extensor_digitorum_brevis.r",
+    "Extensor_digitorum_longus.l",
+    "Extensor_digitorum_longus.r",
+    "Extensor_hallucis_brevis.l",
+    "Extensor_hallucis_brevis.r",
+    "Extensor_hallucis_longus.l",
+    "Extensor_hallucis_longus.r",
+    "Extensor_indicis.l",
+    "Extensor_indicis.r",
+    "Extensor_pollicis_brevis.l",
+    "Extensor_pollicis_brevis.r",
+    "Extensor_pollicis_longus.l",
+    "Extensor_pollicis_longus.r",
+    "Extensor_retinaculum_of_wrist.l",
+    "Extensor_retinaculum_of_wrist.r",
+    "External_abdominal_oblique_muscle.l",
+    "External_abdominal_oblique_muscle.r",
+    "External_anal_sphincter.l",
+    "External_anal_sphincter.r",
+    "External_intercostal_muscles.l",
+    "External_intercostal_muscles.r",
+    "External_part_of_thyro-arytenoid_muscle.l",
+    "External_part_of_thyro-arytenoid_muscle.r",
+    "Fascia_lata.l",
+    "Fascia_lata.r",
+    "Fibularis_brevis_muscle.l",
+    "Fibularis_brevis_muscle.r",
+    "Fibularis_longus_muscle.l",
+    "Fibularis_longus_muscle.r",
+    "Fibularis_tertius_muscle.l",
+    "Fibularis_tertius_muscle.r",
+    "Flexor_carpi_radialis.l",
+    "Flexor_carpi_radialis.r",
+    "Flexor_digiti_minimi_of_foot.l",
+    "Flexor_digiti_minimi_of_foot.r",
+    "Flexor_digiti_minimi_of_hand.l",
+    "Flexor_digiti_minimi_of_hand.r",
+    "Flexor_digitorum_brevis.l",
+    "Flexor_digitorum_brevis.r",
+    "Flexor_digitorum_longus.l",
+    "Flexor_digitorum_longus.r",
+    "Flexor_digitorum_profundus.l",
+    "Flexor_digitorum_profundus.r",
+    "Flexor_hallucis_longus.l",
+    "Flexor_hallucis_longus.r",
+    "Flexor_pollicis_longus.l",
+    "Flexor_pollicis_longus.r",
+    "Flexor_retinaculum_of_ankle.l",
+    "Flexor_retinaculum_of_ankle.r",
+    "Flexor_retinaculum_of_wrist.l",
+    "Flexor_retinaculum_of_wrist.r",
+    "Frontalis_muscle.l",
+    "Frontalis_muscle.r",
+    "Genioglossus_muscle.l",
+    "Genioglossus_muscle.r",
+    "Geniohyoid_muscle.l",
+    "Geniohyoid_muscle.r",
+    "Gluteus_maximus_muscle.l",
+    "Gluteus_maximus_muscle.r",
+    "Gluteus_medius_muscle.l",
+    "Gluteus_medius_muscle.r",
+    "Gluteus_minimus_muscle.l",
+    "Gluteus_minimus_muscle.r",
+    "Gracilis_muscle.l",
+    "Gracilis_muscle.r",
+    "Humeral_head_of_extensor_carpi_ulnaris.l",
+    "Humeral_head_of_extensor_carpi_ulnaris.r",
+    "Humeral_head_of_flexor_carpi_ulnaris.l",
+    "Humeral_head_of_flexor_carpi_ulnaris.r",
+    "Humero-ulnar_head_of_flexor_digitorum_superficialis.l",
+    "Humero-ulnar_head_of_flexor_digitorum_superficialis.r",
+    "Hyoglossus_muscle.l",
+    "Hyoglossus_muscle.r",
+    "Iliacus_muscle.l",
+    "Iliacus_muscle.r",
+    "Iliococcygeus_muscle.l",
+    "Iliococcygeus_muscle.r",
+    "Iliocostalis_colli_muscle",
+    "Iliocostalis_colli_muscle.r",
+    "Iliocostalis_lumborum_muscle.l",
+    "Iliocostalis_lumborum_muscle.r",
+    "Iliocostalis_thoracis_muscle.l",
+    "Iliocostalis_thoracis_muscle.r",
+    "Iliopectineal_arch.l",
+    "Iliopectineal_arch.r",
+    "Iliopectineal_bursa_.l",
+    "Iliopectineal_bursa_.r",
+    "Iliopsoas_fascia.l",
+    "Iliopsoas_fascia.r",
+    "Iliotibial_tract.l",
+    "Iliotibial_tract.r",
+    "Inferior_extensor_retinaculum_of_ankle.l",
+    "Inferior_extensor_retinaculum_of_ankle.r",
+    "Inferior_fibular_retinaculum.l",
+    "Inferior_fibular_retinaculum.r",
+    "Inferior_gemellus_muscle.l",
+    "Inferior_gemellus_muscle.r",
+    "Inferior_head_of_lateral_pterygoid_muscle.l",
+    "Inferior_head_of_lateral_pterygoid_muscle.r",
+    "Inferior_oblique_muscle.l",
+    "Inferior_oblique_muscle.r",
+    "Inferior_pharyngeal_constrictor.l",
+    "Inferior_pharyngeal_constrictor.r",
+    "Inferior_rectus_muscle.l",
+    "Inferior_rectus_muscle.r",
+    "Inferior_subtendinous_bursa_of_biceps_femoris_muscle.l",
+    "Inferior_subtendinous_bursa_of_biceps_femoris_muscle.r",
+    "Inferior_tarsus.l",
+    "Inferior_tarsus.r",
+    "Infraspinatus_muscle.l",
+    "Infraspinatus_muscle.r",
+    "Inguinal_ligament.l",
+    "Inguinal_ligament.r",
+    "Innermost_intercostal_muscles.l",
+    "Innermost_intercostal_muscles.r",
+    "Intermediate_tendon_of_digastric_muscle.l",
+    "Intermediate_tendon_of_digastric_muscle.r",
+    "Intermuscular_gluteal_bursae.l",
+    "Intermuscular_gluteal_bursae.r",
+    "Internal_abdominal_oblique_muscle.l",
+    "Internal_abdominal_oblique_muscle.r",
+    "Internal_intercostal_muscles.l",
+    "Internal_intercostal_muscles.r",
+    "Interspinales_colli_muscles.l",
+    "Interspinales_colli_muscles.r",
+    "Interspinales_lumborum_muscles.l",
+    "Interspinales_lumborum_muscles.r",
+    "Interspinales_thoracis_muscles.l",
+    "Interspinales_thoracis_muscles.r",
+    "Investing_abdominal_fascia.l",
+    "Investing_abdominal_fascia.r",
+    "Lateral_crico-arytenoid_muscle.l",
+    "Lateral_crico-arytenoid_muscle.r",
+    "Lateral_femoral_intermuscular_septum.l",
+    "Lateral_femoral_intermuscular_septum.r",
+    "Lateral_head_of_flexor_hallucis_brevis.l",
+    "Lateral_head_of_flexor_hallucis_brevis.r",
+    "Lateral_head_of_gastrocnemius.l",
+    "Lateral_head_of_gastrocnemius.r",
+    "Lateral_head_of_triceps_brachii.l",
+    "Lateral_head_of_triceps_brachii.r",
+    "Lateral_intermuscular_septum_of_arm.l",
+    "Lateral_intermuscular_septum_of_arm.r",
+    "Lateral_patellar_retinaculum.l",
+    "Lateral_patellar_retinaculum.r",
+    "Lateral_rectus_muscle.l",
+    "Lateral_rectus_muscle.r",
+    "Lateral_subtendinous_bursa_of_gastrocnemius_muscle.l",
+    "Lateral_subtendinous_bursa_of_gastrocnemius_muscle.r",
+    "Latissimus_dorsi_muscle.l",
+    "Latissimus_dorsi_muscle.r",
+    "Levator_anguli_oris.l",
+    "Levator_anguli_oris.r",
+    "Levator_labii_superioris.l",
+    "Levator_labii_superioris.r",
+    "Levator_nasolabialis.l",
+    "Levator_nasolabialis.r",
+    "Levator_palpebrae_superioris.l",
+    "Levator_palpebrae_superioris.r",
+    "Levator_scapulae.l",
+    "Levator_scapulae.r",
+    "Levatores_breves_costarum.l",
+    "Levatores_breves_costarum.r",
+    "Levatores_longi_costarum.l",
+    "Levatores_longi_costarum.r",
+    "Linea_alba",
+    "Long_head_of_biceps_brachii.l",
+    "Long_head_of_biceps_brachii.r",
+    "Long_head_of_biceps_femoris.l",
+    "Long_head_of_biceps_femoris.r",
+    "Long_head_of_triceps_brachii.l",
+    "Long_head_of_triceps_brachii.r",
+    "Longissimus_capitis_muscle.l",
+    "Longissimus_capitis_muscle.r",
+    "Longissimus_colli_muscle.l",
+    "Longissimus_colli_muscle.r",
+    "Longissimus_thoracis_muscle.l",
+    "Longissimus_thoracis_muscle.r",
+    "Longus_capitis_muscle.l",
+    "Longus_capitis_muscle.r",
+    "Longus_colli_muscle.l",
+    "Longus_colli_muscle.r",
+    "Lumbrical_muscles_of_foot.l",
+    "Lumbrical_muscles_of_foot.r",
+    "Lumbrical_muscles_of_hand.l",
+    "Lumbrical_muscles_of_hand.r",
+    "Masseteric_fascia.l",
+    "Masseteric_fascia.r",
+    "Medial_femoral_intermuscular_septum.l",
+    "Medial_femoral_intermuscular_septum.r",
+    "Medial_head_of_flexor_hallucis_brevis.l",
+    "Medial_head_of_flexor_hallucis_brevis.r",
+    "Medial_head_of_gastrocnemius.l",
+    "Medial_head_of_gastrocnemius.r",
+    "Medial_head_of_triceps_brachii.l",
+    "Medial_head_of_triceps_brachii.r",
+    "Medial_intermuscular_septum_of_arm.l",
+    "Medial_intermuscular_septum_of_arm.r",
+    "Medial_patellar_retinaculum.l",
+    "Medial_patellar_retinaculum.r",
+    "Medial_pterygoid_muscle.l",
+    "Medial_pterygoid_muscle.r",
+    "Medial_rectus_muscle.l",
+    "Medial_rectus_muscle.r",
+    "Medial_subtendinous_bursa_of_gastrocnemius_muscle.l",
+    "Medial_subtendinous_bursa_of_gastrocnemius_muscle.r",
+    "Mentalis_muscle.l",
+    "Mentalis_muscle.r",
+    "Middle_layer_of_thoracolumbar_fascia.l",
+    "Middle_layer_of_thoracolumbar_fascia.r",
+    "Middle_pharyngeal_constrictor.l",
+    "Middle_pharyngeal_constrictor.r",
+    "Multifidus_colli_muscle.l",
+    "Multifidus_colli_muscle.r",
+    "Multifidus_lumborum_muscle.l",
+    "Multifidus_lumborum_muscle.r",
+    "Multifidus_thoracis_muscle.l",
+    "Multifidus_thoracis_muscle.r",
+    "Mylohyoid_muscle.l",
+    "Mylohyoid_muscle.r",
+    "Nasalis_muscle.l",
+    "Nasalis_muscle.r",
+    "Oblique_head_of_adductor_hallucis.l",
+    "Oblique_head_of_adductor_hallucis.r",
+    "Oblique_head_of_adductor_pollicis.l",
+    "Oblique_head_of_adductor_pollicis.r",
+    "Oblique_part_of_cricothyroid_muscle.l",
+    "Oblique_part_of_cricothyroid_muscle.r",
+    "Obliquus_inferior_capitis_muscle.l",
+    "Obliquus_inferior_capitis_muscle.r",
+    "Obliquus_superior_capitis_muscle.l",
+    "Obliquus_superior_capitis_muscle.r",
+    "Obturator_externus.l",
+    "Obturator_externus.r",
+    "Obturator_internus.l",
+    "Obturator_internus.r",
+    "Occipitalis_muscle.l",
+    "Occipitalis_muscle.r",
+    "Omohyoid_muscle.l",
+    "Omohyoid_muscle.r",
+    "Opponens_digiti_minimi_muscle_of_foot_.l",
+    "Opponens_digiti_minimi_muscle_of_foot_.r",
+    "Opponens_digiti_minimi_muscle_of_hand.l",
+    "Opponens_digiti_minimi_muscle_of_hand.r",
+    "Opponens_pollicis_muscle.l",
+    "Opponens_pollicis_muscle.r",
+    "Orbicularis_oris_muscle.l",
+    "Orbicularis_oris_muscle.r",
+    "Orbital_part_of_orbicularis_oculi.l",
+    "Orbital_part_of_orbicularis_oculi.r",
+    "Palatopharyngeus_muscle.l",
+    "Palatopharyngeus_muscle.r",
+    "Palmar_aponeurosis.l",
+    "Palmar_aponeurosis.r",
+    "Palmar_interossei_muscles.l",
+    "Palmar_interossei_muscles.r",
+    "Palmaris_longus_muscle.l",
+    "Palmaris_longus_muscle.r",
+    "Palpebral_part_of_orbicularis_oculi.l",
+    "Palpebral_part_of_orbicularis_oculi.r",
+    "Pectineus_muscle.l",
+    "Pectineus_muscle.r",
+    "Pectoral_fascia.l",
+    "Pectoral_fascia.r",
+    "Pectoralis_minor_muscle.l",
+    "Pectoralis_minor_muscle.r",
+    "Piriformis_fascia.l",
+    "Piriformis_fascia.r",
+    "Piriformis_muscle.l",
+    "Piriformis_muscle.r",
+    "Plantar_aponeurosis.l",
+    "Plantar_aponeurosis.r",
+    "Plantar_interossei_muscles.l",
+    "Plantar_interossei_muscles.r",
+    "Plantar_tendon_sheath_of_fibularis_longus_muscle.l",
+    "Plantar_tendon_sheath_of_fibularis_longus_muscle.r",
+    "Plantaris_muscle.l",
+    "Plantaris_muscle.r",
+    "Platysma.l",
+    "Platysma.r",
+    "Popliteal_fascia.l",
+    "Popliteal_fascia.r",
+    "Popliteus_muscle.l",
+    "Popliteus_muscle.r",
+    "Posterior_belly_of_digastric_muscle.l",
+    "Posterior_belly_of_digastric_muscle.r",
+    "Posterior_crico-arytenoid_muscle.l",
+    "Posterior_crico-arytenoid_muscle.r",
+    "Posterior_intermuscular_septum_of_leg.l",
+    "Posterior_intermuscular_septum_of_leg.r",
+    "Posterior_layer_of_thoracolumbar_fascia.l",
+    "Posterior_layer_of_thoracolumbar_fascia.r",
+    "Procerus_muscle.l",
+    "Procerus_muscle.r",
+    "Pronator_quadratus.l",
+    "Pronator_quadratus.r",
+    "Psoas_major.l",
+    "Psoas_major.r",
+    "Pubo-analis_muscle.l",
+    "Pubo-analis_muscle.r",
+    "Pubococcygeus_muscle.l",
+    "Pubococcygeus_muscle.r",
+    "Pyramidalis_muscle.l",
+    "Pyramidalis_muscle.r",
+    "Quadratus_femoris_muscle.l",
+    "Quadratus_femoris_muscle.r",
+    "Quadratus_lumborum_muscle.l",
+    "Quadratus_lumborum_muscle.r",
+    "Quadratus_plantae_muscle.l",
+    "Quadratus_plantae_muscle.r",
+    "Radial_head_of_flexor_digitorum_superficialis.l",
+    "Radial_head_of_flexor_digitorum_superficialis.r",
+    "Rectus_abdominis_muscle.l",
+    "Rectus_abdominis_muscle.r",
+    "Rectus_anterior_capitis_muscle.l",
+    "Rectus_anterior_capitis_muscle.r",
+    "Rectus_femoris_muscle.l",
+    "Rectus_femoris_muscle.r",
+    "Rectus_lateralis_capitis_muscle.l",
+    "Rectus_lateralis_capitis_muscle.r",
+    "Rectus_posterior_major_capitis_muscle.l",
+    "Rectus_posterior_major_capitis_muscle.r",
+    "Rectus_posterior_minor_capitis_muscle.l",
+    "Rectus_posterior_minor_capitis_muscle.r",
+    "Rhomboid_major_muscle.l",
+    "Rhomboid_major_muscle.r",
+    "Rhomboid_minor_muscle.l",
+    "Rhomboid_minor_muscle.r",
+    "Risorius_muscle.l",
+    "Risorius_muscle.r",
+    "Rotatores.l",
+    "Rotatores.r",
+    "Sartorius_muscle.l",
+    "Sartorius_muscle.r",
+    "Scalenus_anterior_muscle.l",
+    "Scalenus_anterior_muscle.r",
+    "Scalenus_medius_muscle.l",
+    "Scalenus_medius_muscle.r",
+    "Scalenus_posterior_muscle.l",
+    "Scalenus_posterior_muscle.r",
+    "Scapular_spinal_part_of_deltoid_muscle.l",
+    "Scapular_spinal_part_of_deltoid_muscle.r",
+    "Sciatic_bursa_of_gluteus_maximus_muscle.l",
+    "Sciatic_bursa_of_gluteus_maximus_muscle.r",
+    "Sciatic_bursa_of_obturator_internus.l",
+    "Sciatic_bursa_of_obturator_internus.r",
+    "Semimembranosus_bursa.l",
+    "Semimembranosus_bursa.r",
+    "Semimembranosus_muscle.l",
+    "Semimembranosus_muscle.r",
+    "Semispinalis_colli_muscle.l",
+    "Semispinalis_colli_muscle.r",
+    "Semispinalis_thoracis_muscle.l",
+    "Semispinalis_thoracis_muscle.r",
+    "Semitendinosus_muscle.l",
+    "Semitendinosus_muscle.r",
+    "Serratus_anterior_muscle.l",
+    "Serratus_anterior_muscle.r",
+    "Serratus_posterior_inferior_muscle.l",
+    "Serratus_posterior_inferior_muscle.r",
+    "Serratus_posterior_superior_muscle.l",
+    "Serratus_posterior_superior_muscle.r",
+    "Short_head_of_biceps_brachii.l",
+    "Short_head_of_biceps_brachii.r",
+    "Short_head_of_biceps_femoris.l",
+    "Short_head_of_biceps_femoris.r",
+    "Soleus_muscle.l",
+    "Soleus_muscle.r",
+    "Spinalis_capitis_muscle.l",
+    "Spinalis_capitis_muscle.r",
+    "Spinalis_colli_muscle.l",
+    "Spinalis_colli_muscle.r",
+    "Spinalis_thoracis_muscle.l",
+    "Spinalis_thoracis_muscle.r",
+    "Splenius_capitis_muscle.l",
+    "Splenius_capitis_muscle.r",
+    "Splenius_colli_muscle.l",
+    "Splenius_colli_muscle.r",
+    "Sternocleidomastoid_muscle.l",
+    "Sternocleidomastoid_muscle.r",
+    "Sternocostal_head_of_pectoralis_major_muscle.l",
+    "Sternocostal_head_of_pectoralis_major_muscle.r",
+    "Sternohyoid_muscle.l",
+    "Sternohyoid_muscle.r",
+    "Sternothyroid_muscle.l",
+    "Sternothyroid_muscle.r",
+    "Straight_part_of_cricothyroid_muscle.l",
+    "Straight_part_of_cricothyroid_muscle.r",
+    "Stylohyoid_muscle.l",
+    "Stylohyoid_muscle.r",
+    "Stylopharyngeus_muscle.l",
+    "Stylopharyngeus_muscle.r",
+    "Subacromial_bursa.l",
+    "Subacromial_bursa.r",
+    "Subclavius_muscle.l",
+    "Subclavius_muscle.r",
+    "Subcutaneous_acromial_bursa.l",
+    "Subcutaneous_acromial_bursa.r",
+    "Subcutaneous_bursa_of_lateral_malleolus.l",
+    "Subcutaneous_bursa_of_lateral_malleolus.r",
+    "Subcutaneous_bursa_of_medial_malleolus.l",
+    "Subcutaneous_bursa_of_medial_malleolus.r",
+    "Subcutaneous_bursa_of_tuberosity_of_tibia.l",
+    "Subcutaneous_bursa_of_tuberosity_of_tibia.r",
+    "Subcutaneous_calcaneal_bursa.l",
+    "Subcutaneous_calcaneal_bursa.r",
+    "Subcutaneous_infrapatellar_bursa.l",
+    "Subcutaneous_infrapatellar_bursa.r",
+    "Subcutaneous_prepatellar_bursa.l",
+    "Subcutaneous_prepatellar_bursa.r",
+    "Subcutaneous_trochanteric_bursa.l",
+    "Subcutaneous_trochanteric_bursa.r",
+    "Subdeltoid_bursa.l",
+    "Subdeltoid_bursa.r",
+    "Subfacial_prepatellar_bursa.l",
+    "Subfacial_prepatellar_bursa.r",
+    "Subscapularis_muscle.l",
+    "Subscapularis_muscle.r",
+    "Subtendinous_bursa_of_iliacus_muscle.l",
+    "Subtendinous_bursa_of_iliacus_muscle.r",
+    "Subtendinous_bursa_of_infraspinatus_muscle.l",
+    "Subtendinous_bursa_of_infraspinatus_muscle.r",
+    "Subtendinous_bursa_of_obturator_internus.l",
+    "Subtendinous_bursa_of_obturator_internus.r",
+    "Subtendinous_bursa_of_sartorius_muscle.l",
+    "Subtendinous_bursa_of_sartorius_muscle.r",
+    "Subtendinous_bursa_of_teres_major_muscle.l",
+    "Subtendinous_bursa_of_teres_major_muscle.r",
+    "Subtendinous_bursa_of_tibialis_anterior.l",
+    "Subtendinous_bursa_of_tibialis_anterior.r",
+    "Subtendinous_bursa_of_trapezius_muscle.l",
+    "Subtendinous_bursa_of_trapezius_muscle.r",
+    "Subtendinous_bursa_of_triceps_brachii_muscle.l",
+    "Subtendinous_bursa_of_triceps_brachii_muscle.r",
+    "Subtendinous_calcaneal_bursa.l",
+    "Subtendinous_calcaneal_bursa.r",
+    "Subtendinous_prepatellar_bursa.l",
+    "Subtendinous_prepatellar_bursa.r",
+    "Superficial_head_of_flexor_pollicis_brevis.l",
+    "Superficial_head_of_flexor_pollicis_brevis.r",
+    "Superficial_head_of_pronator_teres.l",
+    "Superficial_head_of_pronator_teres.r",
+    "Superficial_investing_cervical_fascia.l",
+    "Superficial_investing_cervical_fascia.r",
+    "Superficial_layer_of_temporal_fascia.l",
+    "Superficial_layer_of_temporal_fascia.r",
+    "Superficial_part_of_masseter.l",
+    "Superficial_part_of_masseter.r",
+    "Superficial_transverse_metacarpal_ligament.l",
+    "Superficial_transverse_metacarpal_ligament.r",
+    "Superficial_transverse_metatarsal_ligament.l",
+    "Superficial_transverse_metatarsal_ligament.r",
+    "Superior_bursa_of_biceps_femoris_muscle.l",
+    "Superior_bursa_of_biceps_femoris_muscle.r",
+    "Superior_extensor_retinaculum_of_ankle.l",
+    "Superior_extensor_retinaculum_of_ankle.r",
+    "Superior_fibular_retinaculum.l",
+    "Superior_fibular_retinaculum.r",
+    "Superior_gemellus_muscle.l",
+    "Superior_gemellus_muscle.r",
+    "Superior_head_of_lateral_pterygoid_muscle.l",
+    "Superior_head_of_lateral_pterygoid_muscle.r",
+    "Superior_oblique_muscle.l",
+    "Superior_oblique_muscle.r",
+    "Superior_pharyngeal_constrictor.l",
+    "Superior_pharyngeal_constrictor.r",
+    "Superior_rectus_muscle.l",
+    "Superior_rectus_muscle.r",
+    "Superior_tarsus.l",
+    "Superior_tarsus.r",
+    "Supinator.l",
+    "Supinator.r",
+    "Suprapatellar_bursa.l",
+    "Suprapatellar_bursa.r",
+    "Supraspinatus_muscle.l",
+    "Supraspinatus_muscle.r",
+    "Synovial_sheaths_of_digits_of_hand.l",
+    "Synovial_sheaths_of_digits_of_hand.r",
+    "Temporalis_muscle.l",
+    "Temporalis_muscle.r",
+    "Temporoparietalis_muscle.l",
+    "Temporoparietalis_muscle.r",
+    "Tendinous_arch_of_levator_ani.l",
+    "Tendinous_arch_of_levator_ani.r",
+    "Tendon_of_extensor_digitorum_longus.l",
+    "Tendon_of_extensor_digitorum_longus.r",
+    "Tendon_sheath_-_abd._pollicis_longus_-_ext._pollicis_brevis.l",
+    "Tendon_sheath_-_abd._pollicis_longus_-_ext._pollicis_brevis.r",
+    "Tendon_sheath_of_extensor_digitorum_and_extensor_indicis.l",
+    "Tendon_sheath_of_extensor_digitorum_and_extensor_indicis.r",
+    "Tendon_sheath_of_extensor_digitorum_longus.l",
+    "Tendon_sheath_of_extensor_digitorum_longus.r",
+    "Tendon_sheath_of_extensors_carpi_radialis.l",
+    "Tendon_sheath_of_extensors_carpi_radialis.r",
+    "Tendon_sheath_of_flexor_digitorum_longus.l",
+    "Tendon_sheath_of_flexor_digitorum_longus.r",
+    "Tendon_sheath_of_flexor_hallucis_longus.l",
+    "Tendon_sheath_of_flexor_hallucis_longus.r",
+    "Tendon_sheath_of_tibialis_anterior.l",
+    "Tendon_sheath_of_tibialis_anterior.r",
+    "Tendon_sheath_of_tibialis_posterior_muscle.l",
+    "Tendon_sheath_of_tibialis_posterior_muscle.r",
+    "Tensor_fasciae_latae.l",
+    "Tensor_fasciae_latae.r",
+    "Teres_major_muscle.l",
+    "Teres_major_muscle.r",
+    "Teres_minor_muscle.l",
+    "Teres_minor_muscle.r",
+    "Thyro-epiglottic_part_of_thyro-arytenoid_muscle.l",
+    "Thyro-epiglottic_part_of_thyro-arytenoid_muscle.r",
+    "Thyrohyoid_muscle.l",
+    "Thyrohyoid_muscle.r",
+    "Tibialis_anterior_muscle.l",
+    "Tibialis_anterior_muscle.r",
+    "Tibialis_posterior_muscle.l",
+    "Tibialis_posterior_muscle.r",
+    "Transversalis_fascia",
+    "Transverse_arytenoid_muscle",
+    "Transverse_head_of_adductor_hallucis.l",
+    "Transverse_head_of_adductor_hallucis.r",
+    "Transverse_head_of_adductor_pollicis.l",
+    "Transverse_head_of_adductor_pollicis.r",
+    "Transverse_intermuscular_septum_of_leg.l",
+    "Transverse_intermuscular_septum_of_leg.r",
+    "Transverse_part_of_trapezius_muscle.l",
+    "Transverse_part_of_trapezius_muscle.r",
+    "Transversus_abdominis_muscle.l",
+    "Transversus_abdominis_muscle.r",
+    "Transversus_thoracis_muscle.l",
+    "Transversus_thoracis_muscle.r",
+    "Trochanteric_bursa_of_gluteus_maximus_muscle.l",
+    "Trochanteric_bursa_of_gluteus_maximus_muscle.r",
+    "Trochanteric_bursa_of_gluteus_medius_muscle.l",
+    "Trochanteric_bursa_of_gluteus_medius_muscle.r",
+    "Trochanteric_bursa_of_gluteus_minimus_muscle.l",
+    "Trochanteric_bursa_of_gluteus_minimus_muscle.r",
+    "Trochlea_of_superior_oblique_muscle.l",
+    "Trochlea_of_superior_oblique_muscle.r",
+    "Ulnar_head_of_extensor_carpi_ulnaris.l",
+    "Ulnar_head_of_extensor_carpi_ulnaris.r",
+    "Ulnar_head_of_flexor_carpi_ulnaris.l",
+    "Ulnar_head_of_flexor_carpi_ulnaris.r",
+    "Vastus_intermedius_muscle.l",
+    "Vastus_intermedius_muscle.r",
+    "Vastus_lateralis_muscle.l",
+    "Vastus_lateralis_muscle.r",
+    "Vastus_medialis_muscle.l",
+    "Vastus_medialis_muscle.r",
+    "Ventral_parts_of_lateral_intertransversarii_lumborum_muscles.l",
+    "Ventral_parts_of_lateral_intertransversarii_lumborum_muscles.r",
+    "Zygomaticus_major_muscle.l",
+    "Zygomaticus_major_muscle.r",
+    "Zygomaticus_minor_muscle.l",
+    "Zygomaticus_minor_muscle.r"
+   ]
+  },
+  {
+   "id": "skeletal-system",
+   "label": "מערכת השלד",
+   "kind": "system",
+   "defaultVisible": true,
+   "meshIds": [
+    "Anterior_cells_of_ethmoid_bone.l",
+    "Anterior_cells_of_ethmoid_bone.r",
+    "Arytenoid_cartilage.l",
+    "Arytenoid_cartilage.r",
+    "Atlas_C1",
+    "Axis_C2",
+    "Body_of_sternum",
+    "Calcaneus.l",
+    "Calcaneus.r",
+    "Capitate_bone.l",
+    "Capitate_bone.r",
+    "Clavicle.l",
+    "Clavicle.r",
+    "Coccyx",
+    "Corniculate_cartilage.l",
+    "Corniculate_cartilage.r",
+    "Costal_cartilage_of_eighth_rib.l",
+    "Costal_cartilage_of_eighth_rib.r",
+    "Costal_cartilage_of_fifth_rib.l",
+    "Costal_cartilage_of_fifth_rib.r",
+    "Costal_cartilage_of_first_rib.l",
+    "Costal_cartilage_of_first_rib.r",
+    "Costal_cartilage_of_fourth_rib.l",
+    "Costal_cartilage_of_fourth_rib.r",
+    "Costal_cartilage_of_ninth_rib.l",
+    "Costal_cartilage_of_ninth_rib.r",
+    "Costal_cartilage_of_second_rib.l",
+    "Costal_cartilage_of_second_rib.r",
+    "Costal_cartilage_of_seventh_rib.l",
+    "Costal_cartilage_of_seventh_rib.r",
+    "Costal_cartilage_of_sixth_rib.l",
+    "Costal_cartilage_of_sixth_rib.r",
+    "Costal_cartilage_of_tenth_rib.l",
+    "Costal_cartilage_of_tenth_rib.r",
+    "Costal_cartilage_of_third_rib.l",
+    "Costal_cartilage_of_third_rib.r",
+    "Cricoid_cartilage",
+    "Cuboid_bone.l",
+    "Cuboid_bone.r",
+    "Distal_phalanx_of_fifth_finger_of_foot.l",
+    "Distal_phalanx_of_fifth_finger_of_foot.r",
+    "Distal_phalanx_of_fifth_finger_of_hand.l",
+    "Distal_phalanx_of_fifth_finger_of_hand.r",
+    "Distal_phalanx_of_first_finger_of_foot.l",
+    "Distal_phalanx_of_first_finger_of_foot.r",
+    "Distal_phalanx_of_first_finger_of_hand.l",
+    "Distal_phalanx_of_first_finger_of_hand.r",
+    "Distal_phalanx_of_fourth_finger_of_foot.l",
+    "Distal_phalanx_of_fourth_finger_of_foot.r",
+    "Distal_phalanx_of_fourth_finger_of_hand.l",
+    "Distal_phalanx_of_fourth_finger_of_hand.r",
+    "Distal_phalanx_of_second_finger_of_foot.l",
+    "Distal_phalanx_of_second_finger_of_foot.r",
+    "Distal_phalanx_of_second_finger_of_hand.l",
+    "Distal_phalanx_of_second_finger_of_hand.r",
+    "Distal_phalanx_of_third_finger_of_foot.l",
+    "Distal_phalanx_of_third_finger_of_foot.r",
+    "Distal_phalanx_of_third_finger_of_hand.l",
+    "Distal_phalanx_of_third_finger_of_hand.r",
+    "Eighth_rib.l",
+    "Eighth_rib.r",
+    "Eleventh_rib.l",
+    "Eleventh_rib.r",
+    "Ethmoid_bone",
+    "Femur.l",
+    "Femur.r",
+    "Fibula.l",
+    "Fibula.r",
+    "Fifth_metacarpal_bone.l",
+    "Fifth_metacarpal_bone.r",
+    "Fifth_metatarsal_bone.l",
+    "Fifth_metatarsal_bone.r",
+    "Fifth_rib.l",
+    "Fifth_rib.r",
+    "First_metacarpal_bone.l",
+    "First_metacarpal_bone.r",
+    "First_metatarsal_bone.l",
+    "First_metatarsal_bone.r",
+    "First_rib.l",
+    "First_rib.r",
+    "Fourth_metacarpal_bone.l",
+    "Fourth_metacarpal_bone.r",
+    "Fourth_metatarsal_bone.l",
+    "Fourth_metatarsal_bone.r",
+    "Fourth_rib.l",
+    "Fourth_rib.r",
+    "Frontal_bone",
+    "Hamate_bone.l",
+    "Hamate_bone.r",
+    "Hip_bone.l",
+    "Hip_bone.r",
+    "Humerus.l",
+    "Humerus.r",
+    "Hyoid_bone",
+    "Incus.l",
+    "Incus.r",
+    "Inferior_nasal_concha_bone.l",
+    "Inferior_nasal_concha_bone.r",
+    "Intermediate_cuneiform_bone.l",
+    "Intermediate_cuneiform_bone.r",
+    "Lacrimal_bone.l",
+    "Lacrimal_bone.r",
+    "Lateral_cuneiform_bone.l",
+    "Lateral_cuneiform_bone.r",
+    "Lateral_process_of_nasal_septal_cartilage.l",
+    "Lateral_process_of_nasal_septal_cartilage.r",
+    "Lower_canine.l",
+    "Lower_canine.r",
+    "Lower_first_molar_tooth.l",
+    "Lower_first_molar_tooth.r",
+    "Lower_first_premolar.l",
+    "Lower_first_premolar.r",
+    "Lower_lateral_incisor.l",
+    "Lower_lateral_incisor.r",
+    "Lower_medial_incisor.l",
+    "Lower_medial_incisor.r",
+    "Lower_second_molar_tooth.l",
+    "Lower_second_molar_tooth.r",
+    "Lower_second_premolar.l",
+    "Lower_second_premolar.r",
+    "Lunate_bone.l",
+    "Lunate_bone.r",
+    "Major_alar_cartilage.l",
+    "Major_alar_cartilage.r",
+    "Malleus.l",
+    "Malleus.r",
+    "Mandible",
+    "Manubrium_of_sternum",
+    "Maxilla.l",
+    "Maxilla.r",
+    "Medial_cuneiform_bone.l",
+    "Medial_cuneiform_bone.r",
+    "Middle_cells_of_ethmoid_bone.l",
+    "Middle_cells_of_ethmoid_bone.r",
+    "Middle_phalanx_of_fifth_finger_of_foot.l",
+    "Middle_phalanx_of_fifth_finger_of_foot.r",
+    "Middle_phalanx_of_fifth_finger_of_hand.l",
+    "Middle_phalanx_of_fifth_finger_of_hand.r",
+    "Middle_phalanx_of_fourth_finger_of_foot.l",
+    "Middle_phalanx_of_fourth_finger_of_foot.r",
+    "Middle_phalanx_of_fourth_finger_of_hand.l",
+    "Middle_phalanx_of_fourth_finger_of_hand.r",
+    "Middle_phalanx_of_second_finger_of_foot.l",
+    "Middle_phalanx_of_second_finger_of_foot.r",
+    "Middle_phalanx_of_second_finger_of_hand.l",
+    "Middle_phalanx_of_second_finger_of_hand.r",
+    "Middle_phalanx_of_third_finger_of_foot.l",
+    "Middle_phalanx_of_third_finger_of_foot.r",
+    "Middle_phalanx_of_third_finger_of_hand.l",
+    "Middle_phalanx_of_third_finger_of_hand.r",
+    "Nasal_bone.l",
+    "Nasal_bone.r",
+    "Nasal_septal_cartilage",
+    "Navicular_bone.l",
+    "Navicular_bone.r",
+    "Ninth_rib.l",
+    "Ninth_rib.r",
+    "Occipital_bone",
+    "Palatine_bone.l",
+    "Palatine_bone.r",
+    "Parietal_bone.l",
+    "Parietal_bone.r",
+    "Patella.l",
+    "Patella.r",
+    "Pisiform_bone.l",
+    "Pisiform_bone.r",
+    "Posterior_cells_of_ethmoid_bone.l",
+    "Posterior_cells_of_ethmoid_bone.r",
+    "Proximal_phalanx_of_fifth_finger_of_foot.l",
+    "Proximal_phalanx_of_fifth_finger_of_foot.r",
+    "Proximal_phalanx_of_fifth_finger_of_hand.l",
+    "Proximal_phalanx_of_fifth_finger_of_hand.r",
+    "Proximal_phalanx_of_first_finger_of_foot.l",
+    "Proximal_phalanx_of_first_finger_of_foot.r",
+    "Proximal_phalanx_of_first_finger_of_hand.l",
+    "Proximal_phalanx_of_first_finger_of_hand.r",
+    "Proximal_phalanx_of_fourth_finger_of_foot.l",
+    "Proximal_phalanx_of_fourth_finger_of_foot.r",
+    "Proximal_phalanx_of_fourth_finger_of_hand.l",
+    "Proximal_phalanx_of_fourth_finger_of_hand.r",
+    "Proximal_phalanx_of_second_finger_of_foot.l",
+    "Proximal_phalanx_of_second_finger_of_foot.r",
+    "Proximal_phalanx_of_second_finger_of_hand.l",
+    "Proximal_phalanx_of_second_finger_of_hand.r",
+    "Proximal_phalanx_of_third_finger_of_foot.l",
+    "Proximal_phalanx_of_third_finger_of_foot.r",
+    "Proximal_phalanx_of_third_finger_of_hand.l",
+    "Proximal_phalanx_of_third_finger_of_hand.r",
+    "Radius.l",
+    "Radius.r",
+    "Sacrum",
+    "Scaphoid_bone.l",
+    "Scaphoid_bone.r",
+    "Scapula.l",
+    "Scapula.r",
+    "Second_metacarpal_bone.l",
+    "Second_metacarpal_bone.r",
+    "Second_metatarsal_bone.l",
+    "Second_metatarsal_bone.r",
+    "Second_rib.l",
+    "Second_rib.r",
+    "Sesamoid_bones_of_foot.l",
+    "Sesamoid_bones_of_foot.r",
+    "Seventh_rib.l",
+    "Seventh_rib.r",
+    "Sinus_of_frontal_bone",
+    "Sinus_of_sphenoid_bone",
+    "Sixth_rib.l",
+    "Sixth_rib.r",
+    "Sphenoid_bone",
+    "Stapes.l",
+    "Stapes.r",
+    "Talus.l",
+    "Talus.r",
+    "Temporal_bone.l",
+    "Temporal_bone.r",
+    "Tenth_rib.l",
+    "Tenth_rib.r",
+    "Third_metacarpal_bone.l",
+    "Third_metacarpal_bone.r",
+    "Third_metatarsal_bone.l",
+    "Third_metatarsal_bone.r",
+    "Third_rib.l",
+    "Third_rib.r",
+    "Thyroid_cartilage",
+    "Tibia.l",
+    "Tibia.r",
+    "Trapezium_bone.l",
+    "Trapezium_bone.r",
+    "Trapezoid_bone.l",
+    "Trapezoid_bone.r",
+    "Triquetrum_bone.l",
+    "Triquetrum_bone.r",
+    "Twelfth_rib.l",
+    "Twelfth_rib.r",
+    "Ulna.l",
+    "Ulna.r",
+    "Upper_canine.l",
+    "Upper_canine.r",
+    "Upper_first_molar_tooth.l",
+    "Upper_first_molar_tooth.r",
+    "Upper_first_premolar.l",
+    "Upper_first_premolar.r",
+    "Upper_lateral_incisor.l",
+    "Upper_lateral_incisor.r",
+    "Upper_medial_incisor.l",
+    "Upper_medial_incisor.r",
+    "Upper_second_molar_tooth.l",
+    "Upper_second_molar_tooth.r",
+    "Upper_second_premolar.l",
+    "Upper_second_premolar.r",
+    "Vertebra_C3",
+    "Vertebra_C4",
+    "Vertebra_C5",
+    "Vertebra_C6",
+    "Vertebra_C7",
+    "Vertebra_L1",
+    "Vertebra_L2",
+    "Vertebra_L3",
+    "Vertebra_L4",
+    "Vertebra_L5",
+    "Vertebra_T1",
+    "Vertebra_T10",
+    "Vertebra_T11",
+    "Vertebra_T12",
+    "Vertebra_T2",
+    "Vertebra_T3",
+    "Vertebra_T4",
+    "Vertebra_T5",
+    "Vertebra_T6",
+    "Vertebra_T7",
+    "Vertebra_T8",
+    "Vertebra_T9",
+    "Vomer",
+    "Xiphoid_process",
+    "Zygomatic_bone.l",
+    "Zygomatic_bone.r"
+   ]
+  }
+ ],
+ "structures": [
+  {
+   "id": "anatomy:cranium",
+   "meshIds": [
+    "Frontal_bone",
+    "Parietal_bone.l",
+    "Parietal_bone.r",
+    "Occipital_bone",
+    "Temporal_bone.l",
+    "Temporal_bone.r",
+    "Sphenoid_bone",
+    "Ethmoid_bone"
+   ],
+   "labels": {
+    "he": "גולגולת",
+    "en": "Cranium"
+   },
+   "contexts": [
     {
-      "id": "anatomy:cranium",
-      "meshIds": [
-        "Frontal_bone",
-        "Parietal_bone.l",
-        "Parietal_bone.r",
-        "Occipital_bone",
-        "Temporal_bone.l",
-        "Temporal_bone.r",
-        "Sphenoid_bone",
-        "Ethmoid_bone"
+     "id": "cranial",
+     "labelHe": "אנטומיית הגולגולת",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:cranial-anatomy"
       ],
-      "labels": {
-        "he": "גולגולת",
-        "en": "Cranium"
-      },
-      "contexts": [
-        {
-          "id": "cranial",
-          "labelHe": "אנטומיית הגולגולת",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:cranial-anatomy"
-            ],
-            "specialties": [
-              "specialty:neurosurgery"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:mandible",
-      "meshIds": [
-        "Mandible"
+      "specialties": [
+       "specialty:neurosurgery"
       ],
-      "labels": {
-        "he": "עצם הלסת התחתונה",
-        "en": "Mandible"
-      },
-      "contexts": [
-        {
-          "id": "maxillofacial",
-          "labelHe": "כירורגיית פה ולסת",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:jaw-anatomy"
-            ],
-            "specialties": [
-              "specialty:oral-maxillofacial-surgery"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:auditory-ossicles",
-      "meshIds": [
-        "Incus.l",
-        "Incus.r",
-        "Malleus.l",
-        "Malleus.r",
-        "Stapes.l",
-        "Stapes.r"
-      ],
-      "labels": {
-        "he": "עצמות השמע",
-        "en": "Auditory ossicles"
-      },
-      "contexts": [
-        {
-          "id": "hearing-ent",
-          "labelHe": "שמיעה ואף אוזן גרון",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:hearing-anatomy"
-            ],
-            "specialties": [
-              "specialty:otolaryngology"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:cervical-spine",
-      "meshIds": [
-        "Atlas_C1",
-        "Axis_C2",
-        "Vertebra_C3",
-        "Vertebra_C4",
-        "Vertebra_C5",
-        "Vertebra_C6",
-        "Vertebra_C7"
-      ],
-      "labels": {
-        "he": "עמוד השדרה הצווארי",
-        "en": "Cervical spine"
-      },
-      "contexts": [
-        {
-          "id": "spine-ortho",
-          "labelHe": "עמוד שדרה ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:spine-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics",
-              "specialty:neurosurgery"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:thoracic-spine",
-      "meshIds": [
-        "Vertebra_T1",
-        "Vertebra_T2",
-        "Vertebra_T3",
-        "Vertebra_T4",
-        "Vertebra_T5",
-        "Vertebra_T6",
-        "Vertebra_T7",
-        "Vertebra_T8",
-        "Vertebra_T9",
-        "Vertebra_T10",
-        "Vertebra_T11",
-        "Vertebra_T12"
-      ],
-      "labels": {
-        "he": "עמוד השדרה הגבי",
-        "en": "Thoracic spine"
-      },
-      "contexts": [
-        {
-          "id": "spine-ortho",
-          "labelHe": "עמוד שדרה ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:spine-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:lumbar-spine",
-      "meshIds": [
-        "Vertebra_L1",
-        "Vertebra_L2",
-        "Vertebra_L3",
-        "Vertebra_L4",
-        "Vertebra_L5"
-      ],
-      "labels": {
-        "he": "עמוד השדרה המותני",
-        "en": "Lumbar spine"
-      },
-      "contexts": [
-        {
-          "id": "spine-ortho",
-          "labelHe": "עמוד שדרה ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:spine-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics",
-              "specialty:neurosurgery"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:sacrum-coccyx",
-      "meshIds": [
-        "Sacrum",
-        "Coccyx"
-      ],
-      "labels": {
-        "he": "העצה והעצם הזנבית",
-        "en": "Sacrum and coccyx"
-      },
-      "contexts": [
-        {
-          "id": "spine-ortho",
-          "labelHe": "עמוד שדרה ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:skeletal-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:rib-cage",
-      "meshIds": [
-        "First_rib.l",
-        "First_rib.r",
-        "Second_rib.l",
-        "Second_rib.r",
-        "Third_rib.l",
-        "Third_rib.r",
-        "Fourth_rib.l",
-        "Fourth_rib.r",
-        "Fifth_rib.l",
-        "Fifth_rib.r",
-        "Sixth_rib.l",
-        "Sixth_rib.r",
-        "Seventh_rib.l",
-        "Seventh_rib.r",
-        "Eighth_rib.l",
-        "Eighth_rib.r",
-        "Ninth_rib.l",
-        "Ninth_rib.r",
-        "Tenth_rib.l",
-        "Tenth_rib.r",
-        "Eleventh_rib.l",
-        "Eleventh_rib.r",
-        "Twelfth_rib.l",
-        "Twelfth_rib.r"
-      ],
-      "labels": {
-        "he": "בית החזה (צלעות)",
-        "en": "Rib cage"
-      },
-      "contexts": [
-        {
-          "id": "thoracic",
-          "labelHe": "דופן בית החזה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:thoracic-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics",
-              "specialty:thoracic-surgery"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:sternum",
-      "meshIds": [
-        "Manubrium_of_sternum",
-        "Body_of_sternum",
-        "Xiphoid_process"
-      ],
-      "labels": {
-        "he": "עצם החזה",
-        "en": "Sternum"
-      },
-      "contexts": [
-        {
-          "id": "thoracic",
-          "labelHe": "דופן בית החזה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:thoracic-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:clavicle",
-      "meshIds": [
-        "Clavicle.l",
-        "Clavicle.r"
-      ],
-      "labels": {
-        "he": "עצם הבריח",
-        "en": "Clavicle"
-      },
-      "contexts": [
-        {
-          "id": "shoulder-ortho",
-          "labelHe": "כתף ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:shoulder-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:scapula",
-      "meshIds": [
-        "Scapula.l",
-        "Scapula.r"
-      ],
-      "labels": {
-        "he": "עצם השכם",
-        "en": "Scapula"
-      },
-      "contexts": [
-        {
-          "id": "shoulder-ortho",
-          "labelHe": "כתף ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:shoulder-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:humerus",
-      "meshIds": [
-        "Humerus.l",
-        "Humerus.r"
-      ],
-      "labels": {
-        "he": "עצם הזרוע",
-        "en": "Humerus"
-      },
-      "contexts": [
-        {
-          "id": "upper-limb",
-          "labelHe": "גפה עליונה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:skeletal-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:radius",
-      "meshIds": [
-        "Radius.l",
-        "Radius.r"
-      ],
-      "labels": {
-        "he": "עצם החישור",
-        "en": "Radius"
-      },
-      "contexts": [
-        {
-          "id": "upper-limb",
-          "labelHe": "גפה עליונה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:skeletal-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:ulna",
-      "meshIds": [
-        "Ulna.l",
-        "Ulna.r"
-      ],
-      "labels": {
-        "he": "עצם הגומד",
-        "en": "Ulna"
-      },
-      "contexts": [
-        {
-          "id": "upper-limb",
-          "labelHe": "גפה עליונה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:skeletal-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:pelvis",
-      "meshIds": [
-        "Hip_bone.l",
-        "Hip_bone.r"
-      ],
-      "labels": {
-        "he": "עצמות האגן",
-        "en": "Pelvis (hip bones)"
-      },
-      "contexts": [
-        {
-          "id": "pelvis-ortho",
-          "labelHe": "אגן ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:pelvis-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:femur",
-      "meshIds": [
-        "Femur.l",
-        "Femur.r"
-      ],
-      "labels": {
-        "he": "עצם הירך",
-        "en": "Femur"
-      },
-      "contexts": [
-        {
-          "id": "lower-limb",
-          "labelHe": "גפה תחתונה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:skeletal-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:patella",
-      "meshIds": [
-        "Patella.l",
-        "Patella.r"
-      ],
-      "labels": {
-        "he": "עצם הפיקה",
-        "en": "Patella"
-      },
-      "contexts": [
-        {
-          "id": "knee-ortho",
-          "labelHe": "ברך ואורתופדיה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:knee-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:tibia",
-      "meshIds": [
-        "Tibia.l",
-        "Tibia.r"
-      ],
-      "labels": {
-        "he": "עצם השוק",
-        "en": "Tibia"
-      },
-      "contexts": [
-        {
-          "id": "lower-limb",
-          "labelHe": "גפה תחתונה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:skeletal-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "anatomy:fibula",
-      "meshIds": [
-        "Fibula.l",
-        "Fibula.r"
-      ],
-      "labels": {
-        "he": "עצם השוקית",
-        "en": "Fibula"
-      },
-      "contexts": [
-        {
-          "id": "lower-limb",
-          "labelHe": "גפה תחתונה",
-          "resolverEntityIds": {
-            "topics": [
-              "topic:skeletal-anatomy"
-            ],
-            "specialties": [
-              "specialty:orthopedics"
-            ],
-            "treatments": [],
-            "equipmentCategories": []
-          }
-        }
-      ]
+      "treatments": [],
+      "equipmentCategories": []
+     }
     }
-  ]
+   ]
+  },
+  {
+   "id": "anatomy:mandible",
+   "meshIds": [
+    "Mandible"
+   ],
+   "labels": {
+    "he": "עצם הלסת התחתונה",
+    "en": "Mandible"
+   },
+   "contexts": [
+    {
+     "id": "maxillofacial",
+     "labelHe": "כירורגיית פה ולסת",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:jaw-anatomy"
+      ],
+      "specialties": [
+       "specialty:oral-maxillofacial-surgery"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:auditory-ossicles",
+   "meshIds": [
+    "Incus.l",
+    "Incus.r",
+    "Malleus.l",
+    "Malleus.r",
+    "Stapes.l",
+    "Stapes.r"
+   ],
+   "labels": {
+    "he": "עצמות השמע",
+    "en": "Auditory ossicles"
+   },
+   "contexts": [
+    {
+     "id": "hearing-ent",
+     "labelHe": "שמיעה ואף אוזן גרון",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:hearing-anatomy"
+      ],
+      "specialties": [
+       "specialty:otolaryngology"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:cervical-spine",
+   "meshIds": [
+    "Atlas_C1",
+    "Axis_C2",
+    "Vertebra_C3",
+    "Vertebra_C4",
+    "Vertebra_C5",
+    "Vertebra_C6",
+    "Vertebra_C7"
+   ],
+   "labels": {
+    "he": "עמוד השדרה הצווארי",
+    "en": "Cervical spine"
+   },
+   "contexts": [
+    {
+     "id": "spine-ortho",
+     "labelHe": "עמוד שדרה ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:spine-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics",
+       "specialty:neurosurgery"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:thoracic-spine",
+   "meshIds": [
+    "Vertebra_T1",
+    "Vertebra_T2",
+    "Vertebra_T3",
+    "Vertebra_T4",
+    "Vertebra_T5",
+    "Vertebra_T6",
+    "Vertebra_T7",
+    "Vertebra_T8",
+    "Vertebra_T9",
+    "Vertebra_T10",
+    "Vertebra_T11",
+    "Vertebra_T12"
+   ],
+   "labels": {
+    "he": "עמוד השדרה הגבי",
+    "en": "Thoracic spine"
+   },
+   "contexts": [
+    {
+     "id": "spine-ortho",
+     "labelHe": "עמוד שדרה ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:spine-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:lumbar-spine",
+   "meshIds": [
+    "Vertebra_L1",
+    "Vertebra_L2",
+    "Vertebra_L3",
+    "Vertebra_L4",
+    "Vertebra_L5"
+   ],
+   "labels": {
+    "he": "עמוד השדרה המותני",
+    "en": "Lumbar spine"
+   },
+   "contexts": [
+    {
+     "id": "spine-ortho",
+     "labelHe": "עמוד שדרה ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:spine-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics",
+       "specialty:neurosurgery"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:sacrum-coccyx",
+   "meshIds": [
+    "Sacrum",
+    "Coccyx"
+   ],
+   "labels": {
+    "he": "העצה והעצם הזנבית",
+    "en": "Sacrum and coccyx"
+   },
+   "contexts": [
+    {
+     "id": "spine-ortho",
+     "labelHe": "עמוד שדרה ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:skeletal-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:rib-cage",
+   "meshIds": [
+    "First_rib.l",
+    "First_rib.r",
+    "Second_rib.l",
+    "Second_rib.r",
+    "Third_rib.l",
+    "Third_rib.r",
+    "Fourth_rib.l",
+    "Fourth_rib.r",
+    "Fifth_rib.l",
+    "Fifth_rib.r",
+    "Sixth_rib.l",
+    "Sixth_rib.r",
+    "Seventh_rib.l",
+    "Seventh_rib.r",
+    "Eighth_rib.l",
+    "Eighth_rib.r",
+    "Ninth_rib.l",
+    "Ninth_rib.r",
+    "Tenth_rib.l",
+    "Tenth_rib.r",
+    "Eleventh_rib.l",
+    "Eleventh_rib.r",
+    "Twelfth_rib.l",
+    "Twelfth_rib.r"
+   ],
+   "labels": {
+    "he": "בית החזה (צלעות)",
+    "en": "Rib cage"
+   },
+   "contexts": [
+    {
+     "id": "thoracic",
+     "labelHe": "דופן בית החזה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:thoracic-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics",
+       "specialty:thoracic-surgery"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:sternum",
+   "meshIds": [
+    "Manubrium_of_sternum",
+    "Body_of_sternum",
+    "Xiphoid_process"
+   ],
+   "labels": {
+    "he": "עצם החזה",
+    "en": "Sternum"
+   },
+   "contexts": [
+    {
+     "id": "thoracic",
+     "labelHe": "דופן בית החזה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:thoracic-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:clavicle",
+   "meshIds": [
+    "Clavicle.l",
+    "Clavicle.r"
+   ],
+   "labels": {
+    "he": "עצם הבריח",
+    "en": "Clavicle"
+   },
+   "contexts": [
+    {
+     "id": "shoulder-ortho",
+     "labelHe": "כתף ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:shoulder-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:scapula",
+   "meshIds": [
+    "Scapula.l",
+    "Scapula.r"
+   ],
+   "labels": {
+    "he": "עצם השכם",
+    "en": "Scapula"
+   },
+   "contexts": [
+    {
+     "id": "shoulder-ortho",
+     "labelHe": "כתף ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:shoulder-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:humerus",
+   "meshIds": [
+    "Humerus.l",
+    "Humerus.r"
+   ],
+   "labels": {
+    "he": "עצם הזרוע",
+    "en": "Humerus"
+   },
+   "contexts": [
+    {
+     "id": "upper-limb",
+     "labelHe": "גפה עליונה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:skeletal-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:radius",
+   "meshIds": [
+    "Radius.l",
+    "Radius.r"
+   ],
+   "labels": {
+    "he": "עצם החישור",
+    "en": "Radius"
+   },
+   "contexts": [
+    {
+     "id": "upper-limb",
+     "labelHe": "גפה עליונה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:skeletal-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:ulna",
+   "meshIds": [
+    "Ulna.l",
+    "Ulna.r"
+   ],
+   "labels": {
+    "he": "עצם הגומד",
+    "en": "Ulna"
+   },
+   "contexts": [
+    {
+     "id": "upper-limb",
+     "labelHe": "גפה עליונה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:skeletal-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:pelvis",
+   "meshIds": [
+    "Hip_bone.l",
+    "Hip_bone.r"
+   ],
+   "labels": {
+    "he": "עצמות האגן",
+    "en": "Pelvis (hip bones)"
+   },
+   "contexts": [
+    {
+     "id": "pelvis-ortho",
+     "labelHe": "אגן ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:pelvis-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:femur",
+   "meshIds": [
+    "Femur.l",
+    "Femur.r"
+   ],
+   "labels": {
+    "he": "עצם הירך",
+    "en": "Femur"
+   },
+   "contexts": [
+    {
+     "id": "lower-limb",
+     "labelHe": "גפה תחתונה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:skeletal-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:patella",
+   "meshIds": [
+    "Patella.l",
+    "Patella.r"
+   ],
+   "labels": {
+    "he": "עצם הפיקה",
+    "en": "Patella"
+   },
+   "contexts": [
+    {
+     "id": "knee-ortho",
+     "labelHe": "ברך ואורתופדיה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:knee-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:tibia",
+   "meshIds": [
+    "Tibia.l",
+    "Tibia.r"
+   ],
+   "labels": {
+    "he": "עצם השוק",
+    "en": "Tibia"
+   },
+   "contexts": [
+    {
+     "id": "lower-limb",
+     "labelHe": "גפה תחתונה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:skeletal-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:fibula",
+   "meshIds": [
+    "Fibula.l",
+    "Fibula.r"
+   ],
+   "labels": {
+    "he": "עצם השוקית",
+    "en": "Fibula"
+   },
+   "contexts": [
+    {
+     "id": "lower-limb",
+     "labelHe": "גפה תחתונה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:skeletal-anatomy"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [],
+      "equipmentCategories": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:pectorals",
+   "meshIds": [
+    "Abdominal_part_of_pectoralis_major_muscle_.l",
+    "Abdominal_part_of_pectoralis_major_muscle_.r",
+    "Clavicular_head_of_pectoralis_major_muscle.l",
+    "Clavicular_head_of_pectoralis_major_muscle.r",
+    "Pectoralis_minor_muscle.l",
+    "Pectoralis_minor_muscle.r",
+    "Sternocostal_head_of_pectoralis_major_muscle.l",
+    "Sternocostal_head_of_pectoralis_major_muscle.r"
+   ],
+   "labels": {
+    "he": "חזה",
+    "en": "Pectoral muscles"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:abdominals",
+   "meshIds": [
+    "Rectus_abdominis_muscle.l",
+    "Rectus_abdominis_muscle.r",
+    "Transversus_abdominis_muscle.l",
+    "Transversus_abdominis_muscle.r"
+   ],
+   "labels": {
+    "he": "בטן",
+    "en": "Abdominal muscles"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:back-muscles",
+   "meshIds": [
+    "Ascending_part_of_trapezius_muscle.l",
+    "Ascending_part_of_trapezius_muscle.r",
+    "Descending_part_of_trapezius_muscle.l",
+    "Descending_part_of_trapezius_muscle.r",
+    "Iliocostalis_colli_muscle",
+    "Iliocostalis_colli_muscle.r",
+    "Iliocostalis_lumborum_muscle.l",
+    "Iliocostalis_lumborum_muscle.r",
+    "Iliocostalis_thoracis_muscle.l",
+    "Iliocostalis_thoracis_muscle.r",
+    "Latissimus_dorsi_muscle.l",
+    "Latissimus_dorsi_muscle.r",
+    "Longissimus_capitis_muscle.l",
+    "Longissimus_capitis_muscle.r",
+    "Longissimus_colli_muscle.l",
+    "Longissimus_colli_muscle.r",
+    "Longissimus_thoracis_muscle.l",
+    "Longissimus_thoracis_muscle.r",
+    "Rhomboid_major_muscle.l",
+    "Rhomboid_major_muscle.r",
+    "Rhomboid_minor_muscle.l",
+    "Rhomboid_minor_muscle.r",
+    "Subtendinous_bursa_of_trapezius_muscle.l",
+    "Subtendinous_bursa_of_trapezius_muscle.r",
+    "Transverse_part_of_trapezius_muscle.l",
+    "Transverse_part_of_trapezius_muscle.r"
+   ],
+   "labels": {
+    "he": "גב",
+    "en": "Back muscles"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:deltoid",
+   "meshIds": [
+    "Acromial_part_of_deltoid_muscle.l",
+    "Acromial_part_of_deltoid_muscle.r",
+    "Clavicular_part_of_deltoid_muscle.l",
+    "Clavicular_part_of_deltoid_muscle.r",
+    "Deltoid_fascia.l",
+    "Deltoid_fascia.r",
+    "Scapular_spinal_part_of_deltoid_muscle.l",
+    "Scapular_spinal_part_of_deltoid_muscle.r"
+   ],
+   "labels": {
+    "he": "כתף",
+    "en": "Deltoid"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:biceps",
+   "meshIds": [
+    "Long_head_of_biceps_brachii.l",
+    "Long_head_of_biceps_brachii.r",
+    "Short_head_of_biceps_brachii.l",
+    "Short_head_of_biceps_brachii.r"
+   ],
+   "labels": {
+    "he": "זרוע קדמית",
+    "en": "Biceps brachii"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:triceps",
+   "meshIds": [
+    "Lateral_head_of_triceps_brachii.l",
+    "Lateral_head_of_triceps_brachii.r",
+    "Long_head_of_triceps_brachii.l",
+    "Long_head_of_triceps_brachii.r",
+    "Medial_head_of_triceps_brachii.l",
+    "Medial_head_of_triceps_brachii.r",
+    "Subtendinous_bursa_of_triceps_brachii_muscle.l",
+    "Subtendinous_bursa_of_triceps_brachii_muscle.r"
+   ],
+   "labels": {
+    "he": "זרוע אחורית",
+    "en": "Triceps brachii"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:forearm-muscles",
+   "meshIds": [
+    "Brachioradialis_muscle.l",
+    "Brachioradialis_muscle.r",
+    "Deep_head_of_pronator_teres.l",
+    "Deep_head_of_pronator_teres.r",
+    "Extensor_carpi_radialis_brevis.l",
+    "Extensor_carpi_radialis_brevis.r",
+    "Extensor_carpi_radialis_longus.l",
+    "Extensor_carpi_radialis_longus.r",
+    "Flexor_carpi_radialis.l",
+    "Flexor_carpi_radialis.r",
+    "Humeral_head_of_extensor_carpi_ulnaris.l",
+    "Humeral_head_of_extensor_carpi_ulnaris.r",
+    "Humeral_head_of_flexor_carpi_ulnaris.l",
+    "Humeral_head_of_flexor_carpi_ulnaris.r",
+    "Pronator_quadratus.l",
+    "Pronator_quadratus.r",
+    "Superficial_head_of_pronator_teres.l",
+    "Superficial_head_of_pronator_teres.r",
+    "Supinator.l",
+    "Supinator.r",
+    "Ulnar_head_of_extensor_carpi_ulnaris.l",
+    "Ulnar_head_of_extensor_carpi_ulnaris.r",
+    "Ulnar_head_of_flexor_carpi_ulnaris.l",
+    "Ulnar_head_of_flexor_carpi_ulnaris.r"
+   ],
+   "labels": {
+    "he": "אמה",
+    "en": "Forearm muscles"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:quadriceps",
+   "meshIds": [
+    "Rectus_femoris_muscle.l",
+    "Rectus_femoris_muscle.r",
+    "Vastus_intermedius_muscle.l",
+    "Vastus_intermedius_muscle.r",
+    "Vastus_lateralis_muscle.l",
+    "Vastus_lateralis_muscle.r",
+    "Vastus_medialis_muscle.l",
+    "Vastus_medialis_muscle.r"
+   ],
+   "labels": {
+    "he": "ירך קדמית",
+    "en": "Quadriceps"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:hamstrings",
+   "meshIds": [
+    "Inferior_subtendinous_bursa_of_biceps_femoris_muscle.l",
+    "Inferior_subtendinous_bursa_of_biceps_femoris_muscle.r",
+    "Long_head_of_biceps_femoris.l",
+    "Long_head_of_biceps_femoris.r",
+    "Semimembranosus_muscle.l",
+    "Semimembranosus_muscle.r",
+    "Semitendinosus_muscle.l",
+    "Semitendinosus_muscle.r",
+    "Short_head_of_biceps_femoris.l",
+    "Short_head_of_biceps_femoris.r",
+    "Superior_bursa_of_biceps_femoris_muscle.l",
+    "Superior_bursa_of_biceps_femoris_muscle.r"
+   ],
+   "labels": {
+    "he": "ירך אחורית",
+    "en": "Hamstrings"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:calf",
+   "meshIds": [
+    "Lateral_head_of_gastrocnemius.l",
+    "Lateral_head_of_gastrocnemius.r",
+    "Lateral_subtendinous_bursa_of_gastrocnemius_muscle.l",
+    "Lateral_subtendinous_bursa_of_gastrocnemius_muscle.r",
+    "Medial_head_of_gastrocnemius.l",
+    "Medial_head_of_gastrocnemius.r",
+    "Medial_subtendinous_bursa_of_gastrocnemius_muscle.l",
+    "Medial_subtendinous_bursa_of_gastrocnemius_muscle.r",
+    "Soleus_muscle.l",
+    "Soleus_muscle.r"
+   ],
+   "labels": {
+    "he": "שוק",
+    "en": "Calf muscles"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:gluteals",
+   "meshIds": [
+    "Gluteus_maximus_muscle.l",
+    "Gluteus_maximus_muscle.r",
+    "Gluteus_medius_muscle.l",
+    "Gluteus_medius_muscle.r",
+    "Gluteus_minimus_muscle.l",
+    "Gluteus_minimus_muscle.r",
+    "Sciatic_bursa_of_gluteus_maximus_muscle.l",
+    "Sciatic_bursa_of_gluteus_maximus_muscle.r",
+    "Trochanteric_bursa_of_gluteus_maximus_muscle.l",
+    "Trochanteric_bursa_of_gluteus_maximus_muscle.r",
+    "Trochanteric_bursa_of_gluteus_medius_muscle.l",
+    "Trochanteric_bursa_of_gluteus_medius_muscle.r",
+    "Trochanteric_bursa_of_gluteus_minimus_muscle.l",
+    "Trochanteric_bursa_of_gluteus_minimus_muscle.r"
+   ],
+   "labels": {
+    "he": "ישבן",
+    "en": "Gluteal muscles"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:neck-muscles",
+   "meshIds": [
+    "Scalenus_anterior_muscle.l",
+    "Scalenus_anterior_muscle.r",
+    "Scalenus_medius_muscle.l",
+    "Scalenus_medius_muscle.r",
+    "Scalenus_posterior_muscle.l",
+    "Scalenus_posterior_muscle.r",
+    "Splenius_capitis_muscle.l",
+    "Splenius_capitis_muscle.r",
+    "Splenius_colli_muscle.l",
+    "Splenius_colli_muscle.r",
+    "Sternocleidomastoid_muscle.l",
+    "Sternocleidomastoid_muscle.r"
+   ],
+   "labels": {
+    "he": "צוואר",
+    "en": "Neck muscles"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:facial-muscles",
+   "meshIds": [
+    "Depressor_anguli_oris.l",
+    "Depressor_anguli_oris.r",
+    "Depressor_labii_inferioris.l",
+    "Depressor_labii_inferioris.r",
+    "Depressor_septi_nasi.l",
+    "Depressor_septi_nasi.r",
+    "Frontalis_muscle.l",
+    "Frontalis_muscle.r",
+    "Levator_labii_superioris.l",
+    "Levator_labii_superioris.r",
+    "Nasalis_muscle.l",
+    "Nasalis_muscle.r",
+    "Orbicularis_oris_muscle.l",
+    "Orbicularis_oris_muscle.r",
+    "Orbital_part_of_orbicularis_oculi.l",
+    "Orbital_part_of_orbicularis_oculi.r",
+    "Palpebral_part_of_orbicularis_oculi.l",
+    "Palpebral_part_of_orbicularis_oculi.r",
+    "Procerus_muscle.l",
+    "Procerus_muscle.r",
+    "Zygomaticus_major_muscle.l",
+    "Zygomaticus_major_muscle.r",
+    "Zygomaticus_minor_muscle.l",
+    "Zygomaticus_minor_muscle.r"
+   ],
+   "labels": {
+    "he": "שרירי הפנים",
+    "en": "Facial muscles"
+   },
+   "regionId": "skin-face",
+   "contexts": [
+    {
+     "id": "facial-structure",
+     "labelHe": "מבנה הפנים",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:facial-anatomy"
+      ],
+      "specialties": [
+       "specialty:plastic-surgery"
+      ],
+      "treatments": [
+       "treatment:aesthetic-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:aesthetic-devices"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:jaw-muscles",
+   "meshIds": [
+    "Deep_part_of_masseter.l",
+    "Deep_part_of_masseter.r",
+    "Inferior_head_of_lateral_pterygoid_muscle.l",
+    "Inferior_head_of_lateral_pterygoid_muscle.r",
+    "Masseteric_fascia.l",
+    "Masseteric_fascia.r",
+    "Medial_pterygoid_muscle.l",
+    "Medial_pterygoid_muscle.r",
+    "Superficial_part_of_masseter.l",
+    "Superficial_part_of_masseter.r",
+    "Superior_head_of_lateral_pterygoid_muscle.l",
+    "Superior_head_of_lateral_pterygoid_muscle.r",
+    "Temporalis_muscle.l",
+    "Temporalis_muscle.r"
+   ],
+   "labels": {
+    "he": "לסת",
+    "en": "Jaw muscles"
+   },
+   "regionId": "skin-face",
+   "contexts": [
+    {
+     "id": "facial-structure",
+     "labelHe": "מבנה הפנים",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:facial-anatomy"
+      ],
+      "specialties": [
+       "specialty:plastic-surgery"
+      ],
+      "treatments": [
+       "treatment:aesthetic-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:aesthetic-devices"
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "updated": "2026-07-13"
 }
