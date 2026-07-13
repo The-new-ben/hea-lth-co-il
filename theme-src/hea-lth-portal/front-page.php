@@ -135,6 +135,60 @@ $reviewed_guides = hea_lth_portal_get_reviewed_guides( 3 );
 	</div>
 </section>
 
+<?php
+$hp_anatomy_config = function_exists( 'hea_lth_portal_anatomy_viewer_config' )
+	? hea_lth_portal_anatomy_viewer_config()
+	: ( isset( $GLOBALS['hea_lth_preview_front_anatomy'] ) ? $GLOBALS['hea_lth_preview_front_anatomy'] : array( 'status' => 'license-gated', 'engine' => 'none' ) );
+$hp_anatomy_ready = isset( $hp_anatomy_config['status'], $hp_anatomy_config['engine'] )
+	&& 'approved' === $hp_anatomy_config['status'] && 'three-webgl' === $hp_anatomy_config['engine'];
+?>
+<section class="hp-section hp-section--anatomy" id="body-discovery">
+	<div class="hp-shell hp-anatomy-teaser">
+		<div class="hp-anatomy-teaser__copy">
+			<p class="hp-eyebrow hp-eyebrow--light"><?php esc_html_e( 'גוף, מידע וטכנולוגיה', 'hea-lth-portal' ); ?></p>
+			<h2><?php esc_html_e( 'הגוף האינטראקטיבי', 'hea-lth-portal' ); ?></h2>
+			<?php if ( $hp_anatomy_ready ) : ?>
+				<p><?php esc_html_e( 'סובבו, התקרבו ולחצו על מבנה אנטומי. כל אזור גוף מתחבר למידע, למומחיות ולשירותים שעברו בקרה.', 'hea-lth-portal' ); ?></p>
+				<a class="hp-button hp-button--light" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'anatomy' ) ); ?>"><?php esc_html_e( 'המשיכו לחוויית הגוף המלאה', 'hea-lth-portal' ); ?></a>
+				<p class="hp-anatomy-teaser__note"><?php esc_html_e( 'אטלס אנטומי להמחשה בלבד — אינו ייעוץ, אבחון או המלצה רפואית. מקור המודל: Z-Anatomy (רישיון CC-BY-SA 4.0), נגזר מ־BodyParts3D © The Database Center for Life Science, Japan (CC-BY-SA 2.1). בדיקת נומנקלטורה אנטומית: צוות העריכה של Hea-lth.', 'hea-lth-portal' ); ?></p>
+			<?php else : ?>
+				<p><?php esc_html_e( 'הכניסה העתידית לאנטומיה, טיפולים, מומחיות, ציוד ומפה. כל אזור גוף יתחבר רק למידע ולשירותים שעברו בקרה.', 'hea-lth-portal' ); ?></p>
+				<a class="hp-button hp-button--light" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'anatomy' ) ); ?>"><?php esc_html_e( 'גלו את חוויית הגוף', 'hea-lth-portal' ); ?></a>
+				<p class="hp-anatomy-teaser__note"><?php esc_html_e( 'המודל האנטומי הציבורי יופעל רק עם נכס בעל רישיון ובקרה קלינית. עד אז, החיפוש הטקסטואלי נשאר זמין במלואו.', 'hea-lth-portal' ); ?></p>
+			<?php endif; ?>
+		</div>
+		<?php if ( $hp_anatomy_ready ) : ?>
+			<div class="hp-anatomy-live" data-anatomy-live>
+				<div class="hp-anatomy-live__topline">
+					<span><?php esc_html_e( 'מודל אנטומי תלת ממדי', 'hea-lth-portal' ); ?></span>
+					<span><?php esc_html_e( 'מבט חי', 'hea-lth-portal' ); ?></span>
+				</div>
+				<div class="hp-anatomy-live__stage" data-anatomy-model-stage aria-label="<?php esc_attr_e( 'מודל אנטומי תלת ממדי אינטראקטיבי', 'hea-lth-portal' ); ?>"></div>
+				<p class="hp-anatomy-live__hint"><?php esc_html_e( 'גררו לסיבוב · גלגלת לזום · לחצו על מבנה לזיהוי', 'hea-lth-portal' ); ?></p>
+			</div>
+		<?php else : ?>
+			<div class="hp-anatomy-teaser__interface" data-anatomy-teaser>
+				<div class="hp-anatomy-teaser__topline"><span><?php esc_html_e( 'בחרו אזור', 'hea-lth-portal' ); ?></span><span><?php esc_html_e( 'תצוגת חקר', 'hea-lth-portal' ); ?></span></div>
+				<div class="hp-anatomy-teaser__stage">
+					<div class="hp-anatomy-teaser__axis hp-anatomy-teaser__axis--vertical"></div>
+					<div class="hp-anatomy-teaser__axis hp-anatomy-teaser__axis--horizontal"></div>
+					<div class="hp-anatomy-teaser__rings"></div>
+					<span class="hp-anatomy-node hp-anatomy-node--face" aria-hidden="true"></span>
+					<span class="hp-anatomy-node hp-anatomy-node--chest" aria-hidden="true"></span>
+					<span class="hp-anatomy-node hp-anatomy-node--knee" aria-hidden="true"></span>
+				</div>
+				<div class="hp-anatomy-teaser__region-list">
+					<button type="button" data-anatomy-region data-region="אף ונשימה"><?php esc_html_e( 'אף ונשימה', 'hea-lth-portal' ); ?></button>
+					<button type="button" data-anatomy-region data-region="עור ופנים"><?php esc_html_e( 'עור ופנים', 'hea-lth-portal' ); ?></button>
+					<button type="button" data-anatomy-region data-region="שיער וקרקפת"><?php esc_html_e( 'שיער וקרקפת', 'hea-lth-portal' ); ?></button>
+					<button type="button" data-anatomy-region data-region="מפרקים ותנועה"><?php esc_html_e( 'מפרקים ותנועה', 'hea-lth-portal' ); ?></button>
+				</div>
+				<div class="hp-anatomy-teaser__output"><span><?php esc_html_e( 'מסלול שנבחר', 'hea-lth-portal' ); ?></span><strong data-anatomy-output><?php esc_html_e( 'בחרו אזור כדי להמשיך', 'hea-lth-portal' ); ?></strong></div>
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+
 <section class="hp-section hp-section--paper">
 	<div class="hp-shell">
 		<div class="hp-section-heading hp-section-heading--split">
@@ -281,60 +335,6 @@ $reviewed_guides = hea_lth_portal_get_reviewed_guides( 3 );
 			</ul>
 			<a class="hp-inline-link" href="<?php echo esc_url( hea_lth_portal_route( 'private_doctor_appointment' ) ); ?>"><?php esc_html_e( 'למציאת רופא פרטי', 'hea-lth-portal' ); ?><span aria-hidden="true">←</span></a>
 		</div>
-	</div>
-</section>
-
-<?php
-$hp_anatomy_config = function_exists( 'hea_lth_portal_anatomy_viewer_config' )
-	? hea_lth_portal_anatomy_viewer_config()
-	: ( isset( $GLOBALS['hea_lth_preview_front_anatomy'] ) ? $GLOBALS['hea_lth_preview_front_anatomy'] : array( 'status' => 'license-gated', 'engine' => 'none' ) );
-$hp_anatomy_ready = isset( $hp_anatomy_config['status'], $hp_anatomy_config['engine'] )
-	&& 'approved' === $hp_anatomy_config['status'] && 'three-webgl' === $hp_anatomy_config['engine'];
-?>
-<section class="hp-section hp-section--anatomy" id="body-discovery">
-	<div class="hp-shell hp-anatomy-teaser">
-		<div class="hp-anatomy-teaser__copy">
-			<p class="hp-eyebrow hp-eyebrow--light"><?php esc_html_e( 'גוף, מידע וטכנולוגיה', 'hea-lth-portal' ); ?></p>
-			<h2><?php esc_html_e( 'הגוף האינטראקטיבי', 'hea-lth-portal' ); ?></h2>
-			<?php if ( $hp_anatomy_ready ) : ?>
-				<p><?php esc_html_e( 'סובבו, התקרבו ולחצו על מבנה אנטומי. כל אזור גוף מתחבר למידע, למומחיות ולשירותים שעברו בקרה.', 'hea-lth-portal' ); ?></p>
-				<a class="hp-button hp-button--light" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'anatomy' ) ); ?>"><?php esc_html_e( 'המשיכו לחוויית הגוף המלאה', 'hea-lth-portal' ); ?></a>
-				<p class="hp-anatomy-teaser__note"><?php esc_html_e( 'אטלס אנטומי להמחשה בלבד — אינו ייעוץ, אבחון או המלצה רפואית. מקור המודל: Z-Anatomy (רישיון CC-BY-SA 4.0), נגזר מ־BodyParts3D © The Database Center for Life Science, Japan (CC-BY-SA 2.1). בדיקת נומנקלטורה אנטומית: צוות העריכה של Hea-lth.', 'hea-lth-portal' ); ?></p>
-			<?php else : ?>
-				<p><?php esc_html_e( 'הכניסה העתידית לאנטומיה, טיפולים, מומחיות, ציוד ומפה. כל אזור גוף יתחבר רק למידע ולשירותים שעברו בקרה.', 'hea-lth-portal' ); ?></p>
-				<a class="hp-button hp-button--light" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'anatomy' ) ); ?>"><?php esc_html_e( 'גלו את חוויית הגוף', 'hea-lth-portal' ); ?></a>
-				<p class="hp-anatomy-teaser__note"><?php esc_html_e( 'המודל האנטומי הציבורי יופעל רק עם נכס בעל רישיון ובקרה קלינית. עד אז, החיפוש הטקסטואלי נשאר זמין במלואו.', 'hea-lth-portal' ); ?></p>
-			<?php endif; ?>
-		</div>
-		<?php if ( $hp_anatomy_ready ) : ?>
-			<div class="hp-anatomy-live" data-anatomy-live>
-				<div class="hp-anatomy-live__topline">
-					<span><?php esc_html_e( 'מודל אנטומי תלת ממדי', 'hea-lth-portal' ); ?></span>
-					<span><?php esc_html_e( 'מבט חי', 'hea-lth-portal' ); ?></span>
-				</div>
-				<div class="hp-anatomy-live__stage" data-anatomy-model-stage aria-label="<?php esc_attr_e( 'מודל אנטומי תלת ממדי אינטראקטיבי', 'hea-lth-portal' ); ?>"></div>
-				<p class="hp-anatomy-live__hint"><?php esc_html_e( 'גררו לסיבוב · גלגלת לזום · לחצו על מבנה לזיהוי', 'hea-lth-portal' ); ?></p>
-			</div>
-		<?php else : ?>
-			<div class="hp-anatomy-teaser__interface" data-anatomy-teaser>
-				<div class="hp-anatomy-teaser__topline"><span><?php esc_html_e( 'בחרו אזור', 'hea-lth-portal' ); ?></span><span><?php esc_html_e( 'תצוגת חקר', 'hea-lth-portal' ); ?></span></div>
-				<div class="hp-anatomy-teaser__stage">
-					<div class="hp-anatomy-teaser__axis hp-anatomy-teaser__axis--vertical"></div>
-					<div class="hp-anatomy-teaser__axis hp-anatomy-teaser__axis--horizontal"></div>
-					<div class="hp-anatomy-teaser__rings"></div>
-					<span class="hp-anatomy-node hp-anatomy-node--face" aria-hidden="true"></span>
-					<span class="hp-anatomy-node hp-anatomy-node--chest" aria-hidden="true"></span>
-					<span class="hp-anatomy-node hp-anatomy-node--knee" aria-hidden="true"></span>
-				</div>
-				<div class="hp-anatomy-teaser__region-list">
-					<button type="button" data-anatomy-region data-region="אף ונשימה"><?php esc_html_e( 'אף ונשימה', 'hea-lth-portal' ); ?></button>
-					<button type="button" data-anatomy-region data-region="עור ופנים"><?php esc_html_e( 'עור ופנים', 'hea-lth-portal' ); ?></button>
-					<button type="button" data-anatomy-region data-region="שיער וקרקפת"><?php esc_html_e( 'שיער וקרקפת', 'hea-lth-portal' ); ?></button>
-					<button type="button" data-anatomy-region data-region="מפרקים ותנועה"><?php esc_html_e( 'מפרקים ותנועה', 'hea-lth-portal' ); ?></button>
-				</div>
-				<div class="hp-anatomy-teaser__output"><span><?php esc_html_e( 'מסלול שנבחר', 'hea-lth-portal' ); ?></span><strong data-anatomy-output><?php esc_html_e( 'בחרו אזור כדי להמשיך', 'hea-lth-portal' ); ?></strong></div>
-			</div>
-		<?php endif; ?>
 	</div>
 </section>
 
