@@ -347,19 +347,23 @@ function hea_lth_portal_preload_fonts() {
 add_action( 'wp_head', 'hea_lth_portal_preload_fonts', 2 );
 
 /**
- * Fallback site icon served from the theme when no Site Icon is configured in
- * wp-admin. An owner-selected Site Icon always wins over this fallback.
+ * Serve the Hea-lth brand icon from the theme as the authoritative favicon.
+ *
+ * The site previously carried a legacy wp-admin Site Icon from the prior brand
+ * ("health online"). Because the portal's identity is owned in code, the theme
+ * brand mark takes precedence: the core Site Icon output is removed on the
+ * front end and the brand SVG/PNG icons are emitted instead. To change the
+ * favicon, replace the assets under assets/img/ (see the brand mark in
+ * favicon.svg); a new wp-admin Site Icon will not override the brand.
  */
-function hea_lth_portal_fallback_site_icon() {
-	if ( function_exists( 'has_site_icon' ) && has_site_icon() ) {
-		return;
-	}
+function hea_lth_portal_brand_site_icon() {
+	remove_action( 'wp_head', 'wp_site_icon', 99 );
 
 	printf( '<link rel="icon" type="image/svg+xml" href="%s">' . "\n", esc_url( get_theme_file_uri( 'assets/img/favicon.svg' ) ) );
 	printf( '<link rel="icon" type="image/png" sizes="32x32" href="%s">' . "\n", esc_url( get_theme_file_uri( 'assets/img/favicon-32.png' ) ) );
 	printf( '<link rel="apple-touch-icon" href="%s">' . "\n", esc_url( get_theme_file_uri( 'assets/img/favicon-180.png' ) ) );
 }
-add_action( 'wp_head', 'hea_lth_portal_fallback_site_icon', 1 );
+add_action( 'wp_head', 'hea_lth_portal_brand_site_icon', 1 );
 
 /**
  * Provide a restrained description only when a dedicated SEO plugin is not
