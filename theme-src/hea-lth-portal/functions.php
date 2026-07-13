@@ -364,14 +364,20 @@ add_action( 'wp_head', 'hea_lth_portal_preload_fonts', 2 );
 /**
  * Apply persisted accessibility adjustments before first paint so returning
  * visitors never see a flash of unadjusted content, and expose the statement
- * URL to the panel script.
+ * URL to the panel script. Registered as a src-less head script so the inline
+ * code travels through the WordPress script API rather than raw output.
  */
 function hea_lth_portal_a11y_boot() {
 	$statement_url = wp_json_encode( hea_lth_portal_foundation_route( 'accessibility' ) );
 
-	echo '<script>(function(){try{var s=JSON.parse(localStorage.getItem("hea-lth-a11y")||"{}");var m={"font-110":"hp-a11y-font-110","font-125":"hp-a11y-font-125","contrast":"hp-a11y-contrast","underline":"hp-a11y-underline","no-motion":"hp-a11y-no-motion"};for(var k in m){if(s[k]){document.documentElement.classList.add(m[k]);}}}catch(e){}window.heaLthA11y={statementUrl:' . $statement_url . '};})();</script>' . "\n";
+	wp_register_script( 'hea-lth-portal-a11y-boot', '', array(), HEA_LTH_PORTAL_VERSION, false );
+	wp_enqueue_script( 'hea-lth-portal-a11y-boot' );
+	wp_add_inline_script(
+		'hea-lth-portal-a11y-boot',
+		'(function(){try{var s=JSON.parse(localStorage.getItem("hea-lth-a11y")||"{}");var m={"font-110":"hp-a11y-font-110","font-125":"hp-a11y-font-125","contrast":"hp-a11y-contrast","underline":"hp-a11y-underline","no-motion":"hp-a11y-no-motion"};for(var k in m){if(s[k]){document.documentElement.classList.add(m[k]);}}}catch(e){}window.heaLthA11y={statementUrl:' . $statement_url . '};})();'
+	);
 }
-add_action( 'wp_head', 'hea_lth_portal_a11y_boot', 3 );
+add_action( 'wp_enqueue_scripts', 'hea_lth_portal_a11y_boot' );
 
 /**
  * Serve the Hea-lth brand icon from the theme as the authoritative favicon.
