@@ -58,6 +58,9 @@ function esc_url( $value ) {
 function wp_json_encode( $data, $flags = 0 ) {
 	return json_encode( $data, $flags );
 }
+function get_option( $key ) {
+	return isset( $GLOBALS['__options'][ $key ] ) ? $GLOBALS['__options'][ $key ] : false;
+}
 
 require_once dirname( __DIR__, 2 ) . '/theme-src/hea-lth-portal/inc/portal-seo.php';
 
@@ -103,5 +106,27 @@ foreach ( array( 'og:site_name', 'og:type', 'og:title', 'og:url', 'og:image', 't
 	assert_true( false !== strpos( $social_output, $needle ), 'Social metadata must include ' . $needle . '.' );
 }
 assert_true( false !== strpos( $social_output, 'content="website"' ), 'Front page Open Graph type must be website.' );
+
+// With a dedicated SEO plugin active (Yoast is live on the real site), the
+// theme must not duplicate Open Graph output, and must emit its own
+// Organization/WebSite graph only while the plugin does not.
+define( 'WPSEO_VERSION', '28.0' );
+
+ob_start();
+hea_lth_portal_social_meta();
+$social_with_yoast = (string) ob_get_clean();
+assert_true( '' === trim( $social_with_yoast ), 'Social metadata must defer entirely to the active SEO plugin.' );
+
+$GLOBALS['__options']['wpseo_titles'] = array( 'company_name' => '' );
+ob_start();
+hea_lth_portal_json_ld();
+$ld_unconfigured_yoast = (string) ob_get_clean();
+assert_true( false !== strpos( $ld_unconfigured_yoast, '"Organization"' ), 'While Yoast has no site representation, the theme must still provide Organization schema.' );
+
+$GLOBALS['__options']['wpseo_titles'] = array( 'company_name' => 'Hea-lth' );
+ob_start();
+hea_lth_portal_json_ld();
+$ld_configured_yoast = (string) ob_get_clean();
+assert_true( '' === trim( $ld_configured_yoast ), 'Once the SEO plugin owns site schema, the theme must not duplicate it.' );
 
 echo "Portal SEO contract passed.\n";

@@ -366,6 +366,34 @@ function hea_lth_portal_brand_site_icon() {
 add_action( 'wp_head', 'hea_lth_portal_brand_site_icon', 1 );
 
 /**
+ * Keep unused WooCommerce front-end weight off portal pages. The commerce
+ * stack remains fully active on its own surfaces (shop, cart, checkout,
+ * account); portal pages simply stop paying for commerce CSS/JS they never
+ * render. Removing the plugin itself stays an owner decision in wp-admin.
+ */
+function hea_lth_portal_trim_commerce_assets() {
+	if (
+		! function_exists( 'is_woocommerce' )
+		|| ! function_exists( 'is_cart' )
+		|| ! function_exists( 'is_checkout' )
+		|| ! function_exists( 'is_account_page' )
+	) {
+		return;
+	}
+
+	if ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) {
+		return;
+	}
+
+	wp_dequeue_style( 'woocommerce-layout' );
+	wp_dequeue_style( 'woocommerce-smallscreen' );
+	wp_dequeue_style( 'woocommerce-general' );
+	wp_dequeue_style( 'wc-blocks-style' );
+	wp_dequeue_script( 'wc-cart-fragments' );
+}
+add_action( 'wp_enqueue_scripts', 'hea_lth_portal_trim_commerce_assets', 99 );
+
+/**
  * Provide a restrained description only when a dedicated SEO plugin is not
  * responsible for metadata. Individual editorial pages may supply the
  * _hea_lth_meta_description field; the public theme never fabricates medical

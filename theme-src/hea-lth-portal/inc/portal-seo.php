@@ -15,6 +15,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Whether a dedicated SEO plugin owns social/meta output on this site.
+ *
+ * @return bool
+ */
+function hea_lth_portal_seo_plugin_active() {
+	return defined( 'WPSEO_VERSION' )
+		|| defined( 'RANK_MATH_VERSION' )
+		|| defined( 'AIOSEO_VERSION' )
+		|| defined( 'SEOPRESS_VERSION' );
+}
+
+/**
+ * Whether the active SEO plugin already publishes site-level Organization /
+ * WebSite structured data. Yoast does so only once its "site representation"
+ * is configured with an organisation name.
+ *
+ * @return bool
+ */
+function hea_lth_portal_seo_plugin_owns_site_schema() {
+	if ( ! defined( 'WPSEO_VERSION' ) ) {
+		return hea_lth_portal_seo_plugin_active();
+	}
+
+	$titles = get_option( 'wpseo_titles' );
+
+	return is_array( $titles ) && ! empty( $titles['company_name'] );
+}
+
+/**
  * Absolute URL of the brand logo used in structured data and social cards.
  *
  * @return string
@@ -29,7 +58,7 @@ function hea_lth_portal_brand_image_url() {
  * @return void
  */
 function hea_lth_portal_json_ld() {
-	if ( is_admin() ) {
+	if ( is_admin() || hea_lth_portal_seo_plugin_owns_site_schema() ) {
 		return;
 	}
 
@@ -102,7 +131,9 @@ function hea_lth_portal_social_description() {
  * @return void
  */
 function hea_lth_portal_social_meta() {
-	if ( is_admin() ) {
+	// A dedicated SEO plugin (Yoast is live on this site) owns Open Graph and
+	// Twitter output; emitting a second set creates conflicting signals.
+	if ( is_admin() || hea_lth_portal_seo_plugin_active() ) {
 		return;
 	}
 
