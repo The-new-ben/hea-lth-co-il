@@ -54,7 +54,10 @@
   toggle.className = 'hp-a11y__toggle';
   toggle.setAttribute('aria-expanded', 'false');
   toggle.setAttribute('aria-haspopup', 'true');
-  toggle.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.5" r="2.2" fill="currentColor"/><path d="M4 8.2c2.7.8 5.3 1.2 8 1.2s5.3-.4 8-1.2l.6 1.9c-2 .6-4 1-6.1 1.2v2.4l2.3 7.4-1.9.7-2.4-6.7h-1L9 21.8l-1.9-.7 2.3-7.4v-2.4c-2-.2-4-.6-6.1-1.2z" fill="currentColor"/></svg><span class="screen-reader-text">התאמות נגישות</span>';
+  toggle.setAttribute('aria-label', 'התאמות נגישות');
+  // Universally recognized accessibility symbol (person, arms spread, in a ring)
+  // plus an always-visible "נגישות" label so the affordance is unmistakable.
+  toggle.innerHTML = '<span class="hp-a11y__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="11.5" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55"/><circle cx="12" cy="5.6" r="1.85" fill="currentColor"/><path d="M5.6 8.3c1.95.55 4.15.9 6.4.9s4.45-.35 6.4-.9l.45 1.85c-1.6.46-3.35.76-5.15.88l1.8 7.85-1.9.5-1.65-5.95h-.9l-1.65 5.95-1.9-.5 1.8-7.85c-1.8-.12-3.55-.42-5.15-.88z" fill="currentColor"/></svg></span><span class="hp-a11y__toggle-label">נגישות</span>';
 
   const panel = document.createElement('div');
   panel.className = 'hp-a11y__panel';

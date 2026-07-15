@@ -15,20 +15,39 @@
 .hp-a11y__toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 48px;
+  gap: 9px;
   height: 48px;
+  padding: 0 16px 0 9px;
   color: var(--hp-paper);
   background: var(--hp-forest-800);
-  border: 2px solid rgba(249, 247, 238, .4);
-  border-radius: 50%;
+  border: 2px solid rgba(249, 247, 238, .45);
+  border-radius: 999px;
   box-shadow: 0 10px 26px rgba(10, 35, 32, .32);
   transition: transform .18s var(--hp-ease), background .18s var(--hp-ease);
 }
 
-.hp-a11y__toggle svg {
-  width: 26px;
-  height: 26px;
+.hp-a11y__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--hp-paper);
+  color: var(--hp-forest-950);
+  flex: none;
+}
+
+.hp-a11y__icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.hp-a11y__toggle-label {
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  white-space: nowrap;
 }
 
 .hp-a11y__toggle:hover,
