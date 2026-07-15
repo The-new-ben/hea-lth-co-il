@@ -23,7 +23,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-07-15-01';
+	const BLUEPRINT_VERSION = '2026-07-15-02';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -350,6 +350,23 @@ class Hea_Lth_Page_Provisioner {
 			if ( false !== strpos( $home_title, 'פרימיום' ) || false !== strpos( $home_title, 'בתיאום אישי' ) ) {
 				$titles['title-home-wpseo'] = 'Hea-lth — מרכז בחירה לרפואה פרטית';
 				self::update_option_tolerantly( 'wpseo_titles', $titles );
+			}
+		}
+
+		// The site uses a static front page, so its browser/search title comes
+		// from the page's own (legacy) title. Give the front page an explicit
+		// SEO title — only while the legacy phrasing is still in effect and no
+		// owner-set override exists.
+		$front_page_id = (int) get_option( 'page_on_front' );
+
+		if ( $front_page_id > 0 ) {
+			$front_page = get_post( $front_page_id );
+			$seo_title  = (string) get_post_meta( $front_page_id, '_yoast_wpseo_title', true );
+			$legacy     = $front_page instanceof WP_Post && false !== strpos( (string) $front_page->post_title, 'בתיאום אישי' );
+
+			if ( $legacy && ( '' === $seo_title || false !== strpos( $seo_title, 'פרימיום' ) || false !== strpos( $seo_title, 'בתיאום אישי' ) ) ) {
+				update_post_meta( $front_page_id, '_yoast_wpseo_title', 'Hea-lth — מרכז בחירה לרפואה פרטית בישראל' );
+				update_post_meta( $front_page_id, '_yoast_wpseo_metadesc', 'מידע ערוך עם מקורות, גוף אינטראקטיבי תלת־ממדי, מדריכים ואינדקס אנשי מקצוע מאומתים — הכול כדי לבחור נכון ברפואה הפרטית, בקצב שלכם.' );
 			}
 		}
 	}
