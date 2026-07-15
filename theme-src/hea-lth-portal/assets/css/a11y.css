@@ -5,10 +5,12 @@
  */
 
 .hp-a11y {
+  /* Left edge per Israeli accessibility-widget convention (Clalit, pojo et
+     al.) — keeps the pill off the RTL reading/footer-link side. */
   position: fixed;
   z-index: 990;
   bottom: 18px;
-  right: 18px;
+  left: 18px;
   font-family: var(--hp-font-ui);
 }
 
@@ -67,7 +69,7 @@
 .hp-a11y__panel {
   position: absolute;
   bottom: 60px;
-  right: 0;
+  left: 0;
   display: grid;
   gap: 7px;
   width: 228px;
@@ -180,7 +182,19 @@ html.hp-a11y-contrast .hp-footer__bottom {
 @media (max-width: 680px) {
   .hp-a11y {
     bottom: 14px;
-    right: 14px;
+    left: 14px;
+  }
+
+  /* Compact icon-only pill on phones so the widget never sits over content;
+     the accessible name stays via aria-label. */
+  .hp-a11y__toggle {
+    width: 48px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .hp-a11y__toggle-label {
+    display: none;
   }
 
   .hp-a11y__panel {
