@@ -23,7 +23,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-07-13-01';
+	const BLUEPRINT_VERSION = '2026-07-15-01';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -37,48 +37,91 @@ class Hea_Lth_Page_Provisioner {
 	}
 
 	/**
-	 * Foundation pages owned by the portal blueprint.
+	 * Foundation pages owned by the portal blueprint, ordered parents-first.
 	 *
-	 * Every slug must match a path in the theme route registry, and every
-	 * template must ship in the parent theme. Routes without a dedicated
-	 * template stay out of the blueprint until their template exists.
+	 * Every path must exist in the theme route registry; every entry ships a
+	 * template, real content, or both. `noindex` marks thin holding pages that
+	 * stay out of search until their product exists.
 	 *
-	 * @return array<string, array<string, string>>
+	 * @return array<int, array<string, mixed>>
 	 */
 	public static function blueprint() {
+		$hub = 'page-templates/template-hub.php';
+
 		return array(
-			'anatomy'           => array(
-				'title'    => 'הגוף האינטראקטיבי',
-				'template' => 'page-templates/template-anatomy.php',
+			array( 'path' => '/anatomy/', 'title' => 'הגוף האינטראקטיבי', 'template' => 'page-templates/template-anatomy.php' ),
+			array( 'path' => '/guides/', 'title' => 'מדריכים ומחקרים', 'template' => 'page-templates/template-guides.php' ),
+			array( 'path' => '/glossary/', 'title' => 'מילון בריאות', 'template' => 'page-templates/template-glossary.php' ),
+			array( 'path' => '/find-care/', 'title' => 'מסלול בחירה', 'template' => 'page-templates/template-find-care.php' ),
+			array( 'path' => '/health-technology/', 'title' => 'טכנולוגיות בריאות וציוד', 'template' => 'page-templates/template-health-technology.php' ),
+			array( 'path' => '/professionals/', 'title' => 'אזור למקצוענים', 'template' => 'page-templates/template-professionals.php' ),
+			array( 'path' => '/treatments/', 'title' => 'מרכזי טיפול', 'template' => 'page-templates/template-treatment-hub.php' ),
+			array( 'path' => '/accessibility/', 'title' => 'הצהרת נגישות', 'template' => '', 'content' => self::accessibility_statement_content() ),
+			array(
+				'path'     => '/diagnostics/',
+				'title'    => 'בדיקות ואבחון',
+				'template' => $hub,
+				'content'  => '<p>מרכז הבדיקות והאבחון מרכז מידע על בדיקות דימות, בדיקות מעבדה וחוות דעת נוספת: מה בודקים, איך מתכוננים ואילו שאלות כדאי להכין לשיחה עם הצוות המטפל. מדריכים מפורטים מתפרסמים כאן רק לאחר אישור עריכתי, תאריך בדיקה ומקור גלוי.</p>',
 			),
-			'guides'            => array(
-				'title'    => 'מדריכים ומחקרים',
-				'template' => 'page-templates/template-guides.php',
+			array(
+				'path'     => '/diagnostics/imaging/',
+				'title'    => 'בדיקות דימות',
+				'template' => $hub,
+				'content'  => '<p>MRI‏, CT‏, אולטרסאונד ורנטגן: הבנת סוגי הבדיקות, ההכנה הנדרשת ומה כדאי לשאול לפני הבדיקה ואחריה. התכנים המפורטים נבנים לפי תקן הפרסום של הפורטל ומתפרסמים בהדרגה.</p>',
 			),
-			'glossary'          => array(
-				'title'    => 'מילון בריאות',
-				'template' => 'page-templates/template-glossary.php',
+			array(
+				'path'     => '/diagnostics/laboratory/',
+				'title'    => 'בדיקות מעבדה',
+				'template' => $hub,
+				'content'  => '<p>בדיקות דם ומעבדה: איך מתכוננים, מונחים נפוצים במסמכים ואילו שאלות אפשר להכין להמשך הבירור. פענוח תוצאות נעשה תמיד מול גורם מקצועי מוסמך.</p>',
 			),
-			'find-care'         => array(
-				'title'    => 'מסלול בחירה',
-				'template' => 'page-templates/template-find-care.php',
+			array(
+				'path'     => '/diagnostics/second-opinion/',
+				'title'    => 'חוות דעת נוספת',
+				'template' => $hub,
+				'content'  => '<p>מתי נהוג לבקש חוות דעת רפואית נוספת, אילו מסמכים כדאי לאסוף מראש ואיך מתכוננים לפגישה. המידע כאן הוא הכנה לשיחה מקצועית, לא תחליף לה.</p>',
 			),
-			'health-technology' => array(
-				'title'    => 'טכנולוגיות בריאות וציוד',
-				'template' => 'page-templates/template-health-technology.php',
+			array(
+				'path'     => '/wellness/',
+				'title'    => 'בריאות ואיכות חיים',
+				'template' => $hub,
+				'content'  => '<p>שינה, תזונה, פעילות גופנית, מניעה ובדיקות תקופתיות: מרכז ידע שמטרתו לעזור לכם לשאול את השאלות הנכונות ולבחור נקודת התחלה מתאימה, בלי הבטחות ובלי קיצורי דרך.</p>',
 			),
-			'professionals'     => array(
-				'title'    => 'אזור למקצוענים',
-				'template' => 'page-templates/template-professionals.php',
+			array(
+				'path'     => '/wellness/prevention/',
+				'title'    => 'מניעה ובדיקות תקופתיות',
+				'template' => $hub,
+				'content'  => '<p>אילו בדיקות תקופתיות מקובלות, למי הן רלוונטיות ומה מביאים לפגישה. ההמלצות המחייבות הן של הגורמים המקצועיים המטפלים; כאן תמצאו הכנה מסודרת לשיחה איתם.</p>',
 			),
-			'treatments'        => array(
-				'title'    => 'מרכזי טיפול',
-				'template' => 'page-templates/template-treatment-hub.php',
+			array(
+				'path'     => '/private-medicine/',
+				'title'    => 'רפואה פרטית',
+				'template' => $hub,
+				'content'  => '<p>הבנת מסלולי הרפואה הפרטית בישראל: ההבדל בין המסלולים, אילו שאלות לשאול על עלויות וזכויות, ואיך מתכוננים לבחירה מושכלת של רופא, מרפאה או שירות.</p>',
 			),
-			'accessibility'     => array(
-				'title'    => 'הצהרת נגישות',
+			array( 'path' => '/about/', 'title' => 'אודות Hea-lth', 'template' => '', 'content' => self::about_content() ),
+			array( 'path' => '/editorial-policy/', 'title' => 'מדיניות עריכה ובדיקה', 'template' => '', 'content' => self::editorial_policy_content() ),
+			array( 'path' => '/privacy/', 'title' => 'מדיניות פרטיות', 'template' => '', 'content' => self::privacy_content() ),
+			array( 'path' => '/terms/', 'title' => 'תנאי שימוש', 'template' => '', 'content' => self::terms_content() ),
+			array(
+				'path'     => '/contact/',
+				'title'    => 'יצירת קשר',
 				'template' => '',
-				'content'  => self::accessibility_statement_content(),
+				'noindex'  => true,
+				'content'  => '<p>ערוץ הפנייה המקוון של הפורטל נמצא בהקמה ויפורסם בעמוד זה.</p><p>פניות בנושא נגישות מטופלות בעדיפות — פרטים מלאים בעמוד <a href="/accessibility/">הצהרת הנגישות</a>. אנשי מקצוע המבקשים להצטרף לאינדקס ימצאו מידע בעמוד <a href="/professionals/">האזור למקצוענים</a>.</p>',
+			),
+			array(
+				'path'     => '/professionals/profile-update/',
+				'title'    => 'עדכון פרופיל מקצועי',
+				'template' => '',
+				'noindex'  => true,
+				'content'  => '<p>פרופילים מקצועיים מוצגים בפורטל רק לאחר תהליך אימות. טופס העדכון המקוון יפורסם בעמוד זה; עד אז, מידע על תהליך ההצטרפות והאימות זמין בעמוד <a href="/professionals/">האזור למקצוענים</a>.</p>',
+			),
+			array(
+				'path'     => '/account/',
+				'title'    => 'אזור אישי',
+				'template' => 'page-templates/template-account.php',
+				'noindex'  => true,
 			),
 		);
 	}
@@ -111,7 +154,9 @@ class Hea_Lth_Page_Provisioner {
 	}
 
 	/**
-	 * Create missing foundation pages once per blueprint version.
+	 * Create missing foundation pages once per blueprint version. Entries are
+	 * ordered parents-first; child paths attach to their existing parent page
+	 * so nested permalinks (e.g. /diagnostics/imaging/) resolve.
 	 *
 	 * @return void
 	 */
@@ -120,11 +165,26 @@ class Hea_Lth_Page_Provisioner {
 			return;
 		}
 
-		foreach ( self::blueprint() as $slug => $page ) {
-			$existing = get_page_by_path( $slug, OBJECT, 'page' );
+		foreach ( self::blueprint() as $page ) {
+			$path     = trim( (string) $page['path'], '/' );
+			$existing = get_page_by_path( $path, OBJECT, 'page' );
 
 			if ( $existing instanceof WP_Post ) {
 				continue;
+			}
+
+			$segments  = explode( '/', $path );
+			$slug      = array_pop( $segments );
+			$parent_id = 0;
+
+			if ( ! empty( $segments ) ) {
+				$parent = get_page_by_path( implode( '/', $segments ), OBJECT, 'page' );
+
+				if ( ! $parent instanceof WP_Post ) {
+					continue; // Never create a child at the wrong path.
+				}
+
+				$parent_id = (int) $parent->ID;
 			}
 
 			$page_id = wp_insert_post(
@@ -132,14 +192,23 @@ class Hea_Lth_Page_Provisioner {
 					'post_type'    => 'page',
 					'post_status'  => 'publish',
 					'post_name'    => $slug,
+					'post_parent'  => $parent_id,
 					'post_title'   => $page['title'],
 					'post_content' => isset( $page['content'] ) ? $page['content'] : '',
 				),
 				true
 			);
 
-			if ( ! is_wp_error( $page_id ) && '' !== $page['template'] ) {
+			if ( is_wp_error( $page_id ) ) {
+				continue;
+			}
+
+			if ( '' !== $page['template'] ) {
 				update_post_meta( (int) $page_id, '_wp_page_template', $page['template'] );
+			}
+
+			if ( ! empty( $page['noindex'] ) ) {
+				update_post_meta( (int) $page_id, '_yoast_wpseo_meta-robots-noindex', '1' );
 			}
 		}
 
@@ -150,6 +219,94 @@ class Hea_Lth_Page_Provisioner {
 	}
 
 	/**
+	 * Honest "who we are" page: mission and standards only — no invented
+	 * company facts, staff, or history.
+	 *
+	 * @return string
+	 */
+	public static function about_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>Hea-lth הוא פורטל עצמאי לבחירה מושכלת ברפואה פרטית בישראל: מידע ערוך, מסלולי בחירה מודרכים, גוף אינטראקטיבי תלת־ממדי ואינדקס אנשי מקצוע — במקום אחד, בעברית, בגובה העיניים.</p>',
+				'<h2>העקרונות שלנו</h2>',
+				'<ul><li><strong>אמינות לפני הכול:</strong> אין באתר עובדות רפואיות מומצאות, ביקורות מומצאות או הבטחות תוצאה. תוכן מפורט מתפרסם רק עם אישור עריכתי, תאריך בדיקה ומקור גלוי.</li><li><strong>ספקים מאומתים בלבד:</strong> פרופיל מקצועי מוצג רק לאחר אימות, עם שדות אימות גלויים. הצגה מסחרית מסומנת בשקיפות.</li><li><strong>מידע — לא אבחון:</strong> האתר מסייע להתכונן לשיחה עם אנשי מקצוע. הוא אינו מציע אבחון, ייעוץ רפואי או תחליף לטיפול.</li><li><strong>שקיפות מקורות:</strong> המודל האנטומי מבוסס Z-Anatomy (רישיון CC-BY-SA), והמקורות מוצגים לצד התוכן.</li></ul>',
+				'<h2>מה תמצאו כאן</h2>',
+				'<p>מרכזי תחום לבדיקות ואבחון, רפואה פרטית ואיכות חיים; גוף אינטראקטיבי שמחבר כל אזור בגוף למידע ולשירותים רלוונטיים; מדריכים ומילון מונחים; ומסלול בחירה שמסדר את השאלות לפני הפגישה.</p>',
+				'<p>הערות, תיקונים ובקשות נגישות מתקבלים בברכה — ראו <a href="/accessibility/">הצהרת נגישות</a> ו<a href="/editorial-policy/">מדיניות עריכה ובדיקה</a>.</p>',
+			)
+		);
+	}
+
+	/**
+	 * The editorial policy page mirrors the gates the code actually enforces.
+	 *
+	 * @return string
+	 */
+	public static function editorial_policy_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>מדיניות זו מתארת את תנאי הפרסום המחייבים של תוכן בריאות בפורטל. התנאים אינם הצהרה שיווקית — הם נאכפים גם טכנית במערכת הפרסום של האתר.</p>',
+				'<h2>שלושת תנאי הסף לכל מדריך</h2>',
+				'<ul><li><strong>אישור עריכתי:</strong> עורך אחראי מאשר את התוכן לפני שהוא נחשף לציבור. ללא אישור — התוכן אינו מוצג.</li><li><strong>תאריך בדיקה:</strong> לכל מדריך מוצג מועד הבדיקה האחרון, כדי שתדעו עד כמה המידע עדכני.</li><li><strong>מקור גלוי:</strong> ההפניה המקצועית שעליה נשען המדריך מוצגת לצד התוכן.</li></ul>',
+				'<h2>שפה וגבולות</h2>',
+				'<p>התוכן נכתב בשפה רגועה ועניינית: ללא הבטחות רפואיות, ללא הפחדה וללא יצירת דחיפות מלאכותית. האתר אינו מציג אבחנות אישיות ואינו ממליץ על טיפול ספציפי; ההחלטות הרפואיות נעשות תמיד מול גורם מקצועי מוסמך.</p>',
+				'<h2>המודל האנטומי</h2>',
+				'<p>המודל התלת־ממדי מבוסס אטלס Z-Anatomy (רישיון CC-BY-SA, נגזר מ־BodyParts3D). תוויות המבנים עוקבות אחר הנומנקלטורה האנטומית התקנית (TA2) ונבדקו על ידי צוות העריכה. המודל נועד להמחשה ולהתמצאות — לא לאבחון.</p>',
+				'<h2>ספקים ותוכן מסחרי</h2>',
+				'<p>פרופילים מקצועיים מוצגים רק לאחר אימות. שיבוץ מסחרי, אם קיים, מסומן בגלוי. ניתוב פניות מתבצע בהסכמה מפורשת בלבד, לנמענים מאומתים.</p>',
+			)
+		);
+	}
+
+	/**
+	 * Factual privacy baseline describing what the site actually does today.
+	 * Marked for owner/legal review before being treated as final.
+	 *
+	 * @return string
+	 */
+	public static function privacy_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>עמוד זה מתאר בפשטות אילו נתונים נאספים באתר וכיצד הם משמשים. הנוסח יעודכן ככל שיתווספו שירותים חדשים.</p>',
+				'<h2>מה האתר אינו אוסף</h2>',
+				'<p>האתר אינו מבקש ואינו שומר מידע רפואי אישי, אינו מנהל תיקים רפואיים ואינו דורש הרשמה לצפייה בתוכן. טפסי פנייה יופעלו רק עם מנגנון הסכמה מפורשת, ויתועדו במדיניות זו לפני הפעלתם.</p>',
+				'<h2>נתונים טכניים</h2>',
+				'<ul><li><strong>העדפות נגישות:</strong> נשמרות בדפדפן שלכם בלבד (localStorage) ואינן נשלחות לשרת.</li><li><strong>יומני שרת:</strong> ספק האחסון מתעד באופן סטנדרטי כתובות IP ובקשות לצורכי אבטחה ותפעול.</li><li><strong>עוגיות:</strong> האתר עושה שימוש מינימלי בעוגיות תפעוליות. ככל שיופעלו כלי מדידה, הדבר יעודכן כאן.</li></ul>',
+				'<h2>פניות בנושא פרטיות</h2>',
+				'<p>לשאלות או בקשות בנושא פרטיות ניתן לפנות דרך <a href="/contact/">עמוד יצירת הקשר</a>.</p>',
+				'<p><em>הנוסח המלא נמצא בבדיקה משפטית ויעודכן בהתאם.</em></p>',
+			)
+		);
+	}
+
+	/**
+	 * Terms-of-use baseline: informational site, no medical advice, license
+	 * attributions. Marked for owner/legal review.
+	 *
+	 * @return string
+	 */
+	public static function terms_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>השימוש באתר Hea-lth כפוף לתנאים אלה. עצם הגלישה מהווה הסכמה להם.</p>',
+				'<h2>אופי המידע</h2>',
+				'<p>האתר מספק מידע והכוונה לצורך התארגנות והכנה בלבד. המידע אינו ייעוץ רפואי, אינו אבחון ואינו תחליף לבדיקה או לטיפול אצל גורם מקצועי מוסמך. בכל מקרה של מצוקה רפואית יש לפנות לגורמי הרפואה המוסמכים.</p>',
+				'<h2>אחריות</h2>',
+				'<p>אנו פועלים לדיוק ולעדכניות התוכן לפי <a href="/editorial-policy/">מדיניות העריכה</a>, אך איננו נושאים באחריות להחלטות המתקבלות על בסיס המידע באתר. הקשר המקצועי, החוזי והטיפולי מתקיים ישירות מול נותני השירות.</p>',
+				'<h2>קניין רוחני ורישיונות</h2>',
+				'<p>התוכן, העיצוב והקוד של הפורטל מוגנים בזכויות. המודל האנטומי מבוסס Z-Anatomy ו־BodyParts3D ומוצג לפי רישיון CC-BY-SA; פרטי הייחוס מופיעים לצד המודל.</p>',
+				'<h2>שינויים</h2>',
+				'<p>התנאים עשויים להתעדכן; המועד הקובע הוא נוסח העמוד ביום השימוש.</p>',
+				'<p><em>הנוסח המלא נמצא בבדיקה משפטית ויעודכן בהתאם.</em></p>',
+			)
+		);
+	}
+
+	/**
 	 * Update an option while tolerating third-party option listeners that
 	 * throw in anonymous contexts (the still-installed Elementor kit sync
 	 * raised "Access denied" here and 500-ed the request). WordPress persists
@@ -157,7 +314,7 @@ class Hea_Lth_Page_Provisioner {
 	 * provisioning or the surrounding request.
 	 *
 	 * @param string $option Option name.
-	 * @param string $value  New value.
+	 * @param mixed  $value  New value (string or structured option array).
 	 * @return void
 	 */
 	private static function update_option_tolerantly( $option, $value ) {
@@ -181,6 +338,19 @@ class Hea_Lth_Page_Provisioner {
 
 		if ( 'שירותי בריאות פרטיים בתיאום אישי' === get_option( 'blogdescription' ) ) {
 			self::update_option_tolerantly( 'blogdescription', 'מרכז בחירה לרפואה פרטית' );
+		}
+
+		// The SEO plugin's homepage title template can carry the legacy brand
+		// even after the site identity is fixed; replace only legacy phrasing.
+		$titles = get_option( 'wpseo_titles' );
+
+		if ( is_array( $titles ) && isset( $titles['title-home-wpseo'] ) && is_string( $titles['title-home-wpseo'] ) ) {
+			$home_title = $titles['title-home-wpseo'];
+
+			if ( false !== strpos( $home_title, 'פרימיום' ) || false !== strpos( $home_title, 'בתיאום אישי' ) ) {
+				$titles['title-home-wpseo'] = 'Hea-lth — מרכז בחירה לרפואה פרטית';
+				self::update_option_tolerantly( 'wpseo_titles', $titles );
+			}
 		}
 	}
 
