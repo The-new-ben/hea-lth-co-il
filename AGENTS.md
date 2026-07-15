@@ -16,6 +16,7 @@ Institute-grade Hebrew (RTL) private-health portal at https://hea-lth.co.il: tru
   - `tooling/tests/` — the contract test suite. `tooling/theme-preview/` — local render harness with fixtures.
 - If you learn something, decide something, or receive an owner decision: write it to a file under `docs/` and commit. Unwritten knowledge is considered lost.
 - Cross-agent disclosure: write to `docs/agent-sync/` as `<AGENT>_<TOPIC>_<YYYY-MM-DD>.md`. Never put secret values there. Mark unknowns as `UNKNOWN` — do not guess.
+- **One active code session per repo at a time** (owner incident, 2026-07-15): before editing, check `git status` + current branch; if the tree is dirty or on another session's branch — stop and report. End every turn with the checkout committed, pushed, and back on `main`. Full rule: `docs/agent-sync/SESSION_CONCURRENCY_RULE_2026-07-15.md`.
 
 ## Architecture
 
