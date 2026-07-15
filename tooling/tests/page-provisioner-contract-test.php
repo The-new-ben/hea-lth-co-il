@@ -51,20 +51,42 @@ foreach ( $foundation_routes as $route ) {
 	}
 }
 
-assert_true( count( $blueprint ) >= 8, 'Blueprint must cover the UI-linked foundation pages plus the accessibility statement.' );
-assert_true( isset( $blueprint['anatomy'] ), 'Blueprint must provision the interactive-body page — the 3D full experience must not 404.' );
-assert_true( isset( $blueprint['accessibility'] ), 'Blueprint must provision the accessibility statement page (IS 5568).' );
+assert_true( count( $blueprint ) >= 22, 'Blueprint must cover every UI-linked foundation route so no navigation link 404s.' );
 
-foreach ( $blueprint as $slug => $page ) {
-	assert_true( in_array( '/' . $slug . '/', $foundation_paths, true ), 'Provisioned slug must exist in the foundation route registry: ' . $slug );
-	assert_true( is_string( $page['title'] ) && '' !== trim( $page['title'] ), 'Provisioned page needs a real title: ' . $slug );
+$blueprint_paths = array();
+
+foreach ( $blueprint as $index => $page ) {
+	assert_true( isset( $page['path'], $page['title'] ), 'Blueprint entry needs path and title (index ' . $index . ').' );
+	assert_true( in_array( $page['path'], $foundation_paths, true ), 'Provisioned path must exist in the foundation route registry: ' . $page['path'] );
+	assert_true( is_string( $page['title'] ) && '' !== trim( $page['title'] ), 'Provisioned page needs a real title: ' . $page['path'] );
+
 	$has_template = '' !== $page['template'];
 	$has_content  = isset( $page['content'] ) && '' !== trim( (string) $page['content'] );
-	assert_true( $has_template || $has_content, 'Provisioned page needs a template or real content: ' . $slug );
+	assert_true( $has_template || $has_content, 'Provisioned page needs a template or real content: ' . $page['path'] );
+
 	if ( $has_template ) {
 		assert_true( is_file( $root . '/theme-src/hea-lth-portal/' . $page['template'] ), 'Blueprint template must ship in the parent theme: ' . $page['template'] );
 	}
+
+	// Parents must be provisioned before their children so post_parent resolves.
+	$trimmed  = trim( (string) $page['path'], '/' );
+	$segments = explode( '/', $trimmed );
+	array_pop( $segments );
+	if ( ! empty( $segments ) ) {
+		$parent_path = '/' . implode( '/', $segments ) . '/';
+		assert_true( in_array( $parent_path, $blueprint_paths, true ), 'Parent page must be listed before its child: ' . $page['path'] );
+	}
+
+	$blueprint_paths[] = $page['path'];
 }
+
+foreach ( array( '/anatomy/', '/accessibility/', '/diagnostics/', '/diagnostics/imaging/', '/wellness/', '/private-medicine/', '/about/', '/editorial-policy/', '/privacy/', '/terms/', '/contact/', '/account/' ) as $required_path ) {
+	assert_true( in_array( $required_path, $blueprint_paths, true ), 'Blueprint must provision ' . $required_path );
+}
+
+assert_true( false !== strpos( Hea_Lth_Page_Provisioner::about_content(), 'Z-Anatomy' ), 'About page must credit the anatomy source.' );
+assert_true( false !== strpos( Hea_Lth_Page_Provisioner::editorial_policy_content(), 'תנאי הסף' ), 'Editorial policy must state the publication conditions.' );
+assert_true( false !== strpos( Hea_Lth_Page_Provisioner::terms_content(), 'אינו ייעוץ רפואי' ), 'Terms must carry the no-medical-advice boundary.' );
 
 $statement = Hea_Lth_Page_Provisioner::accessibility_statement_content();
 
