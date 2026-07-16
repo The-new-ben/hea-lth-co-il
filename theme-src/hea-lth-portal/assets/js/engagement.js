@@ -37,7 +37,15 @@
       return null;
     }
     const match = viewerConfig.structures.find((item) => item.id === structureId);
-    return match && match.labels ? (match.labels.he || match.labels.en) : null;
+    if (!match) {
+      return null;
+    }
+    // The public gate flattens labels to a single `label`; raw manifests and
+    // the preview fixture carry `labels: {he, en}` — support both.
+    if (match.labels && (match.labels.he || match.labels.en)) {
+      return match.labels.he || match.labels.en;
+    }
+    return typeof match.label === 'string' && match.label ? match.label : null;
   };
 
   let card = null;
