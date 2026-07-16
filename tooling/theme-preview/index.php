@@ -597,6 +597,17 @@ if ( ! function_exists( 'hea_lth_portal_directory_map_config' ) ) {
 	}
 }
 
+if ( ! function_exists( 'hea_lth_portal_anatomy_discovery_url' ) ) {
+	/**
+	 * Preview mock: the harness always serves the shipped static dataset.
+	 *
+	 * @return string
+	 */
+	function hea_lth_portal_anatomy_discovery_url(): string {
+		return get_theme_file_uri( 'assets/data/anatomy-discovery-v1.json' );
+	}
+}
+
 require_once hea_lth_preview_theme_directory() . '/inc/portal-route-registry.php';
 require_once hea_lth_preview_theme_directory() . '/inc/portal-template-helpers.php';
 require hea_lth_preview_theme_directory() . '/' . $hea_lth_preview_pages[ $hea_lth_preview_page ]['file'];

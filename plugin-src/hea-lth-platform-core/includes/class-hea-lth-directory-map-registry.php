@@ -126,7 +126,7 @@ final class Hea_Lth_Directory_Map_Registry {
 		}
 
 		if ( 'leaflet-osm' === $manifest['provider'] ) {
-			return array(
+			$payload = array(
 				'status'            => 'approved',
 				'provider'          => 'leaflet-osm',
 				// The tile source is fixed in code, never manifest-supplied, so a
@@ -138,6 +138,12 @@ final class Hea_Lth_Directory_Map_Registry {
 				'region'            => 'IL',
 				'featuredProviders' => $manifest['featuredProviders'],
 			);
+
+			if ( ! empty( $manifest['view'] ) ) {
+				$payload['view'] = $manifest['view'];
+			}
+
+			return $payload;
 		}
 
 		return array(
@@ -265,9 +271,49 @@ final class Hea_Lth_Directory_Map_Registry {
 			$manifest['mapId']      = $map_id;
 		} else {
 			$manifest['featuredProviders'] = self::normalize_featured_providers( isset( $value['featuredProviders'] ) ? $value['featuredProviders'] : array() );
+			$manifest['view']              = self::normalize_view( isset( $value['view'] ) ? $value['view'] : array() );
 		}
 
 		return $manifest;
+	}
+
+	/**
+	 * Sanitize the owner-set default map view. Coordinates must stay inside
+	 * Israel's bounding box and the zoom inside sane city-to-country range; an
+	 * invalid view degrades to the shipped default instead of failing the
+	 * whole manifest.
+	 *
+	 * @param mixed $value Raw view.
+	 * @return array
+	 */
+	private static function normalize_view( $value ) {
+		if ( ! is_array( $value ) || ! isset( $value['lat'], $value['lon'], $value['zoom'] ) ) {
+			return array();
+		}
+
+		$lat  = (float) $value['lat'];
+		$lon  = (float) $value['lon'];
+		$zoom = (int) $value['zoom'];
+
+		if ( $lat < 29.0 || $lat > 34.0 || $lon < 33.5 || $lon > 36.5 || $zoom < 7 || $zoom > 16 ) {
+			return array();
+		}
+
+		return array(
+			'lat'  => $lat,
+			'lon'  => $lon,
+			'zoom' => $zoom,
+		);
+	}
+
+	/**
+	 * Full normalized manifest for the administration screens. Never printed
+	 * publicly; the browser payload stays the gated public_configuration().
+	 *
+	 * @return array|null
+	 */
+	public static function admin_manifest() {
+		return self::read_manifest();
 	}
 
 	/**

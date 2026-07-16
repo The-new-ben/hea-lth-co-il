@@ -40,7 +40,7 @@ if ( have_posts() ) :
 
 		<section class="hp-template-section hp-template-section--anatomy">
 			<div class="hp-shell">
-				<div class="hp-anatomy-viewer" data-anatomy-viewer data-config-url="<?php echo esc_url( get_theme_file_uri( 'assets/data/anatomy-discovery-v1.json' ) ); ?>">
+				<div class="hp-anatomy-viewer" data-anatomy-viewer data-config-url="<?php echo esc_url( hea_lth_portal_anatomy_discovery_url() ); ?>">
 					<div class="hp-anatomy-viewer__topline">
 						<div><span><?php esc_html_e( 'גילוי אנטומי', 'hea-lth-portal' ); ?></span><strong><?php esc_html_e( 'בחרו אזור והקשר', 'hea-lth-portal' ); ?></strong></div>
 						<p data-anatomy-status aria-live="polite"><?php esc_html_e( 'טוענים את מסלולי הבחירה.', 'hea-lth-portal' ); ?></p>
