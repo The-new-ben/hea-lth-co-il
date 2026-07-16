@@ -144,7 +144,28 @@
     movement: 'orthopedics',
   };
 
+  // Direct model clicks report structure ids (anatomy:*) — translate them to
+  // resolver regions the same way the selection card does.
+  const REGION_BY_STRUCTURE = {
+    nose: 'nose',
+    lips: 'skin-face',
+    'facial-muscles': 'skin-face',
+    'jaw-muscles': 'skin-face',
+    cranium: 'skin-face',
+    mandible: 'skin-face',
+    pectorals: 'chest',
+    abdominals: 'chest',
+  };
+
   const REGION_BY_STRUCTURE_FALLBACK = 'movement';
+
+  const toRegion = (value) => {
+    const key = String(value || '').replace(/^anatomy:/, '');
+    if (Object.prototype.hasOwnProperty.call(REGION_BY_STRUCTURE, key)) {
+      return REGION_BY_STRUCTURE[key];
+    }
+    return REGION_BY_STRUCTURE_FALLBACK;
+  };
 
   const spotlight = (regionId) => {
     const specialty = SPECIALTY_BY_REGION[regionId] || '';
@@ -162,7 +183,7 @@
 
   window.addEventListener('hea-lth:anatomy-viewer-selection', (event) => {
     const detail = event.detail || {};
-    spotlight(detail.regionId || REGION_BY_STRUCTURE_FALLBACK);
+    spotlight(toRegion(detail.structureId || detail.regionId));
   });
 
   const regionControls = document.querySelector('[data-anatomy-region-controls]');
