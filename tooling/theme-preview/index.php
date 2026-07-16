@@ -275,6 +275,7 @@ function wp_head(): void {
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/portal.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/templates.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/a11y.css' ) ) . '">';
+	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/engagement.css' ) ) . '">';
 }
 
 function wp_footer(): void {
@@ -282,6 +283,9 @@ function wp_footer(): void {
 
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/portal.js' ) ) . '"></script>';
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/a11y-panel.js' ) ) . '"></script>';
+	// Preview-only WhatsApp fixture number so placement can be judged visually.
+	echo '<script>window.heaLthEngage = { whatsapp: "972500000000" };</script>';
+	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/engagement.js' ) ) . '"></script>';
 	if ( 'anatomy' === $hea_lth_preview_page ) {
 		if ( $hea_lth_preview_three_fixture ) {
 			$fixture_config = array(

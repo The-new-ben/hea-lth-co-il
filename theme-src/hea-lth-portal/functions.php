@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.5.2' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.6.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
@@ -95,6 +95,32 @@ function hea_lth_portal_enqueue_assets() {
 		array(),
 		$version,
 		true
+	);
+
+	wp_enqueue_style(
+		'hea-lth-portal-engagement',
+		get_theme_file_uri( 'assets/css/engagement.css' ),
+		array( 'hea-lth-portal' ),
+		$version
+	);
+
+	wp_enqueue_script(
+		'hea-lth-portal-engagement',
+		get_theme_file_uri( 'assets/js/engagement.js' ),
+		array(),
+		$version,
+		true
+	);
+
+	/**
+	 * The WhatsApp consult bar activates only when the owner provides the
+	 * business number (option or filter) — no number, no button.
+	 */
+	$whatsapp_number = apply_filters( 'hea_lth_whatsapp_number', get_option( 'hea_lth_whatsapp_number', '' ) );
+	wp_add_inline_script(
+		'hea-lth-portal-engagement',
+		'window.heaLthEngage = ' . wp_json_encode( array( 'whatsapp' => (string) $whatsapp_number ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
+		'before'
 	);
 
 	wp_enqueue_script(

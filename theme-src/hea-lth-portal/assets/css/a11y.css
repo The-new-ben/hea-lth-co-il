@@ -5,12 +5,14 @@
  */
 
 .hp-a11y {
-  /* Left edge per Israeli accessibility-widget convention (Clalit, pojo et
-     al.) — keeps the pill off the RTL reading/footer-link side. */
+  /* Middle of the left edge (Israeli convention) — clear of the bottom strip
+     where the chat/WhatsApp elements live, on every viewport. */
   position: fixed;
   z-index: 990;
-  bottom: 18px;
-  left: 18px;
+  top: 50%;
+  bottom: auto;
+  left: 12px;
+  transform: translateY(-50%);
   font-family: var(--hp-font-ui);
 }
 
@@ -74,8 +76,10 @@
 
 .hp-a11y__panel {
   position: absolute;
-  bottom: 60px;
-  left: 0;
+  top: 50%;
+  bottom: auto;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
   display: grid;
   gap: 7px;
   width: 228px;
@@ -187,8 +191,7 @@ html.hp-a11y-contrast .hp-footer__bottom {
 
 @media (max-width: 680px) {
   .hp-a11y {
-    bottom: 14px;
-    left: 14px;
+    left: 8px;
   }
 
   /* Compact icon-only pill on phones so the widget never sits over content;

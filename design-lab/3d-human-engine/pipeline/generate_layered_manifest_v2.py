@@ -27,6 +27,7 @@ MUSCLE_GROUPS = [
     ("anatomy:calf", "שוק", "Calf muscles", "movement", r"(gastrocnemius(?!.*bursa)|soleus)"),
     ("anatomy:gluteals", "ישבן", "Gluteal muscles", "movement", r"gluteus_(maximus|medius|minimus)"),
     ("anatomy:neck-muscles", "צוואר", "Neck muscles", "movement", r"(sternocleidomastoid|scalenus|splenius)"),
+    ("anatomy:lips", "שפתיים", "Lips (orbicularis oris)", "skin-face", r"orbicularis_oris"),
     ("anatomy:facial-muscles", "שרירי הפנים", "Facial muscles", "skin-face", r"(orbicularis|zygomaticus|frontalis_muscle|buccinator|nasalis|procerus|depressor_(anguli|labii|septi)|levator_labii)"),
     ("anatomy:jaw-muscles", "לסת", "Jaw muscles", "skin-face", r"(masseter|temporalis_muscle|pterygoid_muscle)"),
 ]
@@ -64,7 +65,9 @@ def main():
     skeletal = stats["skeletal_meshes"]
     lower = {m.lower(): m for m in muscular}
 
-    structures = [s for s in base["structures"]]
+    group_ids = {g[0] for g in MUSCLE_GROUPS}
+    # Idempotent: drop previously generated muscle groups so re-runs never duplicate.
+    structures = [s for s in base["structures"] if s["id"] not in group_ids]
     used = set()
     added = []
     for sid, he, en, region, pattern in MUSCLE_GROUPS:

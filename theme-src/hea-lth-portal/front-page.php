@@ -83,9 +83,9 @@ $hp_anatomy_ready = isset( $hp_anatomy_config['status'], $hp_anatomy_config['eng
 <section class="hp-hero hp-hero--anatomy" id="body-discovery">
 	<div class="hp-shell hp-hero-anatomy">
 		<div class="hp-hero-anatomy__intro">
-			<p class="hp-eyebrow hp-eyebrow--light"><?php esc_html_e( 'מרכז בחירה לבריאות פרטית', 'hea-lth-portal' ); ?></p>
-			<h1><?php esc_html_e( 'לוחצים על אזור בגוף — ורואים למי לפנות', 'hea-lth-portal' ); ?></h1>
-			<p class="hp-hero__lede"><?php esc_html_e( 'סובבו את הגוף התלת ממדי, בחרו מבנה, וקבלו מיד מידע, תחומי מומחיות ושירותים מאומתים המחוברים לאותו אזור.', 'hea-lth-portal' ); ?></p>
+			<p class="hp-eyebrow hp-eyebrow--light"><?php esc_html_e( 'שירות רפואי פרימיום', 'hea-lth-portal' ); ?></p>
+			<h1><?php esc_html_e( 'לחצו על כל חלק במודל — וקבלו את המידע סביבו', 'hea-lth-portal' ); ?></h1>
+			<p class="hp-hero__lede"><?php esc_html_e( 'פנים, אף, שפתיים, חזה או כל אזור אחר: בחירה במודל פותחת מידע אמין, מומחים ושירותים רלוונטיים — ובקרוב גם מוצרים ומפת שירותים קרובים.', 'hea-lth-portal' ); ?></p>
 			<div class="hp-hero__actions">
 				<a class="hp-button hp-button--light" href="#start-search"><?php esc_html_e( 'להתחיל בחיפוש', 'hea-lth-portal' ); ?></a>
 				<a class="hp-inline-link hp-inline-link--light" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'anatomy' ) ); ?>"><?php esc_html_e( 'לחוויית הגוף המלאה', 'hea-lth-portal' ); ?><span aria-hidden="true">←</span></a>
