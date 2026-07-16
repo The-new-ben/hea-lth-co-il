@@ -12,10 +12,13 @@
   /* ------------------------------------------------------------------ *
    * 1. Selection info card — "press a part, get everything around it". *
    * ------------------------------------------------------------------ */
-  const stage = document.querySelector('[data-anatomy-model-stage]');
-  const viewerConfig = window.heaLthAnatomyViewer && typeof window.heaLthAnatomyViewer === 'object'
-    ? window.heaLthAnatomyViewer
-    : null;
+  // Resolved lazily: the viewer config is injected after this file in the
+  // footer, so it must never be captured at load time.
+  const getViewerConfig = () => (
+    window.heaLthAnatomyViewer && typeof window.heaLthAnatomyViewer === 'object'
+      ? window.heaLthAnatomyViewer
+      : null
+  );
 
   const REGION_BY_STRUCTURE = {
     'anatomy:nose': 'nose',
@@ -29,6 +32,7 @@
   };
 
   const labelFor = (structureId) => {
+    const viewerConfig = getViewerConfig();
     if (!viewerConfig || !Array.isArray(viewerConfig.structures)) {
       return null;
     }
@@ -36,8 +40,20 @@
     return match && match.labels ? (match.labels.he || match.labels.en) : null;
   };
 
-  if (stage && viewerConfig) {
-    const card = document.createElement('div');
+  let card = null;
+  let cardName = null;
+  let currentRegion = null;
+
+  const ensureCard = () => {
+    if (card) {
+      return card;
+    }
+    const stage = document.querySelector('[data-anatomy-model-stage]');
+    if (!stage) {
+      return null;
+    }
+
+    card = document.createElement('div');
     card.className = 'hp-select-card';
     card.hidden = true;
 
@@ -45,8 +61,8 @@
     eyebrow.className = 'hp-select-card__eyebrow';
     eyebrow.textContent = 'נבחר במודל';
 
-    const name = document.createElement('strong');
-    name.className = 'hp-select-card__name';
+    cardName = document.createElement('strong');
+    cardName.className = 'hp-select-card__name';
 
     const action = document.createElement('button');
     action.type = 'button';
@@ -58,22 +74,6 @@
     close.className = 'hp-select-card__close';
     close.setAttribute('aria-label', 'סגירה');
     close.textContent = '×';
-
-    card.append(close, eyebrow, name, action);
-    stage.appendChild(card);
-
-    let currentRegion = null;
-
-    window.addEventListener('hea-lth:anatomy-viewer-selection', (event) => {
-      const detail = event.detail || {};
-      const label = labelFor(detail.structureId);
-      if (!label) {
-        return;
-      }
-      name.textContent = label;
-      currentRegion = REGION_BY_STRUCTURE[detail.structureId] || 'movement';
-      card.hidden = false;
-    });
 
     action.addEventListener('click', () => {
       if (window.heaLthAnatomyDiscovery && currentRegion) {
@@ -88,7 +88,22 @@
     close.addEventListener('click', () => {
       card.hidden = true;
     });
-  }
+
+    card.append(close, eyebrow, cardName, action);
+    stage.appendChild(card);
+    return card;
+  };
+
+  window.addEventListener('hea-lth:anatomy-viewer-selection', (event) => {
+    const detail = event.detail || {};
+    const label = labelFor(detail.structureId);
+    if (!label || !ensureCard()) {
+      return;
+    }
+    cardName.textContent = label;
+    currentRegion = REGION_BY_STRUCTURE[detail.structureId] || 'movement';
+    card.hidden = false;
+  });
 
   /* ------------------------------------------------------------------ *
    * 2. WhatsApp consult bar — renders only when a number is configured. *
