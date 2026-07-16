@@ -28,9 +28,18 @@
     }
   };
 
+  // The default view is owner-controllable through the control center; the
+  // plugin sanitizes it (IL bounds, bounded zoom) before it reaches the page.
+  const view = config.view && typeof config.view === 'object' ? config.view : {};
+  const startCenter = [
+    typeof view.lat === 'number' ? view.lat : 32.08,
+    typeof view.lon === 'number' ? view.lon : 34.79,
+  ];
+  const startZoom = typeof view.zoom === 'number' ? view.zoom : 12;
+
   const map = L.map(container, {
-    center: [32.08, 34.79],
-    zoom: 12,
+    center: startCenter,
+    zoom: startZoom,
     scrollWheelZoom: false,
     attributionControl: true,
   });

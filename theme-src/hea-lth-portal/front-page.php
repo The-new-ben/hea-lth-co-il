@@ -97,7 +97,7 @@ $hp_anatomy_ready = isset( $hp_anatomy_config['status'], $hp_anatomy_config['eng
 			</ul>
 		</div>
 
-		<div class="hp-hero-anatomy__viewer hp-anatomy-viewer" data-anatomy-viewer data-config-url="<?php echo esc_url( get_theme_file_uri( 'assets/data/anatomy-discovery-v1.json' ) ); ?>">
+		<div class="hp-hero-anatomy__viewer hp-anatomy-viewer" data-anatomy-viewer data-config-url="<?php echo esc_url( hea_lth_portal_anatomy_discovery_url() ); ?>">
 			<div class="hp-anatomy-viewer__topline">
 				<div><span><?php esc_html_e( 'מודל אנטומי תלת ממדי', 'hea-lth-portal' ); ?></span><strong><?php esc_html_e( 'לחצו על מבנה לזיהוי', 'hea-lth-portal' ); ?></strong></div>
 				<p data-anatomy-status aria-live="polite"><?php esc_html_e( 'טוענים את המודל ואת מסלולי הבחירה.', 'hea-lth-portal' ); ?></p>

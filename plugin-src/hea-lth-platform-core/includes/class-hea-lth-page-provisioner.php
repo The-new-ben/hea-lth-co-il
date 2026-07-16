@@ -23,7 +23,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-07-16-01';
+	const BLUEPRINT_VERSION = '2026-07-16-02';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -494,13 +494,14 @@ class Hea_Lth_Page_Provisioner {
 		}
 
 		// The SEO plugin's homepage title template can carry the legacy brand
-		// even after the site identity is fixed; replace only legacy phrasing.
+		// even after the site identity is fixed; replace only legacy phrasing,
+		// or the exact em-dash variant this provisioner itself wrote in 0.7.x.
 		$titles = get_option( 'wpseo_titles' );
 
 		if ( is_array( $titles ) && isset( $titles['title-home-wpseo'] ) && is_string( $titles['title-home-wpseo'] ) ) {
 			$home_title = $titles['title-home-wpseo'];
 
-			if ( false !== strpos( $home_title, 'פרימיום' ) || false !== strpos( $home_title, 'בתיאום אישי' ) ) {
+			if ( false !== strpos( $home_title, 'פרימיום' ) || false !== strpos( $home_title, 'בתיאום אישי' ) || 'Hea-lth — מרכז בחירה לרפואה פרטית' === $home_title ) {
 				$titles['title-home-wpseo'] = 'Hea-lth, מרכז בחירה לרפואה פרטית';
 				self::update_option_tolerantly( 'wpseo_titles', $titles );
 			}
@@ -519,6 +520,16 @@ class Hea_Lth_Page_Provisioner {
 
 			if ( $legacy && ( '' === $seo_title || false !== strpos( $seo_title, 'פרימיום' ) || false !== strpos( $seo_title, 'בתיאום אישי' ) ) ) {
 				update_post_meta( $front_page_id, '_yoast_wpseo_title', 'Hea-lth, מרכז בחירה לרפואה פרטית בישראל' );
+				update_post_meta( $front_page_id, '_yoast_wpseo_metadesc', 'מידע ערוך עם מקורות, גוף אינטראקטיבי תלת־ממדי, מדריכים ואינדקס אנשי מקצוע מאומתים, הכול כדי לבחור נכון ברפואה הפרטית, בקצב שלכם.' );
+			}
+
+			// Punctuation migration: rewrite only the exact strings 0.7.x wrote,
+			// so an owner-customised title or description is never touched.
+			if ( 'Hea-lth — מרכז בחירה לרפואה פרטית בישראל' === (string) get_post_meta( $front_page_id, '_yoast_wpseo_title', true ) ) {
+				update_post_meta( $front_page_id, '_yoast_wpseo_title', 'Hea-lth, מרכז בחירה לרפואה פרטית בישראל' );
+			}
+
+			if ( 'מידע ערוך עם מקורות, גוף אינטראקטיבי תלת־ממדי, מדריכים ואינדקס אנשי מקצוע מאומתים — הכול כדי לבחור נכון ברפואה הפרטית, בקצב שלכם.' === (string) get_post_meta( $front_page_id, '_yoast_wpseo_metadesc', true ) ) {
 				update_post_meta( $front_page_id, '_yoast_wpseo_metadesc', 'מידע ערוך עם מקורות, גוף אינטראקטיבי תלת־ממדי, מדריכים ואינדקס אנשי מקצוע מאומתים, הכול כדי לבחור נכון ברפואה הפרטית, בקצב שלכם.' );
 			}
 		}

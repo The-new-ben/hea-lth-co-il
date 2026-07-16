@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.8.0' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.9.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
@@ -189,6 +189,23 @@ function hea_lth_portal_anatomy_route_map() {
 		'products_skin'                => hea_lth_portal_foundation_route( 'products_skin' ),
 		'products_ortho'               => hea_lth_portal_foundation_route( 'products_ortho' ),
 	);
+}
+
+/**
+ * Resolve the anatomy-discovery dataset URL. The shipped static file is the
+ * default; the platform plugin may point this at its governed endpoint when
+ * the owner has published index overrides through the control center. The
+ * override endpoint validates every route key against the controlled route
+ * map, so this filter cannot mint new destinations.
+ *
+ * @return string
+ */
+function hea_lth_portal_anatomy_discovery_url() {
+	$default = get_theme_file_uri( 'assets/data/anatomy-discovery-v1.json' );
+
+	$url = apply_filters( 'hea_lth_anatomy_discovery_url', $default );
+
+	return is_string( $url ) && '' !== $url ? $url : $default;
 }
 
 /**
