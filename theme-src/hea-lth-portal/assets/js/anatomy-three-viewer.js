@@ -462,7 +462,49 @@ class AnatomyThreeViewer {
       });
     });
 
+    this.pulseHighlight();
     this.render();
+  }
+
+  // Owner directive (2026-07-16): a selected part answers with a visible
+  // pulse so the surface feels responsive. Three soft cycles, then it rests
+  // at the steady highlight. Skipped for reduced-motion visitors.
+  pulseHighlight() {
+    if (this.pulseFrame) {
+      cancelAnimationFrame(this.pulseFrame);
+      this.pulseFrame = null;
+    }
+
+    const motionBlocked = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      || document.documentElement.classList.contains('hp-a11y-no-motion');
+    if (motionBlocked || !this.highlightedMeshes.size) {
+      return;
+    }
+
+    const started = performance.now();
+    const duration = 1150;
+
+    const step = (now) => {
+      const progress = Math.min((now - started) / duration, 1);
+      const intensity = 0.58 + Math.sin(progress * Math.PI * 6) * 0.34 * (1 - progress);
+
+      this.highlightedMeshes.forEach((mesh) => {
+        materialsFor(mesh).forEach((material) => {
+          if (material && material.emissive) {
+            material.emissiveIntensity = Math.max(0.2, intensity);
+          }
+        });
+      });
+      this.render();
+
+      if (progress < 1) {
+        this.pulseFrame = requestAnimationFrame(step);
+      } else {
+        this.pulseFrame = null;
+      }
+    };
+
+    this.pulseFrame = requestAnimationFrame(step);
   }
 
   clearHighlight() {

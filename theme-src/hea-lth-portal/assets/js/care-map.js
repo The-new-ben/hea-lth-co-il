@@ -1,5 +1,5 @@
 /**
- * Care map — the location index attached to the 3D body.
+ * Care map, the location index attached to the 3D body.
  *
  * Renders the gated map configuration (keyless leaflet-osm provider): a rich
  * base of real hospitals/clinics (OpenStreetMap data, attributed), premium
@@ -44,22 +44,50 @@
   const poiRenderer = L.canvas({ padding: 0.4 });
   const poiLayer = L.layerGroup().addTo(map);
 
+  const hospitalMarkers = [];
+  const KIND_LABELS = { hospital: 'בית חולים', clinic: 'מרפאה', pharmacy: 'בית מרקחת' };
+
   const drawPois = (pois) => {
     pois.forEach((poi) => {
       const isHospital = poi.t === 'hospital';
-      L.circleMarker([poi.lat, poi.lon], {
+      const marker = L.circleMarker([poi.lat, poi.lon], {
         renderer: poiRenderer,
-        radius: isHospital ? 6 : 4,
+        radius: isHospital ? 7 : 4,
         color: isHospital ? '#235a51' : '#7d958f',
         weight: 1.5,
         fillColor: isHospital ? '#2f7264' : '#a9beb7',
-        fillOpacity: 0.75,
+        fillOpacity: isHospital ? 0.9 : 0.7,
       }).bindPopup(
-        '<div class="hp-map-pop"><strong>' + poi.n + '</strong><small>' + (isHospital ? 'בית חולים' : 'מרפאה') + '</small></div>',
+        '<div class="hp-map-pop"><strong>' + poi.n + '</strong><small>' + (KIND_LABELS[poi.t] || 'מוסד בריאות') + '</small></div>',
         { closeButton: false }
-      ).addTo(poiLayer);
+      );
+
+      if (isHospital) {
+        marker.bindTooltip(poi.n, { direction: 'top', offset: [0, -6], className: 'hp-map-lbl' });
+        hospitalMarkers.push(marker);
+      }
+
+      marker.addTo(poiLayer);
+    });
+
+    refreshHospitalLabels();
+  };
+
+  // At street-level zoom the hospital names print permanently, so visitors
+  // instantly recognize the area and their relative position.
+  const refreshHospitalLabels = () => {
+    const permanent = map.getZoom() >= 13;
+    hospitalMarkers.forEach((marker) => {
+      const label = marker.getTooltip() ? marker.getTooltip().getContent() : null;
+      if (!label) {
+        return;
+      }
+      marker.unbindTooltip();
+      marker.bindTooltip(label, { permanent, direction: 'top', offset: [0, -6], className: 'hp-map-lbl' });
     });
   };
+
+  map.on('zoomend', refreshHospitalLabels);
 
   fetch(poiUrl, { credentials: 'same-origin' })
     .then((response) => (response.ok ? response.json() : null))
@@ -127,7 +155,7 @@
             map.flyTo(here, 14);
             say('מוצגים מוסדות הבריאות סביב מיקומכם.');
           },
-          () => say('שיתוף המיקום נדחה — אפשר להזיז את המפה ידנית.')
+          () => say('שיתוף המיקום נדחה, אפשר להזיז את המפה ידנית.')
         );
       });
       return button;
@@ -144,7 +172,7 @@
     movement: 'orthopedics',
   };
 
-  // Direct model clicks report structure ids (anatomy:*) — translate them to
+  // Direct model clicks report structure ids (anatomy:*), translate them to
   // resolver regions the same way the selection card does.
   const REGION_BY_STRUCTURE = {
     nose: 'nose',
@@ -175,10 +203,20 @@
 
     if (matches.length) {
       const marker = matches[0];
+      // The popup may open only after the flight lands: opening it mid-flyTo
+      // autopans the map and cancels the zoom animation short of city level.
+      map.once('moveend', () => {
+        marker.openPopup();
+      });
       map.flyTo(marker.getLatLng(), 13);
-      marker.openPopup();
-      say('מוצגים שירותים מומלצים לאזור שנבחר — לצד כל המוסדות בסביבה.');
+      say('מוצגים שירותים מומלצים לאזור שנבחר, לצד כל המוסדות בסביבה.');
+      return;
     }
+
+    // No featured provider for this specialty yet: the map still responds by
+    // moving to city level, where hospitals and their names become visible.
+    map.flyTo(map.getCenter(), Math.max(map.getZoom(), 13));
+    say('מוצגים בתי החולים והמרפאות בסביבת המפה. אפשר להזיז את המפה או לאתר את המיקום שלכם.');
   };
 
   window.addEventListener('hea-lth:anatomy-viewer-selection', (event) => {

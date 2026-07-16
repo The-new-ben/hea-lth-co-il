@@ -94,11 +94,30 @@ foreach ( array( '5568', 'WCAG 2.1', 'נגישות', 'רכז' ) as $needle ) {
 	assert_true( false !== strpos( $statement, $needle ), 'Accessibility statement must reference: ' . $needle );
 }
 
+foreach ( array( '/products/', '/products/hair-loss/', '/products/skin-care/', '/products/orthopedic-support/' ) as $product_path ) {
+	assert_true( in_array( $product_path, $blueprint_paths, true ), 'Blueprint must provision the products index page: ' . $product_path );
+}
+
+assert_true( false !== strpos( Hea_Lth_Page_Provisioner::products_hair_content(), 'מינוקסידיל' ), 'Hair products page must cover the evidence-backed OTC category.' );
+assert_true( false !== strpos( Hea_Lth_Page_Provisioner::products_hair_content(), '/hair-loss-prevention-treatments-costs/' ), 'Hair products page must link the legacy hair-loss pillar.' );
+assert_true( false !== strpos( Hea_Lth_Page_Provisioner::products_skin_content(), 'הגנה מהשמש' ), 'Skin products page must cover sun protection.' );
+assert_true( false !== strpos( Hea_Lth_Page_Provisioner::products_ortho_content(), 'מדרסים' ), 'Ortho products page must cover insoles.' );
+
+foreach ( Hea_Lth_Page_Provisioner::blueprint() as $entry ) {
+	if ( ! empty( $entry['content'] ) ) {
+		assert_true( false === strpos( (string) $entry['content'], "\u{2014}" ), 'Provisioned content must not contain em dashes: ' . $entry['path'] );
+	}
+}
+
 $source = (string) file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-page-provisioner.php' );
 
 assert_true( false !== strpos( $source, 'get_page_by_path' ), 'Provisioner must check for an existing page before creating one.' );
-assert_true( false !== strpos( $source, 'continue;' ), 'Provisioner must skip existing pages — owner content always wins.' );
-assert_true( false === strpos( $source, 'wp_update_post' ), 'Provisioner must never update existing pages.' );
+assert_true( false !== strpos( $source, 'continue;' ), 'Provisioner must skip existing pages: owner content always wins.' );
+assert_true( false !== strpos( $source, 'maybe_refresh_content' ), 'Provisioner must route existing pages through the guarded refresh.' );
+assert_true( false !== strpos( $source, '_hea_lth_blueprint_hash' ), 'Refresh must anchor on the stored blueprint content hash.' );
+assert_true( false !== strpos( $source, 'hash_equals' ), 'Refresh must compare hashes before touching a page.' );
+assert_true( 1 === substr_count( $source, 'wp_update_post' ), 'wp_update_post may exist only once, inside the guarded refresh.' );
+assert_true( strpos( $source, 'hash_equals' ) < strpos( $source, 'wp_update_post' ), 'The untouched-content guard must precede the update call.' );
 assert_true( false === strpos( $source, 'wp_delete_post' ), 'Provisioner must never delete pages.' );
 
 $plugin_main = (string) file_get_contents( $root . '/plugin-src/hea-lth-platform-core/hea-lth-platform-core.php' );

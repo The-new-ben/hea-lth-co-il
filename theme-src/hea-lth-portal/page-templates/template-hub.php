@@ -51,7 +51,7 @@ if ( have_posts() ) :
 				<div>
 					<p class="hp-eyebrow hp-eyebrow--light"><?php esc_html_e( 'מרכז תחום', 'hea-lth-portal' ); ?></p>
 					<h1><?php echo esc_html( $title ); ?></h1>
-					<p><?php esc_html_e( 'נקודת פתיחה מסודרת: מידע, שאלות והמשך דרך — בקצב שלכם ולפי הצורך שלכם.', 'hea-lth-portal' ); ?></p>
+					<p><?php esc_html_e( 'נקודת פתיחה מסודרת: מידע, שאלות והמשך דרך, בקצב שלכם ולפי הצורך שלכם.', 'hea-lth-portal' ); ?></p>
 				</div>
 				<div class="hp-technology-hero-core" aria-hidden="true"><span>H</span><i></i><i></i><i></i></div>
 			</div>

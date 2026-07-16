@@ -115,7 +115,7 @@
       },
       {
        "kind": "אינדקס מקצוענים",
-       "label": "כירורגיה פלסטית — חזה",
+       "label": "כירורגיה פלסטית, חזה",
        "detail": "חיפוש לפי תחום, אזור ושדות אימות גלויים",
        "routeKey": "doctor_clinic_index",
        "query": {
@@ -198,7 +198,7 @@
       },
       {
        "kind": "אינדקס מקצוענים",
-       "label": "רפואה אסתטית — פנים",
+       "label": "רפואה אסתטית, פנים",
        "detail": "חיפוש לפי תחום ושדות אימות גלויים",
        "routeKey": "doctor_clinic_index",
        "query": {
@@ -211,6 +211,12 @@
        "label": "ייעוץ כירורגיה פלסטית",
        "detail": "הבנת אפשרויות מבניות לפנים",
        "routeKey": "plastic_surgery_consultation"
+      },
+      {
+       "kind": "מוצרים",
+       "label": "מוצרי טיפוח וקוסמטיקה רפואית",
+       "detail": "קטגוריות מוצרים ובחירה לפי סוג עור",
+       "routeKey": "products_skin"
       }
      ]
     },
@@ -247,6 +253,12 @@
         "specialty": "dermatology",
         "body_region": "skin-face"
        }
+      },
+      {
+       "kind": "מוצרים",
+       "label": "מוצרי טיפוח וקוסמטיקה רפואית",
+       "detail": "קטגוריות מוצרים ובחירה לפי סוג עור",
+       "routeKey": "products_skin"
       }
      ]
     }
@@ -292,6 +304,12 @@
        "query": {
         "body_region": "scalp"
        }
+      },
+      {
+       "kind": "מוצרים",
+       "label": "מוצרים לטיפול בנשירת שיער",
+       "detail": "קטגוריות, רכיבים ומה לבדוק לפני קנייה",
+       "routeKey": "products_hair"
       }
      ]
     }
@@ -334,6 +352,12 @@
         "specialty": "orthopedics",
         "body_region": "movement"
        }
+      },
+      {
+       "kind": "מוצרים",
+       "label": "אביזרי תמיכה אורתופדיים",
+       "detail": "חגורות, ברכיות ומדרסים: מה מתאים למה",
+       "routeKey": "products_ortho"
       }
      ]
     }

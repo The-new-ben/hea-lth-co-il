@@ -302,3 +302,16 @@
     height: 240px;
   }
 }
+
+.hp-map-lbl {
+  padding: 2px 8px;
+  color: #12332d;
+  background: rgba(255, 253, 248, 0.94);
+  border: 1px solid rgba(35, 90, 81, 0.35);
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(10, 35, 32, 0.18);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  direction: rtl;
+}
