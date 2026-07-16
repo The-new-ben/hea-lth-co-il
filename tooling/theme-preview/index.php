@@ -29,6 +29,7 @@ $hea_lth_preview_pages = array(
 	'glossary'      => array( 'file' => 'page-templates/template-glossary.php', 'title' => 'מילון בריאות' ),
 	'technology'    => array( 'file' => 'page-templates/template-health-technology.php', 'title' => 'טכנולוגיות בריאות וציוד' ),
 	'find-care'     => array( 'file' => 'page-templates/template-find-care.php', 'title' => 'מסלול בחירה' ),
+	'products-hub'  => array( 'file' => 'page-templates/template-hub.php', 'title' => 'מוצרים לטיפול בנשירת שיער' ),
 	'profile-preview' => array( 'file' => 'single-hp_provider.php', 'title' => 'תצוגת מבנה פרופיל' ),
 	'treatment-preview' => array( 'file' => 'single-hp_treatment.php', 'title' => 'תצוגת מבנה טיפול' ),
 );
@@ -368,6 +369,9 @@ function wp_footer(): void {
 			'doctor_clinic_index'          => '/doctor-clinic-index/',
 			'guides'                       => '/guides/',
 			'wellness'                     => '/wellness/',
+			'products_hair'                => '/products/hair-loss/',
+			'products_skin'                => '/products/skin-care/',
+			'products_ortho'               => '/products/orthopedic-support/',
 		);
 		echo '<script>window.heaLthAnatomyRoutes = ' . wp_json_encode( $preview_anatomy_routes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
 		echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/anatomy-discovery.js' ) ) . '"></script>';
@@ -394,6 +398,9 @@ function wp_footer(): void {
 			'doctor_clinic_index'          => '/doctor-clinic-index/',
 			'guides'                       => '/guides/',
 			'wellness'                     => '/wellness/',
+			'products_hair'                => '/products/hair-loss/',
+			'products_skin'                => '/products/skin-care/',
+			'products_ortho'               => '/products/orthopedic-support/',
 		);
 		// Mirror production: the homepage hero now carries the full resolver, so
 		// the discovery controller + route map must load alongside the module.
@@ -583,7 +590,7 @@ if ( ! function_exists( 'hea_lth_portal_directory_map_config' ) ) {
 					'lat'        => 32.11217,
 					'lon'        => 34.79575,
 					'badge'      => 'לקוח מאומת',
-					'disclosure' => 'שיבוץ מסחרי — פרופיל לקוח של Hea-lth',
+					'disclosure' => 'שיבוץ מסחרי, פרופיל לקוח של Hea-lth',
 				),
 			),
 		);

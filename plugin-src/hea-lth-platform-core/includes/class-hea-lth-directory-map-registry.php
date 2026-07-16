@@ -180,7 +180,7 @@ final class Hea_Lth_Directory_Map_Registry {
 		if ( ! is_string( $value ) || '' === trim( $value ) ) {
 			// No administrator-set manifest: fall back to the shipped default so
 			// the reviewed keyless map is live on install. The default still runs
-			// through normalize + gate below — a source, not a bypass.
+			// through normalize + gate below, a source, not a bypass.
 			$path = dirname( __DIR__ ) . '/data/default-map-manifest.json';
 
 			if ( ! is_readable( $path ) ) {

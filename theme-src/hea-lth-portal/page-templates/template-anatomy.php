@@ -65,7 +65,7 @@ if ( have_posts() ) :
 								<p class="hp-eyebrow"><?php esc_html_e( 'מפת שירותים', 'hea-lth-portal' ); ?></p>
 								<h2><?php esc_html_e( 'הבחירה בגוף מעדכנת את המפה', 'hea-lth-portal' ); ?></h2>
 							</div>
-							<p><?php esc_html_e( 'בתי חולים ומרפאות מרחבי הארץ, לצד שירותים מאומתים של הפורטל — עם גילוי מסחרי מלא.', 'hea-lth-portal' ); ?></p>
+							<p><?php esc_html_e( 'בתי חולים ומרפאות מרחבי הארץ, לצד שירותים מאומתים של הפורטל, עם גילוי מסחרי מלא.', 'hea-lth-portal' ); ?></p>
 						</div>
 						<?php $hp_map_config = hea_lth_portal_directory_map_config(); ?>
 						<?php if ( isset( $hp_map_config['status'], $hp_map_config['provider'] ) && 'approved' === $hp_map_config['status'] && 'leaflet-osm' === $hp_map_config['provider'] ) : ?>

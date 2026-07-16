@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.7.1' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.8.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
@@ -114,7 +114,7 @@ function hea_lth_portal_enqueue_assets() {
 
 	/**
 	 * The WhatsApp consult bar activates only when the owner provides the
-	 * business number (option or filter) — no number, no button.
+	 * business number (option or filter): no number, no button.
 	 */
 	$whatsapp_number = apply_filters( 'hea_lth_whatsapp_number', get_option( 'hea_lth_whatsapp_number', '972525101555' ) );
 	wp_add_inline_script(
@@ -185,6 +185,9 @@ function hea_lth_portal_anatomy_route_map() {
 		'doctor_clinic_index'          => hea_lth_portal_route( 'doctor_clinic_index' ),
 		'guides'                       => hea_lth_portal_foundation_route( 'guides' ),
 		'wellness'                     => hea_lth_portal_foundation_route( 'wellness' ),
+		'products_hair'                => hea_lth_portal_foundation_route( 'products_hair' ),
+		'products_skin'                => hea_lth_portal_foundation_route( 'products_skin' ),
+		'products_ortho'               => hea_lth_portal_foundation_route( 'products_ortho' ),
 	);
 }
 

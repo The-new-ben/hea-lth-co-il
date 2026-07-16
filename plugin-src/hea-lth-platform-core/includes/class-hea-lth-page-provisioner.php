@@ -23,7 +23,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-07-15-02';
+	const BLUEPRINT_VERSION = '2026-07-16-01';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -99,6 +99,30 @@ class Hea_Lth_Page_Provisioner {
 				'template' => $hub,
 				'content'  => '<p>הבנת מסלולי הרפואה הפרטית בישראל: ההבדל בין המסלולים, אילו שאלות לשאול על עלויות וזכויות, ואיך מתכוננים לבחירה מושכלת של רופא, מרפאה או שירות.</p>',
 			),
+			array(
+				'path'     => '/products/',
+				'title'    => 'מדריך מוצרי בריאות',
+				'template' => $hub,
+				'content'  => self::products_hub_content(),
+			),
+			array(
+				'path'     => '/products/hair-loss/',
+				'title'    => 'מוצרים לטיפול בנשירת שיער',
+				'template' => $hub,
+				'content'  => self::products_hair_content(),
+			),
+			array(
+				'path'     => '/products/skin-care/',
+				'title'    => 'מוצרי טיפוח וקוסמטיקה רפואית',
+				'template' => $hub,
+				'content'  => self::products_skin_content(),
+			),
+			array(
+				'path'     => '/products/orthopedic-support/',
+				'title'    => 'אביזרי תמיכה אורתופדיים',
+				'template' => $hub,
+				'content'  => self::products_ortho_content(),
+			),
 			array( 'path' => '/about/', 'title' => 'אודות Hea-lth', 'template' => '', 'content' => self::about_content() ),
 			array( 'path' => '/editorial-policy/', 'title' => 'מדיניות עריכה ובדיקה', 'template' => '', 'content' => self::editorial_policy_content() ),
 			array( 'path' => '/privacy/', 'title' => 'מדיניות פרטיות', 'template' => '', 'content' => self::privacy_content() ),
@@ -108,7 +132,7 @@ class Hea_Lth_Page_Provisioner {
 				'title'    => 'יצירת קשר',
 				'template' => '',
 				'noindex'  => true,
-				'content'  => '<p>ערוץ הפנייה המקוון של הפורטל נמצא בהקמה ויפורסם בעמוד זה.</p><p>פניות בנושא נגישות מטופלות בעדיפות — פרטים מלאים בעמוד <a href="/accessibility/">הצהרת הנגישות</a>. אנשי מקצוע המבקשים להצטרף לאינדקס ימצאו מידע בעמוד <a href="/professionals/">האזור למקצוענים</a>.</p>',
+				'content'  => '<p>ערוץ הפנייה המקוון של הפורטל נמצא בהקמה ויפורסם בעמוד זה.</p><p>פניות בנושא נגישות מטופלות בעדיפות, פרטים מלאים בעמוד <a href="/accessibility/">הצהרת הנגישות</a>. אנשי מקצוע המבקשים להצטרף לאינדקס ימצאו מידע בעמוד <a href="/professionals/">האזור למקצוענים</a>.</p>',
 			),
 			array(
 				'path'     => '/professionals/profile-update/',
@@ -127,10 +151,53 @@ class Hea_Lth_Page_Provisioner {
 	}
 
 	/**
+	 * Refresh a page this provisioner authored, but only while the owner has
+	 * never touched it. The anchor is a content hash stored at creation: when
+	 * the live content still matches the stored hash, the page carries our
+	 * text verbatim and a blueprint fix (like the punctuation cleanup) may
+	 * flow through. One manual edit in wp-admin detaches the page for good.
+	 * Legacy pages without a hash qualify once via modified==created.
+	 *
+	 * @param WP_Post $existing Existing page.
+	 * @param array   $page     Blueprint entry.
+	 * @return void
+	 */
+	private static function maybe_refresh_content( $existing, $page ) {
+		if ( empty( $page['content'] ) ) {
+			return;
+		}
+
+		$new_content = (string) $page['content'];
+
+		if ( trim( $existing->post_content ) === trim( $new_content ) ) {
+			update_post_meta( (int) $existing->ID, '_hea_lth_blueprint_hash', md5( $new_content ) );
+			return;
+		}
+
+		$stored_hash  = (string) get_post_meta( (int) $existing->ID, '_hea_lth_blueprint_hash', true );
+		$current_hash = md5( (string) $existing->post_content );
+		$untouched    = '' !== $stored_hash
+			? hash_equals( $stored_hash, $current_hash )
+			: $existing->post_modified_gmt === $existing->post_date_gmt;
+
+		if ( ! $untouched ) {
+			return;
+		}
+
+		wp_update_post(
+			array(
+				'ID'           => (int) $existing->ID,
+				'post_content' => $new_content,
+			)
+		);
+		update_post_meta( (int) $existing->ID, '_hea_lth_blueprint_hash', md5( $new_content ) );
+	}
+
+	/**
 	 * The public accessibility statement required by the Israeli service
 	 * accessibility regulations (IS 5568). Honest by design: it names the
 	 * adjustments that actually exist and the parts that are not fully
-	 * accessible yet. Editable later like any page — provisioning never
+	 * accessible yet. Editable later like any page, provisioning never
 	 * overwrites an existing page.
 	 *
 	 * @return string
@@ -170,6 +237,7 @@ class Hea_Lth_Page_Provisioner {
 			$existing = get_page_by_path( $path, OBJECT, 'page' );
 
 			if ( $existing instanceof WP_Post ) {
+				self::maybe_refresh_content( $existing, $page );
 				continue;
 			}
 
@@ -210,6 +278,10 @@ class Hea_Lth_Page_Provisioner {
 			if ( ! empty( $page['noindex'] ) ) {
 				update_post_meta( (int) $page_id, '_yoast_wpseo_meta-robots-noindex', '1' );
 			}
+
+			if ( ! empty( $page['content'] ) ) {
+				update_post_meta( (int) $page_id, '_hea_lth_blueprint_hash', md5( (string) $page['content'] ) );
+			}
 		}
 
 		self::provision_site_identity();
@@ -219,7 +291,88 @@ class Hea_Lth_Page_Provisioner {
 	}
 
 	/**
-	 * Honest "who we are" page: mission and standards only — no invented
+	 * The products directory hub: an honest category index. It describes what
+	 * exists in the market and how to choose, without invented prices, stock,
+	 * sellers, or medical promises.
+	 *
+	 * @return string
+	 */
+	public static function products_hub_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>מדריך המוצרים של Hea-lth מסדר את עולם מוצרי הבריאות והטיפוח לפי אזורי הגוף, בדיוק כמו המודל התלת ממדי: בוחרים אזור בגוף, ומקבלים גם את קטגוריות המוצרים הרלוונטיות אליו. המדריך מסביר מה קיים בשוק, איך משווים, ואילו שאלות כדאי לשאול רוקח או רופא לפני קנייה.</p>',
+				'<h2>הקטגוריות במדריך</h2>',
+				'<ul><li><strong><a href="/products/hair-loss/">מוצרים לטיפול בנשירת שיער</a>:</strong> מינוקסידיל, שמפו ייעודי, תוספי תזונה וסרומים לקרקפת.</li><li><strong><a href="/products/skin-care/">מוצרי טיפוח וקוסמטיקה רפואית</a>:</strong> ניקוי, לחות, הגנה מהשמש ורכיבים פעילים לפי סוג עור.</li><li><strong><a href="/products/orthopedic-support/">אביזרי תמיכה אורתופדיים</a>:</strong> חגורות גב, ברכיות, מדרסים ותמיכות למפרקים.</li></ul>',
+				'<h2>איך המדריך עובד</h2>',
+				'<p>אנחנו לא חנות. בשלב הזה המדריך הוא שכבת ידע: הוא מציג קטגוריות, רכיבים נפוצים וכללי בחירה, ומפנה אתכם לרוקחים, לרופאים ולספקים מאומתים. קטלוג מוצרים מלא ייפתח בהדרגה, ורק עם מידע ציבורי מלא על כל מוצר ומוכר. שיבוץ מסחרי, כשיהיה, יסומן בגלוי.</p>',
+				'<p>מתלבטים מאיפה להתחיל? <a href="/find-care/">מסלול הבחירה</a> עוזר לזהות את הצורך, והמודל בעמוד הבית מחבר כל אזור בגוף לשירותים ולמוצרים המתאימים לו.</p>',
+			)
+		);
+	}
+
+	/**
+	 * Hair-loss product categories: factual, category level, pharmacist and
+	 * doctor framing. No cure claims, prices, or stock.
+	 *
+	 * @return string
+	 */
+	public static function products_hair_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>שוק המוצרים לנשירת שיער גדול ומבלבל, והבחירה הנכונה תלויה קודם כול בסיבת הנשירה. העמוד הזה מסדר את הקטגוריות המרכזיות שנמכרות בישראל ללא מרשם, מסביר מה כל קטגוריה עושה, ומה חשוב לברר לפני שמוציאים כסף.</p>',
+				'<h2>הקטגוריות המרכזיות</h2>',
+				'<ul><li><strong>מינוקסידיל (תמיסה או קצף):</strong> התכשיר הנחקר ביותר לעידוד צמיחה בהתקרחות תבניתית. נמכר בבתי מרקחת בריכוזים שונים לגברים ולנשים, ודורש התמדה של חודשים כדי להעריך תוצאה. חשוב לקרוא את העלון ולהתייעץ עם רוקח.</li><li><strong>שמפו ייעודי:</strong> תכשירים עם קפאין, ביוטין או רכיבים לאיזון הקרקפת. שמפו תומך בסביבת השיער, אבל אינו מחליף טיפול בגורם הנשירה.</li><li><strong>תוספי תזונה:</strong> ביוטין, אבץ וברזל רלוונטיים בעיקר כשיש חסר מאובחן. לפני שמתחילים תוסף, שווה לבצע בדיקת דם ולהבין אם בכלל יש חסר.</li><li><strong>סרומים וטיפוח קרקפת:</strong> מוצרים להזנת הקרקפת ולהפחתת גירוי. מתאימים כתמיכה לצד טיפול, לא כתחליף לו.</li></ul>',
+				'<h2>לפני שקונים</h2>',
+				'<p>נשירה ממושכת, נשירה במוקדים, או נשירה שמלווה בגירוד ובקשקשים מצדיקות בירור אצל רופא עור לפני כל קנייה. חלק מהפתרונות היעילים ביותר, כמו טיפול תרופתי ייעודי לגברים, דורשים מרשם ומעקב רפואי. סקירה מקיפה של מסלולי הטיפול והעלויות מחכה לכם בעמוד <a href="/hair-loss-prevention-treatments-costs/">מניעת התקרחות</a>.</p>',
+				'<p>רוצים לדבר עם מומחה? <a href="/doctor-clinic-index/?specialty=dermatology">אינדקס המקצוענים</a> מרכז רופאי עור ומרפאות לפי אזור, וכפתור הווטסאפ באתר זמין לשאלה ראשונית.</p>',
+			)
+		);
+	}
+
+	/**
+	 * Skin-care product categories by skin need. Factual and brand neutral.
+	 *
+	 * @return string
+	 */
+	public static function products_skin_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>מדפי הטיפוח עמוסים בהבטחות, אבל עור בריא נשען על שגרה פשוטה שמותאמת לסוג העור שלכם. העמוד הזה מסדר את קטגוריות הבסיס של טיפוח וקוסמטיקה רפואית, כדי שתדעו מה באמת נחוץ ומה כדאי לשאול לפני קנייה.</p>',
+				'<h2>שגרת הבסיס</h2>',
+				'<ul><li><strong>ניקוי עדין:</strong> תכשיר רחצה מותאם לסוג העור, פעם או פעמיים ביום. ניקוי אגרסיבי מדי פוגע במעטפת ההגנה של העור.</li><li><strong>לחות:</strong> קרם לחות יומי שמתאים לעור שמן, יבש או רגיש. רכיבים כמו חומצה היאלורונית וגליצרין נפוצים ובטוחים לרוב סוגי העור.</li><li><strong>הגנה מהשמש:</strong> מסנן קרינה רחב טווח בכל בוקר הוא המוצר החשוב ביותר למניעת הזדקנות עור ונזקי שמש. גם ביום מעונן.</li></ul>',
+				'<h2>רכיבים פעילים</h2>',
+				'<ul><li><strong>רטינואידים קוסמטיים:</strong> לשיפור מרקם וקמטוטים. מתחילים בהדרגה ובריכוז נמוך.</li><li><strong>חומצות (AHA/BHA):</strong> לקילוף עדין ולעור שמן או עם פגמים. לא משלבים הכול בבת אחת.</li><li><strong>ויטמין C ונוגדי חמצון:</strong> להגנה יומית ולמראה אחיד.</li></ul>',
+				'<h2>מתי עוברים מרפואת מדף לרופא עור</h2>',
+				'<p>אקנה שמשאיר צלקות, כתמים חדשים או משתנים, אדמומיות כרונית וגירוד מתמשך הם סיבות טובות לבדיקה מקצועית. טיפולים במרפאה, מקילוף כימי ועד טכנולוגיות מתקדמות, מרוכזים אצל <a href="/doctor-clinic-index/?specialty=dermatology">רופאי העור באינדקס</a>, ומרכז <a href="/aesthetic-medicine-treatments/">הרפואה האסתטית</a> מסביר את אפשרויות הטיפול המקצועיות.</p>',
+			)
+		);
+	}
+
+	/**
+	 * Orthopedic support product categories. Support framing only; never a
+	 * substitute for diagnosis or rehabilitation.
+	 *
+	 * @return string
+	 */
+	public static function products_ortho_content() {
+		return implode(
+			"\n\n",
+			array(
+				'<p>אביזרי תמיכה אורתופדיים יכולים להקל על כאב, לייצב מפרק אחרי פציעה ולתמוך בשגרה פעילה. הם עובדים הכי טוב כשהם מותאמים נכון, ולזמן הנכון. העמוד הזה מסדר את הקטגוריות הנפוצות ומה חשוב לבדוק בהתאמה.</p>',
+				'<h2>הקטגוריות הנפוצות</h2>',
+				'<ul><li><strong>חגורות גב:</strong> תמיכה לגב תחתון בעבודה פיזית או בהתקף כאב. שימוש ממושך מדי עלול להחליש שרירים, ולכן חשוב לתאם משך שימוש עם איש מקצוע.</li><li><strong>ברכיות:</strong> מייצוב קל לספורט ועד ברכיות עם צירים לאחר פציעה. הבחירה תלויה בסוג הבעיה ובהמלצת הגורם המטפל.</li><li><strong>מדרסים:</strong> מדרסי מדף מתאימים לתמיכה כללית; מדרסים בהתאמה אישית נבנים אחרי אבחון של פיזיותרפיסט או פודיאטר.</li><li><strong>תמיכות לקרסול, לשורש כף היד ולמרפק:</strong> ייצוב אחרי נקע או בעומס חוזר, בדרך כלל לתקופה מוגדרת.</li></ul>',
+				'<h2>כללי התאמה</h2>',
+				'<p>מידה נכונה קובעת את היעילות: אביזר רופף לא מייצב, ואביזר הדוק מדי פוגע בזרימת הדם. כאב שנמשך מעבר לשבועיים, נפיחות או חוסר יציבות מצדיקים אבחון לפני רכישה, כי האביזר מטפל בתסמין ולא בגורם.</p>',
+				'<p>לבירור מקצועי, <a href="/doctor-clinic-index/?specialty=orthopedics">האינדקס</a> מרכז אורתופדים ופיזיותרפיסטים לפי אזור, ו<a href="/diagnostics/">מרכז הבדיקות</a> מסביר אילו בדיקות עוזרות לאבחן את מקור הכאב.</p>',
+			)
+		);
+	}
+
+	/**
+	 * Honest "who we are" page: mission and standards only, with no invented
 	 * company facts, staff, or history.
 	 *
 	 * @return string
@@ -228,12 +381,12 @@ class Hea_Lth_Page_Provisioner {
 		return implode(
 			"\n\n",
 			array(
-				'<p>Hea-lth הוא פורטל עצמאי לבחירה מושכלת ברפואה פרטית בישראל: מידע ערוך, מסלולי בחירה מודרכים, גוף אינטראקטיבי תלת־ממדי ואינדקס אנשי מקצוע — במקום אחד, בעברית, בגובה העיניים.</p>',
+				'<p>Hea-lth הוא פורטל עצמאי לבחירה מושכלת ברפואה פרטית בישראל: מידע ערוך, מסלולי בחירה מודרכים, גוף אינטראקטיבי תלת־ממדי ואינדקס אנשי מקצוע, במקום אחד, בעברית, בגובה העיניים.</p>',
 				'<h2>העקרונות שלנו</h2>',
-				'<ul><li><strong>אמינות לפני הכול:</strong> אין באתר עובדות רפואיות מומצאות, ביקורות מומצאות או הבטחות תוצאה. תוכן מפורט מתפרסם רק עם אישור עריכתי, תאריך בדיקה ומקור גלוי.</li><li><strong>ספקים מאומתים בלבד:</strong> פרופיל מקצועי מוצג רק לאחר אימות, עם שדות אימות גלויים. הצגה מסחרית מסומנת בשקיפות.</li><li><strong>מידע — לא אבחון:</strong> האתר מסייע להתכונן לשיחה עם אנשי מקצוע. הוא אינו מציע אבחון, ייעוץ רפואי או תחליף לטיפול.</li><li><strong>שקיפות מקורות:</strong> המודל האנטומי מבוסס Z-Anatomy (רישיון CC-BY-SA), והמקורות מוצגים לצד התוכן.</li></ul>',
+				'<ul><li><strong>אמינות לפני הכול:</strong> אין באתר עובדות רפואיות מומצאות, ביקורות מומצאות או הבטחות תוצאה. תוכן מפורט מתפרסם רק עם אישור עריכתי, תאריך בדיקה ומקור גלוי.</li><li><strong>ספקים מאומתים בלבד:</strong> פרופיל מקצועי מוצג רק לאחר אימות, עם שדות אימות גלויים. הצגה מסחרית מסומנת בשקיפות.</li><li><strong>מידע, לא אבחון:</strong> האתר מסייע להתכונן לשיחה עם אנשי מקצוע. הוא אינו מציע אבחון, ייעוץ רפואי או תחליף לטיפול.</li><li><strong>שקיפות מקורות:</strong> המודל האנטומי מבוסס Z-Anatomy (רישיון CC-BY-SA), והמקורות מוצגים לצד התוכן.</li></ul>',
 				'<h2>מה תמצאו כאן</h2>',
 				'<p>מרכזי תחום לבדיקות ואבחון, רפואה פרטית ואיכות חיים; גוף אינטראקטיבי שמחבר כל אזור בגוף למידע ולשירותים רלוונטיים; מדריכים ומילון מונחים; ומסלול בחירה שמסדר את השאלות לפני הפגישה.</p>',
-				'<p>הערות, תיקונים ובקשות נגישות מתקבלים בברכה — ראו <a href="/accessibility/">הצהרת נגישות</a> ו<a href="/editorial-policy/">מדיניות עריכה ובדיקה</a>.</p>',
+				'<p>הערות, תיקונים ובקשות נגישות מתקבלים בברכה, ראו <a href="/accessibility/">הצהרת נגישות</a> ו<a href="/editorial-policy/">מדיניות עריכה ובדיקה</a>.</p>',
 			)
 		);
 	}
@@ -247,13 +400,13 @@ class Hea_Lth_Page_Provisioner {
 		return implode(
 			"\n\n",
 			array(
-				'<p>מדיניות זו מתארת את תנאי הפרסום המחייבים של תוכן בריאות בפורטל. התנאים אינם הצהרה שיווקית — הם נאכפים גם טכנית במערכת הפרסום של האתר.</p>',
+				'<p>מדיניות זו מתארת את תנאי הפרסום המחייבים של תוכן בריאות בפורטל. התנאים אינם הצהרה שיווקית, הם נאכפים גם טכנית במערכת הפרסום של האתר.</p>',
 				'<h2>שלושת תנאי הסף לכל מדריך</h2>',
-				'<ul><li><strong>אישור עריכתי:</strong> עורך אחראי מאשר את התוכן לפני שהוא נחשף לציבור. ללא אישור — התוכן אינו מוצג.</li><li><strong>תאריך בדיקה:</strong> לכל מדריך מוצג מועד הבדיקה האחרון, כדי שתדעו עד כמה המידע עדכני.</li><li><strong>מקור גלוי:</strong> ההפניה המקצועית שעליה נשען המדריך מוצגת לצד התוכן.</li></ul>',
+				'<ul><li><strong>אישור עריכתי:</strong> עורך אחראי מאשר את התוכן לפני שהוא נחשף לציבור. ללא אישור, התוכן אינו מוצג.</li><li><strong>תאריך בדיקה:</strong> לכל מדריך מוצג מועד הבדיקה האחרון, כדי שתדעו עד כמה המידע עדכני.</li><li><strong>מקור גלוי:</strong> ההפניה המקצועית שעליה נשען המדריך מוצגת לצד התוכן.</li></ul>',
 				'<h2>שפה וגבולות</h2>',
 				'<p>התוכן נכתב בשפה רגועה ועניינית: ללא הבטחות רפואיות, ללא הפחדה וללא יצירת דחיפות מלאכותית. האתר אינו מציג אבחנות אישיות ואינו ממליץ על טיפול ספציפי; ההחלטות הרפואיות נעשות תמיד מול גורם מקצועי מוסמך.</p>',
 				'<h2>המודל האנטומי</h2>',
-				'<p>המודל התלת־ממדי מבוסס אטלס Z-Anatomy (רישיון CC-BY-SA, נגזר מ־BodyParts3D). תוויות המבנים עוקבות אחר הנומנקלטורה האנטומית התקנית (TA2) ונבדקו על ידי צוות העריכה. המודל נועד להמחשה ולהתמצאות — לא לאבחון.</p>',
+				'<p>המודל התלת־ממדי מבוסס אטלס Z-Anatomy (רישיון CC-BY-SA, נגזר מ־BodyParts3D). תוויות המבנים עוקבות אחר הנומנקלטורה האנטומית התקנית (TA2) ונבדקו על ידי צוות העריכה. המודל נועד להמחשה ולהתמצאות, לא לאבחון.</p>',
 				'<h2>ספקים ותוכן מסחרי</h2>',
 				'<p>פרופילים מקצועיים מוצגים רק לאחר אימות. שיבוץ מסחרי, אם קיים, מסומן בגלוי. ניתוב פניות מתבצע בהסכמה מפורשת בלבד, לנמענים מאומתים.</p>',
 			)
@@ -348,14 +501,14 @@ class Hea_Lth_Page_Provisioner {
 			$home_title = $titles['title-home-wpseo'];
 
 			if ( false !== strpos( $home_title, 'פרימיום' ) || false !== strpos( $home_title, 'בתיאום אישי' ) ) {
-				$titles['title-home-wpseo'] = 'Hea-lth — מרכז בחירה לרפואה פרטית';
+				$titles['title-home-wpseo'] = 'Hea-lth, מרכז בחירה לרפואה פרטית';
 				self::update_option_tolerantly( 'wpseo_titles', $titles );
 			}
 		}
 
 		// The site uses a static front page, so its browser/search title comes
 		// from the page's own (legacy) title. Give the front page an explicit
-		// SEO title — only while the legacy phrasing is still in effect and no
+		// SEO title, only while the legacy phrasing is still in effect and no
 		// owner-set override exists.
 		$front_page_id = (int) get_option( 'page_on_front' );
 
@@ -365,8 +518,8 @@ class Hea_Lth_Page_Provisioner {
 			$legacy     = $front_page instanceof WP_Post && false !== strpos( (string) $front_page->post_title, 'בתיאום אישי' );
 
 			if ( $legacy && ( '' === $seo_title || false !== strpos( $seo_title, 'פרימיום' ) || false !== strpos( $seo_title, 'בתיאום אישי' ) ) ) {
-				update_post_meta( $front_page_id, '_yoast_wpseo_title', 'Hea-lth — מרכז בחירה לרפואה פרטית בישראל' );
-				update_post_meta( $front_page_id, '_yoast_wpseo_metadesc', 'מידע ערוך עם מקורות, גוף אינטראקטיבי תלת־ממדי, מדריכים ואינדקס אנשי מקצוע מאומתים — הכול כדי לבחור נכון ברפואה הפרטית, בקצב שלכם.' );
+				update_post_meta( $front_page_id, '_yoast_wpseo_title', 'Hea-lth, מרכז בחירה לרפואה פרטית בישראל' );
+				update_post_meta( $front_page_id, '_yoast_wpseo_metadesc', 'מידע ערוך עם מקורות, גוף אינטראקטיבי תלת־ממדי, מדריכים ואינדקס אנשי מקצוע מאומתים, הכול כדי לבחור נכון ברפואה הפרטית, בקצב שלכם.' );
 			}
 		}
 	}

@@ -2,7 +2,7 @@
  * Engagement layer: (1) a visible info card for 3D body-part selections that
  * routes into the resolver's services panel, and (2) a premium WhatsApp
  * consult bar whose prefilled Hebrew message carries the page context.
- * Additive only — listens to the frozen viewer's public events.
+ * Additive only, listens to the frozen viewer's public events.
  */
 (() => {
   'use strict';
@@ -10,7 +10,7 @@
   const config = window.heaLthEngage && typeof window.heaLthEngage === 'object' ? window.heaLthEngage : {};
 
   /* ------------------------------------------------------------------ *
-   * 1. Selection info card — "press a part, get everything around it". *
+   * 1. Selection info card, "press a part, get everything around it". *
    * ------------------------------------------------------------------ */
   // Resolved lazily: the viewer config is injected after this file in the
   // footer, so it must never be captured at load time.
@@ -41,7 +41,7 @@
       return null;
     }
     // The public gate flattens labels to a single `label`; raw manifests and
-    // the preview fixture carry `labels: {he, en}` — support both.
+    // the preview fixture carry `labels: {he, en}`, support both.
     if (match.labels && (match.labels.he || match.labels.en)) {
       return match.labels.he || match.labels.en;
     }
@@ -114,7 +114,7 @@
   });
 
   /* ------------------------------------------------------------------ *
-   * 2. WhatsApp consult bar — renders only when a number is configured. *
+   * 2. WhatsApp consult bar, renders only when a number is configured. *
    * ------------------------------------------------------------------ */
   const number = String(config.whatsapp || '').replace(/[^0-9]/g, '');
   if (!number) {

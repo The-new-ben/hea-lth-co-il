@@ -1,5 +1,5 @@
 /**
- * Native accessibility panel — replaces the legacy third-party toolbar.
+ * Native accessibility panel, replaces the legacy third-party toolbar.
  *
  * Adjustments follow IS 5568 / WCAG 2.1 AA good practice: text scaling,
  * higher contrast, link underlining, and motion stop. State persists per
@@ -34,7 +34,7 @@
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (error) {
-      /* private mode — adjustments still apply for this view */
+      /* private mode, adjustments still apply for this view */
     }
   };
 
