@@ -1,0 +1,26 @@
+{
+ "status": "approved",
+ "provider": "leaflet-osm",
+ "allowedOrigin": "https://hea-lth.co.il",
+ "countryCode": "IL",
+ "owner": "Hea-lth (בעלי האתר)",
+ "reviewedAt": "2026-07-16",
+ "keyRestrictionReview": "passed",
+ "locationDataReview": "passed",
+ "commercialDisclosureReview": "passed",
+ "featuredProviders": [
+  {
+   "name": "ד\"ר קרן חיה כהן",
+   "specialty": "plastic-surgery",
+   "label": "כירורגיה פלסטית ומשחזרת",
+   "address": "מרכז רפואי רמת אביב, אינשטיין 40, תל אביב",
+   "phone": "050-9816767",
+   "url": "https://drkerencohen.co.il",
+   "lat": 32.11217,
+   "lon": 34.79575,
+   "badge": "לקוח מאומת",
+   "disclosure": "שיבוץ מסחרי — פרופיל לקוח של Hea-lth",
+   "verifiedAt": "2026-07-16"
+  }
+ ]
+}

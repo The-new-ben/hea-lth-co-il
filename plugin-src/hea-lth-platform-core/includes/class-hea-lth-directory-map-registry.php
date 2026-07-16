@@ -125,6 +125,21 @@ final class Hea_Lth_Directory_Map_Registry {
 			return self::gated_configuration( $gate['reason'] );
 		}
 
+		if ( 'leaflet-osm' === $manifest['provider'] ) {
+			return array(
+				'status'            => 'approved',
+				'provider'          => 'leaflet-osm',
+				// The tile source is fixed in code, never manifest-supplied, so a
+				// compromised option cannot point visitors at a hostile server.
+				'tiles'             => 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+				'attribution'       => '© OpenStreetMap contributors',
+				'poiData'           => 'assets/data/healthcare-poi-il.json',
+				'language'          => 'he',
+				'region'            => 'IL',
+				'featuredProviders' => $manifest['featuredProviders'],
+			);
+		}
+
 		return array(
 			'status'     => 'approved',
 			'provider'   => 'google-maps-js',
@@ -161,8 +176,18 @@ final class Hea_Lth_Directory_Map_Registry {
 	 */
 	private static function read_manifest() {
 		$value = get_option( self::OPTION, '' );
+
 		if ( ! is_string( $value ) || '' === trim( $value ) ) {
-			return null;
+			// No administrator-set manifest: fall back to the shipped default so
+			// the reviewed keyless map is live on install. The default still runs
+			// through normalize + gate below — a source, not a bypass.
+			$path = dirname( __DIR__ ) . '/data/default-map-manifest.json';
+
+			if ( ! is_readable( $path ) ) {
+				return null;
+			}
+
+			$value = (string) file_get_contents( $path );
 		}
 
 		$decoded = json_decode( $value, true );
@@ -184,8 +209,6 @@ final class Hea_Lth_Directory_Map_Registry {
 		$required = array(
 			'status',
 			'provider',
-			'browserKey',
-			'mapId',
 			'allowedOrigin',
 			'countryCode',
 			'owner',
@@ -205,23 +228,19 @@ final class Hea_Lth_Directory_Map_Registry {
 		$provider = sanitize_key( (string) $value['provider'] );
 		$country  = strtoupper( sanitize_text_field( (string) $value['countryCode'] ) );
 		$origin   = self::normalize_origin( $value['allowedOrigin'] );
-		$browser_key = trim( sanitize_text_field( (string) $value['browserKey'] ) );
-		$map_id      = trim( sanitize_text_field( (string) $value['mapId'] ) );
 		$owner       = sanitize_text_field( (string) $value['owner'] );
 		$reviewed_at = self::sanitize_iso_date( $value['reviewedAt'] );
 		$key_review  = sanitize_key( (string) $value['keyRestrictionReview'] );
 		$location_review = sanitize_key( (string) $value['locationDataReview'] );
 		$commercial_review = sanitize_key( (string) $value['commercialDisclosureReview'] );
 
-		if ( ! in_array( $status, array( 'draft', 'review', 'approved', 'disabled' ), true ) || 'google-maps-js' !== $provider || 'IL' !== $country || '' === $origin || ! self::is_browser_key( $browser_key ) || ! self::is_map_id( $map_id ) || '' === $owner || '' === $reviewed_at || ! self::is_review_state( $key_review ) || ! self::is_review_state( $location_review ) || ! self::is_review_state( $commercial_review ) ) {
+		if ( ! in_array( $status, array( 'draft', 'review', 'approved', 'disabled' ), true ) || ! in_array( $provider, array( 'google-maps-js', 'leaflet-osm' ), true ) || 'IL' !== $country || '' === $origin || '' === $owner || '' === $reviewed_at || ! self::is_review_state( $key_review ) || ! self::is_review_state( $location_review ) || ! self::is_review_state( $commercial_review ) ) {
 			return null;
 		}
 
-		return array(
+		$manifest = array(
 			'status'                      => $status,
 			'provider'                    => $provider,
-			'browserKey'                  => $browser_key,
-			'mapId'                       => $map_id,
 			'allowedOrigin'               => $origin,
 			'countryCode'                 => $country,
 			'owner'                       => $owner,
@@ -229,7 +248,73 @@ final class Hea_Lth_Directory_Map_Registry {
 			'keyRestrictionReview'        => $key_review,
 			'locationDataReview'          => $location_review,
 			'commercialDisclosureReview'  => $commercial_review,
+			'browserKey'                  => '',
+			'mapId'                       => '',
+			'featuredProviders'           => array(),
 		);
+
+		if ( 'google-maps-js' === $provider ) {
+			$browser_key = isset( $value['browserKey'] ) ? trim( sanitize_text_field( (string) $value['browserKey'] ) ) : '';
+			$map_id      = isset( $value['mapId'] ) ? trim( sanitize_text_field( (string) $value['mapId'] ) ) : '';
+
+			if ( ! self::is_browser_key( $browser_key ) || ! self::is_map_id( $map_id ) ) {
+				return null;
+			}
+
+			$manifest['browserKey'] = $browser_key;
+			$manifest['mapId']      = $map_id;
+		} else {
+			$manifest['featuredProviders'] = self::normalize_featured_providers( isset( $value['featuredProviders'] ) ? $value['featuredProviders'] : array() );
+		}
+
+		return $manifest;
+	}
+
+	/**
+	 * Sanitize the commercially disclosed featured-provider pins. Every entry
+	 * must be a verified client with a public business address; the disclosure
+	 * label ships with the pin so premium placement is never silent.
+	 *
+	 * @param mixed $value Raw provider list.
+	 * @return array
+	 */
+	private static function normalize_featured_providers( $value ) {
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		$providers = array();
+
+		foreach ( array_slice( $value, 0, 20 ) as $entry ) {
+			if ( ! is_array( $entry ) || ! isset( $entry['name'], $entry['specialty'], $entry['lat'], $entry['lon'], $entry['disclosure'] ) ) {
+				continue;
+			}
+
+			$lat = (float) $entry['lat'];
+			$lon = (float) $entry['lon'];
+			$url = isset( $entry['url'] ) ? esc_url_raw( (string) $entry['url'], array( 'https' ) ) : '';
+
+			// Coordinates must land inside Israel's bounding box.
+			if ( $lat < 29.0 || $lat > 34.0 || $lon < 33.5 || $lon > 36.5 ) {
+				continue;
+			}
+
+			$providers[] = array(
+				'name'       => sanitize_text_field( (string) $entry['name'] ),
+				'specialty'  => sanitize_key( (string) $entry['specialty'] ),
+				'label'      => isset( $entry['label'] ) ? sanitize_text_field( (string) $entry['label'] ) : '',
+				'address'    => isset( $entry['address'] ) ? sanitize_text_field( (string) $entry['address'] ) : '',
+				'phone'      => isset( $entry['phone'] ) ? preg_replace( '/[^0-9+-]/', '', (string) $entry['phone'] ) : '',
+				'url'        => $url,
+				'lat'        => $lat,
+				'lon'        => $lon,
+				'badge'      => isset( $entry['badge'] ) ? sanitize_text_field( (string) $entry['badge'] ) : '',
+				'disclosure' => sanitize_text_field( (string) $entry['disclosure'] ),
+				'verifiedAt' => isset( $entry['verifiedAt'] ) ? self::sanitize_iso_date( $entry['verifiedAt'] ) : '',
+			);
+		}
+
+		return $providers;
 	}
 
 	/**

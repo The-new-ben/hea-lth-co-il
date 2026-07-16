@@ -59,17 +59,26 @@ if ( have_posts() ) :
 						</div>
 					</div>
 					<div class="hp-anatomy-results" data-anatomy-results aria-live="polite"></div>
-					<section class="hp-anatomy-directory-map" data-anatomy-directory-map data-map-endpoint="<?php echo esc_url( rest_url( 'hea-lth/v1/directory/map' ) ); ?>">
+					<section class="hp-anatomy-directory-map">
 						<div class="hp-anatomy-directory-map__heading">
 							<div>
-								<p class="hp-eyebrow"><?php esc_html_e( 'מפת שירותים מאומתים', 'hea-lth-portal' ); ?></p>
-								<h2><?php esc_html_e( 'הבחירה בגוף יכולה לעדכן גם את המפה', 'hea-lth-portal' ); ?></h2>
+								<p class="hp-eyebrow"><?php esc_html_e( 'מפת שירותים', 'hea-lth-portal' ); ?></p>
+								<h2><?php esc_html_e( 'הבחירה בגוף מעדכנת את המפה', 'hea-lth-portal' ); ?></h2>
 							</div>
-							<p><?php esc_html_e( 'מיקומים יוצגו רק כשיש הסכמה להצגת מיקום, אימות פרופיל ובדיקת נתוני מפה.', 'hea-lth-portal' ); ?></p>
+							<p><?php esc_html_e( 'בתי חולים ומרפאות מרחבי הארץ, לצד שירותים מאומתים של הפורטל — עם גילוי מסחרי מלא.', 'hea-lth-portal' ); ?></p>
 						</div>
-						<p class="hp-anatomy-directory-map__status" data-directory-map-status aria-live="polite"><?php esc_html_e( 'מפת השירותים ממתינה לאישור תצורה ולבחירת אזור.', 'hea-lth-portal' ); ?></p>
-						<div class="hp-anatomy-directory-map__canvas" data-directory-map-canvas role="region" aria-label="<?php esc_attr_e( 'מפת שירותים מאומתים', 'hea-lth-portal' ); ?>"></div>
-						<div class="hp-anatomy-directory-map__results" data-directory-map-results aria-live="polite"></div>
+						<?php $hp_map_config = hea_lth_portal_directory_map_config(); ?>
+						<?php if ( isset( $hp_map_config['status'], $hp_map_config['provider'] ) && 'approved' === $hp_map_config['status'] && 'leaflet-osm' === $hp_map_config['provider'] ) : ?>
+							<div class="hp-care-map-block">
+								<div class="hp-care-map-block__head">
+									<span><?php esc_html_e( 'מפת שירותים סביבך', 'hea-lth-portal' ); ?></span>
+									<p data-care-map-status aria-live="polite"><?php esc_html_e( 'המפה נטענת…', 'hea-lth-portal' ); ?></p>
+								</div>
+								<div class="hp-care-map" data-care-map data-poi-url="<?php echo esc_url( get_theme_file_uri( 'assets/data/healthcare-poi-il.json' ) ); ?>"></div>
+							</div>
+						<?php else : ?>
+							<p class="hp-anatomy-directory-map__status"><?php esc_html_e( 'מפת השירותים ממתינה לאישור תצורה.', 'hea-lth-portal' ); ?></p>
+						<?php endif; ?>
 					</section>
 				</div>
 			</div>

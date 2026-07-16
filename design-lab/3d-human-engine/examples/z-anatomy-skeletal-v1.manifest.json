@@ -2210,6 +2210,209 @@
      }
     }
    ]
+  },
+  {
+   "id": "anatomy:hand",
+   "meshIds": [
+    "Capitate_bone.l",
+    "Capitate_bone.r",
+    "Distal_phalanx_of_fifth_finger_of_hand.l",
+    "Distal_phalanx_of_fifth_finger_of_hand.r",
+    "Distal_phalanx_of_first_finger_of_hand.l",
+    "Distal_phalanx_of_first_finger_of_hand.r",
+    "Distal_phalanx_of_fourth_finger_of_hand.l",
+    "Distal_phalanx_of_fourth_finger_of_hand.r",
+    "Distal_phalanx_of_second_finger_of_hand.l",
+    "Distal_phalanx_of_second_finger_of_hand.r",
+    "Distal_phalanx_of_third_finger_of_hand.l",
+    "Distal_phalanx_of_third_finger_of_hand.r",
+    "Fifth_metacarpal_bone.l",
+    "Fifth_metacarpal_bone.r",
+    "First_metacarpal_bone.l",
+    "First_metacarpal_bone.r",
+    "Fourth_metacarpal_bone.l",
+    "Fourth_metacarpal_bone.r",
+    "Hamate_bone.l",
+    "Hamate_bone.r",
+    "Lunate_bone.l",
+    "Lunate_bone.r",
+    "Middle_phalanx_of_fifth_finger_of_hand.l",
+    "Middle_phalanx_of_fifth_finger_of_hand.r",
+    "Middle_phalanx_of_fourth_finger_of_hand.l",
+    "Middle_phalanx_of_fourth_finger_of_hand.r",
+    "Middle_phalanx_of_second_finger_of_hand.l",
+    "Middle_phalanx_of_second_finger_of_hand.r",
+    "Middle_phalanx_of_third_finger_of_hand.l",
+    "Middle_phalanx_of_third_finger_of_hand.r",
+    "Pisiform_bone.l",
+    "Pisiform_bone.r",
+    "Proximal_phalanx_of_fifth_finger_of_hand.l",
+    "Proximal_phalanx_of_fifth_finger_of_hand.r",
+    "Proximal_phalanx_of_first_finger_of_hand.l",
+    "Proximal_phalanx_of_first_finger_of_hand.r",
+    "Proximal_phalanx_of_fourth_finger_of_hand.l",
+    "Proximal_phalanx_of_fourth_finger_of_hand.r",
+    "Proximal_phalanx_of_second_finger_of_hand.l",
+    "Proximal_phalanx_of_second_finger_of_hand.r",
+    "Proximal_phalanx_of_third_finger_of_hand.l",
+    "Proximal_phalanx_of_third_finger_of_hand.r",
+    "Scaphoid_bone.l",
+    "Scaphoid_bone.r",
+    "Second_metacarpal_bone.l",
+    "Second_metacarpal_bone.r",
+    "Third_metacarpal_bone.l",
+    "Third_metacarpal_bone.r",
+    "Trapezium_bone.l",
+    "Trapezium_bone.r",
+    "Trapezoid_bone.l",
+    "Trapezoid_bone.r",
+    "Triquetrum_bone.l",
+    "Triquetrum_bone.r"
+   ],
+   "labels": {
+    "he": "כף היד",
+    "en": "Hand"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:foot",
+   "meshIds": [
+    "Calcaneus.l",
+    "Calcaneus.r",
+    "Cuboid_bone.l",
+    "Cuboid_bone.r",
+    "Distal_phalanx_of_fifth_finger_of_foot.l",
+    "Distal_phalanx_of_fifth_finger_of_foot.r",
+    "Distal_phalanx_of_first_finger_of_foot.l",
+    "Distal_phalanx_of_first_finger_of_foot.r",
+    "Distal_phalanx_of_fourth_finger_of_foot.l",
+    "Distal_phalanx_of_fourth_finger_of_foot.r",
+    "Distal_phalanx_of_second_finger_of_foot.l",
+    "Distal_phalanx_of_second_finger_of_foot.r",
+    "Distal_phalanx_of_third_finger_of_foot.l",
+    "Distal_phalanx_of_third_finger_of_foot.r",
+    "Fifth_metatarsal_bone.l",
+    "Fifth_metatarsal_bone.r",
+    "First_metatarsal_bone.l",
+    "First_metatarsal_bone.r",
+    "Fourth_metatarsal_bone.l",
+    "Fourth_metatarsal_bone.r",
+    "Intermediate_cuneiform_bone.l",
+    "Intermediate_cuneiform_bone.r",
+    "Lateral_cuneiform_bone.l",
+    "Lateral_cuneiform_bone.r",
+    "Medial_cuneiform_bone.l",
+    "Medial_cuneiform_bone.r",
+    "Middle_phalanx_of_fifth_finger_of_foot.l",
+    "Middle_phalanx_of_fifth_finger_of_foot.r",
+    "Middle_phalanx_of_fourth_finger_of_foot.l",
+    "Middle_phalanx_of_fourth_finger_of_foot.r",
+    "Middle_phalanx_of_second_finger_of_foot.l",
+    "Middle_phalanx_of_second_finger_of_foot.r",
+    "Middle_phalanx_of_third_finger_of_foot.l",
+    "Middle_phalanx_of_third_finger_of_foot.r",
+    "Navicular_bone.l",
+    "Navicular_bone.r",
+    "Proximal_phalanx_of_fifth_finger_of_foot.l",
+    "Proximal_phalanx_of_fifth_finger_of_foot.r",
+    "Proximal_phalanx_of_first_finger_of_foot.l",
+    "Proximal_phalanx_of_first_finger_of_foot.r",
+    "Proximal_phalanx_of_fourth_finger_of_foot.l",
+    "Proximal_phalanx_of_fourth_finger_of_foot.r",
+    "Proximal_phalanx_of_second_finger_of_foot.l",
+    "Proximal_phalanx_of_second_finger_of_foot.r",
+    "Proximal_phalanx_of_third_finger_of_foot.l",
+    "Proximal_phalanx_of_third_finger_of_foot.r",
+    "Second_metatarsal_bone.l",
+    "Second_metatarsal_bone.r",
+    "Talus.l",
+    "Talus.r",
+    "Third_metatarsal_bone.l",
+    "Third_metatarsal_bone.r"
+   ],
+   "labels": {
+    "he": "כף הרגל",
+    "en": "Foot"
+   },
+   "regionId": "movement",
+   "contexts": [
+    {
+     "id": "musculoskeletal",
+     "labelHe": "שריר ותנועה",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:musculoskeletal-health"
+      ],
+      "specialties": [
+       "specialty:orthopedics"
+      ],
+      "treatments": [
+       "treatment:physiotherapy-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:orthopedic-support"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "anatomy:nose",
+   "meshIds": [
+    "Inferior_nasal_concha_bone.l",
+    "Inferior_nasal_concha_bone.r",
+    "Lateral_process_of_nasal_septal_cartilage.l",
+    "Lateral_process_of_nasal_septal_cartilage.r",
+    "Nasal_bone.l",
+    "Nasal_bone.r",
+    "Nasal_septal_cartilage"
+   ],
+   "labels": {
+    "he": "אף",
+    "en": "Nose"
+   },
+   "regionId": "nose",
+   "contexts": [
+    {
+     "id": "nasal-structure",
+     "labelHe": "מבנה האף",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:nasal-anatomy"
+      ],
+      "specialties": [
+       "specialty:plastic-surgery"
+      ],
+      "treatments": [
+       "treatment:rhinoplasty-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:aesthetic-devices"
+      ]
+     }
+    }
+   ]
   }
  ],
  "updated": "2026-07-13"

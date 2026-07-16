@@ -276,6 +276,7 @@ function wp_head(): void {
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/templates.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/a11y.css' ) ) . '">';
 	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/css/engagement.css' ) ) . '">';
+	echo '<link rel="stylesheet" href="' . esc_attr( get_theme_file_uri( 'assets/vendor/leaflet/leaflet.css' ) ) . '">';
 }
 
 function wp_footer(): void {
@@ -286,6 +287,9 @@ function wp_footer(): void {
 	// Preview-only WhatsApp fixture number so placement can be judged visually.
 	echo '<script>window.heaLthEngage = { whatsapp: "972500000000" };</script>';
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/engagement.js' ) ) . '"></script>';
+	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/vendor/leaflet/leaflet.js' ) ) . '"></script>';
+	echo '<script>window.heaLthDirectoryMap = ' . wp_json_encode( hea_lth_portal_directory_map_config(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
+	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/care-map.js' ) ) . '"></script>';
 	if ( 'anatomy' === $hea_lth_preview_page ) {
 		if ( $hea_lth_preview_three_fixture ) {
 			$fixture_config = array(
@@ -549,6 +553,40 @@ class WP_Query {
 	}
 
 	public function the_post(): void {
+	}
+}
+
+if ( ! function_exists( 'hea_lth_portal_directory_map_config' ) ) {
+	/**
+	 * Preview mock mirroring the plugin's gated keyless map payload so the
+	 * care-map block renders locally for visual QA.
+	 *
+	 * @return array<string, mixed>
+	 */
+	function hea_lth_portal_directory_map_config() {
+		return array(
+			'status'            => 'approved',
+			'provider'          => 'leaflet-osm',
+			'tiles'             => 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+			'attribution'       => '© OpenStreetMap contributors',
+			'poiData'           => 'assets/data/healthcare-poi-il.json',
+			'language'          => 'he',
+			'region'            => 'IL',
+			'featuredProviders' => array(
+				array(
+					'name'       => 'ד"ר קרן חיה כהן',
+					'specialty'  => 'plastic-surgery',
+					'label'      => 'כירורגיה פלסטית ומשחזרת',
+					'address'    => 'מרכז רפואי רמת אביב, אינשטיין 40, תל אביב',
+					'phone'      => '050-9816767',
+					'url'        => 'https://drkerencohen.co.il',
+					'lat'        => 32.11217,
+					'lon'        => 34.79575,
+					'badge'      => 'לקוח מאומת',
+					'disclosure' => 'שיבוץ מסחרי — פרופיל לקוח של Hea-lth',
+				),
+			),
+		);
 	}
 }
 
