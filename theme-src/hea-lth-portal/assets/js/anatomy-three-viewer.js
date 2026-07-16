@@ -118,6 +118,10 @@ class AnatomyThreeViewer {
     this.controls.enablePan = false;
     this.controls.minDistance = 0.25;
     this.controls.maxDistance = 100;
+    // Owner directive (2026-07-16): the figure rotates horizontally only,
+    // like a product viewer — the polar angle is locked at the equator.
+    this.controls.minPolarAngle = Math.PI / 2;
+    this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.addEventListener('change', () => this.requestRender());
 
     this.scene.add(new THREE.HemisphereLight(0xdff4e9, 0x07251f, 2.7));

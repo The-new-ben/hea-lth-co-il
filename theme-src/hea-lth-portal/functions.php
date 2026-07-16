@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.6.2' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.7.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
@@ -272,19 +272,37 @@ function hea_lth_portal_enqueue_anatomy_assets() {
 		'before'
 	);
 
-	// The verified-directory map is heavier and REST-backed; keep it on the
-	// dedicated anatomy page only.
-	if ( $is_anatomy_surface ) {
-		$map_config = hea_lth_portal_directory_map_config();
+	// The care map ships with the body on both surfaces: vendored Leaflet +
+	// the gated keyless configuration (rich OSM base + disclosed featured
+	// providers). It renders only when the map gate approves.
+	$map_config = hea_lth_portal_directory_map_config();
+
+	if ( isset( $map_config['status'], $map_config['provider'] ) && 'approved' === $map_config['status'] && 'leaflet-osm' === $map_config['provider'] ) {
+		wp_enqueue_style(
+			'hea-lth-leaflet',
+			get_theme_file_uri( 'assets/vendor/leaflet/leaflet.css' ),
+			array(),
+			'1.9.4'
+		);
+
 		wp_enqueue_script(
-			'hea-lth-anatomy-directory-map',
-			get_theme_file_uri( 'assets/js/anatomy-directory-map.js' ),
-			array( 'hea-lth-anatomy-discovery' ),
+			'hea-lth-leaflet',
+			get_theme_file_uri( 'assets/vendor/leaflet/leaflet.js' ),
+			array(),
+			'1.9.4',
+			true
+		);
+
+		wp_enqueue_script(
+			'hea-lth-care-map',
+			get_theme_file_uri( 'assets/js/care-map.js' ),
+			array( 'hea-lth-leaflet' ),
 			HEA_LTH_PORTAL_VERSION,
 			true
 		);
+
 		wp_add_inline_script(
-			'hea-lth-anatomy-directory-map',
+			'hea-lth-care-map',
 			'window.heaLthDirectoryMap = ' . wp_json_encode( $map_config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
 			'before'
 		);

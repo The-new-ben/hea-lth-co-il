@@ -106,6 +106,16 @@ $hp_anatomy_ready = isset( $hp_anatomy_config['status'], $hp_anatomy_config['eng
 				<div class="hp-anatomy-model-stage hp-anatomy-model-stage--hero" data-anatomy-model-stage aria-label="<?php esc_attr_e( 'מודל אנטומי תלת ממדי אינטראקטיבי', 'hea-lth-portal' ); ?>"></div>
 				<p class="hp-hero-anatomy__hint"><?php esc_html_e( 'גררו לסיבוב · גלגלת לזום · לחצו על מבנה', 'hea-lth-portal' ); ?></p>
 			</div>
+			<?php $hp_map_config = hea_lth_portal_directory_map_config(); ?>
+			<?php if ( isset( $hp_map_config['status'], $hp_map_config['provider'] ) && 'approved' === $hp_map_config['status'] && 'leaflet-osm' === $hp_map_config['provider'] ) : ?>
+				<div class="hp-care-map-block">
+					<div class="hp-care-map-block__head">
+						<span><?php esc_html_e( 'מפת שירותים סביבך', 'hea-lth-portal' ); ?></span>
+						<p data-care-map-status aria-live="polite"><?php esc_html_e( 'בחירה בגוף מציגה שירותים באזורכם.', 'hea-lth-portal' ); ?></p>
+					</div>
+					<div class="hp-care-map" data-care-map data-poi-url="<?php echo esc_url( get_theme_file_uri( 'assets/data/healthcare-poi-il.json' ) ); ?>"></div>
+				</div>
+			<?php endif; ?>
 			<div class="hp-hero-anatomy__panel">
 				<section class="hp-hero-anatomy__controls">
 					<p><?php esc_html_e( 'אזור גוף', 'hea-lth-portal' ); ?></p>

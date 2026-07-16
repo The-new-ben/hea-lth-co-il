@@ -38,7 +38,8 @@ assert_true( false !== strpos( $registry, "'keyRestrictionReview'" ), 'Map regis
 assert_true( false !== strpos( $registry, "'locationDataReview'" ), 'Map registry must require a location-data review.' );
 assert_true( false !== strpos( $registry, "'commercialDisclosureReview'" ), 'Map registry must require a commercial-disclosure review.' );
 assert_true( false !== strpos( $theme, 'hea_lth_portal_directory_map_config' ), 'Theme must consume only the controlled map configuration.' );
-assert_true( false !== strpos( $template, 'data-anatomy-directory-map' ), 'Anatomy page must provide the controlled map mount point.' );
+assert_true( false !== strpos( $template, 'data-care-map' ), 'Anatomy page must provide the controlled care-map mount point.' );
+assert_true( false !== strpos( $template, 'hea_lth_portal_directory_map_config' ), 'Anatomy map block must render only through the gated configuration.' );
 assert_true( false !== strpos( $script, "https://maps.googleapis.com/maps/api/js" ), 'Map adapter must use the configured Maps JavaScript endpoint only after approval.' );
 assert_true( false !== strpos( $script, "auth_referrer_policy" ), 'Map adapter must minimize referrer data for restricted browser keys.' );
 assert_true( false !== strpos( $script, "source.searchParams.set('callback', callbackName)" ), 'Async Maps loading must use an explicit callback rather than the script load event.' );

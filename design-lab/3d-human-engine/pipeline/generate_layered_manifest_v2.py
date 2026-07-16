@@ -32,7 +32,23 @@ MUSCLE_GROUPS = [
     ("anatomy:jaw-muscles", "לסת", "Jaw muscles", "skin-face", r"(masseter|temporalis_muscle|pterygoid_muscle)"),
 ]
 
+SKELETAL_GROUPS = [
+    ("anatomy:hand", "כף היד", "Hand", "movement", r"(metacarpal|phalanx_of_.*hand|scaphoid|lunate_bone|triquetrum|pisiform|trapezium_|trapezoid_bone|capitate|hamate)"),
+    ("anatomy:foot", "כף הרגל", "Foot", "movement", r"(metatarsal|phalanx_of_.*foot|talus|calcaneus|navicular_bone|cuboid_bone|cuneiform)"),
+    ("anatomy:nose", "אף", "Nose", "nose", r"(nasal_concha|nasal_septal|septal_cartilage|nasal_bone)"),
+]
+
 CONTEXT_BY_REGION = {
+    "nose": {
+        "id": "nasal-structure",
+        "labelHe": "מבנה האף",
+        "resolverEntityIds": {
+            "topics": ["topic:nasal-anatomy"],
+            "specialties": ["specialty:plastic-surgery"],
+            "treatments": ["treatment:rhinoplasty-consultation"],
+            "equipmentCategories": ["equipment:aesthetic-devices"],
+        },
+    },
     "movement": {
         "id": "musculoskeletal",
         "labelHe": "שריר ותנועה",
@@ -65,7 +81,7 @@ def main():
     skeletal = stats["skeletal_meshes"]
     lower = {m.lower(): m for m in muscular}
 
-    group_ids = {g[0] for g in MUSCLE_GROUPS}
+    group_ids = {g[0] for g in MUSCLE_GROUPS} | {g[0] for g in SKELETAL_GROUPS}
     # Idempotent: drop previously generated muscle groups so re-runs never duplicate.
     structures = [s for s in base["structures"] if s["id"] not in group_ids]
     used = set()
@@ -76,6 +92,25 @@ def main():
         mesh_ids = [m for m in mesh_ids if m not in used]
         if not mesh_ids:
             raise SystemExit("no meshes matched for %s (%s)" % (sid, pattern))
+        used.update(mesh_ids)
+        structures.append(
+            {
+                "id": sid,
+                "meshIds": mesh_ids,
+                "labels": {"he": he, "en": en},
+                "regionId": region,
+                "contexts": [CONTEXT_BY_REGION[region]],
+            }
+        )
+        added.append((sid, len(mesh_ids)))
+
+    for sid, he, en, region, pattern in SKELETAL_GROUPS:
+        rx = re.compile(pattern)
+        lower_sk = {m.lower(): m for m in skeletal}
+        mesh_ids = sorted({orig for low, orig in lower_sk.items() if rx.search(low)})
+        mesh_ids = [m for m in mesh_ids if m not in used]
+        if not mesh_ids:
+            raise SystemExit("no skeletal meshes matched for %s" % sid)
         used.update(mesh_ids)
         structures.append(
             {
