@@ -2084,6 +2084,38 @@
    ]
   },
   {
+   "id": "anatomy:lips",
+   "meshIds": [
+    "Orbicularis_oris_muscle.l",
+    "Orbicularis_oris_muscle.r"
+   ],
+   "labels": {
+    "he": "שפתיים",
+    "en": "Lips (orbicularis oris)"
+   },
+   "regionId": "skin-face",
+   "contexts": [
+    {
+     "id": "facial-structure",
+     "labelHe": "מבנה הפנים",
+     "resolverEntityIds": {
+      "topics": [
+       "topic:facial-anatomy"
+      ],
+      "specialties": [
+       "specialty:plastic-surgery"
+      ],
+      "treatments": [
+       "treatment:aesthetic-consultation"
+      ],
+      "equipmentCategories": [
+       "equipment:aesthetic-devices"
+      ]
+     }
+    }
+   ]
+  },
+  {
    "id": "anatomy:facial-muscles",
    "meshIds": [
     "Depressor_anguli_oris.l",
@@ -2098,8 +2130,6 @@
     "Levator_labii_superioris.r",
     "Nasalis_muscle.l",
     "Nasalis_muscle.r",
-    "Orbicularis_oris_muscle.l",
-    "Orbicularis_oris_muscle.r",
     "Orbital_part_of_orbicularis_oculi.l",
     "Orbital_part_of_orbicularis_oculi.r",
     "Palpebral_part_of_orbicularis_oculi.l",
