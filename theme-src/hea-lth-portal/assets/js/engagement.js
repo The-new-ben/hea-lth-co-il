@@ -9,6 +9,23 @@
 
   const config = window.heaLthEngage && typeof window.heaLthEngage === 'object' ? window.heaLthEngage : {};
 
+  // Aggregate engagement beacon: allowlisted type + bounded key only, no
+  // visitor identity. Failures are silent, metrics never block the UI.
+  const beacon = (type, key) => {
+    if (!config.metrics) {
+      return;
+    }
+    const body = JSON.stringify({ t: type, k: String(key || '').slice(0, 64) });
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(config.metrics, new Blob([body], { type: 'application/json' }));
+      } else {
+        fetch(config.metrics, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true });
+      }
+    } catch (err) { /* counters are best-effort */ }
+  };
+  window.heaLthMetricBeacon = beacon;
+
   /* ------------------------------------------------------------------ *
    * 1. Selection info card, "press a part, get everything around it". *
    * ------------------------------------------------------------------ */
@@ -131,6 +148,10 @@
   bar.target = '_blank';
   bar.rel = 'noopener';
   bar.innerHTML = '<span class="hp-wa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.6.1a6.7 6.7 0 0 1-2-1.2 7.4 7.4 0 0 1-1.4-1.7c-.1-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5s0-.4 0-.5-.6-1.5-.8-2-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4 15.6 15.6 0 0 0 1.5.6 3.7 3.7 0 0 0 1.7.1 2.8 2.8 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg></span><span class="hp-wa__copy"><b>ייעוץ מהיר בוואטסאפ</b><small>מענה ראשוני ללא התחייבות</small></span><span class="hp-wa__brand" aria-hidden="true">H</span>';
+
+  bar.addEventListener('click', () => {
+    beacon('wa_open', window.location.pathname);
+  });
 
   const mount = () => document.body.appendChild(bar);
   if (document.readyState === 'loading') {

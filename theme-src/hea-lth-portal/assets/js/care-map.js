@@ -62,9 +62,9 @@
       const marker = L.circleMarker([poi.lat, poi.lon], {
         renderer: poiRenderer,
         radius: isHospital ? 7 : 4,
-        color: isHospital ? '#235a51' : '#7d958f',
+        color: isHospital ? '#235a51' : (poi.t === 'pharmacy' ? '#7a6a4f' : '#7d958f'),
         weight: 1.5,
-        fillColor: isHospital ? '#2f7264' : '#a9beb7',
+        fillColor: isHospital ? '#2f7264' : (poi.t === 'pharmacy' ? '#c9b68a' : '#a9beb7'),
         fillOpacity: isHospital ? 0.9 : 0.7,
       }).bindPopup(
         '<div class="hp-map-pop"><strong>' + poi.n + '</strong><small>' + (KIND_LABELS[poi.t] || 'מוסד בריאות') + '</small></div>',
@@ -103,7 +103,7 @@
     .then((data) => {
       if (data && Array.isArray(data.pois)) {
         drawPois(data.pois);
-        say('מוצגים ' + data.pois.length + ' בתי חולים ומרפאות מרחבי הארץ. הנתונים: © OpenStreetMap.');
+        say('מוצגים ' + data.pois.length + ' בתי חולים, מרפאות ובתי מרקחת מרחבי הארץ. הנתונים: © OpenStreetMap.');
       }
     })
     .catch(() => say('שכבת המוסדות אינה זמינה כרגע.'));
@@ -137,6 +137,24 @@
       + '</div>'
     );
     marker.specialty = provider.specialty || '';
+
+    // Aggregate engagement counters for the paid pin: a view when the popup
+    // opens, a click when the visitor follows a popup action. Best-effort.
+    const sendMetric = (type) => {
+      if (typeof window.heaLthMetricBeacon === 'function' && provider.metricId) {
+        window.heaLthMetricBeacon(type, provider.metricId);
+      }
+    };
+    marker.on('popupopen', () => {
+      sendMetric('pin_view');
+      const popupEl = marker.getPopup() && marker.getPopup().getElement();
+      if (popupEl) {
+        popupEl.querySelectorAll('.hp-map-pop__actions a').forEach((link) => {
+          link.addEventListener('click', () => sendMetric('pin_click'), { once: true });
+        });
+      }
+    });
+
     marker.addTo(map);
     featuredMarkers.push(marker);
   });
