@@ -345,8 +345,13 @@ final class Hea_Lth_Directory_Map_Registry {
 				continue;
 			}
 
+			$name = sanitize_text_field( (string) $entry['name'] );
+
 			$providers[] = array(
-				'name'       => sanitize_text_field( (string) $entry['name'] ),
+				'name'       => $name,
+				// Stable opaque id for aggregate engagement counters; derived
+				// from the name so admin edits keep continuity.
+				'metricId'   => 'pin-' . substr( md5( $name ), 0, 8 ),
 				'specialty'  => sanitize_key( (string) $entry['specialty'] ),
 				'label'      => isset( $entry['label'] ) ? sanitize_text_field( (string) $entry['label'] ) : '',
 				'address'    => isset( $entry['address'] ) ? sanitize_text_field( (string) $entry['address'] ) : '',

@@ -851,6 +851,8 @@ final class Hea_Lth_Control_Center {
 			20
 		) . ' <a href="' . esc_url( self::tab_url( 'map-clients' ) ) . '">' . esc_html__( 'Manage clients', 'hea-lth-platform-core' ) . '</a></p>';
 
+		self::render_engagement_report( $clients );
+
 		echo '<h3>' . esc_html__( 'Products index', 'hea-lth-platform-core' ) . '</h3>';
 		echo '<p>' . esc_html__( 'The body model routes visitors into the product guides. Manage which regions surface products in the Body index tab; edit the guide pages themselves under Content & pages.', 'hea-lth-platform-core' ) . '</p>';
 
@@ -873,6 +875,59 @@ final class Hea_Lth_Control_Center {
 				echo '<table class="widefat striped" style="max-width:880px"><tbody>';
 				foreach ( $report['entries'] as $route ) {
 					echo '<tr><td>' . esc_html( $route['title'] ) . '</td><td>' . esc_html( $route['status'] ) . '</td><td>' . esc_html( $route['last_reviewed'] ) . '</td></tr>';
+				}
+				echo '</tbody></table>';
+			}
+		}
+	}
+
+	/**
+	 * Engagement counters for the paid pins and the WhatsApp channel: the
+	 * numbers the owner shows a prospective client. Aggregate-only by design.
+	 *
+	 * @param array $clients Live featured providers (for id → name labels).
+	 * @return void
+	 */
+	private static function render_engagement_report( $clients ) {
+		if ( ! class_exists( 'Hea_Lth_Metrics' ) ) {
+			return;
+		}
+
+		$names = array();
+		foreach ( $clients as $client ) {
+			if ( isset( $client['metricId'], $client['name'] ) ) {
+				$names[ (string) $client['metricId'] ] = (string) $client['name'];
+			}
+		}
+
+		$this_month = gmdate( 'Y-m' );
+		$last_month = gmdate( 'Y-m', strtotime( gmdate( 'Y-m-01' ) . ' -1 month' ) );
+
+		echo '<h3>' . esc_html__( 'Engagement (aggregate counters, no visitor tracking)', 'hea-lth-platform-core' ) . '</h3>';
+
+		foreach ( array( $this_month, $last_month ) as $month ) {
+			$report = Hea_Lth_Metrics::report( $month );
+
+			echo '<h4 style="margin:10px 0 4px">' . esc_html( $month ) . '</h4>';
+
+			if ( 0 === $report['total_hits'] ) {
+				echo '<p class="description">' . esc_html__( 'No engagement recorded for this month yet.', 'hea-lth-platform-core' ) . '</p>';
+				continue;
+			}
+
+			if ( array() !== $report['pins'] ) {
+				echo '<table class="widefat striped" style="max-width:680px"><thead><tr><th>' . esc_html__( 'Client pin', 'hea-lth-platform-core' ) . '</th><th>' . esc_html__( 'Popup views', 'hea-lth-platform-core' ) . '</th><th>' . esc_html__( 'Action clicks', 'hea-lth-platform-core' ) . '</th></tr></thead><tbody>';
+				foreach ( $report['pins'] as $pin_id => $counts ) {
+					$label = isset( $names[ $pin_id ] ) ? $names[ $pin_id ] : $pin_id;
+					echo '<tr><td>' . esc_html( $label ) . '</td><td>' . (int) $counts['views'] . '</td><td>' . (int) $counts['clicks'] . '</td></tr>';
+				}
+				echo '</tbody></table>';
+			}
+
+			if ( array() !== $report['whatsapp'] ) {
+				echo '<table class="widefat striped" style="max-width:680px; margin-top:6px"><thead><tr><th>' . esc_html__( 'WhatsApp opens by page', 'hea-lth-platform-core' ) . '</th><th>' . esc_html__( 'Opens', 'hea-lth-platform-core' ) . '</th></tr></thead><tbody>';
+				foreach ( $report['whatsapp'] as $page => $count ) {
+					echo '<tr><td><code>' . esc_html( $page ) . '</code></td><td>' . (int) $count . '</td></tr>';
 				}
 				echo '</tbody></table>';
 			}

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.9.0' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.10.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
@@ -119,7 +119,15 @@ function hea_lth_portal_enqueue_assets() {
 	$whatsapp_number = apply_filters( 'hea_lth_whatsapp_number', get_option( 'hea_lth_whatsapp_number', '972525101555' ) );
 	wp_add_inline_script(
 		'hea-lth-portal-engagement',
-		'window.heaLthEngage = ' . wp_json_encode( array( 'whatsapp' => (string) $whatsapp_number ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';',
+		'window.heaLthEngage = ' . wp_json_encode(
+			array(
+				'whatsapp' => (string) $whatsapp_number,
+				// Aggregate-counter beacon endpoint; the platform records only
+				// allowlisted type + bounded key, never visitor identity.
+				'metrics'  => esc_url_raw( rest_url( 'hea-lth-platform/v1/metric' ) ),
+			),
+			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+		) . ';',
 		'before'
 	);
 
