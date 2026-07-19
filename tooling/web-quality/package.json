@@ -9,6 +9,9 @@
   "devDependencies": {
     "@axe-core/cli": "4.12.1"
   },
+  "overrides": {
+    "adm-zip": "^0.6.0"
+  },
   "engines": {
     "node": ">=22"
   }
