@@ -11,6 +11,7 @@ get_header();
 </section>
 <section class="hp-template-section hp-template-section--paper">
 	<div class="hp-shell">
+		<div class="hp-marketplace-actions"><a class="hp-button" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'clinic_build' ) ); ?>"><?php esc_html_e( 'תכנון רכש למרפאה', 'hea-lth-portal' ); ?></a><a class="hp-text-link" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'supplier_join' ) ); ?>"><?php esc_html_e( 'הצטרפות ספק או יבואן', 'hea-lth-portal' ); ?> ←</a></div>
 		<?php if ( have_posts() ) : ?>
 			<div class="hp-showroom-grid">
 				<?php while ( have_posts() ) : the_post(); ?>
