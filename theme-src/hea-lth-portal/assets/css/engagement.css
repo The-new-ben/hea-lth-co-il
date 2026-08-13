@@ -147,16 +147,25 @@
 
 @media (max-width: 680px) {
   .hp-wa {
-    right: 50%;
+    right: 12px;
+    left: 12px;
     bottom: 12px;
-    max-width: min(92vw, 340px);
+    width: auto;
+    max-width: none;
     min-height: 52px;
-    transform: translateX(50%);
+    justify-content: center;
+    padding: 6px 12px;
+    transform: none;
   }
 
   .hp-wa:hover,
   .hp-wa:focus-visible {
-    transform: translateX(50%) translateY(-2px);
+    transform: translateY(-2px);
+  }
+
+  .hp-wa__copy b,
+  .hp-wa__copy small {
+    white-space: nowrap;
   }
 
   .hp-select-card {

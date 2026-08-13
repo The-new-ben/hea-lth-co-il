@@ -24,6 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function hea_lth_portal_route( $route_key ) {
 	$routes = array(
 		'aesthetic_medicine'            => '/aesthetic-medicine-treatments/',
+		'skin_treatments_private'       => '/skin-treatments-private/',
 		'plastic_surgery_consultation'  => '/plastic-surgery-consultation/',
 		'hair_transplant_consultation'  => '/hair-transplant-consultation/',
 		'nose_surgery_price'            => '/nose-surgery-cost/',
@@ -88,6 +89,14 @@ function hea_lth_portal_foundation_routes() {
 		'guides'                        => array( 'path' => '/guides/', 'release' => 'evidence-gated' ),
 		'health_technology'             => array( 'path' => '/health-technology/', 'release' => 'evidence-gated' ),
 		'health_technology_equipment'   => array( 'path' => '/health-technology/equipment/', 'release' => 'evidence-gated' ),
+		'health_technology_biomarkers'  => array( 'path' => '/health-technology/biomarkers/', 'release' => 'production-evidence' ),
+		'health_technology_ai_robotics' => array( 'path' => '/health-technology/ai-robotics/', 'release' => 'production-evidence' ),
+		'biology'                       => array( 'path' => '/biology/', 'release' => 'production-evidence' ),
+		'biology_cellular_aging'        => array( 'path' => '/biology/cellular-aging/', 'release' => 'production-evidence' ),
+		'biology_metabolism'            => array( 'path' => '/biology/metabolism/', 'release' => 'production-evidence' ),
+		'biology_inflammation'          => array( 'path' => '/biology/inflammation/', 'release' => 'production-evidence' ),
+		'biology_genetics_epigenetics'  => array( 'path' => '/biology/genetics-epigenetics/', 'release' => 'production-evidence' ),
+		'longevity_medicine'            => array( 'path' => '/longevity-medicine/', 'release' => 'production-evidence' ),
 		'suppliers'                     => array( 'path' => '/suppliers/', 'release' => 'production' ),
 		'medical_equipment'             => array( 'path' => '/medical-equipment/', 'release' => 'production' ),
 		'clinic_build'                  => array( 'path' => '/professionals/clinic-build/', 'release' => 'foundation' ),

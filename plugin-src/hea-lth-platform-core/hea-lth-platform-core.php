@@ -3,7 +3,7 @@
  * Plugin Name: Hea-lth Platform Core
  * Plugin URI: https://hea-lth.co.il
  * Description: Content model and safe public-directory foundation for the Hea-lth portal rebuild.
- * Version: 0.12.0
+ * Version: 0.13.0
  * Requires at least: 6.5
  * Requires PHP: 7.4
  * Author: Hea-lth
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PLATFORM_CORE_VERSION', '0.12.0' );
+define( 'HEA_LTH_PLATFORM_CORE_VERSION', '0.13.0' );
 define( 'HEA_LTH_PLATFORM_CORE_FILE', __FILE__ );
 define( 'HEA_LTH_PLATFORM_CORE_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -27,6 +27,7 @@ require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-directory-contr
 require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-anatomy-model-registry.php';
 require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-directory-map-registry.php';
 require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-lead-route-resolver.php';
+require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-knowledge-graph.php';
 require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-page-provisioner.php';
 require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-showroom-provisioner.php';
 require_once HEA_LTH_PLATFORM_CORE_DIR . 'includes/class-hea-lth-clinic-provisioner.php';

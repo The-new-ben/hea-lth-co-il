@@ -136,6 +136,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'guides' ) ); ?>"><span><?php esc_html_e( 'מדריכים ומחקרים', 'hea-lth-portal' ); ?></span><small><?php esc_html_e( 'שאלות, הכנה, חלופות ומקורות לקריאה', 'hea-lth-portal' ); ?></small></a>
 					<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'glossary' ) ); ?>"><span><?php esc_html_e( 'מילון בריאות', 'hea-lth-portal' ); ?></span><small><?php esc_html_e( 'מונחים, הסברים וקישורים למידע שנבדק', 'hea-lth-portal' ); ?></small></a>
 					<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'anatomy' ) ); ?>"><span><?php esc_html_e( 'הגוף האינטראקטיבי', 'hea-lth-portal' ); ?></span><small><?php esc_html_e( 'חיפוש לפי אזור גוף ומסלולי מידע', 'hea-lth-portal' ); ?></small></a>
+					<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'biology' ) ); ?>"><span><?php esc_html_e( 'ביולוגיה והזדקנות בריאה', 'hea-lth-portal' ); ?></span><small><?php esc_html_e( 'תאים, מערכות גוף, עור ומדע אריכות החיים', 'hea-lth-portal' ); ?></small></a>
 					<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'health_technology' ) ); ?>"><span><?php esc_html_e( 'טכנולוגיות בריאות', 'hea-lth-portal' ); ?></span><small><?php esc_html_e( 'ציוד, דימות, כלים ושירותים מתקדמים', 'hea-lth-portal' ); ?></small></a>
 				</div>
 			</div>

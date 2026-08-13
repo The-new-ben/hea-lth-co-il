@@ -16,6 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! class_exists( 'Hea_Lth_Knowledge_Graph' ) ) {
+	require_once __DIR__ . '/class-hea-lth-knowledge-graph.php';
+}
+
 /**
  * Creates missing foundation pages for shipped portal templates.
  */
@@ -23,7 +27,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-08-13-01';
+	const BLUEPRINT_VERSION = '2026-08-13-02';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -54,6 +58,15 @@ class Hea_Lth_Page_Provisioner {
 			array( 'path' => '/glossary/', 'title' => 'מילון בריאות', 'template' => 'page-templates/template-glossary.php' ),
 			array( 'path' => '/find-care/', 'title' => 'מסלול בחירה', 'template' => 'page-templates/template-find-care.php' ),
 			array( 'path' => '/health-technology/', 'title' => 'טכנולוגיות בריאות וציוד', 'template' => 'page-templates/template-health-technology.php' ),
+			self::science_page( '/health-technology/biomarkers/', 'סמנים ביולוגיים, מדידה ומעקב', 'biomarkers' ),
+			self::science_page( '/health-technology/ai-robotics/', 'בינה מלאכותית ורובוטיקה בבריאות', 'ai_robotics' ),
+			self::science_page( '/biology/', 'ביולוגיה של האדם והזדקנות בריאה', 'biology' ),
+			self::science_page( '/biology/cellular-aging/', 'הזדקנות תאית ומנגנוני יסוד', 'cellular_aging' ),
+			self::science_page( '/biology/metabolism/', 'מטבוליזם, חישה תזונתית ומיטוכונדריה', 'metabolism' ),
+			self::science_page( '/biology/inflammation/', 'דלקת כרונית, תקשורת בין תאים ובריאות', 'inflammation' ),
+			self::science_page( '/biology/genetics-epigenetics/', 'גנטיקה, אפיגנטיקה ויציבות הגנום', 'genetics_epigenetics' ),
+			self::science_page( '/longevity-medicine/', 'רפואת אריכות ימים והזדקנות בריאה', 'longevity' ),
+			self::science_page( '/skin/', 'מדע העור, מחסום העור והזדקנות', 'skin' ),
 			array( 'path' => '/professionals/', 'title' => 'אזור למקצוענים', 'template' => 'page-templates/template-professionals.php' ),
 			array( 'path' => '/professionals/supplier-join/', 'title' => 'הצטרפות ספקים ויבואנים', 'template' => 'page-templates/template-supplier-join.php' ),
 			array( 'path' => '/treatments/', 'title' => 'מרכזי טיפול', 'template' => 'page-templates/template-treatment-hub.php' ),
@@ -152,6 +165,46 @@ class Hea_Lth_Page_Provisioner {
 	}
 
 	/**
+	 * Build a reviewed science-page blueprint from the central graph.
+	 *
+	 * @param string $path Public path.
+	 * @param string $title Page title.
+	 * @param string $domain Knowledge-graph node identifier.
+	 * @return array<string, mixed>
+	 */
+	private static function science_page( $path, $title, $domain ) {
+		$node       = Hea_Lth_Knowledge_Graph::node( $domain );
+		$sources    = array();
+		$source_note = array();
+
+		foreach ( isset( $node['sources'] ) && is_array( $node['sources'] ) ? $node['sources'] : array() as $source ) {
+			if ( ! is_array( $source ) || empty( $source['url'] ) ) {
+				continue;
+			}
+
+			$sources[] = (string) $source['url'];
+			if ( ! empty( $source['label'] ) ) {
+				$source_note[] = (string) $source['label'];
+			}
+		}
+
+		return array(
+			'path'     => $path,
+			'title'    => $title,
+			'template' => 'page-templates/template-science-hub.php',
+			'meta'     => array(
+				'hp_science_domain'         => $domain,
+				'hp_evidence_sources'       => $sources,
+				'hp_medical_review_level'   => isset( $node['review_level'] ) ? $node['review_level'] : 'maximum',
+				'hp_commercial_bridge_keys' => isset( $node['bridges'] ) ? $node['bridges'] : array(),
+				'hp_editorial_state'        => 'approved',
+				'hp_last_reviewed'          => '2026-08-13',
+				'hp_source_note'            => implode( '; ', $source_note ),
+			),
+		);
+	}
+
+	/**
 	 * Refresh a page this provisioner authored, but only while the owner has
 	 * never touched it. The anchor is a content hash stored at creation: when
 	 * the live content still matches the stored hash, the page carries our
@@ -239,6 +292,7 @@ class Hea_Lth_Page_Provisioner {
 
 			if ( $existing instanceof WP_Post ) {
 				self::maybe_refresh_content( $existing, $page );
+				self::maybe_seed_page_metadata( (int) $existing->ID, $page, false );
 				continue;
 			}
 
@@ -283,12 +337,45 @@ class Hea_Lth_Page_Provisioner {
 			if ( ! empty( $page['content'] ) ) {
 				update_post_meta( (int) $page_id, '_hea_lth_blueprint_hash', md5( (string) $page['content'] ) );
 			}
+
+			self::maybe_seed_page_metadata( (int) $page_id, $page, true );
 		}
 
 		self::provision_site_identity();
 		self::retire_legacy_toolbar();
 
 		update_option( self::OPTION_KEY, self::BLUEPRINT_VERSION, false );
+	}
+
+	/**
+	 * Seed governed metadata without replacing owner-managed values.
+	 *
+	 * Existing pages receive the science template only when they still use the
+	 * default page template. New pages receive the full blueprint atomically.
+	 *
+	 * @param int   $page_id Page ID.
+	 * @param array $page Blueprint entry.
+	 * @param bool  $is_new Whether the page was created in this run.
+	 * @return void
+	 */
+	private static function maybe_seed_page_metadata( $page_id, $page, $is_new ) {
+		if ( ! empty( $page['template'] ) && ! $is_new ) {
+			$current_template = (string) get_post_meta( $page_id, '_wp_page_template', true );
+
+			if ( '' === $current_template || 'default' === $current_template ) {
+				update_post_meta( $page_id, '_wp_page_template', $page['template'] );
+			}
+		}
+
+		if ( empty( $page['meta'] ) || ! is_array( $page['meta'] ) ) {
+			return;
+		}
+
+		foreach ( $page['meta'] as $key => $value ) {
+			if ( $is_new || ! metadata_exists( 'post', $page_id, $key ) ) {
+				update_post_meta( $page_id, $key, $value );
+			}
+		}
 	}
 
 	/**
