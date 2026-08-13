@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Hea_Lth_Metrics {
 
 	/** Metric types a beacon may increment; anything else is dropped. */
-	const TYPES = array( 'pin_view', 'pin_click', 'wa_open' );
+	const TYPES = array( 'pin_view', 'pin_click', 'wa_open', 'b2b_submit' );
 
 	/** Hard cap of distinct counter keys per month, an abuse backstop. */
 	const MAX_KEYS_PER_MONTH = 300;
@@ -129,7 +129,7 @@ final class Hea_Lth_Metrics {
 	 * WhatsApp-per-page rows, each sorted by volume.
 	 *
 	 * @param string $month Month in Y-m.
-	 * @return array{pins: array<string, array{views:int, clicks:int}>, whatsapp: array<string, int>, total_hits: int}
+	 * @return array{pins: array<string, array{views:int, clicks:int}>, whatsapp: array<string, int>, b2b: array<string, int>, total_hits: int}
 	 */
 	public static function report( $month = '' ) {
 		$counters = get_option( self::option_name( $month ), array() );
@@ -139,6 +139,7 @@ final class Hea_Lth_Metrics {
 
 		$pins     = array();
 		$whatsapp = array();
+		$b2b      = array();
 		$total    = 0;
 
 		foreach ( $counters as $counter_key => $count ) {
@@ -158,6 +159,8 @@ final class Hea_Lth_Metrics {
 				$pins[ $key ][ 'pin_view' === $type ? 'views' : 'clicks' ] += $count;
 			} elseif ( 'wa_open' === $type ) {
 				$whatsapp[ $key ] = isset( $whatsapp[ $key ] ) ? $whatsapp[ $key ] + $count : $count;
+			} elseif ( 'b2b_submit' === $type ) {
+				$b2b[ $key ] = isset( $b2b[ $key ] ) ? $b2b[ $key ] + $count : $count;
 			}
 		}
 
@@ -168,10 +171,12 @@ final class Hea_Lth_Metrics {
 			}
 		);
 		arsort( $whatsapp );
+		arsort( $b2b );
 
 		return array(
 			'pins'       => $pins,
 			'whatsapp'   => $whatsapp,
+			'b2b'        => $b2b,
 			'total_hits' => $total,
 		);
 	}

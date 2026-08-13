@@ -20,7 +20,8 @@ $source       = get_post_meta( $equipment_id, 'hp_source_url', true );
 		<article class="hp-prose"><?php echo apply_filters( 'the_content', get_the_content() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></article>
 		<aside>
 			<dl><div><dt><?php esc_html_e( 'טכנולוגיה', 'hea-lth-portal' ); ?></dt><dd><?php echo esc_html( $technology ); ?></dd></div><div><dt><?php esc_html_e( 'משפחת שימוש', 'hea-lth-portal' ); ?></dt><dd><?php echo esc_html( $family ); ?></dd></div></dl>
-			<?php if ( $supplier_id ) : ?><a class="hp-button" href="<?php echo esc_url( get_permalink( $supplier_id ) ); ?>"><?php esc_html_e( 'לאולם התצוגה וליצירת קשר', 'hea-lth-portal' ); ?></a><?php endif; ?>
+			<?php if ( $supplier_id ) : ?><a class="hp-button" href="<?php echo esc_url( get_permalink( $supplier_id ) ); ?>"><?php esc_html_e( 'לאולם התצוגה', 'hea-lth-portal' ); ?></a><?php endif; ?>
+			<a class="hp-button hp-button--secondary" href="<?php echo esc_url( add_query_arg( 'equipment', get_post_field( 'post_name', $equipment_id ), hea_lth_portal_clinic_plan_url() ) ); ?>#quote"><?php esc_html_e( 'בקשת הצעת רכש', 'hea-lth-portal' ); ?></a>
 			<?php if ( $source ) : ?><a class="hp-text-link" href="<?php echo esc_url( $source ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'מקור: אתר הספק', 'hea-lth-portal' ); ?></a><?php endif; ?>
 		</aside>
 	</div>

@@ -931,6 +931,14 @@ final class Hea_Lth_Control_Center {
 				}
 				echo '</tbody></table>';
 			}
+
+			if ( array() !== $report['b2b'] ) {
+				echo '<table class="widefat striped" style="max-width:680px; margin-top:6px"><thead><tr><th>' . esc_html__( 'B2B submissions by context', 'hea-lth-platform-core' ) . '</th><th>' . esc_html__( 'Requests', 'hea-lth-platform-core' ) . '</th></tr></thead><tbody>';
+				foreach ( $report['b2b'] as $context => $count ) {
+					echo '<tr><td><code>' . esc_html( $context ) . '</code></td><td>' . (int) $count . '</td></tr>';
+				}
+				echo '</tbody></table>';
+			}
 		}
 	}
 

@@ -23,7 +23,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-07-16-02';
+	const BLUEPRINT_VERSION = '2026-08-13-01';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -55,6 +55,7 @@ class Hea_Lth_Page_Provisioner {
 			array( 'path' => '/find-care/', 'title' => 'מסלול בחירה', 'template' => 'page-templates/template-find-care.php' ),
 			array( 'path' => '/health-technology/', 'title' => 'טכנולוגיות בריאות וציוד', 'template' => 'page-templates/template-health-technology.php' ),
 			array( 'path' => '/professionals/', 'title' => 'אזור למקצוענים', 'template' => 'page-templates/template-professionals.php' ),
+			array( 'path' => '/professionals/supplier-join/', 'title' => 'הצטרפות ספקים ויבואנים', 'template' => 'page-templates/template-supplier-join.php' ),
 			array( 'path' => '/treatments/', 'title' => 'מרכזי טיפול', 'template' => 'page-templates/template-treatment-hub.php' ),
 			array( 'path' => '/accessibility/', 'title' => 'הצהרת נגישות', 'template' => '', 'content' => self::accessibility_statement_content() ),
 			array(

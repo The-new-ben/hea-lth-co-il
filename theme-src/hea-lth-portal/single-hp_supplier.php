@@ -25,6 +25,7 @@ $equipment   = new WP_Query( array( 'post_type' => 'hp_equipment', 'post_status'
 			<div class="hp-supplier-actions">
 				<?php if ( $website ) : ?><a class="hp-button" href="<?php echo esc_url( $website ); ?>" rel="noopener" target="_blank"><?php esc_html_e( 'לאתר החברה', 'hea-lth-portal' ); ?></a><?php endif; ?>
 				<?php if ( $email ) : ?><a class="hp-button hp-button--ghost" href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><?php esc_html_e( 'פנייה מסחרית', 'hea-lth-portal' ); ?></a><?php endif; ?>
+				<a class="hp-button hp-button--ghost" href="<?php echo esc_url( add_query_arg( 'supplier', get_post_field( 'post_name', $supplier_id ), hea_lth_portal_clinic_plan_url() ) ); ?>#quote"><?php esc_html_e( 'בניית סל רכש', 'hea-lth-portal' ); ?></a>
 			</div>
 		</div>
 		<div class="hp-supplier-monogram" aria-hidden="true"><?php echo esc_html( substr( get_the_title(), 0, 1 ) ); ?></div>

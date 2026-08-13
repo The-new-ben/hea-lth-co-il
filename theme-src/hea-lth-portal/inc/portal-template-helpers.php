@@ -250,3 +250,20 @@ function hea_lth_portal_render_reviewed_guide_card() {
 	</article>
 	<?php
 }
+
+/**
+ * Resolve a public clinic-build plan without hard-coding a new route.
+ *
+ * @param string $slug Clinic-plan slug.
+ * @return string
+ */
+function hea_lth_portal_clinic_plan_url( $slug = 'weight-management-aesthetics' ) {
+	$slug = sanitize_title( $slug );
+	$plan = get_page_by_path( $slug, OBJECT, 'hp_clinic_plan' );
+
+	if ( $plan instanceof WP_Post && 'publish' === $plan->post_status ) {
+		return get_permalink( $plan );
+	}
+
+	return hea_lth_portal_foundation_route( 'clinic_build' );
+}
