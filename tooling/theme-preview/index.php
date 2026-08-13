@@ -530,9 +530,9 @@ function get_post_meta( int $post_id, string $key, bool $single = false ) {
 
 	if ( 'medical-equipment' === $hea_lth_preview_page ) {
 		$equipment_meta = array(
-			601 => array( 'hp_editorial_state' => 'reviewed', 'hp_product_family' => 'עיצוב הגוף', 'hp_technology' => 'HIFEM + RF', 'hp_supplier_id' => 501 ),
-			602 => array( 'hp_editorial_state' => 'reviewed', 'hp_product_family' => 'טיפולי עור', 'hp_technology' => 'Microneedling RF', 'hp_supplier_id' => 502 ),
-			603 => array( 'hp_editorial_state' => 'reviewed', 'hp_product_family' => 'אבחון עור', 'hp_technology' => 'AI Skin Analysis', 'hp_supplier_id' => 501 ),
+			601 => array( 'hp_editorial_state' => 'approved', 'hp_product_family' => 'עיצוב הגוף', 'hp_technology' => 'HIFEM + RF', 'hp_supplier_id' => 501 ),
+			602 => array( 'hp_editorial_state' => 'approved', 'hp_product_family' => 'טיפולי עור', 'hp_technology' => 'Microneedling RF', 'hp_supplier_id' => 502 ),
+			603 => array( 'hp_editorial_state' => 'approved', 'hp_product_family' => 'אבחון עור', 'hp_technology' => 'AI Skin Analysis', 'hp_supplier_id' => 501 ),
 		);
 		if ( isset( $equipment_meta[ $post_id ][ $key ] ) ) {
 			$value = $equipment_meta[ $post_id ][ $key ];

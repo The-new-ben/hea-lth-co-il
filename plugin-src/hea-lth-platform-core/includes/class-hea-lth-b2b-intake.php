@@ -131,7 +131,7 @@ final class Hea_Lth_B2B_Intake {
 
 		foreach ( $slugs as $slug ) {
 			$machine = get_page_by_path( $slug, OBJECT, 'hp_equipment' );
-			if ( ! $machine instanceof WP_Post || 'publish' !== $machine->post_status || 'reviewed' !== get_post_meta( (int) $machine->ID, 'hp_editorial_state', true ) ) {
+			if ( ! $machine instanceof WP_Post || 'publish' !== $machine->post_status || 'approved' !== get_post_meta( (int) $machine->ID, 'hp_editorial_state', true ) ) {
 				continue;
 			}
 
