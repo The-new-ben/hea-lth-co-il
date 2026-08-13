@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Hea_Lth_Showroom_Provisioner {
 	const OPTION_KEY = 'hea_lth_showroom_blueprint';
-	const VERSION    = '2026-08-13-02';
+	const VERSION    = '2026-08-13-03';
 
 	public static function boot() {
 		add_action( 'init', array( __CLASS__, 'maybe_provision' ), 30 );
@@ -176,7 +176,7 @@ final class Hea_Lth_Showroom_Provisioner {
 			update_post_meta( $post_id, 'hp_product_family', $equipment[4] );
 			update_post_meta( $post_id, 'hp_clinic_roles', array( $equipment[4] ) );
 			update_post_meta( $post_id, 'hp_source_url', $source_url );
-			update_post_meta( $post_id, 'hp_editorial_state', 'reviewed' );
+			update_post_meta( $post_id, 'hp_editorial_state', 'approved' );
 			update_post_meta( $post_id, 'hp_last_reviewed', '2026-08-13' );
 			update_post_meta( $post_id, 'hp_source_note', 'האתר הרשמי של הספק' );
 		}

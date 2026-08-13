@@ -21,7 +21,7 @@ $equipment = get_posts(
 		'orderby'        => 'title',
 		'order'          => 'ASC',
 		'meta_key'       => 'hp_editorial_state', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Bounded reviewed marketplace catalog.
-		'meta_value'     => 'reviewed', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Public records must pass the editorial gate.
+		'meta_value'     => 'approved', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Public records must pass the editorial gate.
 		'no_found_rows'  => true,
 	)
 );
