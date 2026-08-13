@@ -15,6 +15,7 @@ $script      = (string) file_get_contents( $root . '/theme-src/hea-lth-portal/as
 $intake      = (string) file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-b2b-intake.php' );
 $core        = (string) file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-platform-core.php' );
 $provisioner = (string) file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-page-provisioner.php' );
+$showrooms   = (string) file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-showroom-provisioner.php' );
 
 assert_true( false !== strpos( $provisioner, "'/medical-equipment/'" ), 'The canonical equipment marketplace page must be provisioned.' );
 assert_true( false !== strpos( $provisioner, 'template-medical-equipment.php' ), 'The marketplace must use its dedicated template.' );
@@ -25,6 +26,7 @@ assert_true( false !== strpos( $form, 'name="equipment[]"' ) && false !== strpos
 assert_true( false !== strpos( $intake, 'get_page_by_path' ) && false !== strpos( $intake, "'hp_editorial_state'" ), 'Submitted slugs must be resolved against reviewed canonical records.' );
 assert_true( false !== strpos( $intake, "'hp_candidate_supplier_ids'" ) && false !== strpos( $core, "'hp_candidate_supplier_ids'" ), 'Validated supplier candidates must be stored privately.' );
 assert_true( false !== strpos( $intake, "'post_status' => 'private'" ), 'RFQ records must remain private.' );
+assert_true( false !== strpos( $showrooms, "const VERSION    = '2026-08-13-02'" ), 'The showroom data migration must refresh existing records into the reviewed marketplace.' );
 assert_true( false === strpos( $template, '10%' ) && false === strpos( $template, 'עמלת תיווך' ) && false === strpos( $template, 'תנאי התיווך' ), 'Public marketplace content must not expose brokerage terms.' );
 
 echo "Equipment marketplace contract passed.\n";
