@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Hea_Lth_Showroom_Provisioner {
 	const OPTION_KEY = 'hea_lth_showroom_blueprint';
-	const VERSION    = '2026-08-13-01';
+	const VERSION    = '2026-08-13-02';
 
 	public static function boot() {
 		add_action( 'init', array( __CLASS__, 'maybe_provision' ), 30 );
