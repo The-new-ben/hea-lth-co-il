@@ -19,6 +19,7 @@ $notices = array(
 	'catalog-required' => array( 'error', 'יש למלא את שם המוצר ואת תיאור הבקשה.' ),
 	'catalog-error'    => array( 'error', 'לא הצלחנו לשמור את הבקשה. נסו שוב.' ),
 	'pipeline-updated' => array( 'success', 'מצב הטיפול עודכן.' ),
+	'rfq-updated'      => array( 'success', 'המענה להזדמנות נשמר ונשלח לצוות Hea-lth.' ),
 	'terms-accepted'   => array( 'success', 'תנאי התיווך אושרו ונשמרו. צוות Hea-lth יכול להמשיך בהעברת פרטי ההתקשרות.' ),
 );
 ?>
@@ -72,6 +73,7 @@ $notices = array(
 				$plans        = Hea_Lth_Supplier_Portal::plans();
 				$states       = Hea_Lth_Supplier_Portal::membership_states();
 				$requests     = Hea_Lth_Supplier_Portal::assigned_requests( $supplier_id );
+				$rfq_invitations = class_exists( 'Hea_Lth_RFQ_Invitations' ) ? Hea_Lth_RFQ_Invitations::invitations_for_supplier( $supplier_id ) : array();
 				$submissions  = Hea_Lth_Supplier_Portal::catalog_submissions( $supplier_id );
 				$equipment    = get_posts(
 					array(
@@ -98,8 +100,37 @@ $notices = array(
 					<article><span><?php esc_html_e( 'מסלול', 'hea-lth-portal' ); ?></span><strong><?php echo esc_html( isset( $plans[ $plan ] ) ? $plans[ $plan ] : $plans['verified'] ); ?></strong></article>
 					<article><span><?php esc_html_e( 'מצב', 'hea-lth-portal' ); ?></span><strong><?php echo esc_html( isset( $states[ $member_state ] ) ? $states[ $member_state ] : $states['pending'] ); ?></strong></article>
 					<article><span><?php esc_html_e( 'מוצרים באולם', 'hea-lth-portal' ); ?></span><strong><?php echo esc_html( number_format_i18n( count( $equipment ) ) ); ?></strong></article>
-					<article><span><?php esc_html_e( 'הזדמנויות', 'hea-lth-portal' ); ?></span><strong><?php echo esc_html( number_format_i18n( count( $requests ) ) ); ?></strong></article>
+					<article><span><?php esc_html_e( 'הזדמנויות', 'hea-lth-portal' ); ?></span><strong><?php echo esc_html( number_format_i18n( count( $requests ) + count( $rfq_invitations ) ) ); ?></strong></article>
 				</div>
+
+				<?php if ( $rfq_invitations ) : ?>
+					<section class="hp-supplier-panel hp-rfq-inbox" aria-labelledby="hp-rfq-title">
+						<div class="hp-supplier-panel__heading">
+							<div><p class="hp-eyebrow"><?php esc_html_e( 'התאמה ראשונית', 'hea-lth-portal' ); ?></p><h2 id="hp-rfq-title"><?php esc_html_e( 'הזדמנויות רכש לעיון', 'hea-lth-portal' ); ?></h2></div>
+							<span><?php echo esc_html( number_format_i18n( count( $rfq_invitations ) ) ); ?></span>
+						</div>
+						<p><?php esc_html_e( 'הפניות בשלב זה אנונימיות. סמנו אם הן רלוונטיות לחברה; בחירה להמשך ותיאום עסקי יתבצעו בנפרד.', 'hea-lth-portal' ); ?></p>
+						<div class="hp-rfq-list">
+							<?php foreach ( $rfq_invitations as $invitation ) : ?>
+								<?php $rfq = Hea_Lth_RFQ_Invitations::invitation_view( $invitation, $supplier_id ); ?>
+								<?php if ( ! $rfq ) { continue; } ?>
+								<article class="hp-rfq-card">
+									<div class="hp-opportunity-card__top"><strong><?php echo esc_html( $rfq['buyer'] ); ?></strong><span><?php echo esc_html( Hea_Lth_RFQ_Invitations::status_label( $rfq['status'] ) ); ?></span></div>
+									<?php if ( $rfq['equipment'] ) : ?><ul class="hp-opportunity-equipment" aria-label="<?php esc_attr_e( 'מערכות מבוקשות', 'hea-lth-portal' ); ?>"><?php foreach ( $rfq['equipment'] as $equipment_name ) : ?><li><?php echo esc_html( $equipment_name ); ?></li><?php endforeach; ?></ul><?php endif; ?>
+									<?php if ( ! $rfq['equipment'] && $rfq['categories'] ) : ?><p><?php echo esc_html( implode( ' · ', $rfq['categories'] ) ); ?></p><?php endif; ?>
+									<?php if ( in_array( $rfq['status'], array( 'invited', 'interested' ), true ) ) : ?>
+										<form class="hp-rfq-response" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+											<input type="hidden" name="action" value="hea_lth_rfq_response"><input type="hidden" name="invitation_id" value="<?php echo (int) $rfq['id']; ?>">
+											<?php wp_nonce_field( 'hea_lth_rfq_response', 'hea_lth_rfq_nonce' ); ?>
+											<button class="hp-button hp-button--small" type="submit" name="rfq_response" value="interested"><?php esc_html_e( 'רלוונטי לחברה', 'hea-lth-portal' ); ?></button>
+											<button class="hp-button hp-button--small hp-button--secondary" type="submit" name="rfq_response" value="declined"><?php esc_html_e( 'לא רלוונטי', 'hea-lth-portal' ); ?></button>
+										</form>
+									<?php endif; ?>
+								</article>
+							<?php endforeach; ?>
+						</div>
+					</section>
+				<?php endif; ?>
 
 				<div class="hp-supplier-dashboard__grid">
 					<section class="hp-supplier-panel" aria-labelledby="hp-opportunities-title">
@@ -116,7 +147,7 @@ $notices = array(
 									<?php if ( ! $lead ) { continue; } ?>
 									<article class="hp-opportunity-card">
 										<div class="hp-opportunity-card__top"><strong><?php echo esc_html( $lead['company'] ? $lead['company'] : __( 'פנייה עסקית', 'hea-lth-portal' ) ); ?></strong><span><?php echo $lead['released'] ? esc_html__( 'פרטי קשר זמינים', 'hea-lth-portal' ) : esc_html__( 'בתיאום Hea-lth', 'hea-lth-portal' ); ?></span></div>
-										<p><?php echo esc_html( $lead['city'] ); ?><?php echo $lead['stage'] ? ' · ' . esc_html( $lead['stage'] ) : ''; ?></p>
+										<?php if ( $lead['city'] || $lead['stage'] ) : ?><p><?php echo esc_html( implode( ' · ', array_filter( array( $lead['city'], $lead['stage'] ) ) ) ); ?></p><?php endif; ?>
 										<?php if ( $lead['equipment'] ) : ?><ul class="hp-opportunity-equipment" aria-label="<?php esc_attr_e( 'מערכות מבוקשות', 'hea-lth-portal' ); ?>"><?php foreach ( $lead['equipment'] as $equipment_name ) : ?><li><?php echo esc_html( $equipment_name ); ?></li><?php endforeach; ?></ul><?php endif; ?>
 										<?php if ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) && 'offered' === $lead['terms']['status'] ) : ?>
 											<div class="hp-brokerage-terms">

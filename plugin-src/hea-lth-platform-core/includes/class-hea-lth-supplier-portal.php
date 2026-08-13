@@ -105,6 +105,10 @@ final class Hea_Lth_Supplier_Portal {
 		self::meta( 'hp_supplier', 'hp_account_user_ids', 'array', array(), array( __CLASS__, 'sanitize_id_list' ) );
 		self::meta( 'hp_supplier', 'hp_membership_plan', 'string', 'verified', array( __CLASS__, 'sanitize_plan' ) );
 		self::meta( 'hp_supplier', 'hp_membership_state', 'string', 'pending', array( __CLASS__, 'sanitize_membership_state' ) );
+		self::meta( 'hp_supplier', 'hp_account_invite_status', 'string', 'none', array( __CLASS__, 'sanitize_account_invite_status' ) );
+		self::meta( 'hp_supplier', 'hp_account_invite_utc', 'string', '', 'sanitize_text_field' );
+		self::meta( 'hp_supplier', 'hp_account_invite_user_id', 'integer', 0, 'absint' );
+		self::meta( 'hp_supplier', 'hp_account_invite_delivery', 'array', array(), array( __CLASS__, 'sanitize_account_invite_delivery' ) );
 
 		self::meta( 'hp_b2b_request', 'hp_assigned_supplier_id', 'integer', 0, 'absint' );
 		self::meta( 'hp_b2b_request', 'hp_lead_release_state', 'string', 'held', array( __CLASS__, 'sanitize_release_state' ) );
@@ -235,8 +239,8 @@ final class Hea_Lth_Supplier_Portal {
 		$view     = array(
 			'id'         => (int) $request->ID,
 			'type'       => sanitize_key( (string) get_post_meta( (int) $request->ID, 'hp_request_type', true ) ),
-			'company'    => sanitize_text_field( (string) get_post_meta( (int) $request->ID, 'hp_company_name', true ) ),
-			'city'       => sanitize_text_field( (string) get_post_meta( (int) $request->ID, 'hp_city', true ) ),
+			'company'    => $released ? sanitize_text_field( (string) get_post_meta( (int) $request->ID, 'hp_company_name', true ) ) : 'גורם מקצועי מאומת בישראל',
+			'city'       => $released ? sanitize_text_field( (string) get_post_meta( (int) $request->ID, 'hp_city', true ) ) : '',
 			'stage'      => sanitize_key( (string) get_post_meta( (int) $request->ID, 'hp_project_stage', true ) ),
 			'categories' => Hea_Lth_Platform_Core::sanitize_string_list( get_post_meta( (int) $request->ID, 'hp_categories', true ) ),
 			'equipment'  => Hea_Lth_Platform_Core::sanitize_string_list( get_post_meta( (int) $request->ID, 'hp_equipment_names', true ) ),
@@ -419,6 +423,8 @@ final class Hea_Lth_Supplier_Portal {
 		$owners = implode( ', ', self::sanitize_id_list( get_post_meta( (int) $post->ID, 'hp_account_user_ids', true ) ) );
 		$plan   = self::sanitize_plan( get_post_meta( (int) $post->ID, 'hp_membership_plan', true ) );
 		$state  = self::sanitize_membership_state( get_post_meta( (int) $post->ID, 'hp_membership_state', true ) );
+		$contact_email = sanitize_email( (string) get_post_meta( (int) $post->ID, 'hp_contact_email', true ) );
+		$invite_status = self::sanitize_account_invite_status( get_post_meta( (int) $post->ID, 'hp_account_invite_status', true ) );
 		echo '<p><label for="hp-owner-users"><strong>מזהי משתמשים מורשים</strong></label><input class="widefat" id="hp-owner-users" name="hp_account_user_ids" value="' . esc_attr( $owners ) . '" /><span class="description">מספרי משתמשים, מופרדים בפסיקים.</span></p>';
 		echo '<p><label for="hp-member-plan"><strong>מסלול</strong></label><select class="widefat" id="hp-member-plan" name="hp_membership_plan">';
 		foreach ( self::$plans as $key => $label ) {
@@ -429,6 +435,11 @@ final class Hea_Lth_Supplier_Portal {
 			echo '<option value="' . esc_attr( $key ) . '" ' . selected( $state, $key, false ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select></p>';
+		echo '<hr><p><label for="hp-account-invite-email"><strong>הפעלת חשבון ספק</strong></label><input class="widefat" type="email" id="hp-account-invite-email" name="hp_account_invite_email" value="' . esc_attr( $contact_email ) . '" autocomplete="off"><span class="description">החשבון יקושר לכרטיס זה. תישלח הודעת גישה מאובטחת ללא סיסמה.</span></p>';
+		echo '<p><label><input type="checkbox" name="hp_activate_supplier_account" value="1"> יצירת החשבון או קישורו ושליחת גישה</label></p>';
+		if ( 'none' !== $invite_status ) {
+			echo '<p class="description">מצב מסירה אחרון: <strong>' . esc_html( self::account_invite_status_label( $invite_status ) ) . '</strong></p>';
+		}
 	}
 
 	/**
@@ -517,6 +528,15 @@ final class Hea_Lth_Supplier_Portal {
 		$previous    = self::sanitize_id_list( get_post_meta( $post_id, 'hp_account_user_ids', true ) );
 		$owners_raw = isset( $_POST['hp_account_user_ids'] ) ? sanitize_text_field( wp_unslash( $_POST['hp_account_user_ids'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
 		$owners     = self::sanitize_id_list( preg_split( '/\s*,\s*/', $owners_raw ) );
+		$activate   = isset( $_POST['hp_activate_supplier_account'] ) && 1 === absint( wp_unslash( $_POST['hp_activate_supplier_account'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
+		$invite_email = isset( $_POST['hp_account_invite_email'] ) ? sanitize_email( wp_unslash( $_POST['hp_account_invite_email'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
+		if ( $activate && is_email( $invite_email ) ) {
+			$account_id = self::activate_supplier_account( $post_id, $invite_email );
+			if ( $account_id > 0 ) {
+				$owners[] = $account_id;
+				$owners   = self::sanitize_id_list( $owners );
+			}
+		}
 		$plan       = isset( $_POST['hp_membership_plan'] ) ? self::sanitize_plan( sanitize_key( wp_unslash( $_POST['hp_membership_plan'] ) ) ) : 'verified'; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
 		$state      = isset( $_POST['hp_membership_state'] ) ? self::sanitize_membership_state( sanitize_key( wp_unslash( $_POST['hp_membership_state'] ) ) ) : 'pending'; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
 		update_post_meta( $post_id, 'hp_account_user_ids', $owners );
@@ -657,6 +677,109 @@ final class Hea_Lth_Supplier_Portal {
 	public static function sanitize_membership_state( $value ) {
 		$value = sanitize_key( (string) $value );
 		return isset( self::$membership_states[ $value ] ) ? $value : 'pending';
+	}
+
+	/** @param mixed $value Raw value. @return string */
+	public static function sanitize_account_invite_status( $value ) {
+		$value = sanitize_key( (string) $value );
+		return in_array( $value, array( 'none', 'sent', 'failed', 'linked' ), true ) ? $value : 'none';
+	}
+
+	/** @param string $status Status key. @return string */
+	private static function account_invite_status_label( $status ) {
+		$labels = array( 'none' => 'לא נשלח', 'sent' => 'נשלח', 'failed' => 'המסירה נכשלה', 'linked' => 'החשבון קושר' );
+		$status = self::sanitize_account_invite_status( $status );
+		return $labels[ $status ];
+	}
+
+	/**
+	 * Create or link an account and send a one-time password setup link.
+	 *
+	 * @param int    $supplier_id Supplier ID.
+	 * @param string $email Account email.
+	 * @return int User ID, or zero on failure.
+	 */
+	private static function activate_supplier_account( $supplier_id, $email ) {
+		$email = sanitize_email( $email );
+		if ( ! is_email( $email ) || 'hp_supplier' !== get_post_type( $supplier_id ) ) {
+			return 0;
+		}
+
+		$user_id = email_exists( $email );
+		if ( $user_id ) {
+			$linked_supplier_id = absint( get_user_meta( $user_id, self::USER_SUPPLIER_META, true ) );
+			if ( $linked_supplier_id && $linked_supplier_id !== absint( $supplier_id ) ) {
+				update_post_meta( $supplier_id, 'hp_account_invite_status', 'failed' );
+				return 0;
+			}
+		} else {
+			$base_username = sanitize_user( 'supplier-' . get_post_field( 'post_name', $supplier_id ), true );
+			$base_username = $base_username ? $base_username : 'supplier';
+			$username      = $base_username;
+			$suffix        = 2;
+			while ( username_exists( $username ) ) {
+				$username = $base_username . '-' . $suffix;
+				++$suffix;
+			}
+			$user_id = wp_insert_user(
+				array(
+					'user_login'   => $username,
+					'user_email'   => $email,
+					'user_pass'    => wp_generate_password( 32, true, true ),
+					'display_name' => sanitize_text_field( get_the_title( $supplier_id ) ),
+					'role'         => self::ROLE,
+				)
+			);
+			if ( is_wp_error( $user_id ) ) {
+				update_post_meta( $supplier_id, 'hp_account_invite_status', 'failed' );
+				return 0;
+			}
+		}
+
+		$user = get_user_by( 'id', $user_id );
+		if ( ! $user instanceof WP_User ) {
+			return 0;
+		}
+		update_user_meta( $user_id, self::USER_SUPPLIER_META, absint( $supplier_id ) );
+		$user->add_role( self::ROLE );
+		update_post_meta( $supplier_id, 'hp_account_invite_user_id', $user_id );
+		update_post_meta( $supplier_id, 'hp_account_invite_utc', gmdate( 'c' ) );
+
+		$key    = get_password_reset_key( $user );
+		$sent   = false;
+		if ( ! is_wp_error( $key ) ) {
+			$setup_url = network_site_url( 'wp-login.php?action=rp&key=' . rawurlencode( $key ) . '&login=' . rawurlencode( $user->user_login ), 'login' );
+			$body      = "שלום רב,\n\nנפתח עבורכם אזור ספקים מאובטח ב-Hea-lth עבור " . get_the_title( $supplier_id ) . ".\n\nלהגדרת סיסמה וכניסה לחשבון:\n" . $setup_url . "\n\nלאחר הכניסה תוכלו לנהל בקשות קטלוג ולעיין בהזדמנויות עסקיות פרטיות שהועברו לחברה.";
+			$sent      = wp_mail( $email, 'גישה לאזור הספקים | Hea-lth', $body );
+		}
+		$status = $sent ? 'sent' : 'failed';
+		update_post_meta( $supplier_id, 'hp_account_invite_status', $status );
+		update_post_meta(
+			$supplier_id,
+			'hp_account_invite_delivery',
+			array(
+				'recipient_hash' => hash( 'sha256', strtolower( $email ) ),
+				'status'         => $status,
+				'utc'            => gmdate( 'c' ),
+				'user_id'        => absint( $user_id ),
+			)
+		);
+		return absint( $user_id );
+	}
+
+	/** @param mixed $value Raw value. @return array<string, mixed> */
+	public static function sanitize_account_invite_delivery( $value ) {
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+		$hash = isset( $value['recipient_hash'] ) ? preg_replace( '/[^a-f0-9]/', '', strtolower( (string) $value['recipient_hash'] ) ) : '';
+		$hash = is_string( $hash ) && 64 === strlen( $hash ) ? $hash : '';
+		return array(
+			'recipient_hash' => $hash,
+			'status'         => self::sanitize_account_invite_status( isset( $value['status'] ) ? $value['status'] : 'none' ),
+			'utc'            => sanitize_text_field( isset( $value['utc'] ) ? (string) $value['utc'] : '' ),
+			'user_id'        => absint( isset( $value['user_id'] ) ? $value['user_id'] : 0 ),
+		);
 	}
 
 	/** @param mixed $value Raw value. @return string */
