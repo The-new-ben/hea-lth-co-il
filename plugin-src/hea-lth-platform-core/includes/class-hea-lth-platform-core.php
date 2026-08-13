@@ -120,7 +120,7 @@ final class Hea_Lth_Platform_Core {
 	 * @return void
 	 */
 	private static function register_taxonomies() {
-		$object_types = array( 'hp_provider', 'hp_clinic', 'hp_treatment', 'hp_equipment' );
+		$object_types = array( 'hp_provider', 'hp_clinic', 'hp_treatment', 'hp_equipment', 'hp_supplier' );
 
 		$taxonomies = array(
 			'hp_specialty' => array(
@@ -204,9 +204,19 @@ final class Hea_Lth_Platform_Core {
 				'description' => __( 'רשומות ציוד וטכנולוגיה שטרם הוגדרו כקטלוג ציבורי.', 'hea-lth-platform-core' ),
 				'menu_icon'   => 'dashicons-admin-tools',
 			),
+			'hp_supplier' => array(
+				'label'       => __( 'ספקים ויבואנים', 'hea-lth-platform-core' ),
+				'singular'    => __( 'ספק או יבואן', 'hea-lth-platform-core' ),
+				'description' => __( 'אולמות תצוגה מקצועיים של ספקי ציוד, טכנולוגיה ושירותים למרפאות.', 'hea-lth-platform-core' ),
+				'menu_icon'   => 'dashicons-store',
+			),
 		);
 
 		foreach ( $types as $post_type => $definition ) {
+			$is_supplier  = 'hp_supplier' === $post_type;
+			$is_equipment = 'hp_equipment' === $post_type;
+			$is_public    = $is_supplier || $is_equipment;
+
 			register_post_type(
 				$post_type,
 				array(
@@ -217,14 +227,14 @@ final class Hea_Lth_Platform_Core {
 						'edit_item'     => sprintf( __( 'עריכת %s', 'hea-lth-platform-core' ), $definition['singular'] ),
 					),
 					'description'        => $definition['description'],
-					'public'             => false,
-					'publicly_queryable' => false,
+					'public'             => $is_public,
+					'publicly_queryable' => $is_public,
 					'show_ui'            => true,
 					'show_in_menu'       => true,
 					'show_in_rest'       => true,
-					'has_archive'        => false,
-					'rewrite'            => false,
-					'query_var'          => false,
+					'has_archive'        => $is_supplier ? 'suppliers' : false,
+					'rewrite'            => $is_supplier ? array( 'slug' => 'suppliers', 'with_front' => false ) : ( $is_equipment ? array( 'slug' => 'medical-equipment', 'with_front' => false ) : false ),
+					'query_var'          => $is_public,
 					'menu_icon'          => $definition['menu_icon'],
 					'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', 'revisions' ),
 					'map_meta_cap'       => true,
@@ -241,7 +251,7 @@ final class Hea_Lth_Platform_Core {
 	 * @return void
 	 */
 	public static function register_metadata() {
-		$directory_types = array( 'hp_provider', 'hp_clinic' );
+		$directory_types = array( 'hp_provider', 'hp_clinic', 'hp_supplier' );
 
 		foreach ( $directory_types as $post_type ) {
 			self::register_post_meta( $post_type, 'hp_public_state', 'string', 'pending', array( __CLASS__, 'sanitize_public_state' ), true );
@@ -256,6 +266,21 @@ final class Hea_Lth_Platform_Core {
 			self::register_post_meta( $post_type, 'hp_map_country_code', 'string', 'IL', array( __CLASS__, 'sanitize_map_country_code' ), true );
 			self::register_post_meta( $post_type, 'hp_map_precision', 'string', 'city', array( __CLASS__, 'sanitize_map_precision' ), true );
 		}
+
+		foreach ( array( 'hp_supplier', 'hp_equipment' ) as $post_type ) {
+			self::register_post_meta( $post_type, 'hp_website_url', 'string', '', 'esc_url_raw', true );
+			self::register_post_meta( $post_type, 'hp_contact_email', 'string', '', 'sanitize_email', true );
+			self::register_post_meta( $post_type, 'hp_contact_phone', 'string', '', 'sanitize_text_field', true );
+			self::register_post_meta( $post_type, 'hp_source_url', 'string', '', 'esc_url_raw', true );
+		}
+
+		self::register_post_meta( 'hp_supplier', 'hp_address', 'string', '', 'sanitize_text_field', true );
+		self::register_post_meta( 'hp_supplier', 'hp_brands', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), true );
+		self::register_post_meta( 'hp_supplier', 'hp_capabilities', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), true );
+		self::register_post_meta( 'hp_equipment', 'hp_supplier_id', 'integer', 0, 'absint', true );
+		self::register_post_meta( 'hp_equipment', 'hp_technology', 'string', '', 'sanitize_text_field', true );
+		self::register_post_meta( 'hp_equipment', 'hp_product_family', 'string', '', 'sanitize_text_field', true );
+		self::register_post_meta( 'hp_equipment', 'hp_clinic_roles', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), true );
 
 		/*
 		 * Existing posts and pages keep their powered URLs. They receive the
