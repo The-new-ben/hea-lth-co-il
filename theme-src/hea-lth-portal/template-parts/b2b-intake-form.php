@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $form_type   = isset( $args['type'] ) && 'supplier_join' === $args['type'] ? 'supplier_join' : 'clinic_quote';
 $context     = isset( $args['context'] ) ? sanitize_key( $args['context'] ) : '';
 $return_url  = isset( $args['return_url'] ) ? esc_url_raw( $args['return_url'] ) : get_permalink();
+$selected_plan = isset( $args['selected_plan'] ) ? sanitize_key( $args['selected_plan'] ) : 'showroom';
 $status      = isset( $_GET['request'] ) ? sanitize_key( wp_unslash( $_GET['request'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $categories  = array(
 	'consultation-assessment' => __( 'הערכה ומדידה', 'hea-lth-portal' ),
@@ -48,7 +49,7 @@ $categories  = array(
 			<label><span><?php esc_html_e( 'עיר', 'hea-lth-portal' ); ?></span><input type="text" name="city" autocomplete="address-level2"></label>
 			<?php if ( 'supplier_join' === $form_type ) : ?>
 				<label><span><?php esc_html_e( 'אתר החברה או הקטלוג', 'hea-lth-portal' ); ?></span><input type="url" name="company_url" autocomplete="url"></label>
-				<label><span><?php esc_html_e( 'מסלול שמעניין אתכם', 'hea-lth-portal' ); ?></span><select name="plan_interest"><option value="showroom"><?php esc_html_e( 'אולם תצוגה מקצועי', 'hea-lth-portal' ); ?></option><option value="growth"><?php esc_html_e( 'צמיחה ולידים', 'hea-lth-portal' ); ?></option><option value="revenue-partner"><?php esc_html_e( 'שותפות עסקאות', 'hea-lth-portal' ); ?></option></select></label>
+				<label><span><?php esc_html_e( 'מסלול שמעניין אתכם', 'hea-lth-portal' ); ?></span><select name="plan_interest"><option value="verified" <?php selected( $selected_plan, 'verified' ); ?>><?php esc_html_e( 'נוכחות מאומתת', 'hea-lth-portal' ); ?></option><option value="showroom" <?php selected( $selected_plan, 'showroom' ); ?>><?php esc_html_e( 'אולם תצוגה מקצועי', 'hea-lth-portal' ); ?></option><option value="growth" <?php selected( $selected_plan, 'growth' ); ?>><?php esc_html_e( 'שותפות צמיחה ועסקאות', 'hea-lth-portal' ); ?></option></select></label>
 			<?php else : ?>
 				<label><span><?php esc_html_e( 'שלב הפרויקט', 'hea-lth-portal' ); ?></span><select name="project_stage"><option value="immediate"><?php esc_html_e( 'רכש מיידי', 'hea-lth-portal' ); ?></option><option value="planning"><?php esc_html_e( 'תכנון והקמה', 'hea-lth-portal' ); ?></option><option value="expansion"><?php esc_html_e( 'הרחבת מרפאה קיימת', 'hea-lth-portal' ); ?></option><option value="comparison"><?php esc_html_e( 'השוואת אפשרויות', 'hea-lth-portal' ); ?></option></select></label>
 			<?php endif; ?>

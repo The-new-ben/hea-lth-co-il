@@ -27,7 +27,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-08-13-02';
+	const BLUEPRINT_VERSION = '2026-08-13-03';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -69,6 +69,7 @@ class Hea_Lth_Page_Provisioner {
 			self::science_page( '/skin/', 'מדע העור, מחסום העור והזדקנות', 'skin' ),
 			array( 'path' => '/professionals/', 'title' => 'אזור למקצוענים', 'template' => 'page-templates/template-professionals.php' ),
 			array( 'path' => '/professionals/supplier-join/', 'title' => 'הצטרפות ספקים ויבואנים', 'template' => 'page-templates/template-supplier-join.php' ),
+			array( 'path' => '/professionals/supplier-portal/', 'title' => 'אזור הספקים', 'template' => 'page-templates/template-supplier-portal.php', 'noindex' => true ),
 			array( 'path' => '/treatments/', 'title' => 'מרכזי טיפול', 'template' => 'page-templates/template-treatment-hub.php' ),
 			array( 'path' => '/accessibility/', 'title' => 'הצהרת נגישות', 'template' => '', 'content' => self::accessibility_statement_content() ),
 			array(

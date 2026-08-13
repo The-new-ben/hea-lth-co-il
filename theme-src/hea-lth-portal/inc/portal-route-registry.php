@@ -101,6 +101,7 @@ function hea_lth_portal_foundation_routes() {
 		'medical_equipment'             => array( 'path' => '/medical-equipment/', 'release' => 'production' ),
 		'clinic_build'                  => array( 'path' => '/professionals/clinic-build/', 'release' => 'foundation' ),
 		'supplier_join'                 => array( 'path' => '/professionals/supplier-join/', 'release' => 'production' ),
+		'supplier_portal'               => array( 'path' => '/professionals/supplier-portal/', 'release' => 'production' ),
 		'privacy'                       => array( 'path' => '/privacy/', 'release' => 'evidence-gated' ),
 		'products'                      => array( 'path' => '/products/', 'release' => 'evidence-gated' ),
 		'products_hair'                 => array( 'path' => '/products/hair-loss/', 'release' => 'evidence-gated' ),

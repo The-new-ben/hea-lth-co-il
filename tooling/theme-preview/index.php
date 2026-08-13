@@ -31,6 +31,8 @@ $hea_lth_preview_pages = array(
 	'find-care'     => array( 'file' => 'page-templates/template-find-care.php', 'title' => 'מסלול בחירה' ),
 	'products-hub'  => array( 'file' => 'page-templates/template-hub.php', 'title' => 'מוצרים לטיפול בנשירת שיער' ),
 	'science'       => array( 'file' => 'page-templates/template-science-hub.php', 'title' => 'ביולוגיה של האדם והזדקנות בריאה' ),
+	'supplier-portal' => array( 'file' => 'page-templates/template-supplier-portal.php', 'title' => 'אזור הספקים' ),
+	'supplier-join' => array( 'file' => 'page-templates/template-supplier-join.php', 'title' => 'הצטרפות ספקים ויבואנים' ),
 	'profile-preview' => array( 'file' => 'single-hp_provider.php', 'title' => 'תצוגת מבנה פרופיל' ),
 	'treatment-preview' => array( 'file' => 'single-hp_treatment.php', 'title' => 'תצוגת מבנה טיפול' ),
 );
@@ -227,6 +229,10 @@ function esc_html( $value ): string {
 
 function esc_attr( $value ): string {
 	return htmlspecialchars( (string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' );
+}
+
+function esc_url_raw( $value ): string {
+	return (string) $value;
 }
 
 function esc_url( $value ): string {
@@ -542,7 +548,7 @@ function status_header( int $code ): void {
 function nocache_headers(): void {
 }
 
-function get_template_part( string $slug, ?string $name = null ): void {
+function get_template_part( string $slug, ?string $name = null, array $args = array() ): void {
 	$path = hea_lth_preview_theme_directory() . '/' . $slug . ( null !== $name ? '-' . $name : '' ) . '.php';
 
 	if ( is_file( $path ) ) {
@@ -550,12 +556,38 @@ function get_template_part( string $slug, ?string $name = null ): void {
 	}
 }
 
+function add_query_arg( string $key, string $value, string $url ): string {
+	$separator = false === strpos( $url, '?' ) ? '?' : '&';
+	return $url . $separator . rawurlencode( $key ) . '=' . rawurlencode( $value );
+}
+
+function admin_url( string $path = '' ): string {
+	return home_url( '/wp-admin/' . ltrim( $path, '/' ) );
+}
+
+function get_permalink( $post = 0 ): string {
+	global $hea_lth_preview_page;
+	return hea_lth_preview_base_url() . '/tooling/theme-preview/index.php?page=' . rawurlencode( (string) $hea_lth_preview_page );
+}
+
+function wp_nonce_field( string $action, string $name = '_wpnonce' ): void {
+	echo '<input type="hidden" name="' . esc_attr( $name ) . '" value="preview-only" />';
+}
+
+function selected( $selected, $current = true, bool $echo = true ): string {
+	$result = (string) $selected === (string) $current ? ' selected="selected"' : '';
+	if ( $echo ) {
+		echo $result;
+	}
+	return $result;
+}
+
 function is_user_logged_in(): bool {
 	return false;
 }
 
 function wp_login_url( string $redirect = '' ): string {
-	return 'http://127.0.0.1:8787/wp-login.php?redirect_to=' . rawurlencode( $redirect );
+	return home_url( '/wp-login.php?redirect_to=' . rawurlencode( $redirect ) );
 }
 
 function wp_reset_postdata(): void {
