@@ -117,6 +117,7 @@ $notices = array(
 									<article class="hp-opportunity-card">
 										<div class="hp-opportunity-card__top"><strong><?php echo esc_html( $lead['company'] ? $lead['company'] : __( 'פנייה עסקית', 'hea-lth-portal' ) ); ?></strong><span><?php echo $lead['released'] ? esc_html__( 'פרטי קשר זמינים', 'hea-lth-portal' ) : esc_html__( 'בתיאום Hea-lth', 'hea-lth-portal' ); ?></span></div>
 										<p><?php echo esc_html( $lead['city'] ); ?><?php echo $lead['stage'] ? ' · ' . esc_html( $lead['stage'] ) : ''; ?></p>
+										<?php if ( $lead['equipment'] ) : ?><ul class="hp-opportunity-equipment" aria-label="<?php esc_attr_e( 'מערכות מבוקשות', 'hea-lth-portal' ); ?>"><?php foreach ( $lead['equipment'] as $equipment_name ) : ?><li><?php echo esc_html( $equipment_name ); ?></li><?php endforeach; ?></ul><?php endif; ?>
 										<?php if ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) && 'offered' === $lead['terms']['status'] ) : ?>
 											<div class="hp-brokerage-terms">
 												<p class="hp-eyebrow"><?php esc_html_e( 'תנאי התיווך להזדמנות זו', 'hea-lth-portal' ); ?></p>

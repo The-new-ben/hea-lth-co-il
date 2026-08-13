@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'HEA_LTH_PORTAL_VERSION', '0.16.1' );
+define( 'HEA_LTH_PORTAL_VERSION', '0.17.0' );
 
 require_once get_template_directory() . '/inc/portal-route-registry.php';
 require_once get_template_directory() . '/inc/portal-template-helpers.php';
@@ -138,6 +138,16 @@ function hea_lth_portal_enqueue_assets() {
 		$version,
 		true
 	);
+
+	if ( is_page_template( 'page-templates/template-medical-equipment.php' ) ) {
+		wp_enqueue_script(
+			'hea-lth-equipment-marketplace',
+			get_theme_file_uri( 'assets/js/equipment-marketplace.js' ),
+			array(),
+			$version,
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'hea_lth_portal_enqueue_assets' );
 

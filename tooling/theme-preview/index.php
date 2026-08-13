@@ -28,6 +28,7 @@ $hea_lth_preview_pages = array(
 	'anatomy'       => array( 'file' => 'page-templates/template-anatomy.php', 'title' => 'הגוף האינטראקטיבי' ),
 	'glossary'      => array( 'file' => 'page-templates/template-glossary.php', 'title' => 'מילון בריאות' ),
 	'technology'    => array( 'file' => 'page-templates/template-health-technology.php', 'title' => 'טכנולוגיות בריאות וציוד' ),
+	'medical-equipment' => array( 'file' => 'page-templates/template-medical-equipment.php', 'title' => 'ציוד רפואי ואסתטי למרפאות' ),
 	'find-care'     => array( 'file' => 'page-templates/template-find-care.php', 'title' => 'מסלול בחירה' ),
 	'products-hub'  => array( 'file' => 'page-templates/template-hub.php', 'title' => 'מוצרים לטיפול בנשירת שיער' ),
 	'science'       => array( 'file' => 'page-templates/template-science-hub.php', 'title' => 'ביולוגיה של האדם והזדקנות בריאה' ),
@@ -315,6 +316,9 @@ function wp_footer(): void {
 	global $hea_lth_preview_page, $hea_lth_preview_three_fixture;
 
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/portal.js' ) ) . '"></script>';
+	if ( 'medical-equipment' === $hea_lth_preview_page ) {
+		echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/equipment-marketplace.js' ) ) . '"></script>';
+	}
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/a11y-panel.js' ) ) . '"></script>';
 	// Preview-only WhatsApp fixture number so placement can be judged visually.
 	echo '<script>window.heaLthEngage = { whatsapp: "972500000000" };</script>';
@@ -468,6 +472,10 @@ function get_the_title( $post = 0 ): string {
 	if ( $post instanceof WP_Post ) {
 		return $post->post_title;
 	}
+	$fixture_titles = array( 501 => 'NUBWAY מבית Nicro', 502 => 'Galaxy' );
+	if ( isset( $fixture_titles[ (int) $post ] ) ) {
+		return $fixture_titles[ (int) $post ];
+	}
 
 	return $hea_lth_preview_title;
 }
@@ -518,7 +526,19 @@ function get_post_type( $post = null ): string {
 }
 
 function get_post_meta( int $post_id, string $key, bool $single = false ) {
-	global $hea_lth_preview_supplier_fixture;
+	global $hea_lth_preview_page, $hea_lth_preview_supplier_fixture;
+
+	if ( 'medical-equipment' === $hea_lth_preview_page ) {
+		$equipment_meta = array(
+			601 => array( 'hp_editorial_state' => 'reviewed', 'hp_product_family' => 'עיצוב הגוף', 'hp_technology' => 'HIFEM + RF', 'hp_supplier_id' => 501 ),
+			602 => array( 'hp_editorial_state' => 'reviewed', 'hp_product_family' => 'טיפולי עור', 'hp_technology' => 'Microneedling RF', 'hp_supplier_id' => 502 ),
+			603 => array( 'hp_editorial_state' => 'reviewed', 'hp_product_family' => 'אבחון עור', 'hp_technology' => 'AI Skin Analysis', 'hp_supplier_id' => 501 ),
+		);
+		if ( isset( $equipment_meta[ $post_id ][ $key ] ) ) {
+			$value = $equipment_meta[ $post_id ][ $key ];
+			return $single ? $value : array( $value );
+		}
+	}
 
 	if ( $hea_lth_preview_supplier_fixture ) {
 		$meta = array(
@@ -628,11 +648,15 @@ final class WP_Post {
 	public $ID;
 	public $post_type;
 	public $post_title;
+	public $post_name;
+	public $post_status;
 
-	public function __construct( int $id, string $post_type, string $post_title ) {
+	public function __construct( int $id, string $post_type, string $post_title, string $post_name = '', string $post_status = 'publish' ) {
 		$this->ID         = $id;
 		$this->post_type  = $post_type;
 		$this->post_title = $post_title;
+		$this->post_name  = $post_name;
+		$this->post_status = $post_status;
 	}
 }
 
@@ -655,11 +679,22 @@ function number_format_i18n( $number ): string {
 }
 
 function get_posts( array $args = array() ): array {
-	global $hea_lth_preview_supplier_fixture;
+	global $hea_lth_preview_page, $hea_lth_preview_supplier_fixture;
+	if ( 'medical-equipment' === $hea_lth_preview_page && isset( $args['post_type'] ) && 'hp_equipment' === $args['post_type'] ) {
+		return array(
+			new WP_Post( 601, 'hp_equipment', 'KaiPulse RF', 'nubway-kaipulse-rf' ),
+			new WP_Post( 602, 'hp_equipment', 'Potenza', 'galaxy-potenza' ),
+			new WP_Post( 603, 'hp_equipment', 'HakuVision', 'nubway-hakuvision' ),
+		);
+	}
 	if ( ! $hea_lth_preview_supplier_fixture ) {
 		return array();
 	}
 	return isset( $args['post_type'] ) && 'hp_equipment' === $args['post_type'] ? array( 601, 602, 603 ) : array();
+}
+
+function get_post_status( $post = 0 ): string {
+	return 'publish';
 }
 
 final class Hea_Lth_Supplier_Portal {

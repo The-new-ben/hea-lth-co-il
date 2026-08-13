@@ -239,6 +239,7 @@ final class Hea_Lth_Supplier_Portal {
 			'city'       => sanitize_text_field( (string) get_post_meta( (int) $request->ID, 'hp_city', true ) ),
 			'stage'      => sanitize_key( (string) get_post_meta( (int) $request->ID, 'hp_project_stage', true ) ),
 			'categories' => Hea_Lth_Platform_Core::sanitize_string_list( get_post_meta( (int) $request->ID, 'hp_categories', true ) ),
+			'equipment'  => Hea_Lth_Platform_Core::sanitize_string_list( get_post_meta( (int) $request->ID, 'hp_equipment_names', true ) ),
 			'created'    => sanitize_text_field( (string) get_post_meta( (int) $request->ID, 'hp_created_utc', true ) ),
 			'status'     => self::sanitize_pipeline_state( get_post_meta( (int) $request->ID, 'hp_supplier_pipeline_status', true ) ),
 			'released'   => $released,
@@ -437,9 +438,18 @@ final class Hea_Lth_Supplier_Portal {
 	public static function render_request_admin( $post ) {
 		wp_nonce_field( 'hea_lth_request_admin', 'hea_lth_request_admin_nonce' );
 		$assigned = absint( get_post_meta( (int) $post->ID, 'hp_assigned_supplier_id', true ) );
+		$equipment_names = Hea_Lth_Platform_Core::sanitize_string_list( get_post_meta( (int) $post->ID, 'hp_equipment_names', true ) );
+		$candidate_ids   = Hea_Lth_Platform_Core::sanitize_id_list( get_post_meta( (int) $post->ID, 'hp_candidate_supplier_ids', true ) );
 		$release  = self::sanitize_release_state( get_post_meta( (int) $post->ID, 'hp_lead_release_state', true ) );
 		$status   = self::sanitize_pipeline_state( get_post_meta( (int) $post->ID, 'hp_supplier_pipeline_status', true ) );
 		$suppliers = get_posts( array( 'post_type' => 'hp_supplier', 'post_status' => array( 'publish', 'private', 'draft', 'pending' ), 'posts_per_page' => 200, 'orderby' => 'title', 'order' => 'ASC' ) );
+		if ( $equipment_names ) {
+			echo '<p><strong>מערכות שנבחרו</strong><br>' . esc_html( implode( ' · ', $equipment_names ) ) . '</p>';
+		}
+		if ( $candidate_ids ) {
+			$candidate_names = array_filter( array_map( 'get_the_title', $candidate_ids ) );
+			echo '<p><strong>ספקים מתאימים לפי הקטלוג</strong><br>' . esc_html( implode( ' · ', $candidate_names ) ) . '</p>';
+		}
 		echo '<p><label for="hp-assigned-supplier"><strong>ספק מוקצה</strong></label><select class="widefat" id="hp-assigned-supplier" name="hp_assigned_supplier_id"><option value="0">ללא הקצאה</option>';
 		foreach ( $suppliers as $supplier ) {
 			echo '<option value="' . (int) $supplier->ID . '" ' . selected( $assigned, (int) $supplier->ID, false ) . '>' . esc_html( get_the_title( $supplier ) ) . '</option>';

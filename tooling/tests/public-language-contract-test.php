@@ -27,6 +27,7 @@ $files = array(
 	$root . '/theme-src/hea-lth-portal/page-templates/template-account.php',
 	$root . '/theme-src/hea-lth-portal/page-templates/template-glossary.php',
 	$root . '/theme-src/hea-lth-portal/page-templates/template-health-technology.php',
+	$root . '/theme-src/hea-lth-portal/page-templates/template-medical-equipment.php',
 	$root . '/theme-src/hea-lth-portal/page-templates/template-anatomy.php',
 	$root . '/theme-src/hea-lth-portal/page-templates/template-science-hub.php',
 	$root . '/theme-src/hea-lth-portal/page-templates/template-supplier-join.php',

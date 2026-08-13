@@ -55,6 +55,7 @@ final class Hea_Lth_B2B_Intake {
 		$consent       = isset( $_POST['contact_consent'] ) && 1 === absint( wp_unslash( $_POST['contact_consent'] ) );
 		$categories    = isset( $_POST['categories'] ) && is_array( $_POST['categories'] ) ? array_map( 'sanitize_key', wp_unslash( $_POST['categories'] ) ) : array();
 		$categories    = array_values( array_filter( array_unique( array_slice( $categories, 0, 12 ) ) ) );
+		$equipment     = self::equipment_selection();
 
 		if ( '' === $contact_name || '' === $contact_email || ! is_email( $contact_email ) || '' === $contact_phone || '' === $company_name || ! $consent ) {
 			self::redirect( $return_url, 'required' );
@@ -92,6 +93,10 @@ final class Hea_Lth_B2B_Intake {
 			'hp_plan_interest'   => $plan_interest,
 			'hp_context_slug'    => $context_slug,
 			'hp_categories'      => $categories,
+			'hp_equipment_slugs' => $equipment['slugs'],
+			'hp_equipment_ids'   => $equipment['ids'],
+			'hp_equipment_names' => $equipment['names'],
+			'hp_candidate_supplier_ids' => $equipment['supplier_ids'],
 			'hp_consent_version' => self::CONSENT_VERSION,
 			'hp_created_utc'     => gmdate( 'c' ),
 		);
@@ -106,6 +111,41 @@ final class Hea_Lth_B2B_Intake {
 
 		self::notify( (int) $post_id, $meta );
 		self::redirect( $return_url, 'received' );
+	}
+
+	/**
+	 * Resolve submitted slugs to reviewed public equipment and suppliers.
+	 * Browser values are hints; canonical records provide stored relationships.
+	 *
+	 * @return array{slugs: array<int, string>, ids: array<int, int>, names: array<int, string>, supplier_ids: array<int, int>}
+	 */
+	private static function equipment_selection() {
+		$submitted = isset( $_POST['equipment'] ) && is_array( $_POST['equipment'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['equipment'] ) ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified in handle before helper calls.
+		$slugs     = array_values( array_filter( array_unique( array_map( 'sanitize_title', array_slice( $submitted, 0, 4 ) ) ) ) );
+		$result    = array(
+			'slugs'        => array(),
+			'ids'          => array(),
+			'names'        => array(),
+			'supplier_ids' => array(),
+		);
+
+		foreach ( $slugs as $slug ) {
+			$machine = get_page_by_path( $slug, OBJECT, 'hp_equipment' );
+			if ( ! $machine instanceof WP_Post || 'publish' !== $machine->post_status || 'reviewed' !== get_post_meta( (int) $machine->ID, 'hp_editorial_state', true ) ) {
+				continue;
+			}
+
+			$result['slugs'][] = $machine->post_name;
+			$result['ids'][]   = (int) $machine->ID;
+			$result['names'][] = sanitize_text_field( get_the_title( $machine ) );
+			$supplier_id       = absint( get_post_meta( (int) $machine->ID, 'hp_supplier_id', true ) );
+			if ( $supplier_id > 0 && 'publish' === get_post_status( $supplier_id ) && 'verified' === get_post_meta( $supplier_id, 'hp_public_state', true ) ) {
+				$result['supplier_ids'][] = $supplier_id;
+			}
+		}
+
+		$result['supplier_ids'] = array_values( array_unique( $result['supplier_ids'] ) );
+		return $result;
 	}
 
 	private static function field( $key, $limit ) {
@@ -134,6 +174,7 @@ final class Hea_Lth_B2B_Intake {
 				'עיר: ' . $meta['hp_city'],
 				'אתר חברה: ' . $meta['hp_company_url'],
 				'הקשר: ' . $meta['hp_context_slug'],
+				'מערכות שנבחרו: ' . implode( ', ', $meta['hp_equipment_names'] ),
 				'לצפייה וניהול: ' . admin_url( 'post.php?post=' . $post_id . '&action=edit' ),
 			)
 		);
