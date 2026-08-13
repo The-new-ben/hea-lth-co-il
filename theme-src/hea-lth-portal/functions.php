@@ -116,7 +116,9 @@ function hea_lth_portal_enqueue_assets() {
 	 * The WhatsApp consult bar activates only when the owner provides the
 	 * business number (option or filter): no number, no button.
 	 */
-	$whatsapp_number = apply_filters( 'hea_lth_whatsapp_number', get_option( 'hea_lth_whatsapp_number', '972525101555' ) );
+	$whatsapp_number = is_page_template( 'page-templates/template-supplier-portal.php' )
+		? ''
+		: apply_filters( 'hea_lth_whatsapp_number', get_option( 'hea_lth_whatsapp_number', '972525101555' ) );
 	wp_add_inline_script(
 		'hea-lth-portal-engagement',
 		'window.heaLthEngage = ' . wp_json_encode(

@@ -321,7 +321,8 @@ function wp_footer(): void {
 	}
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/a11y-panel.js' ) ) . '"></script>';
 	// Preview-only WhatsApp fixture number so placement can be judged visually.
-	echo '<script>window.heaLthEngage = { whatsapp: "972500000000" };</script>';
+	$preview_whatsapp = in_array( $hea_lth_preview_page, array( 'supplier-portal', 'supplier-dashboard-preview', 'supplier-agreement-preview' ), true ) ? '' : '972500000000';
+	echo '<script>window.heaLthEngage = { whatsapp: ' . wp_json_encode( $preview_whatsapp ) . ' };</script>';
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/js/engagement.js' ) ) . '"></script>';
 	echo '<script src="' . esc_attr( get_theme_file_uri( 'assets/vendor/leaflet/leaflet.js' ) ) . '"></script>';
 	echo '<script>window.heaLthDirectoryMap = ' . wp_json_encode( hea_lth_portal_directory_map_config(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ';</script>';
@@ -690,6 +691,9 @@ function get_posts( array $args = array() ): array {
 	if ( ! $hea_lth_preview_supplier_fixture ) {
 		return array();
 	}
+	if ( isset( $args['post_type'] ) && 'hp_rfq_invitation' === $args['post_type'] ) {
+		return array( new WP_Post( 901, 'hp_rfq_invitation', 'הזדמנות רכש אנונימית' ) );
+	}
 	return isset( $args['post_type'] ) && 'hp_equipment' === $args['post_type'] ? array( 601, 602, 603 ) : array();
 }
 
@@ -730,9 +734,11 @@ final class Hea_Lth_Supplier_Portal {
 		global $hea_lth_preview_supplier_accepted;
 		return array(
 			'id'       => 701,
-			'company'  => 'מרפאה בהקמה',
-			'city'     => 'תל אביב',
+			'company'  => 'גורם מקצועי מאומת בישראל',
+			'city'     => '',
 			'stage'    => 'תכנון ורכש',
+			'equipment' => array( 'מערכת HIFEM + RF' ),
+			'categories' => array( 'עיצוב הגוף' ),
 			'status'   => 'new',
 			'released' => false,
 			'contact'  => array(),
@@ -753,6 +759,26 @@ final class Hea_Lth_Supplier_Portal {
 
 	public static function submission_status_label( $value ): string {
 		return 'under_review' === $value ? 'בבדיקה' : 'התקבלה';
+	}
+}
+
+final class Hea_Lth_RFQ_Invitations {
+	public static function invitations_for_supplier( int $supplier_id ): array {
+		return get_posts( array( 'post_type' => 'hp_rfq_invitation' ) );
+	}
+
+	public static function invitation_view( WP_Post $invitation, int $supplier_id ): array {
+		return array(
+			'id'         => 901,
+			'buyer'      => 'מרפאה או גורם מקצועי מאומת בישראל',
+			'status'     => 'invited',
+			'equipment'  => array( 'מערכת HIFEM + RF' ),
+			'categories' => array( 'עיצוב הגוף', 'חיזוק שרירים' ),
+		);
+	}
+
+	public static function status_label( string $status ): string {
+		return 'ממתין למענה';
 	}
 }
 

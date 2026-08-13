@@ -43,6 +43,8 @@ assert_true( false !== strpos( $class_source, "'hea_lth_supplier_id'" ), 'Suppli
 assert_true( false !== strpos( $class_source, "'hp_assigned_supplier_id'" ), 'Leads require explicit supplier assignment.' );
 assert_true( false !== strpos( $class_source, "'hp_lead_release_state'" ), 'Leads require an explicit release state.' );
 assert_true( false !== strpos( $class_source, "if ( \$released )" ), 'Contact details must be added only inside the release gate.' );
+assert_true( false !== strpos( $class_source, "'company'    => \$released ?" ), 'Buyer identity must remain anonymous before release.' );
+assert_true( false !== strpos( $class_source, "'city'       => \$released ?" ), 'Buyer location must remain anonymous before release.' );
 assert_true( false !== strpos( $class_source, "'publicly_queryable'  => false" ), 'Catalog submissions must never receive a public route.' );
 assert_true( false !== strpos( $class_source, 'check_admin_referer' ), 'Supplier writes must verify a nonce.' );
 assert_true( false !== strpos( $class_source, 'user_owns_supplier' ) || false !== strpos( $class_source, 'supplier_for_user' ), 'Supplier actions must resolve server-side ownership.' );
