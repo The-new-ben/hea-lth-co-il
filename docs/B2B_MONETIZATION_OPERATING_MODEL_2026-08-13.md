@@ -31,9 +31,19 @@ These are internal starting ranges. Each supplier agreement records the selected
 - Aggregate `b2b_submit` counters show submission volume by context without public lead exposure.
 - The existing internal lead-route resolver remains the eligibility layer for later automated distribution.
 
+## Supplier account product now implemented
+
+- Public plan selection records `verified`, `showroom`, or `growth` on the private supplier application.
+- Published commercial anchors are ₪990/month for Verified, ₪7,500 setup plus ₪2,490/month for Showroom, and ₪3,900/month plus an agreed success fee for Growth.
+- A supplier account is linked to an existing reviewed `hp_supplier` profile by explicit WordPress user IDs.
+- The private supplier portal shows plan state, showroom link, published catalog count, catalog submissions, and assigned opportunities.
+- Supplier catalog changes enter a private review queue. They cannot publish directly or receive a public URL.
+- A business request reaches a supplier dashboard only after explicit assignment.
+- Buyer contact details remain absent until `hp_lead_release_state` is explicitly changed to `released` by an administrator.
+- Supplier pipeline updates are limited to the assigned request and append an audit event.
+
 ## Next operating controls
 
-- Request ownership and response SLA.
 - Supplier agreement and attribution-window fields.
 - Deal stage and estimated/closed value.
 - Commission schedule and invoice state.

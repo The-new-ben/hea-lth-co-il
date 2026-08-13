@@ -17,6 +17,7 @@ if ( have_posts() ) :
 		the_post();
 		$is_logged_in = is_user_logged_in();
 		$user         = $is_logged_in ? wp_get_current_user() : null;
+		$supplier     = $is_logged_in && class_exists( 'Hea_Lth_Supplier_Portal' ) ? Hea_Lth_Supplier_Portal::supplier_for_user() : null;
 		$title        = hea_lth_portal_current_title( __( 'האזור האישי', 'hea-lth-portal' ) );
 		?>
 		<section class="hp-page-hero hp-page-hero--account">
@@ -42,7 +43,7 @@ if ( have_posts() ) :
 							<h2><?php echo esc_html( $user->display_name ); ?></h2>
 							<p><?php esc_html_e( 'עמוד זה מחובר לחשבון הקיים שלכם. פעולות שמירה, תיאום ופניות יופעלו רק לאחר חיבור שירות ייעודי והרשאות מתאימות.', 'hea-lth-portal' ); ?></p>
 						</div>
-						<a class="hp-button" href="<?php echo esc_url( hea_lth_portal_foundation_route( 'guides' ) ); ?>"><?php esc_html_e( 'לספריית המידע', 'hea-lth-portal' ); ?></a>
+						<a class="hp-button" href="<?php echo esc_url( $supplier instanceof WP_Post ? hea_lth_portal_foundation_route( 'supplier_portal' ) : hea_lth_portal_foundation_route( 'guides' ) ); ?>"><?php echo $supplier instanceof WP_Post ? esc_html__( 'לאזור הספקים', 'hea-lth-portal' ) : esc_html__( 'לספריית המידע', 'hea-lth-portal' ); ?></a>
 					</div>
 					<div class="hp-account-grid">
 						<article><span>01</span><h3><?php esc_html_e( 'מסלולים שמורים', 'hea-lth-portal' ); ?></h3><p><?php esc_html_e( 'יופיעו כאן כאשר פעולת שמירה תחובר לחשבון.', 'hea-lth-portal' ); ?></p></article>

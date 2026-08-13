@@ -30,6 +30,7 @@ $files = array(
 	$root . '/theme-src/hea-lth-portal/page-templates/template-anatomy.php',
 	$root . '/theme-src/hea-lth-portal/page-templates/template-science-hub.php',
 	$root . '/theme-src/hea-lth-portal/page-templates/template-supplier-join.php',
+	$root . '/theme-src/hea-lth-portal/page-templates/template-supplier-portal.php',
 );
 $source = implode( "\n", array_map( 'file_get_contents', $files ) );
 

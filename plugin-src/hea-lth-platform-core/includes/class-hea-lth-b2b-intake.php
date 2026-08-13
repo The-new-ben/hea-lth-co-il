@@ -46,6 +46,12 @@ final class Hea_Lth_B2B_Intake {
 		$project_stage = self::key_field( 'project_stage' );
 		$plan_interest = self::key_field( 'plan_interest' );
 		$context_slug  = self::key_field( 'context_slug' );
+		if ( ! in_array( $project_stage, array( '', 'immediate', 'planning', 'expansion', 'comparison' ), true ) ) {
+			$project_stage = '';
+		}
+		if ( ! in_array( $plan_interest, array( '', 'verified', 'showroom', 'growth' ), true ) ) {
+			$plan_interest = '';
+		}
 		$consent       = isset( $_POST['contact_consent'] ) && 1 === absint( wp_unslash( $_POST['contact_consent'] ) );
 		$categories    = isset( $_POST['categories'] ) && is_array( $_POST['categories'] ) ? array_map( 'sanitize_key', wp_unslash( $_POST['categories'] ) ) : array();
 		$categories    = array_values( array_filter( array_unique( array_slice( $categories, 0, 12 ) ) ) );
