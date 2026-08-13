@@ -327,6 +327,11 @@ final class Hea_Lth_Platform_Core {
 			self::register_post_meta( $post_type, 'hp_last_reviewed', 'string', '', array( __CLASS__, 'sanitize_iso_date' ), true );
 			self::register_post_meta( $post_type, 'hp_source_note', 'string', '', 'sanitize_textarea_field', true );
 		}
+
+		self::register_post_meta( 'page', 'hp_science_domain', 'string', '', 'sanitize_key', true );
+		self::register_post_meta( 'page', 'hp_evidence_sources', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), true );
+		self::register_post_meta( 'page', 'hp_medical_review_level', 'string', '', 'sanitize_key', true );
+		self::register_post_meta( 'page', 'hp_commercial_bridge_keys', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), true );
 	}
 
 	/**

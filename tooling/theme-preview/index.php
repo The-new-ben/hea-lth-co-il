@@ -30,6 +30,7 @@ $hea_lth_preview_pages = array(
 	'technology'    => array( 'file' => 'page-templates/template-health-technology.php', 'title' => 'טכנולוגיות בריאות וציוד' ),
 	'find-care'     => array( 'file' => 'page-templates/template-find-care.php', 'title' => 'מסלול בחירה' ),
 	'products-hub'  => array( 'file' => 'page-templates/template-hub.php', 'title' => 'מוצרים לטיפול בנשירת שיער' ),
+	'science'       => array( 'file' => 'page-templates/template-science-hub.php', 'title' => 'ביולוגיה של האדם והזדקנות בריאה' ),
 	'profile-preview' => array( 'file' => 'single-hp_provider.php', 'title' => 'תצוגת מבנה פרופיל' ),
 	'treatment-preview' => array( 'file' => 'single-hp_treatment.php', 'title' => 'תצוגת מבנה טיפול' ),
 );
@@ -87,6 +88,16 @@ function hea_lth_preview_fixture(): array {
 				'hp_service_type' => array( 'סוג שירות לתצוגה' ),
 				'hp_body_region'  => array( 'אזור גוף לתצוגה' ),
 			),
+		),
+		'science' => array(
+			'id'        => 903,
+			'post_type' => 'page',
+			'content'   => '',
+			'meta'      => array(
+				'hp_science_domain' => 'biology',
+				'hp_last_reviewed'  => '2026-08-13',
+			),
+			'terms'     => array(),
 		),
 	);
 
@@ -260,7 +271,7 @@ function body_class( string $class = '' ): void {
 
 function wp_body_open(): void {
 	if ( ! empty( hea_lth_preview_fixture() ) ) {
-		echo '<div data-preview-fixture="true" style="position:relative;z-index:20;padding:9px 18px;background:#e8c780;color:#09211e;text-align:center;font:700 12px/1.5 Arial,sans-serif">תצוגת פיתוח מקומית בלבד. אין כאן פרופיל, טיפול או מידע רפואי לפרסום.</div>';
+		echo '<aside aria-label="הודעת תצוגה מקומית" data-preview-fixture="true" style="position:relative;z-index:20;padding:9px 18px;background:#e8c780;color:#09211e;text-align:center;font:700 12px/1.5 Arial,sans-serif">תצוגת פיתוח מקומית בלבד. אין כאן פרופיל, טיפול או מידע רפואי לפרסום.</aside>';
 	}
 }
 
@@ -472,6 +483,10 @@ function get_queried_object_id(): int {
 	return isset( $fixture['id'] ) ? (int) $fixture['id'] : 0;
 }
 
+function get_the_ID(): int {
+	return get_queried_object_id();
+}
+
 function get_post_type( $post = null ): string {
 	$fixture = hea_lth_preview_fixture();
 
@@ -511,6 +526,10 @@ function is_wp_error( $value ): bool {
 
 function sanitize_text_field( $value ): string {
 	return trim( strip_tags( (string) $value ) );
+}
+
+function sanitize_key( $value ): string {
+	return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $value ) );
 }
 
 function wpautop( string $text ): string {
@@ -610,4 +629,5 @@ if ( ! function_exists( 'hea_lth_portal_anatomy_discovery_url' ) ) {
 
 require_once hea_lth_preview_theme_directory() . '/inc/portal-route-registry.php';
 require_once hea_lth_preview_theme_directory() . '/inc/portal-template-helpers.php';
+require_once __DIR__ . '/../../plugin-src/hea-lth-platform-core/includes/class-hea-lth-knowledge-graph.php';
 require hea_lth_preview_theme_directory() . '/' . $hea_lth_preview_pages[ $hea_lth_preview_page ]['file'];

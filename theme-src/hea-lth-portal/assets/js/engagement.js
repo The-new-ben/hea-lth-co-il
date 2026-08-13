@@ -153,7 +153,11 @@
     beacon('wa_open', window.location.pathname);
   });
 
-  const mount = () => document.body.appendChild(bar);
+  const contactRegion = document.createElement('aside');
+  contactRegion.setAttribute('aria-label', 'יצירת קשר מהירה');
+  contactRegion.appendChild(bar);
+
+  const mount = () => document.body.appendChild(contactRegion);
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', mount);
   } else {

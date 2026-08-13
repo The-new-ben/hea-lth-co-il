@@ -2203,6 +2203,10 @@
   margin-top: 46px;
 }
 
+.hp-technology-path-grid--market {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .hp-technology-path-grid a {
   position: relative;
   display: grid;

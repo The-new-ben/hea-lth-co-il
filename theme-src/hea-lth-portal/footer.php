@@ -44,6 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<section>
 				<h2><?php esc_html_e( 'ידע וכלים', 'hea-lth-portal' ); ?></h2>
 				<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'guides' ) ); ?>"><?php esc_html_e( 'מדריכים', 'hea-lth-portal' ); ?></a>
+				<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'biology' ) ); ?>"><?php esc_html_e( 'ביולוגיה והזדקנות בריאה', 'hea-lth-portal' ); ?></a>
 				<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'glossary' ) ); ?>"><?php esc_html_e( 'מילון בריאות', 'hea-lth-portal' ); ?></a>
 				<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'health_technology' ) ); ?>"><?php esc_html_e( 'טכנולוגיות בריאות', 'hea-lth-portal' ); ?></a>
 				<a href="<?php echo esc_url( hea_lth_portal_foundation_route( 'anatomy' ) ); ?>"><?php esc_html_e( 'הגוף האינטראקטיבי', 'hea-lth-portal' ); ?></a>
