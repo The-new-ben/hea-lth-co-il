@@ -8,6 +8,20 @@ $form_type   = isset( $args['type'] ) && 'supplier_join' === $args['type'] ? 'su
 $context     = isset( $args['context'] ) ? sanitize_key( $args['context'] ) : '';
 $return_url  = isset( $args['return_url'] ) ? esc_url_raw( $args['return_url'] ) : get_permalink();
 $selected_plan = isset( $args['selected_plan'] ) ? sanitize_key( $args['selected_plan'] ) : 'showroom';
+$selected_equipment = isset( $args['selected_equipment'] ) && is_array( $args['selected_equipment'] ) ? $args['selected_equipment'] : array();
+if ( ! $selected_equipment && isset( $_GET['equipment'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only public form preselection.
+	$equipment_query    = sanitize_text_field( wp_unslash( $_GET['equipment'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only public form preselection.
+	$selected_equipment = explode( ',', $equipment_query );
+}
+$selected_equipment = array_values( array_filter( array_unique( array_map( 'sanitize_title', array_slice( $selected_equipment, 0, 4 ) ) ) ) );
+$selected_names     = array();
+foreach ( $selected_equipment as $equipment_slug ) {
+	$selected_machine = get_page_by_path( $equipment_slug, OBJECT, 'hp_equipment' );
+	if ( $selected_machine instanceof WP_Post && 'publish' === $selected_machine->post_status ) {
+		$selected_names[ $equipment_slug ] = get_the_title( $selected_machine );
+	}
+}
+$selected_equipment = array_keys( $selected_names );
 $status      = isset( $_GET['request'] ) ? sanitize_key( wp_unslash( $_GET['request'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $categories  = array(
 	'consultation-assessment' => __( 'הערכה ומדידה', 'hea-lth-portal' ),
@@ -38,8 +52,10 @@ $categories  = array(
 		<input type="hidden" name="context_slug" value="<?php echo esc_attr( $context ); ?>">
 		<input type="hidden" name="return_url" value="<?php echo esc_url( $return_url ); ?>">
 		<input type="hidden" name="form_started" value="<?php echo esc_attr( (string) time() ); ?>">
+		<div data-equipment-hidden><?php foreach ( $selected_equipment as $equipment_slug ) : ?><input type="hidden" name="equipment[]" value="<?php echo esc_attr( $equipment_slug ); ?>"><?php endforeach; ?></div>
 		<?php wp_nonce_field( 'hea_lth_b2b_intake', 'hea_lth_b2b_nonce' ); ?>
 		<label class="hp-b2b-honeypot" aria-hidden="true" hidden>Website<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label>
+		<div class="hp-selected-equipment" data-selected-equipment-wrap<?php if ( ! $selected_names ) : ?> hidden<?php endif; ?>><strong><?php esc_html_e( 'מערכות שנבחרו', 'hea-lth-portal' ); ?></strong><ul data-selected-equipment-summary><?php foreach ( $selected_names as $selected_name ) : ?><li><?php echo esc_html( $selected_name ); ?></li><?php endforeach; ?></ul></div>
 
 		<div class="hp-b2b-form__grid">
 			<label><span><?php esc_html_e( 'שם החברה או המרפאה', 'hea-lth-portal' ); ?> *</span><input type="text" name="company_name" required autocomplete="organization"></label>
@@ -51,7 +67,7 @@ $categories  = array(
 				<label><span><?php esc_html_e( 'אתר החברה או הקטלוג', 'hea-lth-portal' ); ?></span><input type="url" name="company_url" autocomplete="url"></label>
 				<label><span><?php esc_html_e( 'מסלול שמעניין אתכם', 'hea-lth-portal' ); ?></span><select name="plan_interest"><option value="verified" <?php selected( $selected_plan, 'verified' ); ?>><?php esc_html_e( 'נוכחות מאומתת', 'hea-lth-portal' ); ?></option><option value="showroom" <?php selected( $selected_plan, 'showroom' ); ?>><?php esc_html_e( 'אולם תצוגה מקצועי', 'hea-lth-portal' ); ?></option><option value="growth" <?php selected( $selected_plan, 'growth' ); ?>><?php esc_html_e( 'שותפות צמיחה ועסקאות', 'hea-lth-portal' ); ?></option></select></label>
 			<?php else : ?>
-				<label><span><?php esc_html_e( 'שלב הפרויקט', 'hea-lth-portal' ); ?></span><select name="project_stage"><option value="immediate"><?php esc_html_e( 'רכש מיידי', 'hea-lth-portal' ); ?></option><option value="planning"><?php esc_html_e( 'תכנון והקמה', 'hea-lth-portal' ); ?></option><option value="expansion"><?php esc_html_e( 'הרחבת מרפאה קיימת', 'hea-lth-portal' ); ?></option><option value="comparison"><?php esc_html_e( 'השוואת אפשרויות', 'hea-lth-portal' ); ?></option></select></label>
+				<label><span><?php esc_html_e( 'שלב הפרויקט', 'hea-lth-portal' ); ?></span><select name="project_stage"><option value="immediate"><?php esc_html_e( 'רכש מיידי', 'hea-lth-portal' ); ?></option><option value="planning"><?php esc_html_e( 'תכנון והקמה', 'hea-lth-portal' ); ?></option><option value="expansion"><?php esc_html_e( 'הרחבת מרפאה קיימת', 'hea-lth-portal' ); ?></option><option value="comparison" <?php selected( 'equipment-marketplace', $context ); ?>><?php esc_html_e( 'השוואת אפשרויות', 'hea-lth-portal' ); ?></option></select></label>
 			<?php endif; ?>
 		</div>
 

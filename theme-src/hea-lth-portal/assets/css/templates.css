@@ -94,10 +94,63 @@
 .hp-equipment-detail dd { margin: .25rem 0 0; font-weight: 700; }
 .hp-equipment-detail aside .hp-text-link { display: block; margin-top: 1rem; }
 
+/* Equipment discovery, comparison and RFQ. */
+.hp-equipment-market-hero {
+	background: radial-gradient(circle at 12% 18%, rgba(110, 236, 207, .23), transparent 30%), linear-gradient(135deg, #061a21 0%, #0a3a43 62%, #116052 150%);
+	color: #fff;
+	padding: clamp(5rem, 10vw, 9rem) 0;
+}
+.hp-equipment-market-hero__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, .34fr); gap: clamp(2rem, 8vw, 7rem); align-items: end; }
+.hp-equipment-market-hero h1 { color: #fff; font-size: clamp(2.5rem, 5.4vw, 5.6rem); line-height: .98; max-width: 16ch; }
+.hp-equipment-market-hero p { font-size: 1.14rem; max-width: 62ch; }
+.hp-equipment-market-hero__stat { border: 1px solid rgba(255,255,255,.28); border-radius: 1.25rem; padding: 1.8rem; }
+.hp-equipment-market-hero__stat strong { display: block; font-family: var(--hp-font-display); font-size: clamp(3rem, 7vw, 5.7rem); line-height: 1; }
+.hp-equipment-market-hero__stat span { display: block; margin: .4rem 0 1.5rem; }
+.hp-equipment-market-hero__stat a { color: #baf4e7; font-weight: 800; }
+.hp-equipment-tools { display: grid; grid-template-columns: minmax(220px, 1.35fr) repeat(2, minmax(170px, .7fr)); gap: 1rem; align-items: end; background: #f0f8f5; border: 1px solid rgba(8,49,58,.12); border-radius: 1.25rem; padding: clamp(1rem, 2.5vw, 1.6rem); margin-bottom: 2rem; }
+.hp-equipment-tools label span { display: block; color: #31555c; font-size: .82rem; font-weight: 800; margin-bottom: .45rem; }
+.hp-equipment-tools input,
+.hp-equipment-tools select { width: 100%; min-height: 3.25rem; background: #fff; border: 1px solid #9fb8b8; border-radius: .7rem; padding: .7rem .85rem; }
+.hp-equipment-results { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; margin: 0; color: #31555c; }
+.hp-equipment-results [data-comparison-status] { font-weight: 700; }
+.hp-equipment-market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)); gap: 1.2rem; }
+.hp-equipment-market-card { display: flex; flex-direction: column; min-width: 0; background: #fff; border: 1px solid rgba(8,49,58,.13); border-radius: 1.15rem; box-shadow: 0 18px 48px rgba(8,49,58,.075); overflow: hidden; }
+.hp-equipment-market-card[hidden] { display: none; }
+.hp-equipment-market-card__mark { display: grid; place-items: center; min-height: 8rem; background: linear-gradient(145deg, #e8f8f3, #b5e6da); color: #075b55; font-family: var(--hp-font-display); font-size: 4rem; }
+.hp-equipment-market-card__body { flex: 1; padding: 1.4rem 1.4rem .8rem; }
+.hp-equipment-market-card h2 { margin: .35rem 0 1.2rem; font-size: 1.55rem; }
+.hp-equipment-market-card h2 a { color: #08313a; text-decoration: none; }
+.hp-equipment-market-card dl { margin: 0; }
+.hp-equipment-market-card dl div { display: grid; grid-template-columns: minmax(80px, .7fr) 1.3fr; gap: .7rem; border-top: 1px solid rgba(8,49,58,.1); padding: .7rem 0; }
+.hp-equipment-market-card dt { color: #58737a; font-size: .78rem; }
+.hp-equipment-market-card dd { margin: 0; font-weight: 700; }
+.hp-equipment-market-card__actions { display: flex; justify-content: space-between; gap: 1rem; align-items: center; border-top: 1px solid rgba(8,49,58,.1); padding: 1rem 1.4rem; }
+.hp-compare-choice { display: inline-flex; gap: .5rem; align-items: center; color: #08313a; font-size: .85rem; font-weight: 800; }
+.hp-compare-choice input { width: 1.15rem; height: 1.15rem; accent-color: #08786d; }
+.hp-equipment-empty { text-align: center; border: 1px dashed #8ea9aa; border-radius: 1rem; padding: 2rem; }
+.hp-comparison-panel { background: #092f38; color: #fff; border-radius: 1.3rem; box-shadow: 0 24px 70px rgba(3,31,37,.22); margin-top: 2.5rem; padding: clamp(1.4rem, 3vw, 2.4rem); }
+.hp-comparison-panel[hidden] { display: none; }
+.hp-comparison-panel h2 { color: #fff; margin-bottom: 0; }
+.hp-comparison-panel__heading { display: flex; justify-content: space-between; gap: 1rem; align-items: end; margin-bottom: 1.5rem; }
+.hp-text-button { appearance: none; background: transparent; border: 0; color: #baf4e7; cursor: pointer; font: inherit; font-weight: 800; text-decoration: underline; }
+.hp-comparison-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
+.hp-comparison-table { width: 100%; min-width: 650px; border-collapse: collapse; }
+.hp-comparison-table th,
+.hp-comparison-table td { border: 1px solid rgba(255,255,255,.18); padding: .8rem; text-align: start; }
+.hp-comparison-table th { color: #c2f6ea; }
+.hp-equipment-quote { background: #edf7f3; }
+.hp-equipment-quote__layout { display: grid; grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; }
+.hp-selected-equipment { background: #e7f7f1; border-radius: .8rem; padding: 1rem 1.2rem; margin: 0 0 1.2rem; }
+.hp-selected-equipment strong { display: block; margin-bottom: .45rem; }
+.hp-selected-equipment ul { margin: 0; padding-inline-start: 1.1rem; }
+
 @media (max-width: 760px) {
 	.hp-supplier-hero__grid,
 	.hp-supplier-layout,
-	.hp-equipment-detail { grid-template-columns: 1fr; }
+	.hp-equipment-detail,
+	.hp-equipment-market-hero__grid,
+	.hp-equipment-quote__layout { grid-template-columns: 1fr; }
+	.hp-equipment-tools { grid-template-columns: 1fr; }
 	.hp-supplier-monogram { display: none; }
 	.hp-supplier-facts { position: static; }
 }
@@ -210,6 +263,8 @@
 .hp-opportunity-card__contact { display: grid; gap: .25rem; margin: .8rem 0; }
 .hp-opportunity-card__contact a { color: #08786d; }
 .hp-opportunity-card__held { color: #60777b; font-size: .85rem; }
+.hp-opportunity-equipment { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: .7rem 0; padding: 0; }
+.hp-opportunity-equipment li { background: #e8f4f1; border-radius: 999px; color: #174e50; font-size: .76rem; font-weight: 800; padding: .35rem .65rem; }
 .hp-brokerage-terms { background: #fff8e8; border: 1px solid #ead7a4; border-radius: .8rem; margin: 1rem 0; padding: 1rem; }
 .hp-brokerage-terms > strong { color: #6c4c0f; display: block; font-size: 1.05rem; }
 .hp-brokerage-terms > p:not(.hp-eyebrow) { color: #665a3e; font-size: .84rem; }

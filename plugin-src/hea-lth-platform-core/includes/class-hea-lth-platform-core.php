@@ -316,6 +316,10 @@ final class Hea_Lth_Platform_Core {
 		self::register_post_meta( 'hp_b2b_request', 'hp_contact_email', 'string', '', 'sanitize_email', false );
 		self::register_post_meta( 'hp_b2b_request', 'hp_company_url', 'string', '', 'esc_url_raw', false );
 		self::register_post_meta( 'hp_b2b_request', 'hp_categories', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), false );
+		self::register_post_meta( 'hp_b2b_request', 'hp_equipment_slugs', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), false );
+		self::register_post_meta( 'hp_b2b_request', 'hp_equipment_names', 'array', array(), array( __CLASS__, 'sanitize_string_list' ), false );
+		self::register_post_meta( 'hp_b2b_request', 'hp_equipment_ids', 'array', array(), array( __CLASS__, 'sanitize_id_list' ), false );
+		self::register_post_meta( 'hp_b2b_request', 'hp_candidate_supplier_ids', 'array', array(), array( __CLASS__, 'sanitize_id_list' ), false );
 
 		/*
 		 * Existing posts and pages keep their powered URLs. They receive the
@@ -515,6 +519,21 @@ final class Hea_Lth_Platform_Core {
 			return '' !== $item;
 		} );
 
+		return array_values( array_unique( $values ) );
+	}
+
+	/**
+	 * Sanitize a bounded relationship list.
+	 *
+	 * @param mixed $value Raw value.
+	 * @return array<int, int>
+	 */
+	public static function sanitize_id_list( $value ) {
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		$values = array_filter( array_map( 'absint', array_slice( $value, 0, 20 ) ) );
 		return array_values( array_unique( $values ) );
 	}
 }

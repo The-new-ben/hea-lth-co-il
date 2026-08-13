@@ -27,7 +27,7 @@ class Hea_Lth_Page_Provisioner {
 
 	const OPTION_KEY = 'hea_lth_provisioned_pages_blueprint';
 
-	const BLUEPRINT_VERSION = '2026-08-13-03';
+	const BLUEPRINT_VERSION = '2026-08-13-04';
 
 	const LEGACY_TOOLBAR_PLUGIN = 'pojo-accessibility/pojo-accessibility.php';
 
@@ -58,6 +58,7 @@ class Hea_Lth_Page_Provisioner {
 			array( 'path' => '/glossary/', 'title' => 'מילון בריאות', 'template' => 'page-templates/template-glossary.php' ),
 			array( 'path' => '/find-care/', 'title' => 'מסלול בחירה', 'template' => 'page-templates/template-find-care.php' ),
 			array( 'path' => '/health-technology/', 'title' => 'טכנולוגיות בריאות וציוד', 'template' => 'page-templates/template-health-technology.php' ),
+			array( 'path' => '/medical-equipment/', 'title' => 'ציוד רפואי ואסתטי למרפאות', 'template' => 'page-templates/template-medical-equipment.php' ),
 			self::science_page( '/health-technology/biomarkers/', 'סמנים ביולוגיים, מדידה ומעקב', 'biomarkers' ),
 			self::science_page( '/health-technology/ai-robotics/', 'בינה מלאכותית ורובוטיקה בבריאות', 'ai_robotics' ),
 			self::science_page( '/biology/', 'ביולוגיה של האדם והזדקנות בריאה', 'biology' ),
