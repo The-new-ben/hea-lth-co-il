@@ -33,7 +33,7 @@ $equipment   = new WP_Query( array( 'post_type' => 'hp_equipment', 'post_status'
 </section>
 <section class="hp-template-section hp-template-section--paper">
 	<div class="hp-shell hp-supplier-layout">
-		<main>
+		<div class="hp-supplier-content">
 			<div class="hp-prose hp-supplier-intro"><?php echo apply_filters( 'the_content', get_the_content() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 			<section class="hp-supplier-catalog">
 				<div class="hp-section-heading"><div><p class="hp-eyebrow"><?php esc_html_e( 'קטלוג מקצועי', 'hea-lth-portal' ); ?></p><h2><?php esc_html_e( 'מערכות וטכנולוגיות', 'hea-lth-portal' ); ?></h2></div><strong><?php echo esc_html( (string) $equipment->post_count ); ?> <?php esc_html_e( 'מערכות', 'hea-lth-portal' ); ?></strong></div>
@@ -48,7 +48,7 @@ $equipment   = new WP_Query( array( 'post_type' => 'hp_equipment', 'post_status'
 					<?php endwhile; wp_reset_postdata(); ?>
 				</div>
 			</section>
-		</main>
+		</div>
 		<aside class="hp-supplier-facts">
 			<h2><?php esc_html_e( 'פרטי החברה', 'hea-lth-portal' ); ?></h2>
 			<?php if ( $phone ) : ?><div><span><?php esc_html_e( 'טלפון', 'hea-lth-portal' ); ?></span><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a></div><?php endif; ?>

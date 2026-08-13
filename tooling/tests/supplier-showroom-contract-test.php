@@ -23,6 +23,7 @@ assert_true( false !== strpos( $provisioner, "'supplier:nubway'" ) || false !== 
 assert_true( false !== strpos( $provisioner, "'galaxy'" ), 'Galaxy showroom must be provisioned.' );
 assert_true( 0 === preg_match( '/[\'\"]05\d[\s-]?\d{7}[\'\"]/', $provisioner ), 'Private mobile details must not enter the public seed.' );
 assert_true( false !== strpos( $supplier, "'hp_supplier_id'" ), 'Showroom must query its own equipment.' );
+assert_true( false === strpos( $supplier, '<main' ), 'Showroom content must not nest a second main landmark inside the theme shell.' );
 assert_true( false !== strpos( $equipment, 'get_permalink( $supplier_id )' ), 'Equipment must link back to its supplier showroom.' );
 
 echo "Supplier showroom contract passed.\n";
