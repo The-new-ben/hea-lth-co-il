@@ -830,6 +830,9 @@ final class Hea_Lth_Control_Center {
 		$clients  = isset( $map['featuredProviders'] ) && is_array( $map['featuredProviders'] ) ? $map['featuredProviders'] : array();
 
 		echo '<h2>' . esc_html__( 'Monetization', 'hea-lth-platform-core' ) . '</h2>';
+		if ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) ) {
+			Hea_Lth_Brokerage_Ledger::render_owner_summary();
+		}
 
 		echo '<h3>' . esc_html__( 'Lead channel: WhatsApp consult bar', 'hea-lth-platform-core' ) . '</h3>';
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';

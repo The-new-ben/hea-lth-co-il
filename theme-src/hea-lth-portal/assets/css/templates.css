@@ -190,6 +190,7 @@
 .hp-portal-notice--success { background: #dff7ec; color: #0a4e43; }
 .hp-portal-notice--error { background: #fff0ed; color: #842c20; }
 .hp-supplier-dashboard__welcome { align-items: center; background: #08313a; border-radius: 1.2rem; color: #fff; display: flex; gap: 2rem; justify-content: space-between; padding: clamp(1.6rem, 4vw, 3rem); }
+.hp-supplier-dashboard__welcome .hp-eyebrow { color: #91ead8; }
 .hp-supplier-dashboard__welcome h2 { color: #fff; font-size: clamp(2.2rem, 4vw, 4rem); margin: 0 0 .6rem; }
 .hp-supplier-dashboard__welcome p:not(.hp-eyebrow) { color: #d8ebe6; margin: 0; max-width: 60ch; }
 .hp-supplier-dashboard__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: 1rem 0 2rem; }
@@ -209,6 +210,12 @@
 .hp-opportunity-card__contact { display: grid; gap: .25rem; margin: .8rem 0; }
 .hp-opportunity-card__contact a { color: #08786d; }
 .hp-opportunity-card__held { color: #60777b; font-size: .85rem; }
+.hp-brokerage-terms { background: #fff8e8; border: 1px solid #ead7a4; border-radius: .8rem; margin: 1rem 0; padding: 1rem; }
+.hp-brokerage-terms > strong { color: #6c4c0f; display: block; font-size: 1.05rem; }
+.hp-brokerage-terms > p:not(.hp-eyebrow) { color: #665a3e; font-size: .84rem; }
+.hp-brokerage-terms form { margin-top: .8rem; }
+.hp-brokerage-accepted { align-items: center; background: #e4f7f1; border-radius: .7rem; color: #0a5c53; display: flex; flex-wrap: wrap; gap: .4rem 1rem; justify-content: space-between; margin: .8rem 0; padding: .8rem; }
+.hp-brokerage-accepted span { font-size: .82rem; }
 .hp-pipeline-form { align-items: end; border-top: 1px solid rgba(8,49,58,.1); display: grid; gap: .6rem; grid-template-columns: 1fr auto; margin-top: 1rem; padding-top: 1rem; }
 .hp-pipeline-form label span,
 .hp-catalog-form label span { color: #173c43; display: block; font-size: .8rem; font-weight: 700; margin-bottom: .35rem; }

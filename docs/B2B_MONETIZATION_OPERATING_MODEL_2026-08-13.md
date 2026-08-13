@@ -41,10 +41,14 @@ These are internal starting ranges. Each supplier agreement records the selected
 - A business request reaches a supplier dashboard only after explicit assignment.
 - Buyer contact details remain absent until `hp_lead_release_state` is explicitly changed to `released` by an administrator.
 - Supplier pipeline updates are limited to the assigned request and append an audit event.
+- Each assigned opportunity can now carry its own percentage, fixed, or hybrid brokerage model, minimum fee, and attribution window.
+- Supplier acceptance is affirmative, timestamped, tied to the assigned supplier account, and protected by a terms fingerprint.
+- Buyer contact details cannot be released unless the current terms fingerprint validates.
+- Reassignment or any economic change invalidates the earlier acceptance and returns contact details to the held state.
+- Closed deal value produces an integer ILS commission calculation. Invoice readiness requires accepted terms, a won deal, and a positive closed value.
+- Invoice states follow `not_ready → ready → issued → paid`; state skipping is rejected and paid records are immutable.
+- The owner control center shows offered and accepted terms, invoice counts, outstanding commission, and collected commission.
 
 ## Next operating controls
 
-- Supplier agreement and attribution-window fields.
-- Deal stage and estimated/closed value.
-- Commission schedule and invoice state.
 - CRM export or integration after the operational owner selects the system.

@@ -32,6 +32,7 @@ $hea_lth_preview_pages = array(
 	'products-hub'  => array( 'file' => 'page-templates/template-hub.php', 'title' => 'מוצרים לטיפול בנשירת שיער' ),
 	'science'       => array( 'file' => 'page-templates/template-science-hub.php', 'title' => 'ביולוגיה של האדם והזדקנות בריאה' ),
 	'supplier-portal' => array( 'file' => 'page-templates/template-supplier-portal.php', 'title' => 'אזור הספקים' ),
+	'supplier-dashboard-preview' => array( 'file' => 'page-templates/template-supplier-portal.php', 'title' => 'אזור הספקים' ),
 	'supplier-join' => array( 'file' => 'page-templates/template-supplier-join.php', 'title' => 'הצטרפות ספקים ויבואנים' ),
 	'profile-preview' => array( 'file' => 'single-hp_provider.php', 'title' => 'תצוגת מבנה פרופיל' ),
 	'treatment-preview' => array( 'file' => 'single-hp_treatment.php', 'title' => 'תצוגת מבנה טיפול' ),
@@ -45,6 +46,7 @@ $hea_lth_preview_title          = $hea_lth_preview_pages[ $hea_lth_preview_page 
 $hea_lth_preview_main_post_seen = false;
 $hea_lth_preview_three_fixture  = 'anatomy' === $hea_lth_preview_page && isset( $_GET['threeFixture'] ) && '1' === (string) $_GET['threeFixture'];
 $hea_lth_preview_front_three    = 'home' === $hea_lth_preview_page && isset( $_GET['threeFixture'] ) && '1' === (string) $_GET['threeFixture'];
+$hea_lth_preview_supplier_fixture = 'supplier-dashboard-preview' === $hea_lth_preview_page || ( 'supplier-portal' === $hea_lth_preview_page && isset( $_GET['supplierFixture'] ) && '1' === (string) $_GET['supplierFixture'] );
 
 /**
  * Isolated local fixtures used only to render dormant profile and treatment
@@ -55,7 +57,17 @@ $hea_lth_preview_front_three    = 'home' === $hea_lth_preview_page && isset( $_G
  * @return array<string, mixed>
  */
 function hea_lth_preview_fixture(): array {
-	global $hea_lth_preview_page;
+	global $hea_lth_preview_page, $hea_lth_preview_supplier_fixture;
+
+	if ( $hea_lth_preview_supplier_fixture ) {
+		return array(
+			'id'        => 905,
+			'post_type' => 'page',
+			'content'   => '',
+			'meta'      => array(),
+			'terms'     => array(),
+		);
+	}
 
 	$fixtures = array(
 		'profile-preview' => array(
@@ -451,6 +463,10 @@ function the_post(): void {
 function get_the_title( $post = 0 ): string {
 	global $hea_lth_preview_title;
 
+	if ( $post instanceof WP_Post ) {
+		return $post->post_title;
+	}
+
 	return $hea_lth_preview_title;
 }
 
@@ -500,6 +516,25 @@ function get_post_type( $post = null ): string {
 }
 
 function get_post_meta( int $post_id, string $key, bool $single = false ) {
+	global $hea_lth_preview_supplier_fixture;
+
+	if ( $hea_lth_preview_supplier_fixture ) {
+		$meta = array(
+			501 => array(
+				'hp_membership_plan'  => 'growth',
+				'hp_membership_state' => 'active',
+			),
+			801 => array(
+				'hp_product_name'     => 'מערכת הדגמה לעיצוב הגוף',
+				'hp_submission_status' => 'under_review',
+			),
+		);
+		if ( isset( $meta[ $post_id ][ $key ] ) ) {
+			$value = $meta[ $post_id ][ $key ];
+			return $single ? $value : array( $value );
+		}
+	}
+
 	$fixture = hea_lth_preview_fixture();
 	$value   = isset( $fixture['meta'][ $key ] ) ? $fixture['meta'][ $key ] : '';
 
@@ -583,7 +618,110 @@ function selected( $selected, $current = true, bool $echo = true ): string {
 }
 
 function is_user_logged_in(): bool {
-	return false;
+	global $hea_lth_preview_supplier_fixture;
+	return (bool) $hea_lth_preview_supplier_fixture;
+}
+
+final class WP_Post {
+	public $ID;
+	public $post_type;
+	public $post_title;
+
+	public function __construct( int $id, string $post_type, string $post_title ) {
+		$this->ID         = $id;
+		$this->post_type  = $post_type;
+		$this->post_title = $post_title;
+	}
+}
+
+final class WP_User {
+	public $ID;
+	public $display_name;
+
+	public function __construct( int $id, string $display_name ) {
+		$this->ID           = $id;
+		$this->display_name = $display_name;
+	}
+}
+
+function wp_get_current_user(): WP_User {
+	return new WP_User( 301, 'נועה' );
+}
+
+function number_format_i18n( $number ): string {
+	return number_format( (float) $number, 0, '.', ',' );
+}
+
+function get_posts( array $args = array() ): array {
+	global $hea_lth_preview_supplier_fixture;
+	if ( ! $hea_lth_preview_supplier_fixture ) {
+		return array();
+	}
+	return isset( $args['post_type'] ) && 'hp_equipment' === $args['post_type'] ? array( 601, 602, 603 ) : array();
+}
+
+final class Hea_Lth_Supplier_Portal {
+	public static function supplier_for_user(): WP_Post {
+		return new WP_Post( 501, 'hp_supplier', 'חברת הדגמה לציוד רפואי' );
+	}
+
+	public static function sanitize_plan( $value ): string {
+		return in_array( $value, array( 'verified', 'showroom', 'growth' ), true ) ? (string) $value : 'verified';
+	}
+
+	public static function sanitize_membership_state( $value ): string {
+		return in_array( $value, array( 'pending', 'active', 'paused' ), true ) ? (string) $value : 'pending';
+	}
+
+	public static function plans(): array {
+		return array( 'verified' => 'מאומת', 'showroom' => 'אולם תצוגה', 'growth' => 'צמיחה' );
+	}
+
+	public static function membership_states(): array {
+		return array( 'pending' => 'בהקמה', 'active' => 'פעיל', 'paused' => 'מושהה' );
+	}
+
+	public static function assigned_requests( int $supplier_id ): array {
+		return array( new WP_Post( 701, 'hp_b2b_request', 'הזדמנות עסקית לדוגמה' ) );
+	}
+
+	public static function catalog_submissions( int $supplier_id ): array {
+		return array( new WP_Post( 801, 'hp_catalog_submission', 'בקשת קטלוג לדוגמה' ) );
+	}
+
+	public static function request_view( WP_Post $request, int $supplier_id ): array {
+		return array(
+			'id'       => 701,
+			'company'  => 'מרפאה בהקמה',
+			'city'     => 'תל אביב',
+			'stage'    => 'תכנון ורכש',
+			'status'   => 'new',
+			'released' => false,
+			'contact'  => array(),
+			'terms'    => array(
+				'status'           => 'offered',
+				'fee_model'        => 'percent',
+				'rate_bps'         => 1000,
+				'fixed_fee_ils'    => 0,
+				'min_fee_ils'      => 8000,
+				'attribution_days' => 180,
+			),
+		);
+	}
+
+	public static function pipeline_states(): array {
+		return array( 'new' => 'חדש', 'contacted' => 'נוצר קשר', 'meeting' => 'פגישה', 'proposal' => 'הצעה', 'closed_won' => 'נסגרה עסקה', 'closed_lost' => 'לא נסגרה' );
+	}
+
+	public static function submission_status_label( $value ): string {
+		return 'under_review' === $value ? 'בבדיקה' : 'התקבלה';
+	}
+}
+
+final class Hea_Lth_Brokerage_Ledger {
+	public static function public_terms_summary( $terms ): string {
+		return '10% מסכום העסקה, מינימום ₪8,000';
+	}
 }
 
 function wp_login_url( string $redirect = '' ): string {

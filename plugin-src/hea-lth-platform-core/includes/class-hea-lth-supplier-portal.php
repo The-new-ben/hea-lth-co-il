@@ -228,7 +228,10 @@ final class Hea_Lth_Supplier_Portal {
 			return array();
 		}
 
-		$released = 'released' === get_post_meta( (int) $request->ID, 'hp_lead_release_state', true );
+		$terms     = class_exists( 'Hea_Lth_Brokerage_Ledger' ) ? Hea_Lth_Brokerage_Ledger::terms_view( (int) $request->ID ) : array( 'status' => 'none' );
+		$released  = 'released' === get_post_meta( (int) $request->ID, 'hp_lead_release_state', true )
+			&& class_exists( 'Hea_Lth_Brokerage_Ledger' )
+			&& Hea_Lth_Brokerage_Ledger::can_release( (int) $request->ID );
 		$view     = array(
 			'id'         => (int) $request->ID,
 			'type'       => sanitize_key( (string) get_post_meta( (int) $request->ID, 'hp_request_type', true ) ),
@@ -239,6 +242,7 @@ final class Hea_Lth_Supplier_Portal {
 			'created'    => sanitize_text_field( (string) get_post_meta( (int) $request->ID, 'hp_created_utc', true ) ),
 			'status'     => self::sanitize_pipeline_state( get_post_meta( (int) $request->ID, 'hp_supplier_pipeline_status', true ) ),
 			'released'   => $released,
+			'terms'      => $terms,
 		);
 
 		if ( $released ) {
@@ -380,8 +384,14 @@ final class Hea_Lth_Supplier_Portal {
 		if ( absint( get_post_meta( $request_id, 'hp_assigned_supplier_id', true ) ) !== (int) $supplier->ID ) {
 			wp_die( esc_html__( 'הפנייה אינה זמינה לחשבון זה.', 'hea-lth-platform-core' ), '', array( 'response' => 403 ) );
 		}
+		if ( 'closed_won' === $status && ( ! class_exists( 'Hea_Lth_Brokerage_Ledger' ) || ! Hea_Lth_Brokerage_Ledger::can_release( $request_id ) ) ) {
+			$status = 'qualified';
+		}
 
 		$previous = self::sanitize_pipeline_state( get_post_meta( $request_id, 'hp_supplier_pipeline_status', true ) );
+		if ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) && Hea_Lth_Brokerage_Ledger::is_financially_locked( $request_id ) ) {
+			$status = $previous;
+		}
 		update_post_meta( $request_id, 'hp_supplier_pipeline_status', $status );
 		if ( '' === (string) get_post_meta( $request_id, 'hp_supplier_acknowledged_utc', true ) ) {
 			update_post_meta( $request_id, 'hp_supplier_acknowledged_utc', gmdate( 'c' ) );
@@ -537,6 +547,11 @@ final class Hea_Lth_Supplier_Portal {
 		$new_supplier = isset( $_POST['hp_assigned_supplier_id'] ) ? absint( wp_unslash( $_POST['hp_assigned_supplier_id'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
 		$new_release  = isset( $_POST['hp_lead_release_state'] ) ? self::sanitize_release_state( sanitize_key( wp_unslash( $_POST['hp_lead_release_state'] ) ) ) : 'held'; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
 		$new_status   = isset( $_POST['hp_supplier_pipeline_status'] ) ? self::sanitize_pipeline_state( sanitize_key( wp_unslash( $_POST['hp_supplier_pipeline_status'] ) ) ) : 'new'; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified by admin_save_allowed above.
+		$locked       = class_exists( 'Hea_Lth_Brokerage_Ledger' ) && Hea_Lth_Brokerage_Ledger::is_financially_locked( $post_id );
+		if ( $locked ) {
+			$new_supplier = $old_supplier;
+			$new_status   = self::sanitize_pipeline_state( get_post_meta( $post_id, 'hp_supplier_pipeline_status', true ) );
+		}
 
 		if ( $new_supplier && 'hp_supplier' !== get_post_type( $new_supplier ) ) {
 			$new_supplier = 0;
@@ -545,11 +560,17 @@ final class Hea_Lth_Supplier_Portal {
 		if ( ! $new_supplier ) {
 			$new_release = 'held';
 		}
+		if ( 'released' === $new_release && ( ! class_exists( 'Hea_Lth_Brokerage_Ledger' ) || ! Hea_Lth_Brokerage_Ledger::can_release( $post_id ) ) ) {
+			$new_release = 'held';
+		}
 		update_post_meta( $post_id, 'hp_assigned_supplier_id', $new_supplier );
 		update_post_meta( $post_id, 'hp_lead_release_state', $new_release );
 		update_post_meta( $post_id, 'hp_supplier_pipeline_status', $new_status );
 		if ( $old_supplier !== $new_supplier ) {
 			self::append_audit( $post_id, 'assignment', (string) $old_supplier, (string) $new_supplier, get_current_user_id() );
+			if ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) ) {
+				Hea_Lth_Brokerage_Ledger::invalidate_terms( $post_id );
+			}
 		}
 		if ( $old_release !== $new_release ) {
 			self::append_audit( $post_id, 'release', $old_release, $new_release, get_current_user_id() );
