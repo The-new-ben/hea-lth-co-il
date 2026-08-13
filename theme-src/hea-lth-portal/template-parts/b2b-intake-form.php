@@ -38,7 +38,7 @@ $categories  = array(
 		<input type="hidden" name="return_url" value="<?php echo esc_url( $return_url ); ?>">
 		<input type="hidden" name="form_started" value="<?php echo esc_attr( (string) time() ); ?>">
 		<?php wp_nonce_field( 'hea_lth_b2b_intake', 'hea_lth_b2b_nonce' ); ?>
-		<label class="hp-b2b-honeypot" aria-hidden="true">Website<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label>
+		<label class="hp-b2b-honeypot" aria-hidden="true" hidden>Website<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label>
 
 		<div class="hp-b2b-form__grid">
 			<label><span><?php esc_html_e( 'שם החברה או המרפאה', 'hea-lth-portal' ); ?> *</span><input type="text" name="company_name" required autocomplete="organization"></label>
