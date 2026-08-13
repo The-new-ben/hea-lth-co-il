@@ -19,6 +19,7 @@ $notices = array(
 	'catalog-required' => array( 'error', 'יש למלא את שם המוצר ואת תיאור הבקשה.' ),
 	'catalog-error'    => array( 'error', 'לא הצלחנו לשמור את הבקשה. נסו שוב.' ),
 	'pipeline-updated' => array( 'success', 'מצב הטיפול עודכן.' ),
+	'terms-accepted'   => array( 'success', 'תנאי התיווך אושרו ונשמרו. צוות Hea-lth יכול להמשיך בהעברת פרטי ההתקשרות.' ),
 );
 ?>
 <div class="hp-supplier-portal">
@@ -116,6 +117,23 @@ $notices = array(
 									<article class="hp-opportunity-card">
 										<div class="hp-opportunity-card__top"><strong><?php echo esc_html( $lead['company'] ? $lead['company'] : __( 'פנייה עסקית', 'hea-lth-portal' ) ); ?></strong><span><?php echo $lead['released'] ? esc_html__( 'פרטי קשר זמינים', 'hea-lth-portal' ) : esc_html__( 'בתיאום Hea-lth', 'hea-lth-portal' ); ?></span></div>
 										<p><?php echo esc_html( $lead['city'] ); ?><?php echo $lead['stage'] ? ' · ' . esc_html( $lead['stage'] ) : ''; ?></p>
+										<?php if ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) && 'offered' === $lead['terms']['status'] ) : ?>
+											<div class="hp-brokerage-terms">
+												<p class="hp-eyebrow"><?php esc_html_e( 'תנאי התיווך להזדמנות זו', 'hea-lth-portal' ); ?></p>
+												<strong><?php echo esc_html( Hea_Lth_Brokerage_Ledger::public_terms_summary( $lead['terms'] ) ); ?></strong>
+												<p><?php echo esc_html( sprintf( 'חלון שיוך של %d ימים. העמלה חלה עם סגירת עסקה הנובעת מההיכרות, ובמהלך התקופה נשמרת התחייבות לאי־עקיפה ולעדכון Hea-lth בהתקדמות.', (int) $lead['terms']['attribution_days'] ) ); ?></p>
+												<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+													<input type="hidden" name="action" value="hea_lth_accept_brokerage_terms"><input type="hidden" name="request_id" value="<?php echo (int) $lead['id']; ?>">
+													<?php wp_nonce_field( 'hea_lth_accept_brokerage_terms', 'hea_lth_terms_nonce' ); ?>
+													<label class="hp-b2b-consent"><input type="checkbox" name="terms_confirmed" value="1" required><span><?php esc_html_e( 'קראתי ואני מאשר/ת את תנאי התיווך והאי־עקיפה להזדמנות זו בשם החברה.', 'hea-lth-portal' ); ?></span></label>
+													<button class="hp-button hp-button--small" type="submit"><?php esc_html_e( 'אישור התנאים', 'hea-lth-portal' ); ?></button>
+												</form>
+											</div>
+										<?php elseif ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) && 'accepted' === $lead['terms']['status'] ) : ?>
+											<div class="hp-brokerage-accepted"><strong><?php esc_html_e( 'תנאי התיווך אושרו', 'hea-lth-portal' ); ?></strong><span><?php echo esc_html( Hea_Lth_Brokerage_Ledger::public_terms_summary( $lead['terms'] ) ); ?></span></div>
+										<?php else : ?>
+											<p class="hp-opportunity-card__held"><?php esc_html_e( 'צוות Hea-lth מתאם את תנאי ההתקשרות להזדמנות זו.', 'hea-lth-portal' ); ?></p>
+										<?php endif; ?>
 										<?php if ( $lead['released'] ) : ?>
 											<div class="hp-opportunity-card__contact"><strong><?php echo esc_html( $lead['contact_name'] ); ?></strong><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $lead['contact_phone'] ) ); ?>"><?php echo esc_html( $lead['contact_phone'] ); ?></a><a href="mailto:<?php echo esc_attr( $lead['contact_email'] ); ?>"><?php echo esc_html( $lead['contact_email'] ); ?></a></div>
 										<?php else : ?>

@@ -33,3 +33,20 @@ The owner grants Codex standing authority to execute the Hea-lth platform object
 Standing authority does not remove safeguards that require exact transaction context. Codex must obtain a specific confirmation before spending funds, executing a legally binding agreement in the owner's name, exposing credentials, disclosing a protected lead outside the recorded release condition, materially deleting business data, or completing an irreversible financial transaction.
 
 This directive supplements the earlier standing instruction to deploy routine validated releases without asking again.
+
+## Forward command authorization matrix
+
+The owner authorizes the following command families whenever they are used for the Hea-lth objective and its connected infrastructure. This is one batch authorization; routine commands in these categories do not require repeated confirmation.
+
+- Repository inspection and search: `rg`, `git status`, `git diff`, `git log`, `git show`, `git branch`, `git remote`, and equivalent read-only inspection commands.
+- Repository delivery: `git add`, `git commit`, `git push`, branch creation, `gh pr create`, `gh pr view`, `gh pr checks`, `gh pr merge`, workflow inspection, and release verification.
+- WordPress engineering and operations: PHP, WP-CLI, approved WordPress packaging scripts, database migrations, cache clearing, rewrite flushing, controlled imports, metadata updates, and production health checks.
+- Quality assurance: PHP linting, PHPCS, PHPStan, PHPUnit or repository PHP contracts, Python unit tests, JavaScript tests, Playwright browser tests, accessibility tests, screenshots, responsive checks, link checks, schema checks, canonical checks, and public-language checks.
+- Dependencies and builds: Composer, npm, Node.js, npx, Python/pip where required by the repository, deterministic ZIP packaging, checksums, dependency audits, and security updates.
+- Deployment: the governed GitHub Actions production pipeline, deployment scripts and dry runs, artifact validation, live health probes, and verified production hotfixes. No staging environment is to be created.
+- Browser and network verification: local browser automation, Chrome or the in-app browser, `curl`, `Invoke-WebRequest`, DNS and HTTP checks, external source research, and official API checks needed for implementation or QA.
+- Local tooling: PowerShell, Bash, approved helper scripts, temporary local servers, local preview fixtures, formatting tools, and safe cleanup of generated test artifacts within the repository.
+- Platform operations: supplier onboarding, showroom/catalog provisioning, CRM workflows, analytics instrumentation, commerce configuration, redirects, forms, account workflows, and private business records.
+- Business operations: Gmail and other connected communication tools for supplier correspondence, follow-ups, commercial-term confirmation, non-circumvention evidence, and lead release after the recorded release condition is satisfied.
+
+This authorization applies to future concrete command variants, generated branch names, file paths inside the Hea-lth workspace, package versions, commit hashes, pull-request numbers, workflow runs, and deployment identifiers.
