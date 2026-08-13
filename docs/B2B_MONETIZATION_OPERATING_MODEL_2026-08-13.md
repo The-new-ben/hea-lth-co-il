@@ -43,7 +43,9 @@ These are internal starting ranges. Each supplier agreement records the selected
 - Supplier pipeline updates are limited to the assigned request and append an audit event.
 - Each assigned opportunity can now carry its own percentage, fixed, or hybrid brokerage model, minimum fee, and attribution window.
 - Supplier acceptance is affirmative, timestamped, tied to the assigned supplier account, and protected by a terms fingerprint.
+- Every acceptance produces a separate immutable agreement document, delivered privately to the supplier and owner and retained with per-recipient delivery evidence.
 - Buyer contact details cannot be released unless the current terms fingerprint validates.
+- Buyer contact details also remain held unless a matching untampered agreement document exists.
 - Reassignment or any economic change invalidates the earlier acceptance and returns contact details to the held state.
 - Closed deal value produces an integer ILS commission calculation. Invoice readiness requires accepted terms, a won deal, and a positive closed value.
 - Invoice states follow `not_ready → ready → issued → paid`; state skipping is rejected and paid records are immutable.

@@ -114,6 +114,13 @@ final class Hea_Lth_Brokerage_Ledger {
 		echo '<p><strong>מצב התנאים:</strong> ' . esc_html( self::terms_status_label( $terms['status'] ) ) . '</p>';
 		if ( 'accepted' === $terms['status'] ) {
 			echo '<p class="description">אושר ב-' . esc_html( $terms['accepted_utc'] ) . ' · מקור: ' . esc_html( 'written_external' === $terms['acceptance_source'] ? 'אישור כתוב חיצוני' : 'אזור הספקים' ) . ' · אסמכתה <code>' . esc_html( substr( $terms['snapshot_hash'], 0, 16 ) ) . '</code></p>';
+			if ( class_exists( 'Hea_Lth_Brokerage_Agreement' ) ) {
+				$document = Hea_Lth_Brokerage_Agreement::latest_document( $request_id );
+				if ( $document ) {
+					$delivery = Hea_Lth_Brokerage_Agreement::delivery_status( $request_id, $document['document_id'] );
+					echo '<p><a class="button" href="' . esc_url( Hea_Lth_Brokerage_Agreement::download_url( $request_id, $document['document_id'] ) ) . '">הורדת מסמך האישור</a> <span class="description">מסירה לספק: ' . esc_html( $delivery['supplier'] ? 'נשלח' : 'ממתין' ) . ' · מסירה לבעלים: ' . esc_html( $delivery['owner'] ? 'נשלח' : 'ממתין' ) . '</span></p>';
+				}
+			}
 		}
 		if ( $locked ) {
 			echo '<div class="notice notice-info inline"><p><strong>הרשומה הפיננסית נעולה.</strong> לאחר הפקת חשבונית נשמרים הספק ותנאי העסקה ללא שינוי.</p></div>';
@@ -300,7 +307,9 @@ final class Hea_Lth_Brokerage_Ledger {
 			return false;
 		}
 		$expected = hash( 'sha256', wp_json_encode( self::acceptance_snapshot( $request_id, $supplier_id, $user_id, $accepted, $terms ) ) );
-		return hash_equals( $stored_hash, $expected );
+		return hash_equals( $stored_hash, $expected )
+			&& class_exists( 'Hea_Lth_Brokerage_Agreement' )
+			&& Hea_Lth_Brokerage_Agreement::is_fully_delivered( $request_id, $stored_hash );
 	}
 
 	/**
@@ -577,6 +586,15 @@ final class Hea_Lth_Brokerage_Ledger {
 		update_post_meta( $request_id, 'hp_terms_snapshot_hash', hash( 'sha256', wp_json_encode( $snapshot ) ) );
 		update_post_meta( $request_id, 'hp_attribution_expires_utc', $expires_utc );
 		self::record_audit( $request_id, 'terms_accepted', 'offered', 'accepted', $user_id );
+		if ( class_exists( 'Hea_Lth_Brokerage_Agreement' ) ) {
+			self::create_agreement_document( $request_id, $supplier_id, $user_id );
+		}
+	}
+
+	/** @param int $request_id Request ID. @param int $supplier_id Supplier ID. @param int $user_id User ID. @return void */
+	private static function create_agreement_document( $request_id, $supplier_id, $user_id ) {
+		$terms = self::terms_view( $request_id );
+		Hea_Lth_Brokerage_Agreement::create_and_deliver( $request_id, $supplier_id, $user_id, $terms, $terms['snapshot_hash'] );
 	}
 
 	/** @return bool */

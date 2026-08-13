@@ -18,6 +18,7 @@ assert_true( false !== strpos( $preview, "'profile-preview'" ), 'Local preview m
 assert_true( false !== strpos( $preview, "'treatment-preview'" ), 'Local preview must expose the treatment layout fixture.' );
 assert_true( false !== strpos( $preview, 'supplierFixture' ), 'Local preview must expose the authenticated supplier dashboard fixture.' );
 assert_true( false !== strpos( $preview, "'supplier-dashboard-preview'" ), 'Supplier dashboard fixture must have a single-query visual route.' );
+assert_true( false !== strpos( $preview, "'supplier-agreement-preview'" ), 'Private agreement confirmation must have a local visual route.' );
 assert_true( false !== strpos( $preview, 'data-preview-fixture="true"' ), 'Fixture renders must carry an explicit non-production marker.' );
 assert_true( false !== strpos( $preview, 'אין כאן פרופיל, טיפול או מידע רפואי לפרסום' ), 'Fixture notice must prevent a misleading visual handoff.' );
 assert_true( false !== strpos( $preview, "'hp_public_state' => 'verified'" ), 'Profile fixture must satisfy the same source gate as the template.' );

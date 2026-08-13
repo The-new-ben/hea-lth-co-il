@@ -21,7 +21,7 @@ assert_true( false !== strpos( $core, "'hp_supplier_id'" ), 'Equipment must have
 assert_true( false !== strpos( $routes, "'suppliers'" ), 'Supplier index must be in the governed route registry.' );
 assert_true( false !== strpos( $provisioner, "'supplier:nubway'" ) || false !== strpos( $provisioner, "'nubway'" ), 'NUBWAY showroom must be provisioned.' );
 assert_true( false !== strpos( $provisioner, "'galaxy'" ), 'Galaxy showroom must be provisioned.' );
-assert_true( false === strpos( $provisioner, '0528750006' ), 'Private mobile details must not enter the public seed.' );
+assert_true( 0 === preg_match( '/[\'\"]05\d[\s-]?\d{7}[\'\"]/', $provisioner ), 'Private mobile details must not enter the public seed.' );
 assert_true( false !== strpos( $supplier, "'hp_supplier_id'" ), 'Showroom must query its own equipment.' );
 assert_true( false !== strpos( $equipment, 'get_permalink( $supplier_id )' ), 'Equipment must link back to its supplier showroom.' );
 

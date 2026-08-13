@@ -52,6 +52,12 @@ class Hea_Lth_Supplier_Portal {
 	public static function sanitize_audit_log( $value ) { return is_array( $value ) ? $value : array(); }
 }
 
+class Hea_Lth_Brokerage_Agreement {
+	public static function create_and_deliver( $request_id, $supplier_id, $user_id, $terms, $snapshot_hash ) { return array(); }
+	public static function has_matching_document( $request_id, $snapshot_hash ) { return true; }
+	public static function is_fully_delivered( $request_id, $snapshot_hash ) { return true; }
+}
+
 $root = dirname( __DIR__, 2 );
 require_once $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-brokerage-ledger.php';
 
@@ -94,6 +100,7 @@ foreach ( array( 'hp_terms_snapshot_hash', 'hp_attribution_expires_utc', 'hp_clo
 	assert_true( false !== strpos( $ledger, $field ), 'Ledger field missing: ' . $field );
 }
 assert_true( false !== strpos( $ledger, 'hash_equals' ), 'Lead release must validate the immutable acceptance fingerprint.' );
+assert_true( false !== strpos( $ledger, 'is_fully_delivered' ), 'Lead release must require an agreement copy delivered to supplier and owner.' );
 assert_true( false !== strpos( $ledger, 'terms_changed' ), 'Accepted terms must reopen after an economic change.' );
 assert_true( false !== strpos( $ledger, 'is_financially_locked' ), 'Issued and paid records must lock supplier attribution and economics.' );
 assert_true( false !== strpos( $supplier, 'Hea_Lth_Brokerage_Ledger::can_release' ), 'Supplier contact access must pass the terms gate.' );
