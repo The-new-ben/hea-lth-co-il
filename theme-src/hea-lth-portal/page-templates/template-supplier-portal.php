@@ -130,7 +130,8 @@ $notices = array(
 												</form>
 											</div>
 										<?php elseif ( class_exists( 'Hea_Lth_Brokerage_Ledger' ) && 'accepted' === $lead['terms']['status'] ) : ?>
-											<div class="hp-brokerage-accepted"><strong><?php esc_html_e( 'תנאי התיווך אושרו', 'hea-lth-portal' ); ?></strong><span><?php echo esc_html( Hea_Lth_Brokerage_Ledger::public_terms_summary( $lead['terms'] ) ); ?></span></div>
+											<?php $agreement = class_exists( 'Hea_Lth_Brokerage_Agreement' ) ? Hea_Lth_Brokerage_Agreement::latest_document( (int) $lead['id'] ) : array(); ?>
+											<div class="hp-brokerage-accepted"><strong><?php esc_html_e( 'תנאי התיווך אושרו ותועדו', 'hea-lth-portal' ); ?></strong><span><?php echo esc_html( Hea_Lth_Brokerage_Ledger::public_terms_summary( $lead['terms'] ) ); ?></span><?php if ( $agreement ) : ?><a href="<?php echo esc_url( Hea_Lth_Brokerage_Agreement::download_url( (int) $lead['id'], $agreement['document_id'] ) ); ?>"><?php esc_html_e( 'הורדת מסמך האישור', 'hea-lth-portal' ); ?></a><?php endif; ?></div>
 										<?php else : ?>
 											<p class="hp-opportunity-card__held"><?php esc_html_e( 'צוות Hea-lth מתאם את תנאי ההתקשרות להזדמנות זו.', 'hea-lth-portal' ); ?></p>
 										<?php endif; ?>

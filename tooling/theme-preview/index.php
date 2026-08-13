@@ -33,6 +33,7 @@ $hea_lth_preview_pages = array(
 	'science'       => array( 'file' => 'page-templates/template-science-hub.php', 'title' => 'ביולוגיה של האדם והזדקנות בריאה' ),
 	'supplier-portal' => array( 'file' => 'page-templates/template-supplier-portal.php', 'title' => 'אזור הספקים' ),
 	'supplier-dashboard-preview' => array( 'file' => 'page-templates/template-supplier-portal.php', 'title' => 'אזור הספקים' ),
+	'supplier-agreement-preview' => array( 'file' => 'page-templates/template-supplier-portal.php', 'title' => 'אזור הספקים' ),
 	'supplier-join' => array( 'file' => 'page-templates/template-supplier-join.php', 'title' => 'הצטרפות ספקים ויבואנים' ),
 	'profile-preview' => array( 'file' => 'single-hp_provider.php', 'title' => 'תצוגת מבנה פרופיל' ),
 	'treatment-preview' => array( 'file' => 'single-hp_treatment.php', 'title' => 'תצוגת מבנה טיפול' ),
@@ -46,7 +47,8 @@ $hea_lth_preview_title          = $hea_lth_preview_pages[ $hea_lth_preview_page 
 $hea_lth_preview_main_post_seen = false;
 $hea_lth_preview_three_fixture  = 'anatomy' === $hea_lth_preview_page && isset( $_GET['threeFixture'] ) && '1' === (string) $_GET['threeFixture'];
 $hea_lth_preview_front_three    = 'home' === $hea_lth_preview_page && isset( $_GET['threeFixture'] ) && '1' === (string) $_GET['threeFixture'];
-$hea_lth_preview_supplier_fixture = 'supplier-dashboard-preview' === $hea_lth_preview_page || ( 'supplier-portal' === $hea_lth_preview_page && isset( $_GET['supplierFixture'] ) && '1' === (string) $_GET['supplierFixture'] );
+$hea_lth_preview_supplier_fixture = in_array( $hea_lth_preview_page, array( 'supplier-dashboard-preview', 'supplier-agreement-preview' ), true ) || ( 'supplier-portal' === $hea_lth_preview_page && isset( $_GET['supplierFixture'] ) && '1' === (string) $_GET['supplierFixture'] );
+$hea_lth_preview_supplier_accepted = 'supplier-agreement-preview' === $hea_lth_preview_page;
 
 /**
  * Isolated local fixtures used only to render dormant profile and treatment
@@ -690,6 +692,7 @@ final class Hea_Lth_Supplier_Portal {
 	}
 
 	public static function request_view( WP_Post $request, int $supplier_id ): array {
+		global $hea_lth_preview_supplier_accepted;
 		return array(
 			'id'       => 701,
 			'company'  => 'מרפאה בהקמה',
@@ -699,7 +702,7 @@ final class Hea_Lth_Supplier_Portal {
 			'released' => false,
 			'contact'  => array(),
 			'terms'    => array(
-				'status'           => 'offered',
+				'status'           => $hea_lth_preview_supplier_accepted ? 'accepted' : 'offered',
 				'fee_model'        => 'percent',
 				'rate_bps'         => 1000,
 				'fixed_fee_ils'    => 0,
@@ -721,6 +724,16 @@ final class Hea_Lth_Supplier_Portal {
 final class Hea_Lth_Brokerage_Ledger {
 	public static function public_terms_summary( $terms ): string {
 		return '10% מסכום העסקה, מינימום ₪8,000';
+	}
+}
+
+final class Hea_Lth_Brokerage_Agreement {
+	public static function latest_document( int $request_id ): array {
+		return array( 'document_id' => 'HP-BRK-701-DEMO' );
+	}
+
+	public static function download_url( int $request_id, string $document_id ): string {
+		return admin_url( 'admin-post.php?action=preview-private-agreement' );
 	}
 }
 
