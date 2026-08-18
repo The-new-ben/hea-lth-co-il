@@ -2995,3 +2995,31 @@
 .hp-advisory-gate__form { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.2rem; }
 .hp-advisory-gate__form input { flex: 1 1 240px; border: 1px solid rgba(8,49,58,.25); border-radius: .8rem; padding: .9rem 1.1rem; font-size: 1.05rem; direction: ltr; text-align: start; }
 .hp-advisory-gate__error { color: #a3211f; font-weight: 700; }
+
+/* Advisory v2: howto, table, badges, pills, chips. */
+.hp-advisory-hero__updated { color: #91ead8; font-size: .95rem; font-weight: 600; }
+.hp-advisory-howto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.2rem; }
+.hp-advisory-howto__step { display: flex; align-items: flex-start; gap: .9rem; }
+.hp-advisory-howto__step span { flex: 0 0 auto; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: #0b3a42; color: #91ead8; display: grid; place-items: center; font-weight: 700; }
+.hp-advisory-howto__step p { margin: .35rem 0 0; font-weight: 600; }
+.hp-advisory-tablewrap { overflow-x: auto; border: 1px solid rgba(8,49,58,.13); border-radius: 1rem; background: #fff; box-shadow: 0 18px 50px rgba(8,49,58,.08); }
+.hp-advisory-table { width: 100%; border-collapse: collapse; min-width: 760px; }
+.hp-advisory-table th, .hp-advisory-table td { padding: .85rem 1.1rem; text-align: start; border-bottom: 1px solid rgba(8,49,58,.1); font-size: .98rem; }
+.hp-advisory-table thead th { background: rgba(8,49,58,.05); font-size: .9rem; letter-spacing: .02em; }
+.hp-advisory-table tbody tr:last-child th, .hp-advisory-table tbody tr:last-child td { border-bottom: 0; }
+.hp-advisory-table tbody th a { text-decoration: none; }
+.hp-advisory-pill { display: inline-block; background: rgba(8,49,58,.07); color: rgba(8,49,58,.85); border-radius: 2rem; padding: .25rem .85rem; font-size: .88rem; font-weight: 700; }
+.hp-advisory-mark { font-weight: 700; white-space: nowrap; }
+.hp-advisory-badge { flex: 0 0 auto; width: 3rem; height: 3rem; color: #0b3a42; }
+.hp-advisory-badge svg { width: 100%; height: 100%; }
+.hp-advisory-card__head { display: flex; align-items: center; gap: 1rem; margin-bottom: .8rem; }
+.hp-advisory-card__head h3 { margin: 0; }
+.hp-advisory-card__tech { font-weight: 700; color: rgba(8,49,58,.8); }
+.hp-advisory-card--cat p { margin-bottom: 0; }
+.hp-advisory-cta-row { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 1rem; }
+.hp-button--small { padding: .55rem 1.2rem; font-size: .95rem; }
+.hp-advisory-brief { display: grid; gap: .8rem; margin: 1.2rem 0 0; padding: 0 1.2rem 0 0; }
+.hp-advisory-brief li { font-size: 1.05rem; }
+.hp-advisory-chiprow { display: flex; flex-wrap: wrap; gap: .7rem; }
+.hp-advisory-chip { display: inline-block; border: 1px solid rgba(8,49,58,.2); border-radius: 2rem; padding: .5rem 1.1rem; text-decoration: none; font-weight: 700; background: #fff; }
+.hp-advisory-note--muted { color: rgba(8,49,58,.6); font-weight: 500; font-size: .95rem; }

@@ -66,6 +66,20 @@ if ( false !== strpos( $plugin, 'wp_update_post' ) ) {
 	$failures[] = 'advisory provisioner must be create-only (wp_update_post found)';
 }
 
+// v2 decision toolkit: comparison table, interest CTAs, supplier-room branch.
+if ( false === strpos( $template, 'hp-advisory-table' ) ) {
+	$failures[] = 'buyer rooms must render the comparison table';
+}
+if ( false === strpos( $template, 'https://wa.me/' ) ) {
+	$failures[] = 'rooms must carry WhatsApp interest/reply CTAs';
+}
+if ( false === strpos( $template, "'supplier' === \$advisory['type']" ) ) {
+	$failures[] = 'template must branch for supplier rooms';
+}
+if ( false === strpos( $plugin, "'supplier-nicro'" ) || false === strpos( $plugin, "'supplier-galaxy'" ) || false === strpos( $plugin, "'supplier-venus'" ) ) {
+	$failures[] = 'the three supplier rooms must be registered';
+}
+
 if ( $failures ) {
 	foreach ( $failures as $failure ) {
 		fwrite( STDERR, "advisory-room contract FAILED: {$failure}\n" );
