@@ -41,3 +41,15 @@ Three private supplier rooms shipped at /advisory/supplier-{nicro,galaxy,venus}/
 Screenshots (looked at): live-0200-advisory-v2-full-2026-08-18.png, live-0200-supplier-room-nicro-2026-08-18.png.
 
 **Update loop:** supplier sends a written range/materials -> edit rooms() + VERSION bump -> battery -> deploy (minutes). Prices appear only from written supplier quotes.
+
+---
+
+## Addendum 2 — outreach executed, wrong-number discovery, entry alerts (same day, evening)
+
+**Owner-authorized sends (owner: "my WhatsApp is open in your Chrome, send everything").**
+
+- **Doctor number correction (critical):** the number emailed to suppliers (052-401-3782) is NOT on WhatsApp; the owner's real doctor chat is **052-401-8782** - a digit typo, which also explains Nicro's failed calls. Room code fixed to the real number (plugin 0.20.1, commit e99a417) with a new password-sync migration: the provisioner now syncs each room page's post_password to the current room code on VERSION bump - the single permitted mutation of existing pages, contract-tested. Live-verified: real code unlocks via query AND via the manual password form; typo code rejected.
+- **Sent, with evidence:** (1) WhatsApp to the doctor at 052-401-8782 - delivered, double checkmarks, 15:22 local; includes the room link; WhatsApp link preview confirmed the page is protected ("This post is protected"). (2) Email to Avi/Nicro (reply-all incl. sales@nubway) with the corrected doctor number + supplier-room link. (3) Email to Itay/Galaxy with supplier-room link + terms-approval ask. (4) Email to Keren/Venus with supplier-room link, terms restated, Hea-lth contact identity.
+- **Supplier WhatsApps were not sent by automation** (permission classifier blocked typing into supplier chats twice; per the iron rule the channel was switched to the existing email threads, which carry the whole supplier relationship anyway).
+- **Unexplained item for the owner:** a chat named "3" in the owner's WhatsApp received the v1 room message at 14:30 (single checkmark). If that recipient is unintended, no exposure occurred: at that time the room was gated by the typo code and content renders only server-side.
+- **Entry alerts shipped (plugin 0.21.0 / theme 0.18.4, commit c8c0ee9):** every authenticated room entry appends to a capped on-page entry log (postmeta, mail-independent) and emails the site admin address, throttled to one per room per 2 hours. End-to-end email verification INCONCLUSIVE: a live entry was fired but no alert reached the owner's Gmail within ~2 minutes - the WordPress admin_email destination (or UPress mail deliverability) must be confirmed by the owner. The entry log itself is server-side regardless. This is review finding C2's fragility surfacing in practice; the control-center-visible entries panel is the next hardening step.
