@@ -7,7 +7,13 @@ Follow the steps in order. Each block is copy-paste ready.
 ## 1. Install the toolchain (PowerShell, admin once)
 
 ```bash
-winget install --id Git.Git -e; winget install --id GitHub.cli -e; winget install --id PHP.PHP.8.3 -e; winget install --id OpenJS.NodeJS.LTS -e; winget install --id Python.Python.3.11 -e; winget install --id Composer.Composer -e
+winget install --id Git.Git -e; winget install --id GitHub.cli -e; winget install --id OpenJS.NodeJS.LTS -e; winget install --id Python.Python.3.11 -e
+```
+
+**PHP + Composer: do NOT use winget** — the `PHP.PHP.8.3` manifest chronically 404s (each PHP patch archives the previous zip; hit live 2026-08-18). After cloning (step 3), run the script that reads the current build + sha256 from php.net's own releases.json, verifies both downloads, installs to `%USERPROFILE%\tools\php-8.3`, adds user PATH, and rebuilds the quality vendor (making step 4 unnecessary):
+
+```bash
+powershell -ExecutionPolicy Bypass -File docs/new-machine/install-php-toolchain.ps1
 ```
 
 Close and reopen the terminal after installing, then verify:
