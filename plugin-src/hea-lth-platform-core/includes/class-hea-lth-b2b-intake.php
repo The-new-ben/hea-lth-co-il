@@ -32,6 +32,16 @@ final class Hea_Lth_B2B_Intake {
 			self::redirect( $return_url, 'invalid' );
 		}
 
+		// Rate limit: an anonymous client may create at most 5 requests per
+		// 10 minutes; excess attempts are bounced before any post is created.
+		$fingerprint = isset( $_SERVER['REMOTE_ADDR'] ) ? md5( (string) sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) ) : 'unknown';
+		$rate_key    = 'hea_lth_b2b_rl_' . $fingerprint;
+		$rate_hits   = (int) get_transient( $rate_key );
+		if ( $rate_hits >= 5 ) {
+			self::redirect( $return_url, 'invalid' );
+		}
+		set_transient( $rate_key, $rate_hits + 1, 10 * MINUTE_IN_SECONDS );
+
 		$type = isset( $_POST['request_type'] ) ? sanitize_key( wp_unslash( $_POST['request_type'] ) ) : '';
 		if ( ! in_array( $type, array( 'clinic_quote', 'supplier_join' ), true ) ) {
 			self::redirect( $return_url, 'invalid' );
@@ -160,6 +170,7 @@ final class Hea_Lth_B2B_Intake {
 	private static function notify( $post_id, $meta ) {
 		$recipient = sanitize_email( (string) get_option( 'admin_email' ) );
 		if ( ! is_email( $recipient ) ) {
+			update_post_meta( (int) $post_id, 'hp_mail_result', 'no-recipient' );
 			return;
 		}
 
@@ -179,7 +190,11 @@ final class Hea_Lth_B2B_Intake {
 			)
 		);
 
-		wp_mail( $recipient, $subject, $body );
+		$mailed = wp_mail( $recipient, $subject, $body );
+		update_post_meta( (int) $post_id, 'hp_mail_result', $mailed ? 'sent' : 'failed' );
+		if ( ! $mailed ) {
+			update_option( 'hea_lth_b2b_mail_failures', (int) get_option( 'hea_lth_b2b_mail_failures', 0 ) + 1, false );
+		}
 	}
 
 	private static function redirect( $return_url, $status ) {

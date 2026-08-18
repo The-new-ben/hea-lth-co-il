@@ -94,6 +94,29 @@ if ( false === strpos( $plugin, 'set_transient( $throttle' ) || false === strpos
 	$failures[] = 'notify_entry must throttle alerts and keep an entry log';
 }
 
+// Deal desk: mail-independent lead + room visibility, hardened intake.
+$desk   = file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-deal-desk.php' );
+$intake = file_get_contents( $root . '/plugin-src/hea-lth-platform-core/includes/class-hea-lth-b2b-intake.php' );
+if ( false === $desk || false === $intake ) {
+	$failures[] = 'deal desk / intake sources missing';
+} else {
+	if ( false === strpos( $desk, "'hp_contact_phone'" ) || false === strpos( $desk, '_hea_lth_advisory_entries' ) ) {
+		$failures[] = 'deal desk must surface lead contacts and room entries';
+	}
+	if ( false === strpos( $desk, "current_user_can( 'manage_options' )" ) ) {
+		$failures[] = 'deal desk must be capability-gated';
+	}
+	if ( false === strpos( $intake, 'hea_lth_b2b_rl_' ) ) {
+		$failures[] = 'intake must rate-limit anonymous submissions';
+	}
+	if ( false === strpos( $intake, "'hp_mail_result'" ) || false === strpos( $intake, 'hea_lth_b2b_mail_failures' ) ) {
+		$failures[] = 'intake must record the notification-mail result';
+	}
+	if ( false === strpos( $main, 'Hea_Lth_Deal_Desk::boot();' ) ) {
+		$failures[] = 'plugin main file must boot the deal desk';
+	}
+}
+
 if ( $failures ) {
 	foreach ( $failures as $failure ) {
 		fwrite( STDERR, "advisory-room contract FAILED: {$failure}\n" );
