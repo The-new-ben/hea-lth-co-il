@@ -61,9 +61,14 @@ if ( false === strpos( $css, '.hp-advisory-gate__form' ) || false === strpos( $c
 	$failures[] = 'templates.css must style the advisory gate and grid';
 }
 
-// Create-only provisioning: the class must never update existing pages.
-if ( false !== strpos( $plugin, 'wp_update_post' ) ) {
-	$failures[] = 'advisory provisioner must be create-only (wp_update_post found)';
+// Provisioning may mutate existing pages in exactly one way: syncing the
+// room page's post password to the current room code (rooms matched by
+// their own meta). Any other wp_update_post usage is a contract break.
+if ( 1 !== substr_count( $plugin, 'wp_update_post' ) ) {
+	$failures[] = 'advisory class must contain exactly one wp_update_post call (password sync only)';
+}
+if ( false === strpos( $plugin, "'post_password' => \$room['code']," ) ) {
+	$failures[] = 'the single wp_update_post must set only the room post password';
 }
 
 // v2 decision toolkit: comparison table, interest CTAs, supplier-room branch.

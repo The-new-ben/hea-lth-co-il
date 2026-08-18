@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Hea_Lth_Advisory_Rooms {
 
-	const VERSION = '2026-08-18-02';
+	const VERSION = '2026-08-18-03';
 	const OPTION  = 'hea_lth_advisory_blueprint';
 
 	public static function boot() {
@@ -88,7 +88,7 @@ class Hea_Lth_Advisory_Rooms {
 			'clinic-2026-001' => array(
 				'type'      => 'buyer',
 				'client'    => 'ד"ר אחסאן',
-				'code'      => '0524013782',
+				'code'      => '0524018782',
 				'updated'   => '18.08.2026',
 				'title'     => 'חדר ייעוץ הצטיידות — מרפאה לטיפול בהשמנה ואסתטיקה',
 				'intro'     => 'ריכזנו עבורך במקום אחד את תמונת המצב המלאה של תהליך ההצטיידות: הדרישות שהגדרת, הספקים שגויסו, והמערכות הרלוונטיות עם ההקשר שחשוב להחלטה. ליד כל מערכת יש כפתור "מעניין אותי" — כל סימון מגיע ישירות אלינו ומכוון את איסוף ההצעות עבורך.',
@@ -283,7 +283,31 @@ class Hea_Lth_Advisory_Rooms {
 			update_post_meta( $page_id, '_hea_lth_advisory_room', $key );
 		}
 
+		self::sync_room_passwords();
+
 		update_option( self::OPTION, self::VERSION, false );
+	}
+
+	/**
+	 * Keep each room page's native post password equal to its current room
+	 * code. This is the ONLY mutation ever applied to an existing page, and
+	 * it touches only pages this class provisioned (matched by room meta).
+	 */
+	private static function sync_room_passwords() {
+		foreach ( self::rooms() as $key => $room ) {
+			$page = get_page_by_path( 'advisory/' . $key );
+			if ( ! $page || $key !== (string) get_post_meta( $page->ID, '_hea_lth_advisory_room', true ) ) {
+				continue;
+			}
+			if ( (string) $page->post_password !== (string) $room['code'] ) {
+				wp_update_post(
+					array(
+						'ID'            => $page->ID,
+						'post_password' => $room['code'],
+					)
+				);
+			}
+		}
 	}
 
 	/**
