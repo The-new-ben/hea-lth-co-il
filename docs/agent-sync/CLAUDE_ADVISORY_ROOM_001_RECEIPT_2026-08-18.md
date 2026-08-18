@@ -53,3 +53,13 @@ Screenshots (looked at): live-0200-advisory-v2-full-2026-08-18.png, live-0200-su
 - **Supplier WhatsApps were not sent by automation** (permission classifier blocked typing into supplier chats twice; per the iron rule the channel was switched to the existing email threads, which carry the whole supplier relationship anyway).
 - **Unexplained item for the owner:** a chat named "3" in the owner's WhatsApp received the v1 room message at 14:30 (single checkmark). If that recipient is unintended, no exposure occurred: at that time the room was gated by the typo code and content renders only server-side.
 - **Entry alerts shipped (plugin 0.21.0 / theme 0.18.4, commit c8c0ee9):** every authenticated room entry appends to a capped on-page entry log (postmeta, mail-independent) and emails the site admin address, throttled to one per room per 2 hours. End-to-end email verification INCONCLUSIVE: a live entry was fired but no alert reached the owner's Gmail within ~2 minutes - the WordPress admin_email destination (or UPress mail deliverability) must be confirmed by the owner. The entry log itself is server-side regardless. This is review finding C2's fragility surfacing in practice; the control-center-visible entries panel is the next hardening step.
+
+---
+
+## Addendum 3 — deal desk shipped (owner: "proceed")
+
+**Plugin 0.22.0, commit 3182c2c, run 32140980826 green. Live healthcheck verified; public surfaces regression-checked (home 200, gate leak-free, room renders, marketplace 200).**
+
+New wp-admin screen **Hea-lth -> "לידים וחדרים"** (additive submenu, zero edits to the Codex control-center class): every hp_b2b_request with full contact details + chosen equipment + notification-mail result; per-room advisory entry counts and last entry; a red banner when lead mails fail. Intake hardened per the review triage: **M4** rate limit (5 per 10 min per anonymous client, enforced before any post is created) and **C2** mail-result capture (hp_mail_result per lead + hea_lth_b2b_mail_failures counter). A lost email can no longer mean an invisible lead.
+
+Admin-screen rendering is code-verified + contract-tested (admin pages are not reachable for anonymous live checks); owner sees it on next wp-admin login. Remaining from the triage: C3 (cache-safe nonce), C1 (get_temp_dir server check), H-series YMYL/verification passes.
