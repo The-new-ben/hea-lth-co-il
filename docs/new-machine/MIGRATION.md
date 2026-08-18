@@ -82,13 +82,13 @@ php tooling/php-quality/vendor/bin/phpstan analyse -c tooling/php-quality/phpsta
 ## 7. Rotated passwords — what actually needs updating
 
 - **GitHub login**: handled by step 2 on this machine.
-- **WordPress application password** (used by the deploy pipeline): if it was rotated, the pipeline's secret must be updated once or the next deploy fails at authentication. Run and paste the new value when prompted (it is never stored in the repo):
+- **WordPress application password** (used by the deploy pipeline): if it was rotated, the pipeline's secret must be updated once or the next deploy fails at authentication. The deploy secrets live in the GitHub **environment `production`** (a plain repo-level `gh secret set` would NOT take effect — environment secrets override it). Run and paste the new value when prompted (it is never stored in the repo):
 
 ```bash
-gh secret set WP_APP_PASSWORD --repo The-new-ben/hea-lth-co-il
+gh secret set WP_APP_PASSWORD --repo The-new-ben/hea-lth-co-il --env production
 ```
 
-  Same command pattern for `WP_USER` / `WP_BASE_URL` if those changed. The next real deploy verifies them end to end.
+  Same command pattern for `WP_USER` / `WP_BASE_URL` if those changed. Inspect current state with `gh secret list --repo The-new-ben/hea-lth-co-il --env production` (the dates show when each was last set). The next real deploy verifies them end to end.
 - **wp-admin password**: only needed for the browser; the control center lives at wp-admin → Hea-lth.
 
 ## 8. Open the working session
