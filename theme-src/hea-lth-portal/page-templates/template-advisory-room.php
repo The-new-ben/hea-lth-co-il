@@ -25,6 +25,10 @@ $code_valid   = $advisory && '' !== $given_code && Hea_Lth_Advisory_Rooms::code_
 $unlocked     = $advisory && ( $code_valid || ! post_password_required() );
 $whatsapp     = '972525101555';
 
+if ( $unlocked ) {
+	Hea_Lth_Advisory_Rooms::notify_entry( $room_page_id, $advisory, $code_valid ? 'code' : 'password' );
+}
+
 /**
  * Static category badge (inline SVG, no dynamic content).
  *

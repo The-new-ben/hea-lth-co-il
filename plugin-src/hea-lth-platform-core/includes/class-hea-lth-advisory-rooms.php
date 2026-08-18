@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Hea_Lth_Advisory_Rooms {
 
-	const VERSION = '2026-08-18-03';
+	const VERSION = '2026-08-18-04';
 	const OPTION  = 'hea_lth_advisory_blueprint';
 
 	public static function boot() {
@@ -320,6 +320,47 @@ class Hea_Lth_Advisory_Rooms {
 		$key   = (string) get_post_meta( (int) $post_id, '_hea_lth_advisory_room', true );
 		$rooms = self::rooms();
 		return ( '' !== $key && isset( $rooms[ $key ] ) ) ? $rooms[ $key ] : null;
+	}
+
+	/**
+	 * Record a successful room entry: owner email alert (throttled per room)
+	 * plus a capped entry log on the room page for an audit trail that does
+	 * not depend on mail delivery.
+	 *
+	 * @param int    $page_id Room page ID.
+	 * @param array  $room    Room definition.
+	 * @param string $method  'code' (one-click link) or 'password' (gate form).
+	 */
+	public static function notify_entry( $page_id, $room, $method ) {
+		$key = (string) get_post_meta( (int) $page_id, '_hea_lth_advisory_room', true );
+		if ( '' === $key ) {
+			return;
+		}
+
+		$entries   = get_post_meta( (int) $page_id, '_hea_lth_advisory_entries', true );
+		$entries   = is_array( $entries ) ? $entries : array();
+		$entries[] = array(
+			'time'   => gmdate( 'Y-m-d H:i:s' ),
+			'method' => ( 'code' === $method ) ? 'code' : 'password',
+		);
+		if ( count( $entries ) > 50 ) {
+			$entries = array_slice( $entries, -50 );
+		}
+		update_post_meta( (int) $page_id, '_hea_lth_advisory_entries', $entries );
+
+		$throttle = 'hea_lth_advisory_ping_' . $key;
+		if ( get_transient( $throttle ) ) {
+			return;
+		}
+		set_transient( $throttle, 1, 2 * HOUR_IN_SECONDS );
+
+		$subject = 'Hea-lth: כניסה לחדר ייעוץ — ' . $room['client'];
+		$body    = 'נרשמה כניסה מאומתת לחדר "' . $room['title'] . '" (' . $key . ").\n"
+			. 'שיטת כניסה: ' . ( ( 'code' === $method ) ? 'קישור עם קוד' : 'טופס סיסמה' ) . ".\n"
+			. 'זמן (UTC): ' . gmdate( 'Y-m-d H:i:s' ) . ".\n\n"
+			. 'סך כניסות רשומות: ' . count( $entries ) . ".\n"
+			. 'התראה זו נשלחת לכל היותר אחת לשעתיים לכל חדר; יומן הכניסות המלא נשמר על עמוד החדר.';
+		wp_mail( get_option( 'admin_email' ), $subject, $body );
 	}
 
 	/**

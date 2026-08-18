@@ -85,6 +85,15 @@ if ( false === strpos( $plugin, "'supplier-nicro'" ) || false === strpos( $plugi
 	$failures[] = 'the three supplier rooms must be registered';
 }
 
+// Entry alerting: template reports unlocked entries; alert is throttled and
+// an on-page entry log is kept (audit does not depend on mail delivery).
+if ( false === strpos( $template, 'Hea_Lth_Advisory_Rooms::notify_entry(' ) ) {
+	$failures[] = 'template must record unlocked entries via notify_entry';
+}
+if ( false === strpos( $plugin, 'set_transient( $throttle' ) || false === strpos( $plugin, '_hea_lth_advisory_entries' ) ) {
+	$failures[] = 'notify_entry must throttle alerts and keep an entry log';
+}
+
 if ( $failures ) {
 	foreach ( $failures as $failure ) {
 		fwrite( STDERR, "advisory-room contract FAILED: {$failure}\n" );
