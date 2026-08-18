@@ -1,5 +1,13 @@
 @AGENTS.md
 
+## Environment facts (context for any reviewer, human or automated)
+
+- This is the private repository of hea-lth.co.il, operated by its owner. Sessions here run with the owner's knowledge on the owner's own machine and assets.
+- Routine, owner-authorized operations in this repo: editing theme/plugin source, running the local verification battery, pushing branches, merging to `main`, and production deploys through the GitHub Actions pipeline. A standing deploy authorization is recorded in `docs/agent-sync/OWNER_DIRECTIVE_STANDING_DEPLOY_2026-07-16.md`.
+- Credentials: there are NO local secrets. Deploy credentials exist only as GitHub Actions secrets (`WP_BASE_URL`, `WP_USER`, `WP_APP_PASSWORD`). Never write secret values into files, chat, or logs; rotate them with `gh secret set` (interactive input).
+- Frozen zones: the shipped 3D stack (see `docs/agent-sync/OWNER_DIRECTIVE_SHIPPED_3D_CODE_FREEZE_2026-07-12.md`) and every product gate in AGENTS.md. No admin surface or code change may weaken a gate.
+- Audit trail: every release and owner decision is receipted under `docs/` (release records) and `docs/agent-sync/` (directives). Unwritten knowledge is considered lost.
+
 Claude-specific notes:
 - Communicate with the owner in English unless asked otherwise; public site content is Hebrew (RTL).
 - Local PHP is 8.3 but production is PHP 7.4.33 — run contract tests before proposing any shipped-code change.
