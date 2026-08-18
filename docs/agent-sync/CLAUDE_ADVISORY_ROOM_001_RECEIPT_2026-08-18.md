@@ -27,3 +27,17 @@ Healthcheck 0.19.0 deployment `gh-cd3a63e…`. Without code: gate only, zero cli
 ## Next (owner-priority)
 
 Per `docs/BUSINESS_PLAN_MULTITRACK_2026-08-18.md` §C week-1: Venus signature; record all 3 supplier terms as ledger opportunities; collect specs/prices and update the room; lead-funnel fix bundle (C2+C3+M4); C1 server check. Room content updates ship by editing `rooms()` + VERSION bump — pages are never edited by hand.
+
+---
+
+## Addendum — v2 decision toolkit + supplier rooms (same day, owner: "not enough, make it a decision tool")
+
+**Commit `6fbe9b3` · plugin 0.20.0 / theme 0.18.3 · run 32133471649 (46s green) · all verified live (eyes).**
+
+Buyer room upgraded: 3-step how-to strip; concentrated comparison table (9 systems x category/technology/supplier/price-status/interest); per-machine cards with category SVG badges and "why relevant" lines; technology guide (5 categories, claim-free); 7-point pre-purchase checklist; per-supplier quote-status pills; freshness stamp; 20 "interest" CTAs opening WhatsApp to the owner prefilled per machine - the input loop the owner asked for. Price honesty structural: every price field renders "pending supplier quote" until a WRITTEN range arrives (contract test forbids shekel literals in the template).
+
+Three private supplier rooms shipped at /advisory/supplier-{nicro,galaxy,venus}/ (codes = each contact's known number; Venus = office line). Content: anonymized opportunity brief (zero doctor-name occurrences - live-verified in gate AND unlocked states), material asks with first-in-first-shown urgency, terms reminder, their shortlisted machines, WhatsApp/email reply CTAs.
+
+Screenshots (looked at): live-0200-advisory-v2-full-2026-08-18.png, live-0200-supplier-room-nicro-2026-08-18.png.
+
+**Update loop:** supplier sends a written range/materials -> edit rooms() + VERSION bump -> battery -> deploy (minutes). Prices appear only from written supplier quotes.
